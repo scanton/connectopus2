@@ -2,16 +2,31 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Electron Test App</title>
+		<title>Connectopus 2</title>
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" href="css/titlebar.css">
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
-		<h1>Electron Test App</h1>
-
-		<div class="hello-world-container"></div>
-
+		<div id="main-app" class="container-fluid no-pad">
+			<title-bar></title-bar>
+			<work-area></work-area>
+		</div>
 		<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 		<script src="js/jquery-3.2.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/vue-2-5-13.js"></script>
+
+		<script type="text/javascript" src="views/CategorySideBar.js"></script>
+		<script type="text/javascript" src="views/ContextSideBar.js"></script>
+		<script type="text/javascript" src="views/CurrentConnections.js"></script>
+		<script type="text/javascript" src="views/FooterBar.js"></script>
+		<script type="text/javascript" src="views/MainView.js"></script>
+		<script type="text/javascript" src="views/SettingsSideBar.js"></script>
+		<script type="text/javascript" src="views/TitleBar.js"></script>
+		<script type="text/javascript" src="views/TopNav.js"></script>
+		<script type="text/javascript" src="views/WorkArea.js"></script>
+
 		<script>if (window.module) module = window.module;</script>
 		<script type="text/javascript" src="js/script.js"></script>
 	</body>

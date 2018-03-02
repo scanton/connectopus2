@@ -1,0 +1,95 @@
+/*
+* {
+	-webkit-transition: all 0.3s ease;
+}
+*/
+body {
+	color: #CCC;
+	background: #333;
+}
+nav {
+	border-radius: 0 !important;
+	position: absolute !important;
+	top: 26px;
+	left: 50px;
+	right: 0;
+}
+.navbar {
+	min-height: 20px;
+}
+.navbar-inverse .navbar-nav > li > a {
+	padding: 2px 7px;
+}
+.no-pad {
+	padding: 0;
+}
+.titlebar-minimize, .titlebar-fullscreen {
+	
+}
+.main-view {
+	-webkit-transition: all 0.3s ease;
+	position: absolute;
+	top: 52px;
+	left: 50px;
+	right: 0;
+	bottom: 26px;
+	background: linear-gradient(to bottom right, #FF7373, #000044);
+	overflow: scroll;
+}
+.settings-is-visible .main-view {
+	right: 300px;
+}
+.context-is-visible .main-view {
+	left: 350px;
+}
+.side-bar {
+	position: absolute;
+	background: #444;
+}
+.settings-side-bar {
+	top: 52px;
+	right: -300px;
+	width: 300px;
+	bottom: 26px;
+	background: #333;
+	-webkit-transition: all 0.3s ease;
+}
+.settings-is-visible .settings-side-bar {
+	right: 0;
+}
+.context-side-bar {
+	-webkit-transition: all 0.3s ease;
+	top: 52px;
+	left: -300px;
+	width: 300px;
+	bottom: 26px;
+	background: #333;
+}
+.context-is-visible .context-side-bar {
+	left: 50px;
+}
+.category-side-bar {
+	width: 50px;
+	top: 26px;
+	left: 0;
+}
+.category-side-bar ul {
+	list-style: none;
+	padding: 0;
+}
+.category-side-bar ul li {
+	font-size: 16pt;
+	padding: 12px;
+}
+.category-side-bar ul li:hover {
+	cursor: pointer;
+	color: white;
+	background: #222;
+}
+.footer-bar {
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 26px;
+	padding: 2px;
+}
