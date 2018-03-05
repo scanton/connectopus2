@@ -3,19 +3,18 @@ module.exports = class ConnectopusController extends EventEmitter {
 	constructor(viewController) {
 		super();
 		this.viewController = viewController;
-
 	}
 	
 	showHomePage() {
-		this.viewController.callViewMethod("work-area", "showHome");
+		this.viewController.callViewMethod(["work-area", "main-view"], "showHome");
 	}
 	showConnectionsPage() {
-		viewController.callViewMethod("work-area", "showConnections");
+		this.viewController.callViewMethod(["work-area", "main-view"], "showConnections");
 	}
 	showDataPage() {
-		viewController.callViewMethod("work-area", "showData");
+		this.viewController.callViewMethod(["work-area", "main-view"], "showData");
 	}
 	showFilesPage() {
-		viewController.callViewMethod("work-area", "showFiles");
+		this.viewController.callViewMethod(["work-area", "main-view"], "showFiles");
 	}
 }

@@ -24,6 +24,9 @@ nav {
 	right: 0;
 	padding: 2.5px 17px;
 }
+h1 {
+	color: white;
+}
 .modal-overlay {
 	background: rgba(0, 0, 0, 0.5);
 	position: absolute;

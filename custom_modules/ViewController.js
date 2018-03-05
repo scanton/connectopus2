@@ -5,14 +5,28 @@ module.exports = class ViewController {
 	}
 
 	callViewMethod(type, methodName, data) {
-		let v = this.getViews(type);
-		if(!v) {
-			setTimeout(() => {
-				this.callViewMethod(type, methodName, data);
-			}, 750);
-		}
-		for(let i in v) {
-			v[i][methodName](data);
+		if(Array.isArray(type)) {
+			for(let t in type) {
+				let v = this.getViews(type[t]);
+				if(!v) {
+					setTimeout(() => {
+						this.callViewMethod(type[t], methodName, data);
+					}, 750);
+				}
+				for(let i in v) {
+					v[i][methodName](data);
+				}
+			}
+		} else {
+			let v = this.getViews(type);
+			if(!v) {
+				setTimeout(() => {
+					this.callViewMethod(type, methodName, data);
+				}, 750);
+			}
+			for(let i in v) {
+				v[i][methodName](data);
+			}
 		}
 	}
 
