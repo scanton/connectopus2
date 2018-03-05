@@ -7,21 +7,46 @@ body {
 	color: #CCC;
 	background: #333;
 }
+a {
+	color: #DDD;
+}
+a:hover {
+	color: white;
+}
+a:focus {
+	color: #FF7373;
+}
 nav {
 	border-radius: 0 !important;
 	position: absolute !important;
 	top: 26px;
 	left: 50px;
 	right: 0;
+	padding: 2.5px 17px;
+}
+.modal-overlay {
+	background: rgba(0, 0, 0, 0.5);
+	position: absolute;
+	left: 50px;
+	right: 0;
+	bottom: 26px;
+	top: 52px;
 }
 .navbar {
-	min-height: 20px;
+	min-height: 2px;
+	text-align: right;
 }
-.navbar-inverse .navbar-nav > li > a {
-	padding: 2px 7px;
+.navbar a {
+	padding: 2px 3px;
+}
+.navbar-inverse {
+	border: 0;
 }
 .no-pad {
 	padding: 0;
+}
+.titlebar {
+	-webkit-transition: all 0.3s ease;
 }
 .titlebar-minimize, .titlebar-fullscreen {
 	
@@ -69,6 +94,7 @@ nav {
 	left: 50px;
 }
 .category-side-bar {
+	-webkit-transition: all 0.3s ease;
 	width: 50px;
 	top: 26px;
 	left: 0;
@@ -86,10 +112,41 @@ nav {
 	color: white;
 	background: #222;
 }
+.category-side-bar ul li.selected {
+	background: #333;
+	color: white;
+}
 .footer-bar {
+	-webkit-transition: all 0.3s ease;
 	left: 0;
 	right: 0;
 	bottom: 0;
 	height: 26px;
 	padding: 2px;
+}
+
+#main-app.process-pending .footer-bar, #main-app.process-pending .titlebar, #main-app.process-pending .category-side-bar {
+	background: orange;
+	color: black;
+}
+#main-app.process-error .footer-bar, #main-app.process-error .titlebar, #main-app.process-error .category-side-bar {
+	background: red;
+	color: white;
+}
+#main-app.process-complete .footer-bar, #main-app.process-complete .titlebar, #main-app.process-complete .category-side-bar {
+	background: green;
+	color: white;
+}
+
+.work-area.home .footer-bar {
+	/*background: #000044;*/
+}
+.work-area.connections .footer-bar {
+	/*background: #FF7373;*/
+}
+.work-area.data .footer-bar {
+	/*background: green;*/
+}
+.work-area.files .footer-bar {
+	/*background: orange;*/
 }

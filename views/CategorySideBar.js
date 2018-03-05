@@ -1,34 +1,60 @@
 (function() {
-  var componentName = 'category-side-bar';
-  var s = `
-    <div class="category-side-bar side-bar">
-      <ul>
-        <li title="Connections" v-on:click="toggleContext">
-          <span class="glyphicon glyphicon glyphicon-retweet"></span>
-        </li>
-        <li title="Content" v-on:click="toggleContext">
-          <span class="glyphicon glyphicon-hdd"></span>
-        </li>
-        <li title="Code" v-on:click="toggleContext">
-          <span class="glyphicon glyphicon-duplicate"></span>
-        </li>
-      </ul>
-    </div>
-  `;
-  
-  Vue.component(componentName, {
-    created: function() {
-      viewController.registerView(componentName, this);
-    },
-    template: s,
-    data: function() {
-      return {}
-    },
-    methods: {
-      toggleContext: function(e) {
-        e.preventDefault();
-        viewController.callViewMethod("work-area", "toggleContext");
-      }
-    }
-  });
+	var componentName = 'category-side-bar';
+	var s = `
+		<div class="category-side-bar side-bar">
+			<ul>
+				<li class="selected" title="Home" v-on:click="showHome">
+					<span class="glyphicon glyphicon-home"></span>
+				</li>
+				<li title="Connections" v-on:click="showConnections">
+					<span class="glyphicon glyphicon-globe"></span>
+				</li>
+				<li title="Data" v-on:click="showData">
+					<span class="glyphicon glyphicon-hdd"></span>
+				</li>
+				<li title="Files" v-on:click="showFiles">
+					<span class="glyphicon glyphicon-duplicate"></span>
+				</li>
+			</ul>
+		</div>
+	`;
+	var _handle = function(e) {
+		if(e) {
+			e.preventDefault();
+			var $t = $(e.target);
+			$t.closest("ul").find(".selected").removeClass("selected");
+			if($t.hasClass("glyphicon")) {
+				$t = $t.closest("li");
+			}
+			$t.addClass("selected");
+		}
+	}
+
+	Vue.component(componentName, {
+		created: function() {
+			viewController.registerView(componentName, this);
+		},
+		template: s,
+		data: function() {
+			return {}
+		},
+		methods: {
+			showHome: function(e) {
+				_handle(e);
+				controller.showHomePage();
+			},
+			showConnections: function(e) {
+				_handle(e);
+				controller.showConnectionsPage();
+			},
+			showData: function(e) {
+				_handle(e);
+				controller.showDataPage();
+			},
+			showFiles: function(e) {
+				_handle(e);
+				controller.showFilesPage();
+			}
+		}
+	});
 })();

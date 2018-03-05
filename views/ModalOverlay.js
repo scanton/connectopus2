@@ -1,7 +1,7 @@
 (function() {
-	var componentName = 'footer-bar';
+	var componentName = 'modal-overlay';
 	var s = `
-		<div class="footer-bar side-bar">
+		<div class="modal-overlay" style="display: none;">
 			
 		</div>
 	`;

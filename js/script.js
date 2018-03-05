@@ -3,8 +3,14 @@ console.info = function() {};
 const remote = require('electron').remote;
 const {dialog} = require('electron').remote;
 
+const EventEmitter = require(__dirname + '/custom_modules/EventEmitter.js');
+
 const ViewController = require(__dirname + '/custom_modules/ViewController.js');
 const viewController = new ViewController();
+
+const ConnectopusController = require(__dirname + '/custom_modules/ConnectopusController.js');
+const controller = new ConnectopusController(viewController);
+
 
 const stripObservers = function(obj) {
 	return JSON.parse(JSON.stringify(obj, null, 4));
