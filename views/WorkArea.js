@@ -1,7 +1,7 @@
 (function() {
 	var componentName = 'work-area';
 	var s = `
-		<div v-bind:class="[category, {'context-is-visible': isContextVisible }]" class="work-area">
+		<div v-bind:class="[category, {'context-is-visible': isContextVisible, 'settings-is-visible': isSettingsVisible}]" class="work-area">
 			<main-view></main-view>
 			<context-side-bar></context-side-bar>
 			<settings-side-bar></settings-side-bar>
@@ -11,8 +11,12 @@
 		</div>
 	`;
 	var setCategory = function(str, instance) {
+		if(str == instance.category) {
+			instance.isContextVisible = !instance.isContextVisible;
+		} else {
+			instance.isContextVisible = str != 'home';
+		}
 		instance.category = str;
-		instance.isContextVisible = str != 'home';
 	}
 
 	Vue.component(componentName, {
@@ -23,7 +27,8 @@
 		data: function() {
 			return {
 				category: 'home',
-				isContextVisible: false
+				isContextVisible: false,
+				isSettingsVisible: false
 			}
 		},
 		methods: {
@@ -38,6 +43,9 @@
 			},
 			showFiles: function() {
 				setCategory("files", this);
+			},
+			toggleSettings: function() {
+				this.isSettingsVisible = !this.isSettingsVisible;
 			}
 		}
 	});

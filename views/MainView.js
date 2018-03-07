@@ -3,16 +3,16 @@
 	var s = `
 		<div class="main-view">
 			<div>
-				<welcome-page v-if="category == 'home'"><welcome-page>
+				<welcome-page v-show="category == 'home'"><welcome-page>
 			</div>
 			<div>
-				<connections-page v-if="category == 'connections'"><connections-page>
+				<connections-page v-show="category == 'connections'"><connections-page>
 			</div>
 			<div>
-				<data-page v-if="category == 'data'"><data-page>
+				<data-page v-show="category == 'data'"><data-page>
 			</div>
 			<div>
-				<files-page v-if="category == 'files'"><files-page>
+				<files-page v-show="category == 'files'"><files-page>
 			</div>
 		</div>
 	`;

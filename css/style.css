@@ -26,6 +26,27 @@ nav {
 }
 h1 {
 	color: white;
+	padding: 0;
+	font-weight: normal;
+}
+h2 {
+	padding: 0;
+	font-size: 16pt;
+	font-weight: 300;
+	letter-spacing: 1pt;
+}
+h3 {
+	padding: 0;
+	font-size: 14pt;
+	font-weight: 300;
+	letter-spacing: 1pt;
+	margin: 5px 0 18px;
+}
+.clear {
+	clear: both;
+}
+.scroll-overflow {
+	overflow: scroll;
 }
 .modal-overlay {
 	background: rgba(0, 0, 0, 0.5);
@@ -34,6 +55,24 @@ h1 {
 	right: 0;
 	bottom: 26px;
 	top: 52px;
+}
+.btn-default {
+	outline: none;
+	border: 0 solid #777;
+	background: #CCC;
+	color: #444;
+}
+.btn-success {
+	outline: none;
+	border: 0 solid #777;
+	background: green;
+	color: #DDD;
+}
+.btn-warning {
+	outline: none;
+	border: 0 solid #777;
+	background: orange;
+	color: #222;
 }
 .navbar {
 	min-height: 2px;
@@ -152,4 +191,171 @@ h1 {
 }
 .work-area.files .footer-bar {
 	/*background: orange;*/
+}
+.glyphicon-folder-close, .glyphicon-folder-open {
+	color: #FF7373;
+}
+.current-connections {
+	position: absolute;
+	top: 0;
+	bottom: 26px;
+	left: 0;
+	width: 300px;
+	overflow: scroll;
+}
+.current-connections ul {
+	list-style: none;
+	padding: 0;
+}
+.current-connections li .glyphicon {
+	margin-right: .25em;
+}
+.current-connections .folder-name {
+	display: inline-block;
+    margin-bottom: .3em;
+}
+.current-connections .connection {
+	cursor: pointer;
+	padding: 5px;
+	border-radius: 5px;
+	position: relative;
+}
+.current-connections .connection:hover {
+	background: black;
+	color: white;
+}
+.current-connections .connection .quick-connection-link {
+	display: none;
+	float: right;
+	background: green;
+	color: white;
+	border-radius: 5px;
+	padding: 2px 5px 2px 9px;
+}
+.current-connections .connection .quick-connection-link:hover {
+	background: #00AA00;
+}
+.current-connections .connection:hover .quick-connection-link {
+	position: absolute;
+	display: inline-block;
+	right: 3px;
+	top: 3px;
+
+}
+.current-connections .connection.connected .quick-connection-link {
+	display: none;
+}
+.current-connections .folder .connections {
+	padding-left: 1.5em;
+	overflow: hidden;
+}
+/*
+.current-connections .folder.is-open .connections {
+	height: inherit;
+}
+*/
+.current-connections .folders .label-container {
+	cursor: pointer;
+}
+.connection-details, .add-connection-page{
+	background: #444;
+	padding: 1em;
+	border-radius: 5px;
+	margin-top: 1em;
+}
+.current-connections .foot-toolbar {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+.input-group .input-group-addon {
+	min-width: 150px;
+	background: #666;
+	border: none;
+	color: #CCC;
+}
+.input-group {
+	margin-bottom: .5em;
+}
+.input-group input {
+	width: 100%;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	padding: 3px;
+	text-align: center;
+	color: white;
+	background: black;
+	border: none;
+}
+.input-group .dropdown, .input-group .dropdown button {
+	width: 100%;
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+	color: white;
+	background: #777;
+}
+.input-group.is-not-selected .dropdown, .input-group.is-not-selected .dropdown button {
+	background: green;
+	color: white;
+}
+.foot-toolbar {
+	position: absolute;
+	background: black;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.foot-toolbar button {
+	position: relative;
+	border: 0 solid #777;
+	background: black;
+	color: #BBB;
+	padding: 2px 4px;
+	margin: 3px;
+}
+.foot-toolbar button .inverse-small {
+	position: absolute;
+    right: 5px;
+    top: 8px;
+    color: #333;
+    font-size: 8pt;
+}
+.foot-toolbar button.btn-default:hover, .foot-toolbar button.btn-default:focus {
+	background: #AAA !important;
+	color: #333;
+	outline: none;
+}
+.foot-toolbar button.btn-danger:hover, .foot-toolbar button.btn-danger:focus {
+	background: #F00 !important;
+	color: white;
+	outline: none;
+}
+.connection {
+	-webkit-transition: all 0.3s ease;
+}
+.connection.selected {
+	background: black;
+}
+.connection.connected .glyphicon-globe {
+	color: #0F0;
+}
+.connection.pending .glyphicon-globe {
+	color: #FF0;
+}
+.connection.error .glyphicon-globe {
+	color: red;
+}
+.panel-default {
+	background: #444;
+	border-color: #222;
+	margin-bottom: 0;
+}
+.panel-default .panel-heading {
+	background: #666;
+	color: #CCC;
+	border-color: #222;
+}
+.update-connection-data-button {
+	margin-top: 13px;
 }

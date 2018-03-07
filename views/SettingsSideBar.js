@@ -1,8 +1,12 @@
 (function() {
 	var componentName = 'settings-side-bar';
 	var s = `
-		<div class="settings-side-bar side-bar">
-			
+		<div class="settings-side-bar side-bar container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
+					<h2>Settings</h2>
+				</div>
+			</div>
 		</div>
 	`;
 	
