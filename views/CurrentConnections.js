@@ -102,7 +102,7 @@
 			<span class="glyphicon glyphicon-globe"></span>
 			<span class="connection-name">{{name}}</span>
 			<span class="quick-connection-link" v-on:click="handleConnect">
-				<span class="glyphicon glyphicon-link" title="connect"></span>
+				<span class="glyphicon glyphicon-record" title="connect"></span>
 			</span>
 		</li>
 	`;

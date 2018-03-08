@@ -59,14 +59,14 @@ h3 {
 .btn-default {
 	outline: none;
 	border: 0 solid #777;
-	background: #CCC;
-	color: #444;
+	background: #666;
+	color: #CCC;
 }
 .btn-success {
 	outline: none;
 	border: 0 solid #777;
-	background: green;
-	color: #DDD;
+	background: #FF7373;
+	color: white;
 }
 .btn-warning {
 	outline: none;
@@ -217,7 +217,7 @@ h3 {
 .current-connections .connection {
 	cursor: pointer;
 	padding: 5px;
-	border-radius: 5px;
+	border-radius: 15px;
 	position: relative;
 }
 .current-connections .connection:hover {
@@ -227,13 +227,14 @@ h3 {
 .current-connections .connection .quick-connection-link {
 	display: none;
 	float: right;
-	background: green;
+	background: #FF7373;
 	color: white;
-	border-radius: 5px;
-	padding: 2px 5px 2px 9px;
+	border-radius: 15px;
+	padding: 3px 2px 1px 5px;
 }
 .current-connections .connection .quick-connection-link:hover {
-	background: #00AA00;
+	background: green;
+	color: white;
 }
 .current-connections .connection:hover .quick-connection-link {
 	position: absolute;
@@ -288,6 +289,10 @@ h3 {
 	background: black;
 	border: none;
 }
+.input-group input:read-only {
+	color: #ddd;
+	background: #333;
+}
 .input-group .dropdown, .input-group .dropdown button {
 	width: 100%;
 	border-bottom-left-radius: 0;
@@ -295,9 +300,14 @@ h3 {
 	color: white;
 	background: #777;
 }
+.input-group .dropdown .dropdown-menu {
+	width: 100%;
+}
 .input-group.is-not-selected .dropdown, .input-group.is-not-selected .dropdown button {
-	background: green;
+	background: #FF7373;
 	color: white;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
 }
 .foot-toolbar {
 	position: absolute;
@@ -356,6 +366,7 @@ h3 {
 	color: #CCC;
 	border-color: #222;
 }
-.update-connection-data-button {
+.panel-button {
 	margin-top: 13px;
+	margin-left: .5em;
 }

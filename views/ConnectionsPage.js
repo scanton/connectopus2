@@ -16,53 +16,56 @@
 						<form>
 							<div class="input-group">
 								<span class="input-group-addon">Host</span>
-								<input type="text" name="ssh-host" v-on:change="handleInputChange" v-bind:value="connectionDetails.host" />
+								<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.host" readonly="readonly" />
+								<input type="text" v-show="isEditEnabled" name="ssh-host" v-on:keyup="handleInputChange" />
 							</div>
 							<div class="input-group">
 								<span class="input-group-addon">Port</span>
-								<input type="text" name="ssh-port" v-on:change="handleInputChange" v-bind:value="connectionDetails.port" />
+								<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.port" readonly="readonly" />
+								<input type="text" v-show="isEditEnabled" name="ssh-port" v-on:keyup="handleInputChange" />
 							</div>
 							<div class="input-group">
 								<span class="input-group-addon">Username</span>
-								<input type="text" name="ssh-username" v-on:change="handleInputChange" v-bind:value="connectionDetails.username" />
+								<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.username" readonly="readonly" />
+								<input type="text" v-show="isEditEnabled" name="ssh-username" v-on:keyup="handleInputChange" />
 							</div>
 							<div class="input-group">
 								<span class="input-group-addon">Password</span>
-								<input type="password" name="ssh-password" v-on:change="handleInputChange" v-bind:value="connectionDetails.password" />
+								<input type="password" v-show="!isEditEnabled" v-bind:value="connectionDetails.password" readonly="readonly" />
+								<input type="password" v-show="isEditEnabled" name="ssh-password" v-on:keyup="handleInputChange" />
 							</div>
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h3 class="panel-title">Database Connections</h3>
+									<h3 class="panel-title">{{connectionDetails.connections[0].name}}</h3>
 								</div>
 								<div class="panel-body">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h4 class="panel-title">{{connectionDetails.connections[0].name}}</h4>
-										</div>
-										<div class="panel-body">
-											<div class="input-group">
-												<span class="input-group-addon">Host</span>
-												<input type="text" name="mysql-host" v-bind:value="connectionDetails.connections[0].host" v-on:change="handleInputChange" />
-											</div>
-											<div class="input-group">
-												<span class="input-group-addon">Database Name</span>
-												<input type="text" name="mysql-database" v-bind:value="connectionDetails.connections[0].database" v-on:change="handleInputChange" />
-											</div>
-											<div class="input-group">
-												<span class="input-group-addon">Userame</span>
-												<input type="text" name="mysql-username" v-bind:value="connectionDetails.connections[0].username" v-on:change="handleInputChange" />
-											</div>
-											<div class="input-group">
-												<span class="input-group-addon">Password</span>
-												<input type="password" name="mysql-password" v-bind:value="connectionDetails.connections[0].password" v-on:change="handleInputChange" />
-											</div>
-											<button class="btn btn-success pull-right connect-to-db-button" title="connect"><span class="glyphicon glyphicon-link"></span> Connect</button>
-										</div>
+									<div class="input-group">
+										<span class="input-group-addon">Host</span>
+										<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].host" readonly="readonly" />
+										<input type="text" v-show="isEditEnabled" name="mysql-host" v-on:keyup="handleInputChange" />
+									</div>
+									<div class="input-group">
+										<span class="input-group-addon">Database Name</span>
+										<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].database" readonly="readonly" />
+										<input type="text" v-show="isEditEnabled" name="mysql-database" v-on:keyup="handleInputChange" />
+									</div>
+									<div class="input-group">
+										<span class="input-group-addon">Userame</span>
+										<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].username" readonly="readonly" />
+										<input type="text" v-show="isEditEnabled" name="mysql-username" v-on:keyup="handleInputChange" />
+									</div>
+									<div class="input-group">
+										<span class="input-group-addon">Password</span>
+										<input type="password" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].password" readonly="readonly" />
+										<input type="password" v-show="isEditEnabled" name="mysql-password" v-on:keyup="handleInputChange" />
 									</div>
 								</div>
 							</div>
 						</form>
-						<button v-show="hasUnsavedEdits" class="btn btn-warning pull-right update-connection-data-button">Update Connection Data</button>
+						<button v-show="!isEditEnabled" class="btn btn-success pull-right panel-button" title="connect"><span class="glyphicon glyphicon-record"></span> Connect</button>
+						<button v-show="hasUnsavedEdits" class="btn btn-success pull-right panel-button">Update Connection Data</button>
+						<button v-show="!isEditEnabled" v-on:click="enableEdit" class="btn btn-default pull-right panel-button">Edit Connection</button>
+						<button v-show="isEditEnabled" v-on:click="disableEdit" class="btn btn-default pull-right panel-button">Discard Edits</button>
 						<div class="clear"></div>
 					</div>
 				</div>
@@ -79,10 +82,25 @@
 			return {
 				connectionDetails: null,
 				hasUnsavedEdits: false,
-				isAddConnectionVisible: false
+				isAddConnectionVisible: false,
+				isEditEnabled: false
 			}
 		},
 		methods: {
+			enableEdit: function(e) {
+				e.preventDefault();
+				this.isEditEnabled = true;
+				$(".connections-page").find("form").find(".input-group").each(function() {
+					var $inputs = $(this).find("input");
+					if($inputs.length == 2) {
+						$($inputs[1]).val($($inputs[0]).val());
+					}
+				});
+			},
+			disableEdit: function(e) {
+				e.preventDefault();
+				this.hasUnsavedEdits = this.isEditEnabled = false;
+			},
 			setConnectionDetails: function(data) {
 				this.connectionDetails = data;
 				this.hasUnsavedEdits = false;

@@ -9,16 +9,16 @@
 						<div class="input-group" v-bind:class="{'is-not-selected': isNotSelected()}">
 							<span class="input-group-addon">Connection Type</span>
 							<div class="dropdown">
-							  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-							    {{connectionType}}
-							    <span class="caret"></span>
-							  </button>
-							  <ul v-on:click="handleConnectionTypeChange" class="dropdown-menu">
-							    <li><a href="#">Local Directory</a></li>
-							    <li><a href="#">Git (local)</a></li>
-							    <li><a href="#">Git Clone (remote)</a></li>
-							    <li><a href="#">Remote (SFTP)</a></li>
-							  </ul>
+								<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									{{connectionType}}
+									<span class="caret"></span>
+								</button>
+								<ul v-on:click="handleConnectionTypeChange" class="dropdown-menu">
+									<li><a href="#">Local</a></li>
+									<li><a href="#">Git (local)</a></li>
+									<li><a href="#">Git Clone (remote)</a></li>
+									<li><a href="#">Remote (SFTP)</a></li>
+								</ul>
 							</div>
 						</div>
 						<div class="input-collection-div" v-show="connectionType != 'select connection type'">
@@ -46,6 +46,63 @@
 								<span class="input-group-addon">Password</span>
 								<input type="password" name="ssh-password" />
 							</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">{{databaseType}}</h4>
+									</div>
+									<div class="panel-body">	
+										<div class="input-group" v-bind:class="{'is-not-selected': isDatabaseNotSelected()}">
+											<span class="input-group-addon">Data Type</span>
+											<div class="dropdown">
+												<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+													{{databaseType}}
+													<span class="caret"></span>
+												</button>
+												<ul v-on:click="handleDatabaseTypeChange" class="dropdown-menu">
+													<li><a href="#">MySQL</a></li>
+													<li><a href="#">MS SQL Server</a></li>
+													<li><a href="#">PostgreSQL</a></li>
+													<li><a href="#">MongoDB</a></li>
+													<li><a href="#">JSON file</a></li>
+													<li><a href="#">REST Endpoint</a></li>
+													<li><a href="#">Excel Spreadsheet</a></li>
+												</ul>
+											</div>
+										</div>
+										<div class="input-collection-div" v-show="databaseType != 'select database type'">
+											<div class="input-group" v-show="databaseType == 'MySQL' || databaseType == 'MS SQL Server'">
+												<span class="input-group-addon">Name</span>
+												<input name="db-connection-name" />
+											</div>
+											<div class="input-group" v-show="databaseType == 'MySQL' || databaseType == 'MS SQL Server'">
+												<span class="input-group-addon">Host</span>
+												<input name="db-connection-host" />
+											</div>
+											<div class="input-group" v-show="databaseType == 'MySQL' || databaseType == 'MS SQL Server'">
+												<span class="input-group-addon">Database Name</span>
+												<input name="db-connection-database" />
+											</div>
+											<div class="input-group" v-show="databaseType == 'MySQL' || databaseType == 'MS SQL Server'">
+												<span class="input-group-addon">Username</span>
+												<input name="db-connection-username" />
+											</div>
+											<div class="input-group" v-show="databaseType == 'MySQL' || databaseType == 'MS SQL Server'">
+												<span class="input-group-addon">Password</span>
+												<input type="password" name="db-connection-password" />
+											</div>
+											<div class="input-group" v-show="databaseType == 'REST Endpoint'">
+												<span class="input-group-addon">URI</span>
+												<input name="db-connection-uri" />
+											</div>
+											<div class="input-group" v-show="databaseType == 'JSON file' || databaseType == 'Excel Spreadsheet'">
+												<span class="input-group-addon">File</span>
+												<input name="db-connection-file" />
+											</div>
+										</div>
+									</div>
+								</div>
+							<button class="btn btn-success pull-right panel-button">Add New Connection</button>
+							<div class="clear"></div>
 						</div>
 					</form>
 				</div>
@@ -60,16 +117,24 @@
 		template: s,
 		data: function() {
 			return {
-				connectionType: 'select connection type'
+				connectionType: 'select connection type',
+				databaseType: 'select database type'
 			}
 		},
 		methods: {
 			isNotSelected: function() {
 				return this.connectionType == 'select connection type';
 			},
+			isDatabaseNotSelected: function() {
+				return this.databaseType == 'select database type';
+			},
 			handleConnectionTypeChange: function(e) {
 				e.preventDefault();
 				this.connectionType = $(e.target).text();
+			},
+			handleDatabaseTypeChange: function(e) {
+				e.preventDefault();
+				this.databaseType = $(e.target).text();
 			}
 		}
 	});
