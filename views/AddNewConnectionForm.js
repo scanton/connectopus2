@@ -101,7 +101,7 @@
 										</div>
 									</div>
 								</div>
-							<button class="btn btn-success pull-right panel-button">Add New Connection</button>
+							<button v-on:click="handleAddNewConnection" class="btn btn-success pull-right panel-button">Add New Connection</button>
 							<div class="clear"></div>
 						</div>
 					</form>
@@ -135,6 +135,17 @@
 			handleDatabaseTypeChange: function(e) {
 				e.preventDefault();
 				this.databaseType = $(e.target).text();
+			},
+			handleAddNewConnection: function(e) {
+				e.preventDefault();
+				var o = {};
+				var data = $(".add-new-connection-form").find("form").serializeArray();
+				for (var i = 0; i < data.length; i++){
+					o[data[i]['name']] = data[i]['value'];
+				}
+				o.connectionType = this.connectionType;
+				o.databaseType = this.databaseType;
+				controller.addNewConnection(o);
 			}
 		}
 	});

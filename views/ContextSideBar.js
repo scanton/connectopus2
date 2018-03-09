@@ -5,7 +5,7 @@
 			<current-connections></current-connections>
 			
 			<div class="foot-toolbar">
-				<button v-on:click="handleDeleteConnection" class="btn btn-danger" title="Delete Connection">
+				<button v-show="selectedConnection" v-on:click="handleDeleteConnection" class="btn btn-danger" title="Delete Connection">
 					<span class="glyphicon glyphicon-trash"></span>
 				</button>
 				<button v-on:click="handleAddFolder" class="btn btn-default pull-right" title="Add Folder">
@@ -25,12 +25,14 @@
 		},
 		template: s,
 		data: function() {
-			return {}
+			return {
+				selectedConnection: null
+			}
 		},
 		methods: {
 			handleDeleteConnection: function(e) {
 				e.preventDefault();
-				console.log("delete connection");
+				controller.deleteConnection(this.selectedConnection);
 			},
 			handleAddFolder: function(e) {
 				e.preventDefault();
@@ -45,6 +47,9 @@
 			},
 			setConnections: function(data) {
 				this.connections = data;
+			},
+			setSelectedConnection: function(id) {
+				this.selectedConnection = id;
 			}
 		}
 	});

@@ -98,7 +98,7 @@
 (function() {
 	var componentName = 'connection';
 	var s = `
-		<li class="connection" v-bind:class="{selected: id == selectedConnection, connected: isConnected, error: isError, pending: isPending}" v-bind:id="id" v-on:click="handleViewConnection">
+		<li class="connection" v-bind:class="{selected: id == selectedConnection, connected: isConnected, error: isError, pending: isPending}" v-bind:data-id="id" v-on:click="handleViewConnection">
 			<span class="glyphicon glyphicon-globe"></span>
 			<span class="connection-name">{{name}}</span>
 			<span class="quick-connection-link" v-on:click="handleConnect">
@@ -131,7 +131,7 @@
 			handleViewConnection: function(e) {
 				e.preventDefault();
 				e.stopPropagation();
-				controller.showConnectionDetail($(e.target).closest(".connection").attr("id"));
+				controller.showConnectionDetail($(e.target).closest(".connection").attr("data-id"));
 			},
 			setSelectedConnection: function(id) {
 				this.selectedConnection = id;

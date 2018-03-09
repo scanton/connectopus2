@@ -62,8 +62,8 @@
 								</div>
 							</div>
 						</form>
-						<button v-show="!isEditEnabled" class="btn btn-success pull-right panel-button" title="connect"><span class="glyphicon glyphicon-record"></span> Connect</button>
-						<button v-show="hasUnsavedEdits" class="btn btn-success pull-right panel-button">Update Connection Data</button>
+						<button v-show="!isEditEnabled" v-on:click="handleOnConnect" class="btn btn-success pull-right panel-button" title="connect"><span class="glyphicon glyphicon-record"></span> Connect</button>
+						<button v-show="hasUnsavedEdits" v-on:click="handleUpdateData" class="btn btn-success pull-right panel-button">Update Connection Data</button>
 						<button v-show="!isEditEnabled" v-on:click="enableEdit" class="btn btn-default pull-right panel-button">Edit Connection</button>
 						<button v-show="isEditEnabled" v-on:click="disableEdit" class="btn btn-default pull-right panel-button">Discard Edits</button>
 						<div class="clear"></div>
@@ -106,15 +106,23 @@
 				this.hasUnsavedEdits = false;
 				this.isAddConnectionVisible = false;
 			},
-			handleInputChange: function(e) {
-				this.hasUnsavedEdits = true;
-			},
 			showAddConnection: function() {
 				this.isAddConnectionVisible = true;
 				this.connectionDetails = null;
 			},
 			hideAddConnection: function() {
 				this.isAddConnectionVisible = false;
+			},
+			handleInputChange: function(e) {
+				this.hasUnsavedEdits = true;
+			},
+			handleOnConnect: function(e) {
+				e.preventDefault();
+				console.log('hadnleOnConnect');
+			},
+			handleUpdateData: function(e) {
+				e.preventDefault();
+				console.log('handleUpdateData');
 			}
 		}
 	});

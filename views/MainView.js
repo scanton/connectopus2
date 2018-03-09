@@ -2,18 +2,10 @@
 	var componentName = 'main-view';
 	var s = `
 		<div class="main-view">
-			<div>
-				<welcome-page v-show="category == 'home'"><welcome-page>
-			</div>
-			<div>
-				<connections-page v-show="category == 'connections'"><connections-page>
-			</div>
-			<div>
-				<data-page v-show="category == 'data'"><data-page>
-			</div>
-			<div>
-				<files-page v-show="category == 'files'"><files-page>
-			</div>
+			<welcome-page v-show="category == 'home'"></welcome-page>
+			<connections-page v-show="category == 'connections'"></connections-page>
+			<data-page v-show="category == 'data'"></data-page>
+			<files-page v-show="category == 'files'"></files-page>
 		</div>
 	`;
 	
