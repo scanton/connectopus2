@@ -4,8 +4,9 @@ const remote = require('electron').remote;
 const {dialog} = require('electron').remote;
 
 const EventEmitter = require(__dirname + '/custom_modules/EventEmitter.js');
-
+const AbstractModel = require(__dirname + '/custom_modules/AbstractModel.js');
 const ConfigModel = require(__dirname + '/custom_modules/ConfigModel.js');
+
 const configModel = new ConfigModel();
 
 const ViewController = require(__dirname + '/custom_modules/ViewController.js');

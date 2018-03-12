@@ -1,15 +1,16 @@
-module.exports = class ConfigModel extends EventEmitter {
+module.exports = class ConfigModel extends AbstractModel {
 
 	constructor() {
 		super();
-		this.fs = require('fs-extra');
-		this.md5 = require('md5');
 		this.loadConfig();
 	}
 
 	addConnection(connection) {
+		if(!this._config.servers) {
+			this._config.servers = [];
+		}
 		this._config.servers.push(this._assignConnectionId(connection));
-		this.fs.writeJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
+		this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
 			if(err) {
 				console.error(err);
 			}
@@ -25,12 +26,16 @@ module.exports = class ConfigModel extends EventEmitter {
 				}
 			}
 		}
-		deleteServer(this._config.servers, id);
-		var j = this._config.folders.length;
-		while(j--) {
-			deleteServer(this._config.folders[j].servers, id);
+		if(this._config.servers) {
+			deleteServer(this._config.servers, id);
 		}
-		this.fs.writeJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
+		if(this._config.folders) {
+			var j = this._config.folders.length;
+			while(j--) {
+				deleteServer(this._config.folders[j].servers, id);
+			}
+		}
+		this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
 			if(err) {
 				console.error(err);
 			}
@@ -40,9 +45,11 @@ module.exports = class ConfigModel extends EventEmitter {
 	loadConfig() {
 		this.fs.readJson('./working_files/config.json', function(err, data) {
 			if(err) {
-				console.error(err);
+				console.log("config.json file not found");
+				this._config = {};
+			} else {
+				this._config = this._assignIds(data);
 			}
-			this._config = this._assignIds(data);
 			this.dispatchEvent("data", this._strip(this._config));
 		}.bind(this));
 	}
@@ -55,7 +62,7 @@ module.exports = class ConfigModel extends EventEmitter {
 			var l = this._config.servers.length;
 			while(l--) {
 				if(this._config.servers[l].id == id) {
-					return this._config.servers[l];
+					return this._strip(this._config.servers[l]);
 				}
 			}
 			l = this._config.folders.length;
@@ -76,7 +83,9 @@ module.exports = class ConfigModel extends EventEmitter {
 	}
 
 	_assignIds(obj) {
-		obj.servers = this._assignServerIds(obj.servers);
+		if(obj.servers) {
+			obj.servers = this._assignServerIds(obj.servers);
+		}
 		if(obj.folders) {
 			var l = obj.folders.length;
 			while(l--) {

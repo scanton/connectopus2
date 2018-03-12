@@ -8,12 +8,14 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 
 	addNewConnection(connection) {
-		var o = {}
+		var o = {};
 		if(connection.connectionType != 'select connection type') {
 			o.name = connection.name;
 			o.connectionType = connection.connectionType;
+			o.uri = connection.uri;
 			o.host = connection['ssh-host'];
 			o.port = connection['ssh-port'];
+			o.root = connection['ssh-root-directory'];
 			o.username = connection['ssh-username'];
 			o.password = connection['ssh-password'];
 			o.connections = [{}];
@@ -26,6 +28,8 @@ module.exports = class ConnectopusController extends EventEmitter {
 					"name": connection["db-connection-name"],
 					"password": connection["db-connection-password"],
 					"uri": connection["db-connection-uri"],
+					"rest-verb": connection["db-connection-rest-verb"],
+					"rest-args": connection["db-connection-rest-args"],
 					"username": connection["db-connection-username"]
 				}];
 			}
