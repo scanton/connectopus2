@@ -33,10 +33,11 @@
 			handleDeleteConnection: function(e) {
 				e.preventDefault();
 				controller.deleteConnection(this.selectedConnection);
+				this.selectedConnection = null;
 			},
 			handleAddFolder: function(e) {
 				e.preventDefault();
-				console.log("add folder");
+				controller.showAddFolder();
 			},
 			handleAddConnection: function(e) {
 				e.preventDefault();

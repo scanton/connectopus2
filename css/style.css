@@ -270,6 +270,14 @@ h3 {
 	left: 0;
 	right: 0;
 }
+input {
+	border-radius: 5px;
+	padding: 3px;
+	text-align: center;
+	color: white;
+	background: black;
+	border: none;
+}
 .input-group .input-group-addon {
 	min-width: 150px;
 	background: #666;
@@ -347,6 +355,12 @@ h3 {
 }
 .connection.selected {
 	background: black;
+}
+.connection.is-drag-over {
+	background: #222;
+	border-bottom: 3px solid #FF7373;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 }
 .connection.connected .glyphicon-globe {
 	color: #0F0;

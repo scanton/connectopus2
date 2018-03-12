@@ -14,6 +14,13 @@
 		data: function() {
 			return {}
 		},
-		methods: {}
+		methods: {
+			show: function(options) {
+				$(".modal-overlay").fadeIn('slow');
+			},
+			hide: function() {
+				$(".modal-overlay").fadeOut('slow');
+			}
+		}
 	});
 })();

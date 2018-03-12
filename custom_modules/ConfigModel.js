@@ -17,6 +17,52 @@ module.exports = class ConfigModel extends AbstractModel {
 		});
 		this.dispatchEvent("data", this._strip(this._config));
 	}
+	addConnectionAfter(con, id) {
+		var found = false;
+		var l = this._config.folders.length;
+		while(l--) {
+			var f = this._config.folders[l];
+			if(f.servers) {
+				var l2 = f.servers.length;
+				while(l2--) {
+					var s = f.servers[l2];
+					if(s.id == id) {
+						f.servers.splice(l2 + 1, 0, con);
+						found = true;
+					}
+				}
+			}
+		}
+		l = this._config.servers.length;
+		while(l--) {
+			var s = this._config.servers[l];
+			if(s.id == id) {
+				this._config.servers.splice(l + 1, 0, con);
+				found = true;
+			}
+		}
+		if(found) {
+			this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
+				if(err) {
+					console.error(err);
+				}
+			});
+			this.dispatchEvent("data", this._strip(this._config));
+		} else {
+			console.error("cannot find connection: ", id);
+		}
+	}
+	createFolder(name) {
+		if(name) {
+			this._config.folders.push({name: name, servers: []});
+			this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
+				if(err) {
+					console.error(err);
+				}
+			});
+			this.dispatchEvent("data", this._strip(this._config));
+		}
+	}
 	deleteConnection(id) {
 		var deleteServer = function(servers, id) {
 			var l = servers.length;
@@ -53,6 +99,19 @@ module.exports = class ConfigModel extends AbstractModel {
 			this.dispatchEvent("data", this._strip(this._config));
 		}.bind(this));
 	}
+	moveConnectionToFoler(conId, name) {
+		console.log(conId, name);
+	}
+	moveFolderTo(dragFolderName, name) {
+		console.log(dragFolderName, name);
+	}
+	moveTo(moveId, toId) {
+		if(moveId != toId) {
+			var con = this.getConnection(moveId);
+			this.deleteConnection(moveId);
+			this.addConnectionAfter(con, toId);
+		}
+	}
 	
 	getConfig() {
 		return this._strip(this._config);
@@ -78,9 +137,6 @@ module.exports = class ConfigModel extends AbstractModel {
 			}
 		}
 	}
-	subscribe(event, callback) {
-		this.addListener(event, callback);
-	}
 
 	_assignIds(obj) {
 		if(obj.servers) {
@@ -104,9 +160,12 @@ module.exports = class ConfigModel extends AbstractModel {
 	_assignConnectionId(connection) {
 		connection.id = '';
 		connection.id = this.md5(JSON.stringify(connection));
+		if(!connection.connectionType) {
+			connection.connectionType = 'Remote (SFTP)';
+		}
+		if(!connection.connections[0].type) {
+			connection.connections[0].type = 'MySQL';
+		}
 		return connection;
-	}
-	_strip(obj) {
-		return JSON.parse(JSON.stringify(obj));
 	}
 }

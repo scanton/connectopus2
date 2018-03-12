@@ -5,6 +5,10 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.viewController = viewController;
 		this.configModel = configModel;
 		this.configModel.subscribe("data", this.handleConfigData.bind(this));
+		this.dragId = null;
+		this.dragFolderName = null;
+		this.isDraggingConnection = false;
+		this.isDraggingFolder = false;
 	}
 
 	addNewConnection(connection) {
@@ -18,6 +22,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 			o.root = connection['ssh-root-directory'];
 			o.username = connection['ssh-username'];
 			o.password = connection['ssh-password'];
+			o.directory = connection['directory-path'];
 			o.connections = [{}];
 			if(connection.databaseType != 'select database type') {
 				o.connections = [{
@@ -40,18 +45,44 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	deleteConnection(id) {
 		this.configModel.deleteConnection(id);
+		this.viewController.callViewMethod("connections-page", "resetView");
 	}
 	connectTo(id) {
 		var con = this.configModel.getConnection(id);
 		console.log("connectTo", id, con);
+	}
+	moveConnectionTo(toId) {
+		this.configModel.moveTo(this.dragId, toId);
+	}
+	moveConnectionToFolder(name) {
+		this.configModel.moveConnectionToFoler(this.dragId, name);
+	}
+	moveFolderTo(name) {
+		this.configModel.moveFolderTo(this.dragFolderName, name);
 	}
 	showConnectionDetail(id) {
 		var con = this.configModel.getConnection(id);
 		this.viewController.callViewMethod("connections-page", "setConnectionDetails", con);
 		this.viewController.callViewMethod(["connection", "context-side-bar"], "setSelectedConnection", id);
 	}
+	createConfigFolder(name) {
+		if(name) {
+			this.configModel.createFolder(name);
+		}
+	}
+	setDragId(id) {
+		this.dragId = id;
+		this.isDraggingConnection = true;
+	}
+	setDragFolderName(name) {
+		this.dragFolderName = name;
+		this.isDraggingFolder = true;
+	}
 	showAddConnection() {
 		this.viewController.callViewMethod("connections-page", "showAddConnection");
+	}
+	showAddFolder() {
+		this.viewController.callViewMethod("current-connections", "showAddFolder");
 	}
 	showHomePage() {
 		this.viewController.callViewMethod(["work-area", "main-view"], "showHome");
@@ -69,5 +100,11 @@ module.exports = class ConnectopusController extends EventEmitter {
 	handleConfigData(data) {
 		this.viewController.callViewMethod("current-connections", "setFolders", data.folders);
 		this.viewController.callViewMethod("current-connections", "setConnections", data.servers);
+	}
+	handleDragConnectionEnd() {
+		this.isDraggingConnection = false;
+	}
+	handleDragFolderEnd() {
+		this.isDraggingFolder = false;
 	}
 }
