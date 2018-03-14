@@ -8,6 +8,9 @@
 				<button v-show="selectedConnection" v-on:click="handleDeleteConnection" class="btn btn-danger" title="Delete Connection">
 					<span class="glyphicon glyphicon-trash"></span>
 				</button>
+				<button v-show="selectedFolder" v-on:click="handleDeleteFolder" class="btn btn-danger" title="Delete Folder">
+					<span class="glyphicon glyphicon-trash"></span>
+				</button>
 				<button v-on:click="handleAddFolder" class="btn btn-default pull-right" title="Add Folder">
 					<span class="glyphicon glyphicon-folder-close"></span>
 					<span class="glyphicon glyphicon-plus inverse-small"></span>
@@ -26,14 +29,18 @@
 		template: s,
 		data: function() {
 			return {
-				selectedConnection: null
+				selectedConnection: null,
+				selectedFolder: null
 			}
 		},
 		methods: {
 			handleDeleteConnection: function(e) {
 				e.preventDefault();
 				controller.deleteConnection(this.selectedConnection);
-				this.selectedConnection = null;
+			},
+			handleDeleteFolder: function(e) {
+				e.preventDefault();
+				controller.deleteFolder(this.selectedFolder);
 			},
 			handleAddFolder: function(e) {
 				e.preventDefault();
@@ -43,6 +50,12 @@
 				e.preventDefault();
 				controller.showAddConnection();
 			},
+			resetSelectedConnection: function() {
+				this.selectedConnection = null;
+			},
+			resetSelectedFolder: function() {
+				this.selectedFolder = null;
+			},
 			setFolders: function(data) {
 				this.folders = data;
 			},
@@ -51,6 +64,9 @@
 			},
 			setSelectedConnection: function(id) {
 				this.selectedConnection = id;
+			},
+			setSelectedFolder: function(name) {
+				this.selectedFolder = name;
 			}
 		}
 	});

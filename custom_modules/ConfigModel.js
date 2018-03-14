@@ -88,6 +88,21 @@ module.exports = class ConfigModel extends AbstractModel {
 		});
 		this.dispatchEvent("data", this._strip(this._config));
 	}
+	deleteFolder(name) {
+		var l = this._config.folders.length;
+		while(l--) {
+			if(this._config.folders[l].name == name) {
+				this._config.folders.splice(l, 1);
+				break;
+			}
+		}
+		this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
+			if(err) {
+				console.error(err);
+			}
+		});
+		this.dispatchEvent("data", this._strip(this._config));
+	}
 	loadConfig() {
 		this.fs.readJson('./working_files/config.json', function(err, data) {
 			if(err) {
@@ -99,11 +114,45 @@ module.exports = class ConfigModel extends AbstractModel {
 			this.dispatchEvent("data", this._strip(this._config));
 		}.bind(this));
 	}
-	moveConnectionToFoler(conId, name) {
-		console.log(conId, name);
+	moveConnectionToFolder(conId, name) {
+		var con = this.getConnection(conId);
+		if(con) {
+			var l = this._config.folders.length;
+			while(l--) {
+				if(this._config.folders[l].name == name) {
+					this.deleteConnection(conId);
+					this._config.folders[l].servers.push(con);
+					this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
+						if(err) {
+							console.error(err);
+						}
+					});
+					this.dispatchEvent("data", this._strip(this._config));
+					return;
+				}
+			}
+		}
 	}
 	moveFolderTo(dragFolderName, name) {
-		console.log(dragFolderName, name);
+		if(dragFolderName && name) {
+			var folder = this.getFolder(dragFolderName);
+			if(folder) {
+				this.removeFolder(dragFolderName);
+				var l = this._config.folders.length;
+				while(l--) {
+					if(this._config.folders[l].name == name) {
+						this._config.folders.splice(l + 1, 0, folder);
+						this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
+							if(err) {
+								console.error(err);
+							}
+						});
+						this.dispatchEvent("data", this._strip(this._config));
+						return;
+					}
+				}
+			}
+		}
 	}
 	moveTo(moveId, toId) {
 		if(moveId != toId) {
@@ -134,6 +183,22 @@ module.exports = class ConfigModel extends AbstractModel {
 						}
 					}
 				}
+			}
+		}
+	}
+	getFolder(name) {
+		var l = this._config.folders.length;
+		while(l--) {
+			if(this._config.folders[l].name == name) {
+				return this._config.folders[l];
+			}
+		}
+	}
+	removeFolder(name) {
+		var l = this._config.folders.length;
+		while(l--) {
+			if(this._config.folders[l].name == name) {
+				this._config.folders.splice(l, 1);
 			}
 		}
 	}

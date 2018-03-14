@@ -44,30 +44,77 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.configModel.addConnection(o);
 	}
 	deleteConnection(id) {
-		this.configModel.deleteConnection(id);
-		this.viewController.callViewMethod("connections-page", "resetView");
+		this.viewController.callViewMethod("modal-overlay", "show", {
+			title: 'Confirm Delete Connection',
+			message: 'Are you sure you want to delete this connection?', 
+			buttons: [
+				{label: "Cancel", class: "btn-warning", callback: function() {
+					this.hideModal();
+				}.bind(this)},
+				{label: "Delete", class: "btn-danger", callback: function() {
+					this.configModel.deleteConnection(id);
+					this._call("connections-page", "resetView");
+					this._call("context-side-bar", "resetSelectedConnection");
+					this.hideModal();
+				}.bind(this)}
+			]
+		});
+	}
+	deleteFolder(name) {
+		this.viewController.callViewMethod("modal-overlay", "show", {
+			title: 'Confirm Delete Folder',
+			message: 'Are you sure you want to delete this folder (and all of its contents)?', 
+			buttons: [
+				{label: "Cancel", class: "btn-warning", callback: function() {
+					this.hideModal();
+				}.bind(this)},
+				{label: "Delete", class: "btn-danger", callback: function() {
+					this.configModel.deleteFolder(name);
+					this._call("context-side-bar", "resetSelectedFolder");
+					this.hideModal();
+				}.bind(this)}
+			]
+		});
 	}
 	connectTo(id) {
 		var con = this.configModel.getConnection(id);
 		console.log("connectTo", id, con);
 	}
+	hideModal() {
+		this._call("modal-overlay", "hide");
+	}
 	moveConnectionTo(toId) {
 		this.configModel.moveTo(this.dragId, toId);
 	}
 	moveConnectionToFolder(name) {
-		this.configModel.moveConnectionToFoler(this.dragId, name);
+		this.configModel.moveConnectionToFolder(this.dragId, name);
 	}
 	moveFolderTo(name) {
 		this.configModel.moveFolderTo(this.dragFolderName, name);
 	}
 	showConnectionDetail(id) {
 		var con = this.configModel.getConnection(id);
-		this.viewController.callViewMethod("connections-page", "setConnectionDetails", con);
-		this.viewController.callViewMethod(["connection", "context-side-bar"], "setSelectedConnection", id);
+		this._call("connections-page", "setConnectionDetails", con);
+		this._call(["connection", "context-side-bar"], "setSelectedConnection", id);
+		this._call(["folder", "context-side-bar"], "setSelectedFolder", null);
+		this._call("folder", "clearSelected");
 	}
 	createConfigFolder(name) {
 		if(name) {
-			this.configModel.createFolder(name);
+			var folder = this.configModel.getFolder(name);
+			if(folder) {
+				this._call("modal-overlay", "show", {
+					title: 'Folder Already Exists',
+					message: 'You already have a folder named "' + name + '"', 
+					buttons: [
+						{label: "OK", class: "btn-success", callback: function() {
+							this.hideModal();
+						}.bind(this)}
+					]
+				});
+			} else {
+				this.configModel.createFolder(name);
+			}
 		}
 	}
 	setDragId(id) {
@@ -77,34 +124,42 @@ module.exports = class ConnectopusController extends EventEmitter {
 	setDragFolderName(name) {
 		this.dragFolderName = name;
 		this.isDraggingFolder = true;
+		this.viewController.callViewMethod(["folder", "context-side-bar"], "setSelectedFolder", name);
+		if(name != null) {
+			this._call(["connection", "context-side-bar"], "setSelectedConnection", null);
+		}
 	}
 	showAddConnection() {
-		this.viewController.callViewMethod("connections-page", "showAddConnection");
+		this._call("connections-page", "showAddConnection");
 	}
 	showAddFolder() {
-		this.viewController.callViewMethod("current-connections", "showAddFolder");
+		this._call("current-connections", "showAddFolder");
 	}
 	showHomePage() {
-		this.viewController.callViewMethod(["work-area", "main-view"], "showHome");
+		this._call(["work-area", "main-view"], "showHome");
 	}
 	showConnectionsPage() {
-		this.viewController.callViewMethod(["work-area", "main-view"], "showConnections");
+		this._call(["work-area", "main-view"], "showConnections");
 	}
 	showDataPage() {
-		this.viewController.callViewMethod(["work-area", "main-view"], "showData");
+		this._call(["work-area", "main-view"], "showData");
 	}
 	showFilesPage() {
-		this.viewController.callViewMethod(["work-area", "main-view"], "showFiles");
+		this._call(["work-area", "main-view"], "showFiles");
 	}
 
 	handleConfigData(data) {
-		this.viewController.callViewMethod("current-connections", "setFolders", data.folders);
-		this.viewController.callViewMethod("current-connections", "setConnections", data.servers);
+		this._call("current-connections", "setFolders", data.folders);
+		this._call("current-connections", "setConnections", data.servers);
 	}
 	handleDragConnectionEnd() {
 		this.isDraggingConnection = false;
 	}
 	handleDragFolderEnd() {
 		this.isDraggingFolder = false;
+	}
+
+	_call(views, method, params) {
+		return this.viewController.callViewMethod(views, method, params);
 	}
 }

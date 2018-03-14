@@ -19,16 +19,18 @@
 								</button>
 								<ul v-on:click="handleConnectionTypeChange" class="dropdown-menu">
 									<li><a href="#">Local Directory</a></li>
+									<li><a href="#">Remote (SFTP)</a></li>
+									<!--
 									<li><a href="#">Git (local)</a></li>
 									<li><a href="#">Git Clone (remote)</a></li>
-									<li><a href="#">Remote (SFTP)</a></li>
+									-->
 								</ul>
 							</div>
 						</div>
 						<div class="input-collection-div" v-show="connectionType != 'select connection type'">
 							<div class="input-group" v-show="connectionType == 'Local Directory' || connectionType == 'Git (local)'">
 								<span class="input-group-addon">Directory Path</span>
-								<input type="text" name="directory-path" />
+								<input type="file" webkitdirectory name="directory-path" />
 							</div>
 							<div class="input-group" v-show="connectionType == 'Remote (SFTP)'">
 								<span class="input-group-addon">Host</span>
@@ -68,12 +70,14 @@
 												</button>
 												<ul v-on:click="handleDatabaseTypeChange" class="dropdown-menu">
 													<li><a href="#">MySQL</a></li>
-													<li><a href="#">MS SQL Server</a></li>
-													<li><a href="#">PostgreSQL</a></li>
-													<li><a href="#">MongoDB</a></li>
 													<li><a href="#">JSON file</a></li>
 													<li><a href="#">REST Endpoint</a></li>
+													<!--
+													<li><a href="#">PostgreSQL</a></li>
+													<li><a href="#">MongoDB</a></li>
+													<li><a href="#">MS SQL Server</a></li>
 													<li><a href="#">Excel Spreadsheet</a></li>
+													-->
 												</ul>
 											</div>
 										</div>
@@ -123,7 +127,7 @@
 											</div>
 											<div class="input-group" v-show="databaseType == 'JSON file' || databaseType == 'Excel Spreadsheet'">
 												<span class="input-group-addon">File</span>
-												<input name="db-connection-file" />
+												<input type="file" webkitdirectory name="db-connection-file" />
 											</div>
 										</div>
 									</div>
@@ -173,6 +177,14 @@
 				}
 				o.connectionType = this.connectionType;
 				o.databaseType = this.databaseType;
+				var input = $("input[name='directory-path']");
+				if(input && input[0] && input[0].files && input[0].files[0]) {
+					o['ssh-root-directory'] = input[0].files[0].path;
+				}
+				var input = $("input[name='db-connection-file']");
+				if(input && input[0] && input[0].files && input[0].files[0]) {
+					o['db-connection-file'] = input[0].files[0].path;
+				}
 				controller.addNewConnection(o);
 			},
 			handleRestVerbChange: function(e) {

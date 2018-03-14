@@ -7,7 +7,7 @@
 					<h2>Connections</h2>
 					<ul class="folders">
 						<li v-show="isAddFolderVisible">
-							<input type="text" name="folder-name" placeholder="Folder Name" />
+							<input v-on:keydown="handleKeyDown" class="add-folder-name-input" type="text" name="folder-name" placeholder="Folder Name" />
 							<button v-on:click="handleCreateFolder" class="btn btn-success">Add Folder</button>
 						</li>
 						<folder v-for="folder in folders" v-bind:name="folder.name" v-bind:connections="folder.servers"></folder>
@@ -36,8 +36,15 @@
 		methods: {
 			handleCreateFolder: function(e) {
 				e.preventDefault();
-				controller.createConfigFolder($(e.target).closest("li").find("input").val());
+				var input = $(".add-folder-name-input");
+				controller.createConfigFolder(input.val());
 				this.isAddFolderVisible = false;
+				input.val("");
+			},
+			handleKeyDown: function(e) {
+				if(e.keyCode == 13) {
+					this.handleCreateFolder(e);
+				}
 			},
 			setFolders: function(data) {
 				this.folders = data;
@@ -47,6 +54,9 @@
 			},
 			showAddFolder: function() {
 				this.isAddFolderVisible = true;
+				setTimeout(function() {
+					$(".add-folder-name-input").focus();
+				}, 50);
 			}
 		}
 	});
@@ -57,7 +67,7 @@
 (function() {
 	var componentName = 'folder';
 	var s = `
-		<li draggable="true" v-on:drag="drag" v-on:drop="drop" v-on:dragover="allowDrop" class="folder" v-bind:class="{ 'is-open': isOpen }">
+		<li draggable="true" v-on:drag="drag" v-on:drop="drop" v-on:dragleave="dragLeave" v-on:dragover="allowDrop" class="folder" v-bind:class="{ 'is-open': isOpen, 'is-drag-over': isDragOver, 'selected': selectedFolder == name }">
 			<span class="label-container" v-on:click="toggleOpen">
 				<span><span v-show="!isOpen" class="glyphicon glyphicon-triangle-right"></span>
 				<span><span v-show="isOpen" class="glyphicon glyphicon-triangle-bottom"></span></span>
@@ -80,13 +90,18 @@
 		data: function() {
 			return {
 				connections: {},
-				isOpen: false
+				isOpen: false,
+				isDragOver: false,
+				selectedFolder: null
 			}
 		},
 		methods: {
+			clearSelected: function(e) {
+				controller.setDragFolderName(null);
+			},
 			allowDrop: function(e) {
 				e.preventDefault();
-
+				this.isDragOver = true;
 			},
 			drag: function(e) {
 				controller.setDragFolderName($(e.target).find(".folder-name").text());
@@ -94,6 +109,7 @@
 			dragEnd: function(e) {
 				controller.handleDragFolderEnd();
 				e.preventDefault();
+				this.isDragOver = false;
 			},
 			drop: function(e) {
 				var name = '';
@@ -109,7 +125,6 @@
 				} else if(controller.isDraggingFolder) {
 					type = 'folder';
 				}
-				
 				if(type == 'connection' && name) {
 					controller.moveConnectionToFolder(name);
 				} else if(type = 'folder' && name) {
@@ -117,12 +132,24 @@
 				} else {
 					console.error("invalid name/type", name, type);
 				}
-				
+				this.isDragOver = false;
+			},
+			dragLeave: function(e) {
+				e.preventDefault();
+				this.isDragOver = false;
+			},
+			setSelectedFolder: function(name) {
+				this.selectedFolder = name;
 			},
 			toggleOpen: function(e) {
 				e.preventDefault();
 				this.isOpen = !this.isOpen;
 				$(e.target).closest(".folder").find(".connections").slideToggle();
+				if(this.selectedFolder == this.name) {
+					controller.setDragFolderName(null);
+				} else {
+					controller.setDragFolderName(this.name);
+				}
 			}
 		}
 	});
@@ -133,7 +160,7 @@
 (function() {
 	var componentName = 'connection';
 	var s = `
-		<li draggable="true" v-on:drag="drag" v-on:drop="drop" v-on:dragend="dragEnd" v-on:dragover="allowDrop" v-on:dragleave="dragLeave" class="connection" v-bind:class="{'is-drag-over': isDragOver, selected: id == selectedConnection, connected: isConnected, error: isError, pending: isPending}" v-bind:data-id="id" v-on:click="handleViewConnection">
+		<li v-on:click="handleViewConnection" draggable="true" v-on:drag="drag" v-on:drop="drop" v-on:dragend="dragEnd" v-on:dragover="allowDrop" v-on:dragleave="dragLeave" class="connection" v-bind:class="{'is-drag-over': isDragOver, selected: id == selectedConnection, connected: isConnected, error: isError, pending: isPending}" v-bind:data-id="id">
 			<span class="glyphicon glyphicon-globe"></span>
 			<span class="connection-name">{{name}}</span>
 			<span class="quick-connection-link" v-on:click="handleConnect">
@@ -187,8 +214,10 @@
 				this.isDragOver = false;
 			},
 			allowDrop: function(e) {
-				e.preventDefault();
-				this.isDragOver = true;
+				if(controller.isDraggingConnection) {
+					e.preventDefault();
+					this.isDragOver = true;
+				}
 			},
 			dragLeave: function(e) {
 				e.preventDefault();

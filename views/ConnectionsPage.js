@@ -12,11 +12,14 @@
 			<div class="row" v-if="connectionDetails">
 				<div class="col-xs-12">
 					<div class="connection-details">
-						<h3>{{connectionDetails.name}}</h3>
 						<form>
+							<h3 class="span-group">
+								<span v-show="!isEditEnabled">{{connectionDetails.name}}</span>
+								<input class="title-input-field" v-show="isEditEnabled" type="text" v-show="isEditEnabled" name="name" v-on:keyup="handleInputChange" />
+							</h3>
 							<div class="input-group" v-show="connectionDetails.connectionType == 'Local Directory' || connectionDetails.connectionType == 'Git (local)'">
 								<span class="input-group-addon">Directory Path</span>
-								<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.directory" readonly="readonly" />
+								<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.root" readonly="readonly" />
 								<input type="text" v-show="isEditEnabled" name="directory-path" v-on:keyup="handleInputChange" />
 							</div>
 							<div class="input-group" v-show="connectionDetails.connectionType == 'Git Clone (remote)'">
@@ -46,7 +49,10 @@
 							</div>
 							<div class="panel panel-default" v-show="connectionDetails.connections[0].name != ''">
 								<div class="panel-heading">
-									<h3 class="panel-title">{{connectionDetails.connections[0].name}}</h3>
+									<h3 class="panel-title span-group">
+										<span v-show="!isEditEnabled">{{connectionDetails.connections[0].name}}</span>
+										<input class="title-input-field" v-show="isEditEnabled" type="text" v-show="isEditEnabled" name="database-connection-name" v-on:keyup="handleInputChange" />
+									</h3>
 								</div>
 								<div class="panel-body">
 									<div class="input-group" v-show="connectionDetails.connections[0].type == 'REST Endpoint' || connectionDetails.connections[0].type == 'Git Clone (remote)'">
@@ -115,11 +121,18 @@
 			enableEdit: function(e) {
 				e.preventDefault();
 				this.isEditEnabled = true;
-				$(".connections-page").find("form").find(".input-group").each(function() {
+				var $form = $(".connections-page").find("form");
+				$form.find(".input-group").each(function() {
 					var $inputs = $(this).find("input");
 					if($inputs.length == 2) {
 						$($inputs[1]).val($($inputs[0]).val());
-					}
+					} 
+				});
+				$form.find(".span-group").each(function() {
+					var $this = $(this);
+					var $input = $this.find("input");
+					var span = $this.find("span").text();
+					$input.val(span);
 				});
 			},
 			disableEdit: function(e) {
@@ -127,10 +140,10 @@
 				this.hasUnsavedEdits = this.isEditEnabled = false;
 			},
 			setConnectionDetails: function(data) {
-				//console.log(JSON.parse(JSON.stringify(data)));
 				this.connectionDetails = data;
 				this.hasUnsavedEdits = false;
 				this.isAddConnectionVisible = false;
+				this.isEditEnabled = false;
 			},
 			showAddConnection: function() {
 				this.isAddConnectionVisible = true;

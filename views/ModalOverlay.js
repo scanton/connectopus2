@@ -2,7 +2,19 @@
 	var componentName = 'modal-overlay';
 	var s = `
 		<div class="modal-overlay" style="display: none;">
-			
+			<div class="dialog-frame">
+				<div class="panel panel-default">
+					<div class="panel-heading">{{dialogDetails.title}}</div>
+					<div class="panel-body">
+						{{dialogDetails.message}}
+						<div class="clear"></div>
+						<div class="buttons pull-right">
+							<button class="btn" v-bind:class="button.class" v-on:click="button.callback" v-for="button in dialogDetails.buttons">{{button.label}}</button>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 	`;
 	
@@ -12,10 +24,13 @@
 		},
 		template: s,
 		data: function() {
-			return {}
+			return {
+				dialogDetails: {}
+			}
 		},
 		methods: {
 			show: function(options) {
+				this.dialogDetails = options;
 				$(".modal-overlay").fadeIn('slow');
 			},
 			hide: function() {
