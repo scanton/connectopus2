@@ -6,7 +6,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">{{dialogDetails.title}}</div>
 					<div class="panel-body">
-						{{dialogDetails.message}}
+						<div class="dialog-message" v-html="dialogDetails.message"></div>
 						<div class="clear"></div>
 						<div class="buttons pull-right">
 							<button class="btn" v-bind:class="button.class" v-on:click="button.callback" v-for="button in dialogDetails.buttons">{{button.label}}</button>
@@ -31,10 +31,10 @@
 		methods: {
 			show: function(options) {
 				this.dialogDetails = options;
-				$(".modal-overlay").fadeIn('slow');
+				$(".modal-overlay").fadeIn();
 			},
 			hide: function() {
-				$(".modal-overlay").fadeOut('slow');
+				$(".modal-overlay").fadeOut();
 			}
 		}
 	});

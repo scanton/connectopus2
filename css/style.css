@@ -1,6 +1,6 @@
 /*
 #FF7373, #000044
-#0CC1EF, #0094B4
+#0CC1EF, #0080FF
 * {
 	-webkit-transition: all 0.3s ease;
 }
@@ -17,6 +17,9 @@ a:hover {
 }
 a:focus {
 	color: #FF7373;
+}
+.azure-styles a:focus {
+	color: #0080FF;
 }
 nav {
 	border-radius: 0 !important;
@@ -57,19 +60,24 @@ h3 {
 	right: 0;
 	bottom: 26px;
 	top: 52px;
+	font-size: 18pt;
+}
+.modal-overlay .dialog-message {
+	margin-bottom: 1em;
 }
 .modal-overlay .dialog-frame {
 	background: #444;
 	color: white;
 	border-radius: 15px;
-	padding: 1em;
+	padding: .5em;
 	position: absolute;
-	top: 25%;
+	top: 20%;
 	left: 25%;
 	right: 25%;
 }
 .modal-overlay button {
 	margin-left: .5em;
+	font-size: 18pt;
 }
 .btn-default {
 	outline: none;
@@ -82,6 +90,9 @@ h3 {
 	border: 0 solid #777;
 	background: #FF7373;
 	color: white;
+}
+.azure-styles .btn-success {
+	background: #0080FF;
 }
 .btn-warning {
 	outline: none;
@@ -117,6 +128,9 @@ h3 {
 	bottom: 26px;
 	background: linear-gradient(to bottom right, #FF7373, #000044);
 	overflow: scroll;
+}
+.azure-styles .main-view {
+	background: linear-gradient(to bottom right, #0080FF, #0CC1EF);
 }
 .settings-is-visible .main-view {
 	right: 300px;
@@ -210,6 +224,9 @@ h3 {
 .glyphicon-folder-close, .glyphicon-folder-open {
 	color: #FF7373;
 }
+.azure-styles .glyphicon-folder-close, .azure-styles .glyphicon-folder-open {
+	color: #0080FF;
+}
 .current-connections {
 	position: absolute;
 	top: 0;
@@ -246,6 +263,9 @@ h3 {
 	color: white;
 	border-radius: 15px;
 	padding: 3px 2px 1px 5px;
+}
+.azure-styles .current-connections .connection .quick-connection-link {
+	background: #0080FF;
 }
 .current-connections .connection .quick-connection-link:hover {
 	background: green;
@@ -336,6 +356,9 @@ input {
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
+.azure-styles .input-group.is-not-selected .dropdown, .azure-styles .input-group.is-not-selected .dropdown button {
+	background: #0080FF;
+}
 .foot-toolbar {
 	position: absolute;
 	background: black;
@@ -381,6 +404,9 @@ input {
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
 }
+.azure-styles .connection.is-drag-over, .azure-styles .connection.is-drag-over {
+	border-bottom: 3px solid #0080FF;
+}
 .connection.connected .glyphicon-globe {
 	color: #0F0;
 }
@@ -407,6 +433,89 @@ input {
 .title-input-field {
 	width: 100%;
 	border-color: white;
-	background: #222;
+	background: #545454;
 	text-align: left;
+}
+.connectopus-animation {
+	position: relative;
+	margin-left: 100px;
+}
+.connectopus-animation .cranium {
+	position: absolute;
+	border: 3px solid white;
+	/*background: #FF7373;*/
+	background: white;
+	width: 60px;
+	height: 70px;
+	left: -10px;
+	top: 45px;
+	border-radius: 50%
+}
+/*
+.azure-styles .connectopus-animation .cranium {
+	background: #0080FF;
+}
+*/
+.connectopus-animation .cranium .eye {
+	position: absolute;
+	background: white;
+	border-radius: 50%;
+	width: 10px;
+	height: 10px;
+	top: 21px;
+}
+.connectopus-animation .cranium .eye.left {
+	left: 10px;
+}
+.connectopus-animation .cranium .eye.right {
+	left: 33px;
+}
+.connectopus-animation .cranium .smile {
+	position: absolute;
+	border-bottom: 4px solid white;
+	border-radius: 15px;
+	width: 30px;
+	height: 22px;
+	top: 33px;
+	left: 12px;
+}
+.connectopus-animation .legs {
+	perspective: 400px;
+	perspective-origin: 20px 116px;
+	transform-origin: 20px 116px 0;
+	transform: rotateX(67deg) rotateZ(22.5deg);
+}
+.connectopus-animation .tip {
+	position: absolute;
+	border: 4px solid white;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: white;
+}
+.connectopus-animation .tip.bottom {
+	top: 188px;
+}
+.connectopus-animation .rod {
+	position: absolute;
+	background: white;
+	width: 7px;
+	height: 150px;
+	left: 16px;
+	top: 38px;
+}
+.connectopus-animation .leg {
+	transform-origin: 20px 116px 0;
+}
+.connectopus-animation .leg-1 {
+	
+}
+.connectopus-animation .leg-2 {
+	transform: rotateZ(45deg);
+}
+.connectopus-animation .leg-3 {
+	transform: rotateZ(90deg);
+}
+.connectopus-animation .leg-4 {
+	transform: rotateZ(135deg);
 }

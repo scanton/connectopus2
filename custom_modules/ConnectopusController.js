@@ -11,6 +11,15 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.isDraggingFolder = false;
 	}
 
+	toggleAzureStyle() {
+		var $app = $("#main-app");
+		if($app.hasClass("azure-styles")) {
+			$app.removeClass("azure-styles");
+		} else {
+			$app.addClass("azure-styles");
+		}
+	}
+
 	addNewConnection(connection) {
 		var o = {};
 		if(connection.connectionType != 'select connection type') {
@@ -63,7 +72,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	deleteFolder(name) {
 		this.viewController.callViewMethod("modal-overlay", "show", {
 			title: 'Confirm Delete Folder',
-			message: 'Are you sure you want to delete this folder (and all of its contents)?', 
+			message: 'Are you sure you want to delete this folder <strong>(and all of its contents)</strong>?', 
 			buttons: [
 				{label: "Cancel", class: "btn-warning", callback: function() {
 					this.hideModal();
@@ -137,15 +146,19 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	showHomePage() {
 		this._call(["work-area", "main-view"], "showHome");
+		this._call("context-side-bar", "setContext", "home");
 	}
 	showConnectionsPage() {
 		this._call(["work-area", "main-view"], "showConnections");
+		this._call("context-side-bar", "setContext", "connections");
 	}
 	showDataPage() {
 		this._call(["work-area", "main-view"], "showData");
+		this._call("context-side-bar", "setContext", "data");
 	}
 	showFilesPage() {
 		this._call(["work-area", "main-view"], "showFiles");
+		this._call("context-side-bar", "setContext", "files");
 	}
 
 	handleConfigData(data) {

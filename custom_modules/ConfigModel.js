@@ -54,6 +54,9 @@ module.exports = class ConfigModel extends AbstractModel {
 	}
 	createFolder(name) {
 		if(name) {
+			if(!this._config.folders) {
+				this._config.folders = [];
+			}
 			this._config.folders.push({name: name, servers: []});
 			this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
 				if(err) {
@@ -187,10 +190,12 @@ module.exports = class ConfigModel extends AbstractModel {
 		}
 	}
 	getFolder(name) {
-		var l = this._config.folders.length;
-		while(l--) {
-			if(this._config.folders[l].name == name) {
-				return this._config.folders[l];
+		if(this._config.folders) {
+			var l = this._config.folders.length;
+			while(l--) {
+				if(this._config.folders[l].name == name) {
+					return this._config.folders[l];
+				}
 			}
 		}
 	}
