@@ -14,8 +14,11 @@ const settingsModel = new SettingsModel();
 const ViewController = require(__dirname + '/custom_modules/ViewController.js');
 const viewController = new ViewController();
 
+const ConnectionsController = require(__dirname + '/custom_modules/ConnectionsController.js');
+const connectionsController = new ConnectionsController();
+
 const ConnectopusController = require(__dirname + '/custom_modules/ConnectopusController.js');
-const controller = new ConnectopusController(viewController, configModel, settingsModel);
+const controller = new ConnectopusController(viewController, configModel, settingsModel, connectionsController);
 
 const stripObservers = function(obj) {
 	return JSON.parse(JSON.stringify(obj, null, 4));

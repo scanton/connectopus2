@@ -170,7 +170,7 @@
 			},
 			handleOnConnect: function(e) {
 				e.preventDefault();
-				console.log('hadnleOnConnect');
+				controller.connectTo($(".edit-connection-details-form").find("input[name='id']").val());
 			},
 			handleUpdateData: function(e) {
 				e.preventDefault();

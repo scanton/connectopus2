@@ -227,7 +227,7 @@
 			handleConnect: function(e) {
 				e.preventDefault();
 				e.stopPropagation();
-				controller.connectTo($(e.target).closest(".connection").attr("id"));
+				controller.connectTo($(e.target).closest(".connection").attr("data-id"));
 			},
 			handleViewConnection: function(e) {
 				e.preventDefault();
