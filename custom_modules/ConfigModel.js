@@ -207,6 +207,40 @@ module.exports = class ConfigModel extends AbstractModel {
 			}
 		}
 	}
+	updateConnection(id, connection) {
+		var l = this._config.folders.length;
+		while(l--) {
+			if(this._config.folders[l].servers) {
+				var servers = this._config.folders[l].servers;
+				var l2 = servers.length;
+				while(l2--) {
+					if(servers[l2].id == id) {
+						servers[l2] = connection;
+						this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
+							if(err) {
+								console.error(err);
+							}
+						});
+						this.dispatchEvent("data", this._strip(this._config));
+						return;
+					}
+				}
+			}
+		}
+		var l = this._config.servers.length;
+		while(l--) {
+			if(this._config.servers[l].id == id) {
+				this._config.servers[l] = connection;
+				this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
+					if(err) {
+						console.error(err);
+					}
+				});
+				this.dispatchEvent("data", this._strip(this._config));
+				return;
+			}
+		}
+	}
 
 	_assignIds(obj) {
 		if(obj.servers) {

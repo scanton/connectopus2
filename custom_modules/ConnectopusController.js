@@ -9,6 +9,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.dragFolderName = null;
 		this.isDraggingConnection = false;
 		this.isDraggingFolder = false;
+		this.lastUpdate = null;
 	}
 
 	toggleAzureStyle() {
@@ -52,15 +53,45 @@ module.exports = class ConnectopusController extends EventEmitter {
 		}
 		this.configModel.addConnection(o);
 	}
+	updateConnection(connection) {
+		this.lastUpdate = connection.id;
+		var o ={};
+		o.id = connection.id;
+		o.name = connection.name;
+		o.connectionType = connection.connectionType;
+		o.uri = connection.uri;
+		o.host = connection['ssh-host'];
+		o.port = connection['ssh-port'];
+		o.root = connection['ssh-root-directory'];
+		o.username = connection['ssh-username'];
+		o.password = connection['ssh-password'];
+		o.directory = connection['directory-path'];
+		o.connections = [{}];
+		if(connection.databaseType != 'select database type') {
+			o.connections = [{
+				"type": connection.databaseType,
+				"database": connection["db-connection-database"],
+				"file": connection["db-connection-file"],
+				"host": connection["db-connection-host"],
+				"name": connection["db-connection-name"],
+				"password": connection["db-connection-password"],
+				"uri": connection["db-connection-uri"],
+				"rest-verb": connection["db-connection-rest-verb"],
+				"rest-args": connection["db-connection-rest-args"],
+				"username": connection["db-connection-username"]
+			}];
+		}
+		this.configModel.updateConnection(connection.id, o);
+	}
 	deleteConnection(id) {
 		this.viewController.callViewMethod("modal-overlay", "show", {
 			title: 'Confirm Delete Connection',
 			message: 'Are you sure you want to delete this connection?', 
 			buttons: [
-				{label: "Cancel", class: "btn-warning", callback: function() {
+				{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
 					this.hideModal();
 				}.bind(this)},
-				{label: "Delete", class: "btn-danger", callback: function() {
+				{label: "Delete", class: "btn-danger", icon:"glyphicon glyphicon-remove", callback: function() {
 					this.configModel.deleteConnection(id);
 					this._call("connections-page", "resetView");
 					this._call("context-side-bar", "resetSelectedConnection");
@@ -74,10 +105,10 @@ module.exports = class ConnectopusController extends EventEmitter {
 			title: 'Confirm Delete Folder',
 			message: 'Are you sure you want to delete this folder <strong>(and all of its contents)</strong>?', 
 			buttons: [
-				{label: "Cancel", class: "btn-warning", callback: function() {
+				{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
 					this.hideModal();
 				}.bind(this)},
-				{label: "Delete", class: "btn-danger", callback: function() {
+				{label: "Delete", class: "btn-danger", icon: "glyphicon glyphicon-remove", callback: function() {
 					this.configModel.deleteFolder(name);
 					this._call("context-side-bar", "resetSelectedFolder");
 					this.hideModal();
@@ -164,6 +195,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 	handleConfigData(data) {
 		this._call("current-connections", "setFolders", data.folders);
 		this._call("current-connections", "setConnections", data.servers);
+		if(this.lastUpdate) {
+			this._call("connections-page", "setConnectionDetails", this.configModel.getConnection(this.lastUpdate));
+		}
 	}
 	handleDragConnectionEnd() {
 		this.isDraggingConnection = false;

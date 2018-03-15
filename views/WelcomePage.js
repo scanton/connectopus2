@@ -7,7 +7,6 @@
 					<h1>Connectopus 2</h1>
 					<h2>Multilegged Diff, Merge & Sync</h2>
 					<hr />
-					<connectopus-animation></connectopus-animation>
 				</div>
 			</div>
 		</div>

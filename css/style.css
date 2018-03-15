@@ -47,6 +47,10 @@ h3 {
 	letter-spacing: 1pt;
 	margin: 5px 0 18px;
 }
+.btn {
+	padding: 5px 8px;
+	border-radius: .3em;
+}
 .clear {
 	clear: both;
 }
@@ -451,7 +455,7 @@ input {
 
 .connectopus-animation {
 	position: relative;
-	margin-top: 15%;
+	margin-top: 20%;
 	margin-left: 47%;
 	opacity: .25;
 	filter: blur(1.5px);

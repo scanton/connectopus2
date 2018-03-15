@@ -177,15 +177,17 @@
 				}
 				o.connectionType = this.connectionType;
 				o.databaseType = this.databaseType;
+				o['db-connection-rest-verb'] = this.verb;
 				var input = $("input[name='directory-path']");
 				if(input && input[0] && input[0].files && input[0].files[0]) {
-					o['ssh-root-directory'] = input[0].files[0].path;
+					o['directory-path'] = input[0].files[0].path;
 				}
 				var input = $("input[name='db-connection-file']");
 				if(input && input[0] && input[0].files && input[0].files[0]) {
 					o['db-connection-file'] = input[0].files[0].path;
 				}
 				controller.addNewConnection(o);
+				$(".add-new-connection-form").find("input").val("");
 			},
 			handleRestVerbChange: function(e) {
 				e.preventDefault();
