@@ -1,10 +1,11 @@
 /*
 #FF7373, #000044
 #0CC1EF, #0080FF
-*/
+
 * {
 	-webkit-transition: all 0.3s ease;
 }
+*/
 body {
 	color: #CCC;
 	background: #333;
@@ -447,7 +448,7 @@ input {
   }
 }
 .rotating {
-  animation: rotating 5s linear infinite;
+  animation: rotating 3.6s linear infinite;
 }
 
 .connectopus-animation {
@@ -455,6 +456,7 @@ input {
 	margin-top: 15%;
 	margin-left: 47%;
 	opacity: .25;
+	filter: blur(1.5px);
 }
 .connectopus-animation .cranium {
 	position: absolute;
@@ -514,9 +516,9 @@ input {
 .connectopus-animation .rod {
 	position: absolute;
 	background: white;
-	width: 7px;
+	width: 9px;
 	height: 150px;
-	left: 16px;
+	left: 15px;
 	top: 38px;
 }
 .connectopus-animation .leg {
