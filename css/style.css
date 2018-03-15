@@ -1,10 +1,10 @@
 /*
 #FF7373, #000044
 #0CC1EF, #0080FF
+*/
 * {
 	-webkit-transition: all 0.3s ease;
 }
-*/
 body {
 	color: #CCC;
 	background: #333;
@@ -436,9 +436,24 @@ input {
 	background: #545454;
 	text-align: left;
 }
+
+
+@keyframes rotating {
+  from {
+    transform: rotateX(67deg) rotateZ(0deg);
+  }
+  to {
+    transform: rotateX(67deg) rotateZ(360deg);
+  }
+}
+.rotating {
+  animation: rotating 5s linear infinite;
+}
+
 .connectopus-animation {
 	position: relative;
 	margin-left: 100px;
+	opacity: .25;
 }
 .connectopus-animation .cranium {
 	position: absolute;
@@ -483,7 +498,6 @@ input {
 	perspective: 400px;
 	perspective-origin: 20px 116px;
 	transform-origin: 20px 116px 0;
-	transform: rotateX(67deg) rotateZ(22.5deg);
 }
 .connectopus-animation .tip {
 	position: absolute;

@@ -2,7 +2,7 @@
 	var componentName = 'connectopus-animation';
 	var s = `
 		<div class="connectopus-animation">
-			<div class="legs">
+			<div class="legs rotating">
 				<div class="leg leg-1">
 					<div class="tip top"></div>
 					<div class="rod"></div>
