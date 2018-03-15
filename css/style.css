@@ -148,8 +148,8 @@ h3 {
 }
 .settings-side-bar {
 	top: 52px;
-	right: -300px;
-	width: 300px;
+	right: -350px;
+	width: 350px;
 	bottom: 26px;
 	background: #333;
 	-webkit-transition: all 0.3s ease;
@@ -537,7 +537,7 @@ input {
 }
 .connectopus-animation .leg-4 {
 	transform: rotateZ(135deg);
-
+}
 .connection .status-icon {
     height: 15px;
     width: 15px;

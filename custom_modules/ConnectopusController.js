@@ -1,10 +1,12 @@
 module.exports = class ConnectopusController extends EventEmitter {
 
-	constructor(viewController, configModel) {
+	constructor(viewController, configModel, settingsModel) {
 		super();
 		this.viewController = viewController;
 		this.configModel = configModel;
+		this.settingsModel = settingsModel;
 		this.configModel.subscribe("data", this.handleConfigData.bind(this));
+		this.settingsModel.subscribe("settings", this.handleSettingsData.bind(this));
 		this.dragId = null;
 		this.dragFolderName = null;
 		this.isDraggingConnection = false;
@@ -169,6 +171,16 @@ module.exports = class ConnectopusController extends EventEmitter {
 			this._call(["connection", "context-side-bar"], "setSelectedConnection", null);
 		}
 	}
+	setMaxRowsRequested(num) {
+		if(num) {
+			this.settingsModel.setMaxRowsRequested(num);
+		}
+	}
+	setTheme(name) {
+		if(name) {
+			this.settingsModel.setTheme(name);
+		}
+	}
 	showAddConnection() {
 		this._call("connections-page", "showAddConnection");
 	}
@@ -197,6 +209,12 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call("current-connections", "setConnections", data.servers);
 		if(this.lastUpdate) {
 			this._call("connections-page", "setConnectionDetails", this.configModel.getConnection(this.lastUpdate));
+		}
+	}
+	handleSettingsData(data) {
+		this._call("settings-side-bar", "setSettings", data);
+		if(data.theme) {
+			this._call(["title-bar", "work-area"], "setTheme", data.theme.toLowerCase().split(" ").join("-"));
 		}
 	}
 	handleDragConnectionEnd() {

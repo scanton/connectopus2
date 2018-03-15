@@ -4,7 +4,7 @@
 
 	var componentName = 'title-bar';
 	var s = `
-		<div class="titlebar webkit-draggable">
+		<div v-bind:class="theme" class="titlebar webkit-draggable">
 			<div class="titlebar-stoplight">
 				<div class="titlebar-close" v-on:click="close">
 					<svg x="0px" y="0px" viewBox="0 0 6.4 6.4">
@@ -36,10 +36,14 @@
 		template: s,
 		data: function() {
 			return {
-				title: 'Connectopus 2 - Kenetic Boogaloo'
+				title: 'Connectopus 2 - Kenetic Boogaloo',
+				theme: ''
 			}
 		},
 		methods: {
+			setTheme: function(theme) {
+				this.theme = theme;
+			},
 			close: function() {
 				window.close();
 			},

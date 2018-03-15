@@ -1,7 +1,7 @@
 (function() {
 	var componentName = 'work-area';
 	var s = `
-		<div v-bind:class="[category, {'context-is-visible': isContextVisible, 'settings-is-visible': isSettingsVisible}]" class="work-area">
+		<div v-bind:class="[category, theme, {'context-is-visible': isContextVisible, 'settings-is-visible': isSettingsVisible}]" class="work-area">
 			<main-view></main-view>
 			<context-side-bar></context-side-bar>
 			<settings-side-bar></settings-side-bar>
@@ -28,10 +28,14 @@
 			return {
 				category: 'home',
 				isContextVisible: false,
-				isSettingsVisible: false
+				isSettingsVisible: false,
+				theme: ''
 			}
 		},
 		methods: {
+			setTheme: function(theme) {
+				this.theme = theme;
+			},
 			showHome: function() {
 				setCategory("home", this);
 			},

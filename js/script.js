@@ -6,14 +6,16 @@ const {dialog} = require('electron').remote;
 const EventEmitter = require(__dirname + '/custom_modules/EventEmitter.js');
 const AbstractModel = require(__dirname + '/custom_modules/AbstractModel.js');
 const ConfigModel = require(__dirname + '/custom_modules/ConfigModel.js');
+const SettingsModel = require(__dirname + '/custom_modules/SettingsModel.js');
 
 const configModel = new ConfigModel();
+const settingsModel = new SettingsModel();
 
 const ViewController = require(__dirname + '/custom_modules/ViewController.js');
 const viewController = new ViewController();
 
 const ConnectopusController = require(__dirname + '/custom_modules/ConnectopusController.js');
-const controller = new ConnectopusController(viewController, configModel);
+const controller = new ConnectopusController(viewController, configModel, settingsModel);
 
 const stripObservers = function(obj) {
 	return JSON.parse(JSON.stringify(obj, null, 4));
