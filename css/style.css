@@ -452,7 +452,8 @@ input {
 
 .connectopus-animation {
 	position: relative;
-	margin-left: 100px;
+	margin-top: 15%;
+	margin-left: 47%;
 	opacity: .25;
 }
 .connectopus-animation .cranium {
