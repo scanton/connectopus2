@@ -163,6 +163,7 @@
 		<li v-on:click="handleViewConnection" draggable="true" v-on:drag="drag" v-on:drop="drop" v-on:dragend="dragEnd" v-on:dragover="allowDrop" v-on:dragleave="dragLeave" class="connection" v-bind:class="{'is-drag-over': isDragOver, selected: id == selectedConnection, connected: isConnected, error: isError, pending: isPending}" v-bind:data-id="id">
 			<span class="glyphicon glyphicon-globe"></span>
 			<span class="connection-name">{{name}}</span>
+			<span class="status-icon pull-right"></span>
 			<span class="quick-connection-link" v-on:click="handleConnect">
 				<span class="glyphicon glyphicon-record" title="connect"></span>
 			</span>
