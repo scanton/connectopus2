@@ -4,7 +4,7 @@
 
 	var componentName = 'title-bar';
 	var s = `
-		<div v-bind:class="theme" class="titlebar webkit-draggable">
+		<div v-bind:class="[theme, status]" class="titlebar webkit-draggable">
 			<div class="titlebar-stoplight">
 				<div class="titlebar-close" v-on:click="close">
 					<svg x="0px" y="0px" viewBox="0 0 6.4 6.4">
@@ -25,19 +25,22 @@
 						<polygon fill="#006400" points="7.9,4.5 7.9,3.4 4.5,3.4 4.5,0 3.4,0 3.4,3.4 0,3.4 0,4.5 3.4,4.5 3.4,7.9 4.5,7.9 4.5,4.5"></polygon>
 					</svg>
 				</div>
-			</div> {{title}}
+			</div> {{title}} - {{subject}}
 		</div>
 	`;
 	
 	Vue.component(componentName, {
 		created: function() {
 			viewController.registerView(componentName, this);
+			controller.addListener("general-status", this.handleGeneralStatus.bind(this));
 		},
 		template: s,
 		data: function() {
 			return {
-				title: 'Connectopus 2 - Kenetic Boogaloo',
-				theme: ''
+				title: 'Connectopus 2',
+				subject: 'Kenetic Boogaloo',
+				theme: '',
+				status: ''
 			}
 		},
 		methods: {
@@ -53,6 +56,12 @@
 			toggleFullScreen: function() {
 				var win = remote.getCurrentWindow();
 				win.setFullScreen(win.isFullScreen());
+			},
+			handleGeneralStatus: function(status) {
+				this.status= status;
+			},
+			setSubject: function(subject) {
+				this.subject = subject;
 			}
 		}
 	});

@@ -14,11 +14,11 @@ const settingsModel = new SettingsModel();
 const ViewController = require(__dirname + '/custom_modules/ViewController.js');
 const viewController = new ViewController();
 
-const ConnectionsController = require(__dirname + '/custom_modules/ConnectionsController.js');
-const connectionsController = new ConnectionsController();
+const ConnectionsModel = require(__dirname + '/custom_modules/ConnectionsModel.js');
+const connectionsModel = new ConnectionsModel();
 
 const ConnectopusController = require(__dirname + '/custom_modules/ConnectopusController.js');
-const controller = new ConnectopusController(viewController, configModel, settingsModel, connectionsController);
+const controller = new ConnectopusController(viewController, configModel, settingsModel, connectionsModel);
 
 const stripObservers = function(obj) {
 	return JSON.parse(JSON.stringify(obj, null, 4));

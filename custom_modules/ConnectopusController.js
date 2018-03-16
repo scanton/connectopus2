@@ -1,26 +1,29 @@
 module.exports = class ConnectopusController extends EventEmitter {
 
-	constructor(viewController, configModel, settingsModel) {
+	constructor(viewController, configModel, settingsModel, connectionsModel) {
 		super();
+		this.connectionsModel = connectionsModel;
 		this.viewController = viewController;
 		this.configModel = configModel;
 		this.settingsModel = settingsModel;
 		this.configModel.subscribe("data", this.handleConfigData.bind(this));
 		this.settingsModel.subscribe("settings", this.handleSettingsData.bind(this));
+		this.connectionsModel.subscribe("connections-status", this.handleConnectionsStatus.bind(this));
 		this.dragId = null;
 		this.dragFolderName = null;
 		this.isDraggingConnection = false;
 		this.isDraggingFolder = false;
 		this.lastUpdate = null;
+		this.generalStatus = 'nominal';
 	}
 
-	toggleAzureStyle() {
-		var $app = $("#main-app");
-		if($app.hasClass("azure-styles")) {
-			$app.removeClass("azure-styles");
-		} else {
-			$app.addClass("azure-styles");
-		}
+	handleError(obj) {
+		console.error(obj);
+	}
+
+	setStatus(status) {
+		this.generalStatus = status;
+		this.dispatchEvent("general-status", status);
 	}
 
 	addNewConnection(connection) {
@@ -120,7 +123,12 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	connectTo(id) {
 		var con = this.configModel.getConnection(id);
-		console.log("connectTo", id, con);
+		if(con) {
+			this._call("modal-overlay", "showLoader");
+			this.connectionsModel.addConnection(con, function() {
+				this._call("modal-overlay", "hide");
+			}.bind(this));
+		}
 	}
 	hideModal() {
 		this._call("modal-overlay", "hide");
@@ -210,6 +218,10 @@ module.exports = class ConnectopusController extends EventEmitter {
 		if(this.lastUpdate) {
 			this._call("connections-page", "setConnectionDetails", this.configModel.getConnection(this.lastUpdate));
 		}
+	}
+	handleConnectionsStatus(data) {
+		this._call("connection", "setConnectionStatus", data);
+		this._call("title-bar", "setSubject", data[0].name);
 	}
 	handleSettingsData(data) {
 		this._call("settings-side-bar", "setSettings", data);

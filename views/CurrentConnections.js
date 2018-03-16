@@ -160,11 +160,14 @@
 (function() {
 	var componentName = 'connection';
 	var s = `
-		<li v-on:click="handleViewConnection" draggable="true" v-on:drag="drag" v-on:drop="drop" v-on:dragend="dragEnd" v-on:dragover="allowDrop" v-on:dragleave="dragLeave" class="connection" v-bind:class="{'is-drag-over': isDragOver, selected: id == selectedConnection, connected: isConnected, error: isError, pending: isPending}" v-bind:data-id="id">
-			<span class="glyphicon glyphicon-globe"></span>
+		<li v-on:click="handleViewConnection" draggable="true" v-on:drag="drag" v-on:drop="drop" v-on:dragend="dragEnd" v-on:dragover="allowDrop" v-on:dragleave="dragLeave" class="connection" v-bind:class="[connectionStatus, { 'is-prime': isPrime , 'is-drag-over': isDragOver, selected: id == selectedConnection, connected: isConnected, error: isError, pending: isPending}]" v-bind:data-id="id">
+			<span v-show="!isPrime" class="glyphicon glyphicon-globe"></span>
+			<span v-show="isPrime" class="glyphicon glyphicon-star"></span>
 			<span class="connection-name">{{name}}</span>
-			<span class="status-icon pull-right"></span>
-			<span class="quick-connection-link" v-on:click="handleConnect">
+			<span v-bind:class="connectionStatus" class="status-icon pull-right">
+				<span v-show="this.connectionStatus != ''" class="highlight"></span>
+			</span>
+			<span v-show="this.liveConnection.id == null" class="quick-connection-link" v-on:click="handleConnect">
 				<span class="glyphicon glyphicon-record" title="connect"></span>
 			</span>
 		</li>
@@ -183,7 +186,10 @@
 				isConnected: false,
 				isError: false,
 				isPending: false,
-				isDragOver: false
+				isDragOver: false,
+				liveConnection: {},
+				connectionStatus: '',
+				isPrime: false
 			}
 		},
 		methods: {
@@ -236,6 +242,18 @@
 			},
 			setSelectedConnection: function(id) {
 				this.selectedConnection = id;
+			},
+			setConnectionStatus: function(data) {
+				this.isPrime = data[0].id == this.id;
+				var l = data.length;
+				while(l--) {
+					if(data[l].id == this.id) {
+						this.liveConnection = data[l];
+						this.connectionStatus = data[l].status;
+						return;
+					}
+				}
+				this.liveConnection = {};
 			}
 		}
 	});

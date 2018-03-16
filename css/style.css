@@ -399,8 +399,27 @@ input {
 .connection {
 	-webkit-transition: all 0.3s ease;
 }
+.connection.is-prime {
+	color: white;
+}
+.connection.is-prime .glyphicon {
+	background: #666;
+	border-radius: 50%;
+	padding: 3px;
+	color: black;
+	margin-left: -3px;
+}
+.connection.is-prime.connected .glyphicon {
+	background: #0F0;
+}
+.connection.is-prime.pending .glyphicon {
+	background: yellow;
+}
+.connection.is-prime.error .glyphicon {
+	background: red;
+}
 .connection.selected, .folder.selected {
-	background: black;
+	background: black !important;
 }
 .connection.is-drag-over, .folder.is-drag-over {
 	background: #222;
@@ -410,15 +429,6 @@ input {
 }
 .azure-styles .connection.is-drag-over, .azure-styles .connection.is-drag-over {
 	border-bottom: 3px solid #0080FF;
-}
-.connection.connected .glyphicon-globe {
-	color: #0F0;
-}
-.connection.pending .glyphicon-globe {
-	color: #FF0;
-}
-.connection.error .glyphicon-globe {
-	color: red;
 }
 .panel-default {
 	background: #444;
@@ -544,5 +554,35 @@ input {
     border: 2px solid #666;
     border-radius: 50%;
     margin-top: 3px;
+}
 
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+.status-icon {
+	position: relative;
+}
+.status-icon.pending {
+	background: yellow;
+	border-color: orange;
+	animation: blinker .2s linear infinite;	
+}
+.status-icon.error {
+	background: red;
+	border-color: #900;	
+}
+.status-icon.connected {
+	background: #0F0;
+	border-color: green;	
+}
+.status-icon .highlight {
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 5px;
+	height: 5px;
+	background: rgba(255, 255, 255, .75);
+	border-radius: 50%;
 }

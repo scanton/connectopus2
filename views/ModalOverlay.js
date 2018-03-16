@@ -37,12 +37,17 @@
 		},
 		methods: {
 			showLoader: function() {
-				$(".modal-overlay").find(".loading-animation").show();
+				var $modal = $(".modal-overlay");
+				$modal.find(".loading-animation").show();
+				$modal.find(".dialog-frame").hide();
+				$modal.fadeIn();
 			},
 			show: function(options) {
 				this.dialogDetails = options;
-				$(".modal-overlay").find(".loading-animation").hide();
-				$(".modal-overlay").fadeIn();
+				var $modal = $(".modal-overlay");
+				$modal.find(".loading-animation").hide();
+				$modal.find(".dialog-frame").show();
+				$modal.fadeIn();
 			},
 			hide: function() {
 				$(".modal-overlay").fadeOut();
