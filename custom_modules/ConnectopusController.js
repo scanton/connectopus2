@@ -238,6 +238,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	handleConnectionsStatus(data) {
 		this._call("connection", "setConnectionStatus", data);
 		this._call("title-bar", "setSubject", data[0].name);
+		this._call("category-side-bar", "setConnectionStatus", data);
 	}
 	handleSettingsData(data) {
 		this._call("settings-side-bar", "setSettings", data);

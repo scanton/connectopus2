@@ -10,6 +10,11 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			var conId = con.id;
 			con = this._strip(con);
 			con.status = 'pending';
+			if(this._connections.length == 0) {
+				con.isPrime = true;
+			} else {
+				con.isPrime = false;
+			}
 			this._connections.push(con);
 			this._dispatchUpdate();
 			if(con.connectionType == "Local Directory") {
@@ -18,12 +23,24 @@ module.exports = class ConnectionsModel extends AbstractModel {
 						this.setStatus(conId, 'error');
 						controller.handleError(err);
 					} else {
-						
 						if(!exists) {
 							status = 'error';
 							controller.handleError({ description: "Directory does not exist", connection: con, scope: this });
 						} else {
-							this.fs.readdir(con.directory, function(err, files) {
+							this.fs.readdir(con.directory, function(err, paths) {
+								var path = '';
+								var files = [];
+								var directories = [];
+								var l = paths.length;
+								while(l--) {
+									path = con.directory + '/' + paths[l];
+									if(this.fs.lstatSync(path).isFile()) {
+										files.unshift({path: path, md5: this.md5File.sync(path), name: paths[l], directory: con.directory});
+									} else {
+										directories.unshift({path: path, name: paths[l], directory: con.directory});
+									}
+								}
+								console.log({files: files, directories: directories})
 								if(err) {
 									this.setStatus(conId, 'error');
 									controller.handleError(err);

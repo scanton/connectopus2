@@ -17,7 +17,7 @@
 				</li>
 			</ul>
 			<ul class="active-connections">
-				<active-connection v-for="con in activeConnections" v-bind:con="con"></active-connection>
+				<active-connection v-for="(con, index) in activeConnections" v-bind:con="con" v-bind:index="index" v-bind:connections="activeConnections.length"></active-connection>
 			</ul>
 		</div>
 	`;
@@ -59,6 +59,9 @@
 			showFiles: function(e) {
 				_handle(e);
 				controller.showFilesPage();
+			},
+			setConnectionStatus: function(data) {
+				this.activeConnections = data;
 			}
 		}
 	});

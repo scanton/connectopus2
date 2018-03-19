@@ -11,7 +11,7 @@
 		</div>
 	`;
 	var setCategory = function(str, instance) {
-		if(str == instance.category) {
+		if(str == instance.category && str != 'home') {
 			instance.isContextVisible = !instance.isContextVisible;
 		} else {
 			instance.isContextVisible = str != 'home';

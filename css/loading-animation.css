@@ -15,7 +15,9 @@
 	margin-top: 20%;
 	margin-left: 47%;
 	opacity: .25;
+	/*
 	filter: blur(1.5px);
+	*/
 }
 .connectopus-animation .cranium {
 	position: absolute;
