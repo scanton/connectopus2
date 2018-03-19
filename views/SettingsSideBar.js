@@ -15,8 +15,7 @@
 								<span class="caret"></span>
 							</button>
 							<ul v-on:click="handleThemeChange" class="dropdown-menu">
-								<li><a href="#">Sunset Sherbert</a></li>
-								<li><a href="#">Azure Styles</a></li>
+								<li v-for="theme in themes"><a href="#">{{ theme }}</a></li>
 							</ul>
 						</div>
 					</div>
@@ -36,7 +35,9 @@
 		template: s,
 		data: function() {
 			return {
-				settings: {}
+				themes: [],
+				settings: {
+				}
 			}
 		},
 		methods: {
@@ -44,10 +45,16 @@
 				controller.setMaxRowsRequested($(e.target).val());
 			},
 			handleThemeChange: function(e) {
-				controller.setTheme($(e.target).text());
+				var $this = $(e.target);
+				if($this.is("a")) {
+					controller.setTheme($this.text());
+				}
 			},
 			setSettings: function(settings) {
 				this.settings = settings;
+			},
+			setThemes: function(themes) {
+				this.themes = themes;
 			}
 		}
 	});

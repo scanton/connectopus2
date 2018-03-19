@@ -16,6 +16,9 @@
 					<span class="glyphicon glyphicon-duplicate"></span>
 				</li>
 			</ul>
+			<ul class="active-connections">
+				<active-connection v-for="con in activeConnections" v-bind:con="con"></active-connection>
+			</ul>
 		</div>
 	`;
 	var _handle = function(e) {
@@ -36,7 +39,9 @@
 		},
 		template: s,
 		data: function() {
-			return {}
+			return {
+				activeConnections: []
+			}
 		},
 		methods: {
 			showHome: function(e) {

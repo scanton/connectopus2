@@ -7,9 +7,11 @@ const EventEmitter = require(__dirname + '/custom_modules/EventEmitter.js');
 const AbstractModel = require(__dirname + '/custom_modules/AbstractModel.js');
 const ConfigModel = require(__dirname + '/custom_modules/ConfigModel.js');
 const SettingsModel = require(__dirname + '/custom_modules/SettingsModel.js');
+const ThemesModel = require(__dirname + '/custom_modules/ThemesModel.js');
 
 const configModel = new ConfigModel();
 const settingsModel = new SettingsModel();
+const themesModel = new ThemesModel();
 
 const ViewController = require(__dirname + '/custom_modules/ViewController.js');
 const viewController = new ViewController();
@@ -18,7 +20,7 @@ const ConnectionsModel = require(__dirname + '/custom_modules/ConnectionsModel.j
 const connectionsModel = new ConnectionsModel();
 
 const ConnectopusController = require(__dirname + '/custom_modules/ConnectopusController.js');
-const controller = new ConnectopusController(viewController, configModel, settingsModel, connectionsModel);
+const controller = new ConnectopusController(viewController, configModel, settingsModel, connectionsModel, themesModel);
 
 const stripObservers = function(obj) {
 	return JSON.parse(JSON.stringify(obj, null, 4));

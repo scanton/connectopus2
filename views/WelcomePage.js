@@ -4,8 +4,9 @@
 		<div class="welcome-page container-fluid">
 			<div class="row">
 				<div class="col-xs-12">
+					<img src="images/application-icon.png" style="max-height: 100px; margin: 1em 1em 0 0" class="pull-left" />
 					<h1>Connectopus 2</h1>
-					<h2>Multilegged Diff, Merge & Sync</h2>
+					<h2>Diff / Merge / Sync</h2>
 					<hr />
 				</div>
 			</div>

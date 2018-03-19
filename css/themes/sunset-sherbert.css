@@ -1,0 +1,170 @@
+
+body.sunset-sherbert {
+	color: #CCC;
+	background: #333;	
+}
+.sunset-sherbert a {
+	color: #DDD;
+}
+.sunset-sherbert a:hover {
+	color: white;
+}
+.sunset-sherbert a:focus {
+	color: #FF7373;
+}
+.sunset-sherbert input {
+	border: none;
+	border-radius: 5px;
+}
+.sunset-sherbert .input-group .input-group-addon {
+	border: none;
+}
+.sunset-sherbert .modal-overlay .dialog-frame {
+	background: #444;
+	color: white;
+}
+.sunset-sherbert .btn-default {
+	outline: none;
+	border: 0 solid #777;
+	background: #666;
+	color: #CCC;
+}
+.sunset-sherbert .btn-success {
+	outline: none;
+	border: 0 solid #777;
+	background: #FF7373;
+	color: white;
+}
+.sunset-sherbert .btn-warning {
+	outline: none;
+	border: 0 solid #777;
+	background: orange;
+	color: white;
+}
+.sunset-sherbert .main-view {
+	background: linear-gradient(to bottom right, #FF7373, #000044);
+}
+.sunset-sherbert .side-bar {
+	background: #444;
+}
+.sunset-sherbert .settings-side-bar {
+	background: #333;
+}
+.sunset-sherbert .context-side-bar {
+	background: #333;
+}
+.sunset-sherbert .category-side-bar ul li:hover {
+	background: #222;
+}
+.sunset-sherbert .category-side-bar ul li.selected {
+	background: #333;
+	color: white;
+}
+.sunset-sherbert .category-side-bar ul li:hover {
+	color: white;
+}
+.sunset-sherbert .glyphicon-folder-close, .sunset-sherbert .glyphicon-folder-open {
+	color: #FF7373;
+}
+.sunset-sherbert .current-connections .connection .quick-connection-link {
+	background: #FF7373;
+	color: white;
+}
+.sunset-sherbert .connection-details, .sunset-sherbert .add-connection-page {
+	background: #444;
+}
+.sunset-sherbert .input-group .input-group-addon {
+	background: #666;
+	color: #CCC;
+}
+.sunset-sherbert .input-group input {
+	color: white;
+	background: black;
+}
+.sunset-sherbert .input-group input:read-only {
+	color: #ddd;
+	background: #333;
+}
+
+.sunset-sherbert .input-group .dropdown, .sunset-sherbert .input-group .dropdown button {
+	color: white;
+	background: #777;
+}
+.sunset-sherbert .input-group.is-not-selected .dropdown, .sunset-sherbert .input-group.is-not-selected .dropdown button {
+	background: #FF7373;
+	color: white;
+}
+.sunset-sherbert .foot-toolbar button {
+	border: 0 solid #777;
+	color: #BBB;
+	background: black;
+}
+.sunset-sherbert .foot-toolbar button .inverse-small {
+    color: #333;
+}
+.sunset-sherbert .foot-toolbar button.btn-default:hover, .sunset-sherbert .foot-toolbar button.btn-default:focus {
+	background: #AAA !important;
+	color: #333;
+}
+.sunset-sherbert .foot-toolbar button.btn-danger:hover, .sunset-sherbert .foot-toolbar button.btn-danger:focus {
+	background: #F00 !important;
+	color: white;
+}
+.sunset-sherbert .connection.is-prime {
+	color: white;
+}
+.sunset-sherbert .connection.is-prime .glyphicon {
+	background: #666;
+	color: black;
+}
+.sunset-sherbert .connection.is-prime.connected .glyphicon {
+	background: #0F0;
+}
+.sunset-sherbert .connection.is-prime.pending .glyphicon {
+	background: yellow;
+}
+.sunset-sherbert .connection.is-prime.error .glyphicon {
+	background: red;
+}
+.sunset-sherbert .connection.selected, .sunset-sherbert .folder.selected {
+	background: black !important;
+}
+.sunset-sherbert .connection.is-drag-over, .sunset-sherbert .folder.is-drag-over {
+	background: #222;
+	border-bottom: 3px solid #FF7373;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.sunset-sherbert .panel-default {
+	background: #444;
+	border-color: #222;
+}
+.sunset-sherbert .panel-default .panel-heading {
+	background: #666;
+	color: #CCC;
+	border-color: #222;
+}
+.sunset-sherbert .title-input-field {
+	width: 100%;
+	border-color: white;
+	background: #545454;
+}
+.sunset-sherbert nav {
+	background: #222;
+}
+.sunset-sherbert input {
+	color: white;
+	background: black;
+}
+.sunset-sherbert .foot-toolbar {
+	background: black;
+}
+.sunset-sherbert .category-side-bar ul li:hover {
+	color: white;
+}
+.sunset-sherbert .current-connections .connection:hover {
+	background: black;
+	color: white;
+}
+.sunset-sherbert .input-group input {
+	border: none;

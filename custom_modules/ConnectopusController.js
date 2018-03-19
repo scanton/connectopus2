@@ -1,11 +1,12 @@
 module.exports = class ConnectopusController extends EventEmitter {
 
-	constructor(viewController, configModel, settingsModel, connectionsModel) {
+	constructor(viewController, configModel, settingsModel, connectionsModel, themesModel) {
 		super();
 		this.connectionsModel = connectionsModel;
 		this.viewController = viewController;
 		this.configModel = configModel;
 		this.settingsModel = settingsModel;
+		this.themesModel = themesModel;
 		this.configModel.subscribe("data", this.handleConfigData.bind(this));
 		this.settingsModel.subscribe("settings", this.handleSettingsData.bind(this));
 		this.connectionsModel.subscribe("connections-status", this.handleConnectionsStatus.bind(this));
@@ -15,6 +16,21 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.isDraggingFolder = false;
 		this.lastUpdate = null;
 		this.generalStatus = 'nominal';
+
+		this.themesModel.loadThemes(function(themes) {
+			if(themes) {
+				this._call("settings-side-bar", "setThemes", themes);
+
+				var s = "";
+				var paths = this.themesModel.getPaths();
+				var l = paths.length;
+				while(l--) {
+					s += '<link rel="stylesheet" href="' + paths[l] + '">';
+				}
+				$("head").append(s);
+			}
+		}.bind(this));
+		
 	}
 
 	handleError(obj) {
@@ -226,7 +242,15 @@ module.exports = class ConnectopusController extends EventEmitter {
 	handleSettingsData(data) {
 		this._call("settings-side-bar", "setSettings", data);
 		if(data.theme) {
-			this._call(["title-bar", "work-area"], "setTheme", data.theme.toLowerCase().split(" ").join("-"));
+			var theme = data.theme.toLowerCase().split(" ").join("-");
+			var $main = $("body");
+			var last = $main.attr("data-last-class");
+			if(last) {
+				$main.removeClass(last);
+			}
+			$main.addClass(theme);
+			$main.attr("data-last-class", theme);
+			this._call(["title-bar", "work-area"], "setTheme", theme);
 		}
 	}
 	handleDragConnectionEnd() {
@@ -238,5 +262,8 @@ module.exports = class ConnectopusController extends EventEmitter {
 
 	_call(views, method, params) {
 		return this.viewController.callViewMethod(views, method, params);
+	}
+	_getThemes() {
+		return [];
 	}
 }

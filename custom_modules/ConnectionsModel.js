@@ -33,7 +33,6 @@ module.exports = class ConnectionsModel extends AbstractModel {
 								if(callback) {
 									callback(this._strip(this._connections));
 								}
-								console.log(files);
 							}.bind(this));
 						}
 					}

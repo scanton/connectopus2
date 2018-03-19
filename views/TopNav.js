@@ -1,7 +1,7 @@
 (function() {
 	var componentName = 'top-nav';
 	var s = `
-		<nav class="navbar navbar-inverse">
+		<nav class="top-nav navbar">
 			<span class="refresh-browser-link nav-link" title="Refresh">
 				<a href="#" v-on:click="refresh">
 					<span class="glyphicon glyphicon-refresh"></span>
@@ -27,27 +27,6 @@
 		template: s,
 		data: function() {
 			return {
-				title: 'Connectopus 2',
-				dropDown1: {
-					title: 'Connectopus 2',
-					icon: 'glyphicon glyphicon-globe',
-					childLinks: [{
-							title: 'New Project',
-							clickHandler: 'controller.createNewProject()'
-						},
-						{
-							title: 'Open Project...',
-							clickHandler: 'controller.openProject()'
-						},
-						{
-							type: 'line-break'
-						},
-						{
-							title: 'Import Project...',
-							clickHandler: 'controller.showImportProjectView()'
-						}
-					]
-				},
 				projectName: null
 			}
 		},

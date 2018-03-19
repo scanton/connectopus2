@@ -1,0 +1,169 @@
+body.inverse-raddish {
+	color: #CCC;
+	background: #333;	
+}
+.inverse-raddish a {
+	color: #DDD;
+}
+.inverse-raddish a:hover {
+	color: white;
+}
+.inverse-raddish a:focus {
+	color: #ede6d2;
+}
+.inverse-raddish input {
+	border: none;
+	border-radius: 5px;
+}
+.inverse-raddish .input-group .input-group-addon {
+	border: none;
+}
+.inverse-raddish .modal-overlay .dialog-frame {
+	background: #b13538;
+	color: white;
+}
+.inverse-raddish .btn-default {
+	outline: none;
+	border: 0 solid #777;
+	background: #666;
+	color: #CCC;
+}
+.inverse-raddish .btn-success {
+	outline: none;
+	border: 0 solid #777;
+	background: #ede6d2;
+	color: white;
+}
+.inverse-raddish .btn-warning {
+	outline: none;
+	border: 0 solid #777;
+	background: orange;
+	color: white;
+}
+.inverse-raddish .main-view {
+	background: #ede6d2;/*linear-gradient(to bottom right, #ede6d2, #c8a68b);*/
+}
+.inverse-raddish .side-bar {
+	background: #b13538;
+}
+.inverse-raddish .settings-side-bar {
+	background: #333;
+}
+.inverse-raddish .context-side-bar {
+	background: #333;
+}
+.inverse-raddish .category-side-bar ul li:hover {
+	background: #222;
+}
+.inverse-raddish .category-side-bar ul li.selected {
+	background: #333;
+	color: white;
+}
+.inverse-raddish .category-side-bar ul li:hover {
+	color: white;
+}
+.inverse-raddish .glyphicon-folder-close, .inverse-raddish .glyphicon-folder-open {
+	color: #ede6d2;
+}
+.inverse-raddish .current-connections .connection .quick-connection-link {
+	background: #ede6d2;
+	color: white;
+}
+.inverse-raddish .connection-details, .inverse-raddish .add-connection-page {
+	background: #b13538;
+}
+.inverse-raddish .input-group .input-group-addon {
+	background: #666;
+	color: #CCC;
+}
+.inverse-raddish .input-group input {
+	color: white;
+	background: black;
+}
+.inverse-raddish .input-group input:read-only {
+	color: #ddd;
+	background: #333;
+}
+
+.inverse-raddish .input-group .dropdown, .inverse-raddish .input-group .dropdown button {
+	color: white;
+	background: #777;
+}
+.inverse-raddish .input-group.is-not-selected .dropdown, .inverse-raddish .input-group.is-not-selected .dropdown button {
+	background: #ede6d2;
+	color: white;
+}
+.inverse-raddish .foot-toolbar button {
+	border: 0 solid #777;
+	color: #BBB;
+	background: black;
+}
+.inverse-raddish .foot-toolbar button .inverse-small {
+    color: #333;
+}
+.inverse-raddish .foot-toolbar button.btn-default:hover, .inverse-raddish .foot-toolbar button.btn-default:focus {
+	background: #AAA !important;
+	color: #333;
+}
+.inverse-raddish .foot-toolbar button.btn-danger:hover, .inverse-raddish .foot-toolbar button.btn-danger:focus {
+	background: #F00 !important;
+	color: white;
+}
+.inverse-raddish .connection.is-prime {
+	color: white;
+}
+.inverse-raddish .connection.is-prime .glyphicon {
+	background: #666;
+	color: black;
+}
+.inverse-raddish .connection.is-prime.connected .glyphicon {
+	background: #0F0;
+}
+.inverse-raddish .connection.is-prime.pending .glyphicon {
+	background: yellow;
+}
+.inverse-raddish .connection.is-prime.error .glyphicon {
+	background: red;
+}
+.inverse-raddish .connection.selected, .inverse-raddish .folder.selected {
+	background: black !important;
+}
+.inverse-raddish .connection.is-drag-over, .inverse-raddish .folder.is-drag-over {
+	background: #222;
+	border-bottom: 3px solid #ede6d2;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.inverse-raddish .panel-default {
+	background: #b13538;
+	border-color: #222;
+}
+.inverse-raddish .panel-default .panel-heading {
+	background: #666;
+	color: #CCC;
+	border-color: #222;
+}
+.inverse-raddish .title-input-field {
+	width: 100%;
+	border-color: white;
+	background: #545454;
+}
+.inverse-raddish nav {
+	background: #222;
+}
+.inverse-raddish input {
+	color: white;
+	background: black;
+}
+.inverse-raddish .foot-toolbar {
+	background: black;
+}
+.inverse-raddish .category-side-bar ul li:hover {
+	color: white;
+}
+.inverse-raddish .current-connections .connection:hover {
+	background: black;
+	color: white;
+}
+.inverse-raddish .input-group input {
+	border: none;
