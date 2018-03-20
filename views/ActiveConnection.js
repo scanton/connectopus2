@@ -18,7 +18,7 @@
 			index /= 2;
 		}
 		var angle = (360 * (index / (connections + 1)));
-		angle += 90;
+		angle += 120;
 		while(angle > 360) {
 			angle -= 360;
 		}
