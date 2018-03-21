@@ -6,6 +6,7 @@ module.exports = class FileModel extends AbstractModel {
 	}
 
 	setContents(id, path, data) {
+		console.log(id, path, data);
 		if(!this._fileContents[id]) {
 			this._fileContents[id] = {};
 		}

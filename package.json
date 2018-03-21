@@ -22,7 +22,7 @@
     "fs-extra": "^5.0.0",
     "md5": "^2.2.1",
     "md5-file": "^3.2.3",
-    "shelljs": "^0.8.1",
+    "remote-exec": "0.0.3",
     "ssh2-sftp-client": "^2.1.0",
     "tunnel-ssh": "^4.1.4"
   }

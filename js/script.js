@@ -1,5 +1,25 @@
 console.info = function() {};
 
+const sortArrayBy = function(arr, key, isDecending) {
+	return arr.sort(function(a, b) {
+		if(isDecending) {
+			if(a[key].toLowerCase() > b[key].toLowerCase()) {
+				return -1;
+			} else if(a[key].toLowerCase() < b[key].toLowerCase()) {
+				return 1
+			}
+			return 0;
+		} else {
+			if(a[key].toLowerCase() > b[key].toLowerCase()) {
+				return 1;
+			} else if(a[key].toLowerCase() < b[key].toLowerCase()) {
+				return -1
+			}
+			return 0;
+		}
+	});
+}
+
 const remote = require('electron').remote;
 const {dialog} = require('electron').remote;
 
