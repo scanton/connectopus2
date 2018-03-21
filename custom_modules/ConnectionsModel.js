@@ -168,21 +168,21 @@ module.exports = class ConnectionsModel extends AbstractModel {
 	}
 	_getRemoteDataSource(con, callback, errorHandler) {
 
-				/*
-				var sshCon = this.tunnel(sshData, function(err, server) {
-					if(err) {
-						this.setStatus(conId, 'error');
-						controller.handleError(err);
-					} else {
-						this.setStatus(conId, 'connected');
-						console.log(con, server, "check for DB here ----");
-						server.close();
-						this._getRemoteHash(con, "www/index.php", function(data) {
-							console.log(data);
-						});
-					}
-				}.bind(this));
-				*/
+		/*
+		var sshCon = this.tunnel(sshData, function(err, server) {
+			if(err) {
+				this.setStatus(conId, 'error');
+				controller.handleError(err);
+			} else {
+				this.setStatus(conId, 'connected');
+				console.log(con, server, "check for DB here ----");
+				server.close();
+				this._getRemoteHash(con, "www/index.php", function(data) {
+					console.log(data);
+				});
+			}
+		}.bind(this));
+		*/
 
 	}
 	_getRemoteHash(con, path, callback, errorHandler) {
