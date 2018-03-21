@@ -9,13 +9,15 @@
 			<span v-show="con.isPrime" v-bind:class="con.status" class="glyphicon glyphicon-star"></span>
 		</div>
 	`;
-	var calculateColors = function(index, connections) {
+	var calculateColors = function(index, connections, maximizeContrast) {
 		var color;
 		var halfCon = Math.ceil(connections/2);
-		if(index % 2) {
-			index = halfCon + ((index + 1) / 2);
-		} else {
-			index /= 2;
+		if(maximizeContrast) {
+			if(index % 2) {
+				index = halfCon + ((index + 1) / 2);
+			} else {
+				index /= 2;
+			}
 		}
 		var angle = (360 * (index / (connections + 1)));
 		angle += 120;
@@ -36,24 +38,29 @@
 		props: ['con', 'index', 'connections'],
 		template: s,
 		data: function() {
-			return {}
+			return {
+				maximizeContrast: controller.getSettings().maximizeContrast
+			}
 		},
 		methods: {
 			getStyle: function() {
-				var colors = calculateColors(this.index, this.connections);
+				var colors = calculateColors(this.index, this.connections, this.maximizeContrast);
 				return "background: hsla(" + colors.angle + ", 100%, 50%, .5); color: " + colors.color + ";";
 			},
 			getFlagStyle: function() {
-				var colors = calculateColors(this.index, this.connections);
+				var colors = calculateColors(this.index, this.connections, this.maximizeContrast);
 				return "left: -350px; background: hsl(" + colors.angle + ", 100%, 50%); color: " + colors.color + ";";
 			},
 			handleMouseOut: function(e) {
-				var colors = calculateColors(this.index, this.connections);
+				var colors = calculateColors(this.index, this.connections, this.maximizeContrast);
 				$(e.target).closest(".active-connection").find(".rollover-flag").attr("style", "left: -350px; background: hsl(" + colors.angle + ", 100%, 50%); color: " + colors.color + ";");
 			},
 			handleMouseOver: function(e) {
-				var colors = calculateColors(this.index, this.connections);
+				var colors = calculateColors(this.index, this.connections, this.maximizeContrast);
 				$(e.target).closest(".active-connection").find(".rollover-flag").attr("style", "left: 30px; background: hsl(" + colors.angle + ", 100%, 50%); color: " + colors.color + ";");
+			},
+			setMaximizeContrast: function(bool) {
+				this.maximizeContrast = bool;
 			}
 		}
 	});

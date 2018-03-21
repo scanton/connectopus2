@@ -1,15 +1,17 @@
 module.exports = class ConnectopusController extends EventEmitter {
 
-	constructor(viewController, configModel, settingsModel, connectionsModel, themesModel) {
+	constructor(viewController, configModel, settingsModel, connectionsModel, themesModel, fileModel) {
 		super();
 		this.connectionsModel = connectionsModel;
 		this.viewController = viewController;
 		this.configModel = configModel;
 		this.settingsModel = settingsModel;
 		this.themesModel = themesModel;
+		this.fileModel = fileModel;
 		this.configModel.subscribe("data", this.handleConfigData.bind(this));
 		this.settingsModel.subscribe("settings", this.handleSettingsData.bind(this));
 		this.connectionsModel.subscribe("connections-status", this.handleConnectionsStatus.bind(this));
+		this.fileModel.subscribe("data-update", this.handleFileModelUpdate.bind(this));
 		this.dragId = null;
 		this.dragFolderName = null;
 		this.isDraggingConnection = false;
@@ -146,6 +148,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 			}.bind(this));
 		}
 	}
+	getSettings() {
+		return this.settingsModel.getSettings();
+	}
 	hideModal() {
 		this._call("modal-overlay", "hide");
 	}
@@ -200,6 +205,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 			this.settingsModel.setMaxRowsRequested(num);
 		}
 	}
+	setMaximizeContrast(bool) {
+		this.settingsModel.setMaximizeContrast(bool);
+	}
 	setTheme(name) {
 		if(name) {
 			this.settingsModel.setTheme(name);
@@ -242,6 +250,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	handleSettingsData(data) {
 		this._call("settings-side-bar", "setSettings", data);
+		this._call("active-connection", "setMaximizeContrast", data.maximizeContrast);
 		if(data.theme) {
 			var theme = data.theme.toLowerCase().split(" ").join("-");
 			var $main = $("body");
@@ -259,6 +268,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	handleDragFolderEnd() {
 		this.isDraggingFolder = false;
+	}
+	handleFileModelUpdate(data) {
+		console.log(data);
 	}
 
 	_call(views, method, params) {

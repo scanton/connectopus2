@@ -16,11 +16,14 @@
   "bugs": {
     "url": "https://github.com/scanton/connectopus2/issues"
   },
-  "homepage": "https://github.com/scanton/connectopus2#readme",
+  "homepage": "http://connectopus.org",
   "dependencies": {
     "electron-prebuilt": "^1.4.13",
     "fs-extra": "^5.0.0",
     "md5": "^2.2.1",
-    "md5-file": "^3.2.3"
+    "md5-file": "^3.2.3",
+    "shelljs": "^0.8.1",
+    "ssh2-sftp-client": "^2.1.0",
+    "tunnel-ssh": "^4.1.4"
   }
 }

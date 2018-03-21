@@ -23,6 +23,11 @@
 						<span class="input-group-addon">Max DB Rows</span>
 						<input v-on:change="handleMaxRowsChange" type="number" v-bind:value="settings.maxRowsRequested" />
 					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Maximize Contrast</span>
+						<button v-show="settings.maximizeContrast" class="btn btn-default" v-on:click="handleDeactiveMaxContrast">ON</button>
+						<button v-show="!settings.maximizeContrast" class="btn btn-default" v-on:click="handleActiveMaxContrast">OFF</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -33,6 +38,7 @@
 			viewController.registerView(componentName, this);
 		},
 		template: s,
+		props: ['maximizeContrast'],
 		data: function() {
 			return {
 				themes: [],
@@ -41,6 +47,14 @@
 			}
 		},
 		methods: {
+			handleActiveMaxContrast: function(e) {
+				e.preventDefault();
+				controller.setMaximizeContrast(true);
+			},
+			handleDeactiveMaxContrast: function(e) {
+				e.preventDefault();
+				controller.setMaximizeContrast(false);
+			},
 			handleMaxRowsChange: function(e) {
 				controller.setMaxRowsRequested($(e.target).val());
 			},

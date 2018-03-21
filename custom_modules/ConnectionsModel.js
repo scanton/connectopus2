@@ -1,8 +1,12 @@
 module.exports = class ConnectionsModel extends AbstractModel {
 
-	constructor() {
+	constructor(fileModel) {
 		super();
 		this._connections = [];
+		this.fileModel = fileModel;
+		this.tunnel = require('tunnel-ssh');
+		let Ssh2SftpClient = require('ssh2-sftp-client');
+		this.sftp = new Ssh2SftpClient();
 	}
 
 	addConnection(con, callback) {
@@ -34,13 +38,14 @@ module.exports = class ConnectionsModel extends AbstractModel {
 								var l = paths.length;
 								while(l--) {
 									path = con.directory + '/' + paths[l];
-									if(this.fs.lstatSync(path).isFile()) {
-										files.unshift({path: path, md5: this.md5File.sync(path), name: paths[l], directory: con.directory});
-									} else {
+									var stat = this.fs.lstatSync(path);
+									if(stat.isFile()) {
+										files.unshift({path: path, md5: this.md5File.sync(path), name: paths[l], directory: con.directory, size: stat.size});
+									} else if(stat.isDirectory()) {
 										directories.unshift({path: path, name: paths[l], directory: con.directory});
 									}
 								}
-								console.log({files: files, directories: directories})
+								this.fileModel.setContents(con.id, con.directory,{files: files, directories: directories});
 								if(err) {
 									this.setStatus(conId, 'error');
 									controller.handleError(err);
@@ -55,7 +60,24 @@ module.exports = class ConnectionsModel extends AbstractModel {
 					}
 				}.bind(this));
 			} else if(con.connectionType == "Remote (SFTP)") {
-				this.setStatus(conId, 'connected');
+				var sshData = {
+					host: con.host,
+					port: con.port,
+					username: con.username,
+					password: con.password,
+					dstHost: 'localhost',
+					dstPort: 3306
+				}
+				var sshCon = this.tunnel(sshData, function(err, server) {
+					if(err) {
+						this.setStatus(conId, 'error');
+						controller.handleError(err);
+					} else {
+						this.setStatus(conId, 'connected');
+						console.log(con, server, "check for DB here ----");
+						server.close();
+					}
+				}.bind(this));
 				if(callback) {
 					callback(this._strip(this._connections));
 				}

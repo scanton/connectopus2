@@ -86,7 +86,7 @@ body.sunset-sherbert {
 	background: #333;
 }
 
-.sunset-sherbert .input-group .dropdown, .sunset-sherbert .input-group .dropdown button {
+.sunset-sherbert .input-group .dropdown, .sunset-sherbert .input-group .dropdown button, .sunset-sherbert .input-group button {
 	color: white;
 	background: #777;
 }

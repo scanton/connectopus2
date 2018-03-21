@@ -30,6 +30,10 @@ module.exports = class SettingsModel extends AbstractModel {
 		}
 		this._saveSettings();
 	}
+	setMaximizeContrast(bool) {
+		this._settings.maximizeContrast = bool;
+		this._saveSettings();
+	}
 
 	_saveSettings() {
 		this.fs.outputJson('./working_files/settings.json', this._strip(this._settings), { spaces: '\t' }, function(err) {

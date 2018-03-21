@@ -253,7 +253,7 @@ input {
 	padding: 3px;
 	text-align: center;
 }
-.input-group .dropdown, .input-group .dropdown button {
+.input-group .dropdown, .input-group .dropdown button, .input-group button {
 	width: 100%;
 	border-bottom-left-radius: 0;
 	border-top-left-radius: 0;

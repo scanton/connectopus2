@@ -8,19 +8,22 @@ const AbstractModel = require(__dirname + '/custom_modules/AbstractModel.js');
 const ConfigModel = require(__dirname + '/custom_modules/ConfigModel.js');
 const SettingsModel = require(__dirname + '/custom_modules/SettingsModel.js');
 const ThemesModel = require(__dirname + '/custom_modules/ThemesModel.js');
+const FileModel = require(__dirname + '/custom_modules/FileModel.js');
 
 const configModel = new ConfigModel();
 const settingsModel = new SettingsModel();
 const themesModel = new ThemesModel();
 
+
 const ViewController = require(__dirname + '/custom_modules/ViewController.js');
 const viewController = new ViewController();
 
+const fileModel = new FileModel();
 const ConnectionsModel = require(__dirname + '/custom_modules/ConnectionsModel.js');
-const connectionsModel = new ConnectionsModel();
+const connectionsModel = new ConnectionsModel(fileModel);
 
 const ConnectopusController = require(__dirname + '/custom_modules/ConnectopusController.js');
-const controller = new ConnectopusController(viewController, configModel, settingsModel, connectionsModel, themesModel);
+const controller = new ConnectopusController(viewController, configModel, settingsModel, connectionsModel, themesModel, fileModel);
 
 const stripObservers = function(obj) {
 	return JSON.parse(JSON.stringify(obj, null, 4));
