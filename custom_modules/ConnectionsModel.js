@@ -136,9 +136,9 @@ module.exports = class ConnectionsModel extends AbstractModel {
 						var l = paths.length;
 						while(l--) {
 							fullPath = path + '/' + paths[l];
-							var stat = this.fs.lstatSync(path);
+							var stat = this.fs.lstatSync(fullPath);
 							if(stat.isFile()) {
-								files.unshift({path: path, md5: this.md5File.sync(path), name: paths[l], directory: path, size: stat.size});
+								files.unshift({path: fullPath, md5: this.md5File.sync(fullPath), name: paths[l], directory: path, size: stat.size});
 							} else if(stat.isDirectory()) {
 								directories.unshift({path: path, name: paths[l], directory: path});
 							}
@@ -167,7 +167,7 @@ module.exports = class ConnectionsModel extends AbstractModel {
 
 	}
 	_getRemoteDataSource(con, callback, errorHandler) {
-		
+
 				/*
 				var sshCon = this.tunnel(sshData, function(err, server) {
 					if(err) {
