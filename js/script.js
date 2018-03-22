@@ -1,6 +1,7 @@
 console.info = function() {};
 
-const sortArrayBy = function(arr, key, isDecending) {
+const utils = {};
+utils.sortArrayBy = function(arr, key, isDecending) {
 	return arr.sort(function(a, b) {
 		if(isDecending) {
 			if(a[key].toLowerCase() > b[key].toLowerCase()) {
@@ -23,33 +24,33 @@ const sortArrayBy = function(arr, key, isDecending) {
 const remote = require('electron').remote;
 const {dialog} = require('electron').remote;
 
-const EventEmitter = require(__dirname + '/custom_modules/EventEmitter.js');
-const AbstractModel = require(__dirname + '/custom_modules/AbstractModel.js');
-const ConfigModel = require(__dirname + '/custom_modules/ConfigModel.js');
-const SettingsModel = require(__dirname + '/custom_modules/SettingsModel.js');
-const ThemesModel = require(__dirname + '/custom_modules/ThemesModel.js');
-const FileModel = require(__dirname + '/custom_modules/FileModel.js');
+const EventEmitter = require(__dirname + '/custom_modules/utils/EventEmitter.js');
+const AbstractModel = require(__dirname + '/custom_modules/abstracts/AbstractModel.js');
+const ConfigModel = require(__dirname + '/custom_modules/models/ConfigModel.js');
+const SettingsModel = require(__dirname + '/custom_modules/models/SettingsModel.js');
+const ThemesModel = require(__dirname + '/custom_modules/models/ThemesModel.js');
+const FileModel = require(__dirname + '/custom_modules/models/FileModel.js');
 
 const configModel = new ConfigModel();
 const settingsModel = new SettingsModel();
 const themesModel = new ThemesModel();
 
 
-const ViewController = require(__dirname + '/custom_modules/ViewController.js');
+const ViewController = require(__dirname + '/custom_modules/controllers/ViewController.js');
 const viewController = new ViewController();
 
 const fileModel = new FileModel();
-const ConnectionsModel = require(__dirname + '/custom_modules/ConnectionsModel.js');
+const ConnectionsModel = require(__dirname + '/custom_modules/models/ConnectionsModel.js');
 const connectionsModel = new ConnectionsModel(fileModel);
 
-const ConnectopusController = require(__dirname + '/custom_modules/ConnectopusController.js');
+const ConnectopusController = require(__dirname + '/custom_modules/controllers/ConnectopusController.js');
 const controller = new ConnectopusController(viewController, configModel, settingsModel, connectionsModel, themesModel, fileModel);
 
 const stripObservers = function(obj) {
 	return JSON.parse(JSON.stringify(obj, null, 4));
 }
 
-require('./custom_modules/enableContextMenu.js')();
+require('./custom_modules/utils/enableContextMenu.js')();
 
 $(window).resize(function() {
 	let wHeight = $(window).height();

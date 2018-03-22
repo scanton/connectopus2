@@ -10,8 +10,4 @@ module.exports = class AbstractModel extends EventEmitter {
 	subscribe(event, callback) {
 		this.addListener(event, callback);
 	}
-	
-	_strip(obj) {
-		return JSON.parse(JSON.stringify(obj));
-	}
 }

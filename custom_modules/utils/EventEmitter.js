@@ -20,4 +20,8 @@ module.exports = class EventEmitter {
 			}
 		}
 	}
+	
+	_strip(obj) {
+		return JSON.parse(JSON.stringify(obj));
+	}
 }
