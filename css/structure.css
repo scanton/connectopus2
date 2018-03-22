@@ -1,3 +1,9 @@
+h1.word-connectopus {
+	font-weight: 200;
+}
+h1.word-connectopus strong {
+	font-weight: 500;
+}
 body {
 	overflow: hidden;
 }
