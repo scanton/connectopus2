@@ -36,6 +36,12 @@
 			}
 		},
 		methods: {
+			showOverlay: function() {
+				var $modal = $(".modal-overlay");
+				$modal.find(".loading-animation").hide();
+				$modal.find(".dialog-frame").hide();
+				$modal.fadeIn("fast");
+			},
 			showLoader: function() {
 				var $modal = $(".modal-overlay");
 				$modal.find(".loading-animation").show();

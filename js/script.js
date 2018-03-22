@@ -35,7 +35,6 @@ const configModel = new ConfigModel();
 const settingsModel = new SettingsModel();
 const themesModel = new ThemesModel();
 
-
 const ViewController = require(__dirname + '/custom_modules/controllers/ViewController.js');
 const viewController = new ViewController();
 

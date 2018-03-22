@@ -139,7 +139,7 @@ h3 {
 	font-size: 16pt;
 	padding: 12px;
 }
-.category-side-bar ul li:hover {
+.category-side-bar ul.categories li:hover {
 	cursor: pointer;
 }
 .footer-bar {
@@ -323,7 +323,22 @@ input {
 	margin: 0;
 }
 .active-connections .active-connection {
+	position: relative;
 	width: 50px;
+}
+.active-connections .active-connection .glyphicon {
+    z-index: 1;
+}
+.active-connections .active-connection .glyphicon-star {
+	z-index: 2;
+}
+.active-connections .active-connection .glyphicon-arrow-down {
+	position: absolute;
+    left: 14px;
+    top: 33px;
+    color: #0F0;
+    font-size: 14pt;
+    text-shadow: 2px 2px green;
 }
 .active-connections .status-icon {
 	width: 25px;
@@ -342,10 +357,11 @@ input {
 .active-connection {
 	position: relative;
 }
-.active-connection:hover {
-	cursor: pointer;
+.active-connections.mouse-is-over .rollover-flag {
+	left: 30px !important;
 }
 .active-connection .rollover-flag {
+	z-index: 1;
 	color: black;
 	-webkit-transition: all 0.3s ease;
 	white-space: nowrap;
@@ -406,6 +422,9 @@ input {
 	height: 5px;
 	background: rgba(255, 255, 255, .75);
 	border-radius: 50%;
+}
+.active-connection .status-icon {
+	z-index: 2;
 }
 .active-connection .status-icon .highlight {
 	top: 3px;

@@ -2,11 +2,12 @@
 	var componentName = 'active-connection';
 	var s = `
 		<div v-bind:style="getStyle()" v-on:mouseover="handleMouseOver" v-on:mouseout="handleMouseOut" v-bind:class="[con.status, {'is-prime': con.isPrime}]" class="active-connection">
-			<div style="left: -350px" class="rollover-flag">{{con.name}}</div>
+			<div v-bind:style="getFlagStyle()" class="rollover-flag">{{con.name}}</div>
 			<div v-show="!con.isPrime" v-bind:class="con.status" class="status-icon">
 				<span class="highlight"></span>
 			</div>
 			<span v-show="con.isPrime" v-bind:class="con.status" class="glyphicon glyphicon-star"></span>
+			<span v-show="index != connections - 1" class="glyphicon glyphicon-arrow-down"></span>
 		</div>
 	`;
 	var calculateColors = function(index, connections, maximizeContrast) {

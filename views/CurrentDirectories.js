@@ -1,10 +1,10 @@
 (function() {
-	var componentName = 'data-page';
+	var componentName = 'current-directories';
 	var s = `
-		<div class="data-page container-fluid">
+		<div class="current-directories container-fluid scroll-overflow">
 			<div class="row">
 				<div class="col-xs-12">
-					
+					<h2>Directories</h2>
 				</div>
 			</div>
 		</div>

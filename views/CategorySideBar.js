@@ -2,7 +2,7 @@
 	var componentName = 'category-side-bar';
 	var s = `
 		<div class="category-side-bar side-bar">
-			<ul>
+			<ul class="categories">
 				<li class="selected" title="Home" v-on:click="showHome">
 					<span class="glyphicon glyphicon-home"></span>
 				</li>
@@ -16,7 +16,8 @@
 					<span class="glyphicon glyphicon-duplicate"></span>
 				</li>
 			</ul>
-			<ul class="active-connections">
+			<div style="text-align: center; cursor: default;" v-on:mouseover="handleShowAllLables" v-on:mouseout="handleHideAllLabels" v-show="activeConnections.length">Active</div>
+			<ul class="active-connections" v-bind:class="{ 'mouse-is-over': showAllLabels }">
 				<active-connection v-for="(con, index) in activeConnections" v-bind:con="con" v-bind:index="index" v-bind:connections="activeConnections.length"></active-connection>
 			</ul>
 		</div>
@@ -40,7 +41,8 @@
 		template: s,
 		data: function() {
 			return {
-				activeConnections: []
+				activeConnections: [],
+				showAllLabels: false
 			}
 		},
 		methods: {
@@ -59,6 +61,16 @@
 			showFiles: function(e) {
 				_handle(e);
 				controller.showFilesPage();
+			},
+			handleShowAllLables: function(e) {
+				e.preventDefault();
+				this.showAllLabels = true;
+				controller.handleShowAllLabels();
+			},
+			handleHideAllLabels: function(e) {
+				e.preventDefault();
+				this.showAllLabels = false;
+				controller.handleHideAllLabels();
 			},
 			setConnectionStatus: function(data) {
 				this.activeConnections = data;

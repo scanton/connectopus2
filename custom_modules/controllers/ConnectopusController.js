@@ -32,7 +32,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 				$("head").append(s);
 			}
 		}.bind(this));
-		
 	}
 
 	handleError(obj) {
@@ -235,7 +234,12 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call(["work-area", "main-view"], "showFiles");
 		this._call("context-side-bar", "setContext", "files");
 	}
-
+	handleShowAllLabels() {
+		this._call("modal-overlay", "showOverlay");
+	}
+	handleHideAllLabels() {
+		this._call("modal-overlay", "hide");
+	}
 	handleConfigData(data) {
 		this._call("current-connections", "setFolders", data.folders);
 		this._call("current-connections", "setConnections", data.servers);

@@ -30,7 +30,8 @@ module.exports = class ConnectionsModel extends AbstractModel {
 					}
 				}.bind(this));
 			} else if(con.connectionType == "Remote (SFTP)") {
-				this._getRemoteDirectory(con, null, function(data) {
+				this._getRemoteDirectory(con, "", function(data) {
+					data.id = con.id;
 					console.log(data);
 					if(callback) {
 						callback(data);
@@ -103,7 +104,7 @@ module.exports = class ConnectionsModel extends AbstractModel {
 								directories.unshift({path: path, name: paths[l], directory: path});
 							}
 						}
-						this.fileModel.setContents(con.id, path, {files: files, directories: directories});
+						this.fileModel.setContents(con, path.split(con.directory).join(""), {files: files, directories: directories});
 						if(err) {
 							this.setStatus(con.id, 'error');
 							controller.handleError(err);
@@ -165,7 +166,8 @@ module.exports = class ConnectionsModel extends AbstractModel {
 					files: utils.sortArrayBy(files, "name"), 
 					directories: utils.sortArrayBy(directories, "name"), 
 					links: utils.sortArrayBy(links, "name"), 
-					other: utils.sortArrayBy(other, "name")
+					other: utils.sortArrayBy(other, "name"),
+					path: path
 				});
 			}
 		}).catch((err) => {

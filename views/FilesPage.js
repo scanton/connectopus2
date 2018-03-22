@@ -4,7 +4,7 @@
 		<div class="files-page container-fluid">
 			<div class="row">
 				<div class="col-xs-12">
-					<h1>Files</h1>
+					
 					
 				</div>
 			</div>

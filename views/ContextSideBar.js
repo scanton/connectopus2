@@ -2,9 +2,14 @@
 	var componentName = 'context-side-bar';
 	var s = `
 		<div class="context-side-bar side-bar">
+			<div v-show="context == 'data'" class="context context-tables">
+				<current-tables></current-tables>
+			</div>
+			<div v-show="context == 'files'" class="context context-directories">
+				<current-directories></current-directories>
+			</div>
 			<div v-show="context == 'connections'" class="context context-connections">
 				<current-connections></current-connections>
-				
 				<div class="foot-toolbar">
 					<button v-show="selectedConnection" v-on:click="handleDeleteConnection" class="btn btn-danger" title="Delete Connection">
 						<span class="glyphicon glyphicon-trash"></span>

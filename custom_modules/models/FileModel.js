@@ -5,12 +5,13 @@ module.exports = class FileModel extends AbstractModel {
 		this._fileContents = {};
 	}
 
-	setContents(id, path, data) {
+	setContents(con, path, data) {
+		var id = con.id;
 		if(!this._fileContents[id]) {
 			this._fileContents[id] = {};
 		}
 		this._fileContents[id][path] = data;
-		this.dispatchEvent("data-update", this._strip({id: id, path: path, data: data}));
+		this.dispatchEvent("data-update", this._strip({con: con, id: id, path: path, files: data.files, directories: data.directories}));
 	}
 	getContents(id, path) {
 		if(this._fileContents[id] && this._fileContents[id][path]) {
