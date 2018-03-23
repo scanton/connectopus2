@@ -1,10 +1,13 @@
 (function() {
 	var componentName = 'current-directories';
 	var s = `
-		<div class="current-directories container-fluid scroll-overflow">
+		<div class="current-directories container-fluid">
 			<div class="row">
 				<div class="col-xs-12">
 					<h2>Directories</h2>
+					<ul class="directories">
+						<directory v-for="directory in directories" v-bind:directory="directory"></directory>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -16,8 +19,29 @@
 		},
 		template: s,
 		data: function() {
-			return {}
+			return {
+				connections: [],
+				directories: [],
+				path: ''
+			}
 		},
-		methods: {}
+		methods: {
+			handleFileModelUpdate: function() {
+				this.directories = controller.getDirectories(this.connections, this.path);
+			},
+			setConnections: function(data) {
+				var a = [];
+				var l = data.length;
+				while(l--) {
+					a.unshift(data[l].id);
+				}
+				this.connections = a;
+				this.directories = controller.getDirectories(this.connections, this.path);
+			},
+			setPath: function(path) {
+				this.path = path;
+				this.directories = controller.getDirectories(this.connections, this.path);
+			}
+		}
 	});
 })();

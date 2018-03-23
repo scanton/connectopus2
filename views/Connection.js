@@ -9,7 +9,7 @@
 				<span v-show="this.connectionStatus != ''" class="highlight"></span>
 			</span>
 			<span v-show="this.liveConnection.id == null" class="quick-connection-link" v-on:click="handleConnect">
-				<span class="glyphicon glyphicon-record" title="connect"></span>
+				Connect <span class="glyphicon glyphicon-record" title="connect"></span>
 			</span>
 		</li>
 	`;

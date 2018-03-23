@@ -1,8 +1,8 @@
 (function() {
 	var componentName = 'current-connections';
 	var s = `
-		<div class="current-connections container-fluid scroll-overflow">
-			<div class="row ">
+		<div class="current-connections container-fluid">
+			<div class="row">
 				<div class="col-xs-12">
 					<h2>Connections</h2>
 					<ul class="folders">

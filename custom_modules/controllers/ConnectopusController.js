@@ -8,6 +8,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.settingsModel = settingsModel;
 		this.themesModel = themesModel;
 		this.fileModel = fileModel;
+		this.currentFilePath = "";
 		this.configModel.subscribe("data", this.handleConfigData.bind(this));
 		this.settingsModel.subscribe("settings", this.handleSettingsData.bind(this));
 		this.connectionsModel.subscribe("connections-status", this.handleConnectionsStatus.bind(this));
@@ -36,6 +37,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 
 	handleError(obj) {
 		console.error(obj);
+		this.hideModal();
 	}
 
 	setStatus(status) {
@@ -147,6 +149,14 @@ module.exports = class ConnectopusController extends EventEmitter {
 			}.bind(this));
 		}
 	}
+	getDirectories(connections, path) {
+		var a = [];
+		var l = connections.length;
+		while(l--) {
+			this._addDirectories(a, path, this.fileModel.getContents(connections[l], path));
+		}
+		return utils.sortArrayBy(a, "name");
+	}
 	getSettings() {
 		return this.settingsModel.getSettings();
 	}
@@ -198,6 +208,10 @@ module.exports = class ConnectopusController extends EventEmitter {
 		if(name != null) {
 			this._call(["connection", "context-side-bar"], "setSelectedConnection", null);
 		}
+	}
+	setFilePath(path) {
+		this.currentFilePath = path;
+		this._call("current-directories", "setPath", path);
 	}
 	setMaxRowsRequested(num) {
 		if(num) {
@@ -251,6 +265,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call("connection", "setConnectionStatus", data);
 		this._call("title-bar", "setSubject", data[0].name);
 		this._call("category-side-bar", "setConnectionStatus", data);
+		this._call("current-directories", "setConnections", data);
 	}
 	handleSettingsData(data) {
 		this._call("settings-side-bar", "setSettings", data);
@@ -274,9 +289,32 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.isDraggingFolder = false;
 	}
 	handleFileModelUpdate(data) {
-		console.log(data);
+		this._call("current-directories", "handleFileModelUpdate");
 	}
 
+	_addDirectories(arr, path, data) {
+		if(data && data.directories) {
+			var l = data.directories.length;
+			var d, delimiter;
+			while(l--) {
+				d = data.directories[l];
+				if(!this._hasDirectory(arr, d.name)) {
+					delimiter = path.length ? '/' : '';
+					arr.push({name: d.name, path: path + delimiter + d.name});
+				}
+			}
+		}
+		return arr;
+	}
+	_hasDirectory(arr, name) {
+		var l = arr.length;
+		while(l--) {
+			if(arr[l].name == name) {
+				return true;
+			}
+		}
+		return false;
+	}
 	_call(views, method, params) {
 		return this.viewController.callViewMethod(views, method, params);
 	}

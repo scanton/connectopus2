@@ -6,8 +6,8 @@
 			<div v-show="!con.isPrime" v-bind:class="con.status" class="status-icon">
 				<span class="highlight"></span>
 			</div>
-			<span v-show="con.isPrime" v-bind:class="con.status" class="glyphicon glyphicon-star"></span>
-			<span v-show="index != connections - 1" class="glyphicon glyphicon-arrow-down"></span>
+			<span v-show="con.isPrime" v-bind:class="con.status" class="glyphicon glyphicon-star"><span class="highlight"></span></span>
+			<span v-show="index != connections - 1" v-bind:style="getArrowStyle()" class="glyphicon glyphicon-triangle-bottom"></span>
 		</div>
 	`;
 	var calculateColors = function(index, connections, maximizeContrast) {
@@ -40,25 +40,32 @@
 		template: s,
 		data: function() {
 			return {
-				maximizeContrast: controller.getSettings().maximizeContrast
+				maximizeContrast: controller.getSettings().maximizeContrast,
+				hue: 0,
+				lumenance: "67%",
+				saturation: "40%"
 			}
 		},
 		methods: {
 			getStyle: function() {
 				var colors = calculateColors(this.index, this.connections, this.maximizeContrast);
-				return "background: hsla(" + colors.angle + ", 100%, 50%, .5); color: " + colors.color + ";";
+				return "background: hsl(" + colors.angle + ", " + this.lumenance + ", " + this.saturation + "); color: " + colors.color + ";";
+			},
+			getArrowStyle: function() {
+				var colors = calculateColors(this.index, this.connections, this.maximizeContrast);
+				return "color: hsl(" + colors.angle + ", " + this.lumenance + ", " + this.saturation + ");";
 			},
 			getFlagStyle: function() {
 				var colors = calculateColors(this.index, this.connections, this.maximizeContrast);
-				return "left: -350px; background: hsl(" + colors.angle + ", 100%, 50%); color: " + colors.color + ";";
+				return "left: -350px; background: hsl(" + colors.angle + ", " + this.lumenance + ", " + this.saturation + "); color: " + colors.color + ";";
 			},
 			handleMouseOut: function(e) {
 				var colors = calculateColors(this.index, this.connections, this.maximizeContrast);
-				$(e.target).closest(".active-connection").find(".rollover-flag").attr("style", "left: -350px; background: hsl(" + colors.angle + ", 100%, 50%); color: " + colors.color + ";");
+				$(e.target).closest(".active-connection").find(".rollover-flag").attr("style", "left: -350px; background: hsl(" + colors.angle + ", " + this.lumenance + ", " + this.saturation + "); color: " + colors.color + ";");
 			},
 			handleMouseOver: function(e) {
 				var colors = calculateColors(this.index, this.connections, this.maximizeContrast);
-				$(e.target).closest(".active-connection").find(".rollover-flag").attr("style", "left: 30px; background: hsl(" + colors.angle + ", 100%, 50%); color: " + colors.color + ";");
+				$(e.target).closest(".active-connection").find(".rollover-flag").attr("style", "left: 30px; background: hsl(" + colors.angle + ", " + this.lumenance + ", " + this.saturation + "); color: " + colors.color + ";");
 			},
 			setMaximizeContrast: function(bool) {
 				this.maximizeContrast = bool;

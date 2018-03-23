@@ -25,7 +25,7 @@
 						<polygon fill="#006400" points="7.9,4.5 7.9,3.4 4.5,3.4 4.5,0 3.4,0 3.4,3.4 0,3.4 0,4.5 3.4,4.5 3.4,7.9 4.5,7.9 4.5,4.5"></polygon>
 					</svg>
 				</div>
-			</div> {{title}} - {{subject}}
+			</div> {{title}} - <span v-show="!isDefaultSubject" class="glyphicon glyphicon-star"></span> {{subject}} <span v-show="!isDefaultSubject" class="glyphicon glyphicon-star"></span>
 		</div>
 	`;
 	
@@ -40,7 +40,8 @@
 				title: 'Connectopus 2',
 				subject: 'Kenetic Boogaloo',
 				theme: '',
-				status: ''
+				status: '',
+				isDefaultSubject: true
 			}
 		},
 		methods: {
@@ -61,6 +62,7 @@
 				this.status= status;
 			},
 			setSubject: function(subject) {
+				this.isDefaultSubject = false;
 				this.subject = subject;
 			}
 		}

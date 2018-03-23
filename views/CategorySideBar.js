@@ -9,11 +9,11 @@
 				<li title="Connections" v-on:click="showConnections">
 					<span class="glyphicon glyphicon-globe"></span>
 				</li>
-				<li title="Data" v-on:click="showData">
-					<span class="glyphicon glyphicon-hdd"></span>
-				</li>
-				<li title="Files" v-on:click="showFiles">
+				<li v-show="activeConnections.length" title="Files" v-on:click="showFiles">
 					<span class="glyphicon glyphicon-duplicate"></span>
+				</li>
+				<li v-show="activeConnections.length" title="Data" v-on:click="showData">
+					<span class="glyphicon glyphicon-hdd"></span>
 				</li>
 			</ul>
 			<div style="text-align: center; cursor: default;" v-on:mouseover="handleShowAllLables" v-on:mouseout="handleHideAllLabels" v-show="activeConnections.length">Active</div>

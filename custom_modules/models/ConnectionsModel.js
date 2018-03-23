@@ -32,7 +32,6 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			} else if(con.connectionType == "Remote (SFTP)") {
 				this._getRemoteDirectory(con, "", function(data) {
 					data.id = con.id;
-					console.log(data);
 					if(callback) {
 						callback(data);
 					}
@@ -160,7 +159,7 @@ module.exports = class ConnectionsModel extends AbstractModel {
 				}
 			}
 			if(callback) {
-				callback({
+				var resultValue = {
 					con: con, 
 					data: data, 
 					files: utils.sortArrayBy(files, "name"), 
@@ -168,7 +167,9 @@ module.exports = class ConnectionsModel extends AbstractModel {
 					links: utils.sortArrayBy(links, "name"), 
 					other: utils.sortArrayBy(other, "name"),
 					path: path
-				});
+				};
+				this.fileModel.setContents(con, path, resultValue);
+				callback(resultValue);
 			}
 		}).catch((err) => {
 			this.setStatus(con.id, 'error');
