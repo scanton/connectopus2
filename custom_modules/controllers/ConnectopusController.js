@@ -37,7 +37,15 @@ module.exports = class ConnectopusController extends EventEmitter {
 
 	handleError(obj) {
 		console.error(obj);
-		this.hideModal();
+		this.viewController.callViewMethod("modal-overlay", "show", {
+			title: 'Error',
+			message: obj.toString(), 
+			buttons: [
+				{label: "OK", class: "btn-danger", icon: "glyphicon glyphicon-ban-circle", callback: function() {
+					this.hideModal();
+				}.bind(this)}
+			]
+		});
 	}
 
 	setStatus(status) {
