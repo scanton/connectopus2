@@ -168,3 +168,12 @@ body.sunset-sherbert {
 }
 .sunset-sherbert .input-group input {
 	border: none;
+}
+.current-directories .directory {
+	padding: 2px 2px 2px 10px;
+}
+.current-directories .directory:hover {
+	background-color: black;
+	color: white;
+	border-radius: 5px;
+}
