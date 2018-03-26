@@ -4,7 +4,6 @@ module.exports = class AbstractDataSource extends EventEmitter {
 		super();
 		this._type = type;
 		this._con = con;
-		this._data = {};
 	}
 
 	getType() {
@@ -21,11 +20,7 @@ module.exports = class AbstractDataSource extends EventEmitter {
 		this._con = con;
 		this.dispatchEvent("change", this);
 	}
-	getData() {
-		return this._strip(this._data);
-	}
-	setData(data) {
-		this._data = data;
-		this.dispatchEvent("change", this);
+	getDirectory(path, callback, errorHandler) {
+		console.log("implement get directory in child class", path);
 	}
 }

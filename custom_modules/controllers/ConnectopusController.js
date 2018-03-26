@@ -36,7 +36,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 
 	handleError(obj) {
-		console.error(obj);
 		this.viewController.callViewMethod("modal-overlay", "show", {
 			title: 'Error',
 			message: obj.toString(), 
@@ -165,6 +164,14 @@ module.exports = class ConnectopusController extends EventEmitter {
 		}
 		return utils.sortArrayBy(a, "name");
 	}
+	getFiles(connections, path) {
+		var a = [];
+		var l = connections.length;
+		while(l--) {
+			this._addFiles(a, path, this.fileModel.getContents(connections[l], path));
+		}
+		return utils.sortArrayBy(a, "name");
+	}
 	getSettings() {
 		return this.settingsModel.getSettings();
 	}
@@ -219,7 +226,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	setFilePath(path) {
 		this.currentFilePath = path;
-		this._call("current-directories", "setPath", path);
+		this._call(["current-directories", "files-page"], "setPath", path);
 	}
 	setMaxRowsRequested(num) {
 		if(num) {
@@ -273,11 +280,11 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call("connection", "setConnectionStatus", data);
 		this._call("title-bar", "setSubject", data[0].name);
 		this._call("category-side-bar", "setConnectionStatus", data);
-		this._call("current-directories", "setConnections", data);
+		this._call(["current-directories", "files-page", "file-listing"], "setConnections", data);
 	}
 	handleSettingsData(data) {
 		this._call("settings-side-bar", "setSettings", data);
-		this._call("active-connection", "setMaximizeContrast", data.maximizeContrast);
+		this._call(["active-connection", "file-listing"], "setMaximizeContrast", data.maximizeContrast);
 		if(data.theme) {
 			var theme = data.theme.toLowerCase().split(" ").join("-");
 			var $main = $("body");
@@ -297,7 +304,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.isDraggingFolder = false;
 	}
 	handleFileModelUpdate(data) {
-		this._call("current-directories", "handleFileModelUpdate");
+		this._call(["current-directories", "files-page"], "handleFileModelUpdate");
 	}
 
 	_addDirectories(arr, path, data) {
@@ -314,7 +321,30 @@ module.exports = class ConnectopusController extends EventEmitter {
 		}
 		return arr;
 	}
+	_addFiles(arr, path, data) {
+		if(data && data.files) {
+			var l = data.files.length;
+			var d, delimiter;
+			while(l--) {
+				d = data.files[l];
+				if(!this._hasFile(arr, d.name)) {
+					delimiter = path.length ? '/' : '';
+					arr.push({name: d.name, path: path + delimiter + d.name});
+				}
+			}
+		}
+		return arr;
+	}
 	_hasDirectory(arr, name) {
+		var l = arr.length;
+		while(l--) {
+			if(arr[l].name == name) {
+				return true;
+			}
+		}
+		return false;
+	}
+	_hasFile(arr, name) {
 		var l = arr.length;
 		while(l--) {
 			if(arr[l].name == name) {

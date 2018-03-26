@@ -134,7 +134,7 @@ h3 {
 	position: relative;
 	-webkit-transition: all 0.3s ease;
 	width: 50px;
-	top: 26px;
+	top: 0;
 	left: 0;
 }
 .category-side-bar ul {
@@ -478,4 +478,11 @@ ul.directories, ul.tables {
 }
 ul.directories li, ul.tables li {
 	cursor: pointer;
+}
+.files-page.container-fluid {
+	padding: 0;
+}
+.file-listing.container-fluid {
+	padding: 0;
+	float: left;
 }

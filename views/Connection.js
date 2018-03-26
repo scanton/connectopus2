@@ -74,6 +74,7 @@
 			handleConnect: function(e) {
 				e.preventDefault();
 				e.stopPropagation();
+				this.handleViewConnection(e);
 				controller.connectTo($(e.target).closest(".connection").attr("data-id"));
 			},
 			handleViewConnection: function(e) {

@@ -4,7 +4,6 @@ module.exports = class AbstractModel extends EventEmitter {
 		super();
 		this.fs = require('fs-extra');
 		this.md5 = require('md5');
-		this.md5File = require('md5-file');
 	}
 	
 	subscribe(event, callback) {

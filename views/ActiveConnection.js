@@ -10,28 +10,6 @@
 			<span v-show="index != connections - 1" v-bind:style="getArrowStyle()" class="glyphicon glyphicon-triangle-bottom"></span>
 		</div>
 	`;
-	var calculateColors = function(index, connections, maximizeContrast) {
-		var color;
-		var halfCon = Math.ceil(connections/2);
-		if(maximizeContrast) {
-			if(index % 2) {
-				index = halfCon + ((index + 1) / 2);
-			} else {
-				index /= 2;
-			}
-		}
-		var angle = (360 * (index / (connections + 1)));
-		angle += 120;
-		while(angle > 360) {
-			angle -= 360;
-		}
-		if(angle >= 210 || (angle >= 0 && angle < 40)) {
-			color = "white";
-		} else {
-			color = "black";
-		}
-		return {index: index, connections: connections, angle: angle, color: color};
-	}
 	Vue.component(componentName, {
 		created: function() {
 			viewController.registerView(componentName, this);
@@ -48,23 +26,23 @@
 		},
 		methods: {
 			getStyle: function() {
-				var colors = calculateColors(this.index, this.connections, this.maximizeContrast);
+				var colors = utils.calculateColors(this.index, this.connections, this.maximizeContrast);
 				return "background: hsl(" + colors.angle + ", " + this.lumenance + ", " + this.saturation + "); color: " + colors.color + ";";
 			},
 			getArrowStyle: function() {
-				var colors = calculateColors(this.index, this.connections, this.maximizeContrast);
+				var colors = utils.calculateColors(this.index, this.connections, this.maximizeContrast);
 				return "color: hsl(" + colors.angle + ", " + this.lumenance + ", " + this.saturation + ");";
 			},
 			getFlagStyle: function() {
-				var colors = calculateColors(this.index, this.connections, this.maximizeContrast);
+				var colors = utils.calculateColors(this.index, this.connections, this.maximizeContrast);
 				return "left: -350px; background: hsl(" + colors.angle + ", " + this.lumenance + ", " + this.saturation + "); color: " + colors.color + ";";
 			},
 			handleMouseOut: function(e) {
-				var colors = calculateColors(this.index, this.connections, this.maximizeContrast);
+				var colors = utils.calculateColors(this.index, this.connections, this.maximizeContrast);
 				$(e.target).closest(".active-connection").find(".rollover-flag").attr("style", "left: -350px; background: hsl(" + colors.angle + ", " + this.lumenance + ", " + this.saturation + "); color: " + colors.color + ";");
 			},
 			handleMouseOver: function(e) {
-				var colors = calculateColors(this.index, this.connections, this.maximizeContrast);
+				var colors = utils.calculateColors(this.index, this.connections, this.maximizeContrast);
 				$(e.target).closest(".active-connection").find(".rollover-flag").attr("style", "left: 30px; background: hsl(" + colors.angle + ", " + this.lumenance + ", " + this.saturation + "); color: " + colors.color + ";");
 			},
 			setMaximizeContrast: function(bool) {

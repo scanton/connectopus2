@@ -5,10 +5,7 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		this._connections = [];
 		this.fileModel = fileModel;
 		this.tunnel = require('tunnel-ssh');
-		let Ssh2SftpClient = require('ssh2-sftp-client');
-		this.sftp = new Ssh2SftpClient();
 		this.remote = require('remote-exec');
-		//this.shell = require('shelljs');
 	}
 
 	addConnection(con, callback) {
@@ -23,22 +20,19 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			}
 			this._connections.push(con);
 			this._dispatchUpdate();
-			if(con.connectionType == "Local Directory") {
-				this._getLocalDirectory(con, con.directory, function(data) {
+
+			var liveConnection = DataSourceFactory.createConnection(con);
+			if(liveConnection) {
+				liveConnection.getDirectory(con.directory, function(data) {
+					this.setStatus(con.id, 'connected');
+					this.fileModel.setContents(data.con, data.path, data);
 					if(callback) {
 						callback(data);
 					}
+				}.bind(this), function(err) {
+					controller.handleError(err);
+					this.setStatus(con.id, 'error');
 				}.bind(this));
-			} else if(con.connectionType == "Remote (SFTP)") {
-				this._getRemoteDirectory(con, "", function(data) {
-					data.id = con.id;
-					if(callback) {
-						callback(data);
-					}
-				});
-			} else {
-				this.setStatus(conId, 'error');
-				controller.handleError({ description: "unsupported connection type: " + con.connectionType, connection: con, scope: this });
 			}
 		}
 	}
@@ -74,107 +68,6 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			}
 		}
 		return false;
-	}
-
-	_getLocalDirectory(con, path, callback, errorHandler) {
-		this.fs.pathExists(path, function(err, exists) {
-			if(err) {
-				this.setStatus(conId, 'error');
-				controller.handleError(err);
-				if(errorHandler) {
-					errorHandler(err);
-				}
-			} else {
-				if(!exists) {
-					status = 'error';
-					controller.handleError({ description: "Directory '" + path + "' does not exist", scope: this });
-				} else {
-					this.fs.readdir(path, function(err, paths) {
-						var fullPath = '';
-						var files = [];
-						var directories = [];
-						var l = paths.length;
-						while(l--) {
-							fullPath = path + '/' + paths[l];
-							var stat = this.fs.lstatSync(fullPath);
-							if(stat.isFile()) {
-								files.unshift({path: fullPath, md5: this.md5File.sync(fullPath), name: paths[l], directory: path, size: stat.size});
-							} else if(stat.isDirectory()) {
-								directories.unshift({path: path, name: paths[l], directory: path});
-							}
-						}
-						this.fileModel.setContents(con, path.split(con.directory).join(""), {files: files, directories: directories});
-						if(err) {
-							this.setStatus(con.id, 'error');
-							controller.handleError(err);
-							if(errorHandler) {
-								errorHandler(err);
-							}
-						}
-						this.setStatus(con.id, 'connected');
-						if(callback) {
-							callback(this._strip(this._connections));
-						}
-					}.bind(this));
-				}
-			}
-		}.bind(this));
-	}
-	_getLocalDataSource(con, path, callback, errorHandler) {
-
-	}
-	_getRemoteDirectory(con, path, callback, errorHandler) {
-		var sshData = {
-			host: con.host,
-			port: con.port,
-			username: con.username,
-			password: con.password
-		}
-
-		this.sftp.connect(sshData).then(() => {
-			var root = con.root ? con.root : '.';
-			var fullPath = root;
-			if(path) {
-				fullPath = root + '/' + path;
-			}
-			return this.sftp.list(fullPath);
-		}).then((data) => {
-			this.setStatus(con.id, 'connected');
-			var l = data.length;
-			var files = [];
-			var directories = [];
-			var links = [];
-			var other = [];
-			var d;
-			while(l--) {
-				d = data[l];
-				if(d.type == "-") {
-					files.unshift(d);
-				} else if(d.type == "d") {
-					directories.unshift(d);
-				} else if(d.type == "l") {
-					links.unshift(d);
-				} else {
-					other.unshift(d);
-				}
-			}
-			if(callback) {
-				var resultValue = {
-					con: con, 
-					data: data, 
-					files: utils.sortArrayBy(files, "name"), 
-					directories: utils.sortArrayBy(directories, "name"), 
-					links: utils.sortArrayBy(links, "name"), 
-					other: utils.sortArrayBy(other, "name"),
-					path: path
-				};
-				this.fileModel.setContents(con, path, resultValue);
-				callback(resultValue);
-			}
-		}).catch((err) => {
-			this.setStatus(con.id, 'error');
-			controller.handleError(err);
-		});
 	}
 	_getRemoteDataSource(con, path, callback, errorHandler) {
 

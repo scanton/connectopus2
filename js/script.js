@@ -20,16 +20,55 @@ utils.sortArrayBy = function(arr, key, isDecending) {
 		}
 	});
 }
+utils.calculateColors = function(index, connections, maximizeContrast) {
+	var color;
+	var halfCon = Math.ceil(connections/2);
+	var adjustedIndex;
+	if(maximizeContrast) {
+		if(index % 2) {
+			adjustedIndex = (halfCon + ((index + 1) / 2)) - 1;
+		} else {
+			adjustedIndex = index / 2;
+		}
+	} else {
+		adjustedIndex = index;
+	}
+	var angle = (360 * (adjustedIndex / (connections + 1)));
+	angle += 120;
+	while(angle > 360) {
+		angle -= 360;
+	}
+	if(angle >= 190 || (angle >= 0 && angle < 40)) {
+		color = "white";
+	} else {
+		color = "black";
+	}
+	return {index: adjustedIndex, connections: connections, angle: angle, color: color};
+}
 
 const remote = require('electron').remote;
 const {dialog} = require('electron').remote;
 
 const EventEmitter = require(__dirname + '/custom_modules/utils/EventEmitter.js');
+const AbstractDataSource = require(__dirname + '/custom_modules/abstracts/AbstractDataSource.js');
 const AbstractModel = require(__dirname + '/custom_modules/abstracts/AbstractModel.js');
 const ConfigModel = require(__dirname + '/custom_modules/models/ConfigModel.js');
 const SettingsModel = require(__dirname + '/custom_modules/models/SettingsModel.js');
 const ThemesModel = require(__dirname + '/custom_modules/models/ThemesModel.js');
 const FileModel = require(__dirname + '/custom_modules/models/FileModel.js');
+
+const JSONDataSource = require(__dirname + '/custom_modules/data_sources/JSONDataSource.js');
+const LocalDirectoryDataSource = require(__dirname + '/custom_modules/data_sources/LocalDirectoryDataSource.js');
+const MySQLDataSource = require(__dirname + '/custom_modules/data_sources/MySQLDataSource.js');
+const RESTDataSource = require(__dirname + '/custom_modules/data_sources/RESTDataSource.js');
+const SFTPDataSource = require(__dirname + '/custom_modules/data_sources/SFTPDataSource.js');
+
+const DataSourceFactory = require(__dirname + '/custom_modules/factories/DataSourceFactory.js');
+DataSourceFactory.addConnectionType("JSON file", JSONDataSource);
+DataSourceFactory.addConnectionType("Local Directory", LocalDirectoryDataSource);
+DataSourceFactory.addConnectionType("MySQL", MySQLDataSource);
+DataSourceFactory.addConnectionType("REST Endpoint", RESTDataSource);
+DataSourceFactory.addConnectionType("Remote (SFTP)", SFTPDataSource);
 
 const configModel = new ConfigModel();
 const settingsModel = new SettingsModel();

@@ -36,11 +36,13 @@
 					a.unshift(data[l].id);
 				}
 				this.connections = a;
-				this.directories = controller.getDirectories(this.connections, this.path);
+				this.handleFileModelUpdate();
+				//this.directories = controller.getDirectories(this.connections, this.path);
 			},
 			setPath: function(path) {
 				this.path = path;
-				this.directories = controller.getDirectories(this.connections, this.path);
+				this.handleFileModelUpdate();
+				//this.directories = controller.getDirectories(this.connections, this.path);
 			}
 		}
 	});
