@@ -1,7 +1,9 @@
 (function() {
 	var componentName = 'directory';
 	var s = `
-		<li v-on:click="handleClick" class="directory container-fluid" v-bind:data-path="directory.path">{{directory.name}}</li>
+		<li v-on:click="handleClick" class="directory container-fluid" v-bind:data-path="directory.path">
+			<span class="glyphicon glyphicon-folder-close"></span>{{directory.name}}
+		</li>
 	`;
 	
 	Vue.component(componentName, {
