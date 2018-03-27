@@ -10,12 +10,7 @@ module.exports = class ConfigModel extends AbstractModel {
 			this._config.servers = [];
 		}
 		this._config.servers.push(this._assignConnectionId(connection));
-		this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
-			if(err) {
-				console.error(err);
-			}
-		});
-		this.dispatchEvent("data", this._strip(this._config));
+		this.saveConfig();
 	}
 	addConnectionAfter(con, id) {
 		var found = false;
@@ -42,12 +37,7 @@ module.exports = class ConfigModel extends AbstractModel {
 			}
 		}
 		if(found) {
-			this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
-				if(err) {
-					console.error(err);
-				}
-			});
-			this.dispatchEvent("data", this._strip(this._config));
+			this.saveConfig();
 		} else {
 			console.error("cannot find connection: ", id);
 		}
@@ -58,12 +48,7 @@ module.exports = class ConfigModel extends AbstractModel {
 				this._config.folders = [];
 			}
 			this._config.folders.push({name: name, servers: []});
-			this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
-				if(err) {
-					console.error(err);
-				}
-			});
-			this.dispatchEvent("data", this._strip(this._config));
+			this.saveConfig();
 		}
 	}
 	deleteConnection(id) {
@@ -84,12 +69,7 @@ module.exports = class ConfigModel extends AbstractModel {
 				deleteServer(this._config.folders[j].servers, id);
 			}
 		}
-		this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
-			if(err) {
-				console.error(err);
-			}
-		});
-		this.dispatchEvent("data", this._strip(this._config));
+		this.saveConfig();
 	}
 	deleteFolder(name) {
 		var l = this._config.folders.length;
@@ -99,12 +79,7 @@ module.exports = class ConfigModel extends AbstractModel {
 				break;
 			}
 		}
-		this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
-			if(err) {
-				console.error(err);
-			}
-		});
-		this.dispatchEvent("data", this._strip(this._config));
+		this.saveConfig();
 	}
 	loadConfig() {
 		this.fs.readJson('./working_files/config.json', function(err, data) {
@@ -125,12 +100,7 @@ module.exports = class ConfigModel extends AbstractModel {
 				if(this._config.folders[l].name == name) {
 					this.deleteConnection(conId);
 					this._config.folders[l].servers.push(con);
-					this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
-						if(err) {
-							console.error(err);
-						}
-					});
-					this.dispatchEvent("data", this._strip(this._config));
+					this.saveConfig();
 					return;
 				}
 			}
@@ -145,12 +115,7 @@ module.exports = class ConfigModel extends AbstractModel {
 				while(l--) {
 					if(this._config.folders[l].name == name) {
 						this._config.folders.splice(l + 1, 0, folder);
-						this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
-							if(err) {
-								console.error(err);
-							}
-						});
-						this.dispatchEvent("data", this._strip(this._config));
+						this.saveConfig();
 						return;
 					}
 				}
@@ -207,6 +172,14 @@ module.exports = class ConfigModel extends AbstractModel {
 			}
 		}
 	}
+	saveConfig() {
+		this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
+			if(err) {
+				console.error(err);
+			}
+		});
+		this.dispatchEvent("data", this._strip(this._config));
+	}
 	updateConnection(id, connection) {
 		var l = this._config.folders.length;
 		while(l--) {
@@ -216,12 +189,7 @@ module.exports = class ConfigModel extends AbstractModel {
 				while(l2--) {
 					if(servers[l2].id == id) {
 						servers[l2] = connection;
-						this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
-							if(err) {
-								console.error(err);
-							}
-						});
-						this.dispatchEvent("data", this._strip(this._config));
+						this.saveConfig();
 						return;
 					}
 				}
@@ -231,12 +199,7 @@ module.exports = class ConfigModel extends AbstractModel {
 		while(l--) {
 			if(this._config.servers[l].id == id) {
 				this._config.servers[l] = connection;
-				this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
-					if(err) {
-						console.error(err);
-					}
-				});
-				this.dispatchEvent("data", this._strip(this._config));
+				this.saveConfig();
 				return;
 			}
 		}

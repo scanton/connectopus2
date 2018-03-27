@@ -353,7 +353,7 @@ input {
 	width: 50px;
 }
 .active-connections .active-connection .glyphicon {
-    z-index: 1;
+    z-index: 2;
 }
 .active-connections .active-connection .glyphicon-star {
 	z-index: 2;
@@ -396,8 +396,8 @@ input {
 	position: absolute;
     display: inline-block;
     left: 25px;
-    top: 13px;
-    padding: 4px 10px 4px 1.5em;
+    top: 0;
+    padding: 16px 10px 16px 1.5em;
     font-size: 12pt;
     border-bottom-right-radius: 5px;
     border-top-right-radius: 5px;

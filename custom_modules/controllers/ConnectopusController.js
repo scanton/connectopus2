@@ -35,23 +35,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 		}.bind(this));
 	}
 
-	handleError(obj) {
-		this.viewController.callViewMethod("modal-overlay", "show", {
-			title: 'Error',
-			message: obj.toString(), 
-			buttons: [
-				{label: "OK", class: "btn-danger", icon: "glyphicon glyphicon-ban-circle", callback: function() {
-					this.hideModal();
-				}.bind(this)}
-			]
-		});
-	}
-
-	setStatus(status) {
-		this.generalStatus = status;
-		this.dispatchEvent("general-status", status);
-	}
-
 	addNewConnection(connection) {
 		var o = {};
 		if(connection.connectionType != 'select connection type') {
@@ -84,35 +67,32 @@ module.exports = class ConnectopusController extends EventEmitter {
 		}
 		this.configModel.addConnection(o);
 	}
-	updateConnection(connection) {
-		this.lastUpdate = connection.id;
-		var o ={};
-		o.id = connection.id;
-		o.name = connection.name;
-		o.connectionType = connection.connectionType;
-		o.uri = connection.uri;
-		o.host = connection['ssh-host'];
-		o.port = connection['ssh-port'];
-		o.root = connection['ssh-root-directory'];
-		o.username = connection['ssh-username'];
-		o.password = connection['ssh-password'];
-		o.directory = connection['directory-path'];
-		o.connections = [{}];
-		if(connection.databaseType != 'select database type') {
-			o.connections = [{
-				"type": connection.databaseType,
-				"database": connection["db-connection-database"],
-				"file": connection["db-connection-file"],
-				"host": connection["db-connection-host"],
-				"name": connection["db-connection-name"],
-				"password": connection["db-connection-password"],
-				"uri": connection["db-connection-uri"],
-				"rest-verb": connection["db-connection-rest-verb"],
-				"rest-args": connection["db-connection-rest-args"],
-				"username": connection["db-connection-username"]
-			}];
+	connectTo(id) {
+		var con = this.configModel.getConnection(id);
+		if(con) {
+			this._call("modal-overlay", "showLoader");
+			this.connectionsModel.addConnection(con, function() {
+				this._call("modal-overlay", "hide");
+			}.bind(this));
 		}
-		this.configModel.updateConnection(connection.id, o);
+	}
+	createConfigFolder(name) {
+		if(name) {
+			var folder = this.configModel.getFolder(name);
+			if(folder) {
+				this._call("modal-overlay", "show", {
+					title: 'Folder Already Exists',
+					message: 'You already have a folder named "' + name + '"', 
+					buttons: [
+						{label: "OK", class: "btn-success", callback: function() {
+							this.hideModal();
+						}.bind(this)}
+					]
+				});
+			} else {
+				this.configModel.createFolder(name);
+			}
+		}
 	}
 	deleteConnection(id) {
 		this.viewController.callViewMethod("modal-overlay", "show", {
@@ -147,15 +127,37 @@ module.exports = class ConnectopusController extends EventEmitter {
 			]
 		});
 	}
-	connectTo(id) {
-		var con = this.configModel.getConnection(id);
-		if(con) {
-			this._call("modal-overlay", "showLoader");
-			this.connectionsModel.addConnection(con, function() {
-				this._call("modal-overlay", "hide");
-			}.bind(this));
+	updateConnection(connection) {
+		this.lastUpdate = connection.id;
+		var o ={};
+		o.id = connection.id;
+		o.name = connection.name;
+		o.connectionType = connection.connectionType;
+		o.uri = connection.uri;
+		o.host = connection['ssh-host'];
+		o.port = connection['ssh-port'];
+		o.root = connection['ssh-root-directory'];
+		o.username = connection['ssh-username'];
+		o.password = connection['ssh-password'];
+		o.directory = connection['directory-path'];
+		o.connections = [{}];
+		if(connection.databaseType != 'select database type') {
+			o.connections = [{
+				"type": connection.databaseType,
+				"database": connection["db-connection-database"],
+				"file": connection["db-connection-file"],
+				"host": connection["db-connection-host"],
+				"name": connection["db-connection-name"],
+				"password": connection["db-connection-password"],
+				"uri": connection["db-connection-uri"],
+				"rest-verb": connection["db-connection-rest-verb"],
+				"rest-args": connection["db-connection-rest-args"],
+				"username": connection["db-connection-username"]
+			}];
 		}
+		this.configModel.updateConnection(connection.id, o);
 	}
+
 	getDirectories(connections, path) {
 		var a = [];
 		var l = connections.length;
@@ -175,9 +177,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	getSettings() {
 		return this.settingsModel.getSettings();
 	}
-	hideModal() {
-		this._call("modal-overlay", "hide");
-	}
+
 	moveConnectionTo(toId) {
 		this.configModel.moveTo(this.dragId, toId);
 	}
@@ -187,31 +187,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	moveFolderTo(name) {
 		this.configModel.moveFolderTo(this.dragFolderName, name);
 	}
-	showConnectionDetail(id) {
-		var con = this.configModel.getConnection(id);
-		this._call("connections-page", "setConnectionDetails", con);
-		this._call(["connection", "context-side-bar"], "setSelectedConnection", id);
-		this._call(["folder", "context-side-bar"], "setSelectedFolder", null);
-		this._call("folder", "clearSelected");
-	}
-	createConfigFolder(name) {
-		if(name) {
-			var folder = this.configModel.getFolder(name);
-			if(folder) {
-				this._call("modal-overlay", "show", {
-					title: 'Folder Already Exists',
-					message: 'You already have a folder named "' + name + '"', 
-					buttons: [
-						{label: "OK", class: "btn-success", callback: function() {
-							this.hideModal();
-						}.bind(this)}
-					]
-				});
-			} else {
-				this.configModel.createFolder(name);
-			}
-		}
-	}
+
 	setDragId(id) {
 		this.dragId = id;
 		this.isDraggingConnection = true;
@@ -236,20 +212,28 @@ module.exports = class ConnectopusController extends EventEmitter {
 	setMaximizeContrast(bool) {
 		this.settingsModel.setMaximizeContrast(bool);
 	}
+	setStatus(status) {
+		this.generalStatus = status;
+		this.dispatchEvent("general-status", status);
+	}
 	setTheme(name) {
 		if(name) {
 			this.settingsModel.setTheme(name);
 		}
 	}
+
 	showAddConnection() {
 		this._call("connections-page", "showAddConnection");
 	}
 	showAddFolder() {
 		this._call("current-connections", "showAddFolder");
 	}
-	showHomePage() {
-		this._call(["work-area", "main-view"], "showHome");
-		this._call("context-side-bar", "setContext", "home");
+	showConnectionDetail(id) {
+		var con = this.configModel.getConnection(id);
+		this._call("connections-page", "setConnectionDetails", con);
+		this._call(["connection", "context-side-bar"], "setSelectedConnection", id);
+		this._call(["folder", "context-side-bar"], "setSelectedFolder", null);
+		this._call("folder", "clearSelected");
 	}
 	showConnectionsPage() {
 		this._call(["work-area", "main-view"], "showConnections");
@@ -263,12 +247,15 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call(["work-area", "main-view"], "showFiles");
 		this._call("context-side-bar", "setContext", "files");
 	}
-	handleShowAllLabels() {
-		this._call("modal-overlay", "showOverlay");
+	showHomePage() {
+		this._call(["work-area", "main-view"], "showHome");
+		this._call("context-side-bar", "setContext", "home");
 	}
-	handleHideAllLabels() {
+	
+	hideModal() {
 		this._call("modal-overlay", "hide");
 	}
+
 	handleConfigData(data) {
 		this._call("current-connections", "setFolders", data.folders);
 		this._call("current-connections", "setConnections", data.servers);
@@ -281,6 +268,32 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call("title-bar", "setSubject", data[0].name);
 		this._call("category-side-bar", "setConnectionStatus", data);
 		this._call(["current-directories", "files-page", "file-listing"], "setConnections", data);
+	}
+	handleDragConnectionEnd() {
+		this.isDraggingConnection = false;
+	}
+	handleDragFolderEnd() {
+		this.isDraggingFolder = false;
+	}
+	handleError(obj) {
+		this.viewController.callViewMethod("modal-overlay", "show", {
+			title: 'Error',
+			message: obj.toString(), 
+			buttons: [
+				{label: "OK", class: "btn-danger", icon: "glyphicon glyphicon-ban-circle", callback: function() {
+					this.hideModal();
+				}.bind(this)}
+			]
+		});
+	}
+	handleFileModelUpdate(data) {
+		this._call(["current-directories", "files-page"], "handleFileModelUpdate");
+	}
+	handleShowAllLabels() {
+		this._call("modal-overlay", "showOverlay");
+	}
+	handleHideAllLabels() {
+		this._call("modal-overlay", "hide");
 	}
 	handleSettingsData(data) {
 		this._call("settings-side-bar", "setSettings", data);
@@ -296,15 +309,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 			$main.attr("data-last-class", theme);
 			this._call(["title-bar", "work-area"], "setTheme", theme);
 		}
-	}
-	handleDragConnectionEnd() {
-		this.isDraggingConnection = false;
-	}
-	handleDragFolderEnd() {
-		this.isDraggingFolder = false;
-	}
-	handleFileModelUpdate(data) {
-		this._call(["current-directories", "files-page"], "handleFileModelUpdate");
 	}
 
 	_addDirectories(arr, path, data) {
@@ -335,6 +339,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 		}
 		return arr;
 	}
+	_call(views, method, params) {
+		return this.viewController.callViewMethod(views, method, params);
+	}
 	_hasDirectory(arr, name) {
 		var l = arr.length;
 		while(l--) {
@@ -352,11 +359,5 @@ module.exports = class ConnectopusController extends EventEmitter {
 			}
 		}
 		return false;
-	}
-	_call(views, method, params) {
-		return this.viewController.callViewMethod(views, method, params);
-	}
-	_getThemes() {
-		return [];
 	}
 }
