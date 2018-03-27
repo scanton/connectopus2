@@ -19,7 +19,10 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.isDraggingFolder = false;
 		this.lastUpdate = null;
 		this.generalStatus = 'nominal';
+		this.projects = [{name: 'Project 1'}];
+		this.currentProject = 0;
 
+		this._call("project-tabs", "setProjects", this.projects);
 		this.themesModel.loadThemes(function(themes) {
 			if(themes) {
 				this._call("settings-side-bar", "setThemes", themes);
@@ -93,6 +96,11 @@ module.exports = class ConnectopusController extends EventEmitter {
 				this.configModel.createFolder(name);
 			}
 		}
+	}
+	createProject(name) {
+		this.projects.push({name: name});
+		this.setCurrentProject(this.projects.length - 1);
+		this._call("project-tabs", "setProjects", this.projects);
 	}
 	deleteConnection(id) {
 		this.viewController.callViewMethod("modal-overlay", "show", {
@@ -188,6 +196,11 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.configModel.moveFolderTo(this.dragFolderName, name);
 	}
 
+	setCurrentProject(id) {
+		this.currentProject = id;
+		this.connectionsModel.setCurrentProject(id);
+		this._call("project-tabs", "setCurrentProject", id);
+	}
 	setDragId(id) {
 		this.dragId = id;
 		this.isDraggingConnection = true;
@@ -212,6 +225,12 @@ module.exports = class ConnectopusController extends EventEmitter {
 	setMaximizeContrast(bool) {
 		this.settingsModel.setMaximizeContrast(bool);
 	}
+	setProjectName(index, name) {
+		if(this.projects[index] && this.projects[index].name) {
+			this.projects[index].name = name;
+			this._call("project-tabs", "setProjects", this.projects);
+		}
+	}
 	setStatus(status) {
 		this.generalStatus = status;
 		this.dispatchEvent("general-status", status);
@@ -228,6 +247,27 @@ module.exports = class ConnectopusController extends EventEmitter {
 	showAddFolder() {
 		this._call("current-connections", "showAddFolder");
 	}
+	showAddProject() {
+		this.viewController.callViewMethod("modal-overlay", "show", {
+			title: 'Create New Project',
+			message: "Give your new project a name. <input style='width: 100%; margin: .5em 0 0' placeholder='Project Name' class='project-name-input' name='name' />", 
+			buttons: [
+				{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
+					this.hideModal();
+				}.bind(this)},
+				{label: "Create Project", class: "btn-success", icon: "", callback: function() {
+					var val = $(".project-name-input").val();
+					if(val) {
+						this.createProject($(".project-name-input").val());
+					}
+					this.hideModal();
+				}.bind(this)}
+			]
+		});
+		setTimeout(function() {
+			$(".project-name-input").select();
+		}, 200);
+	}
 	showConnectionDetail(id) {
 		var con = this.configModel.getConnection(id);
 		this._call("connections-page", "setConnectionDetails", con);
@@ -242,6 +282,21 @@ module.exports = class ConnectopusController extends EventEmitter {
 	showDataPage() {
 		this._call(["work-area", "main-view"], "showData");
 		this._call("context-side-bar", "setContext", "data");
+	}
+	showDeleteProject(index) {
+		this.viewController.callViewMethod("modal-overlay", "show", {
+			title: 'Delete Project',
+			message: "Are you sure you want to delete the project, '" + this.projects[index].name + "'", 
+			buttons: [
+				{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
+					this.hideModal();
+				}.bind(this)},
+				{label: "Delete Project", class: "btn-danger", icon: "glyphicon glyphicon-remove", callback: function() {
+					this._removeProject(index);
+					this.hideModal();
+				}.bind(this)}
+			]
+		});
 	}
 	showFilesPage() {
 		this._call(["work-area", "main-view"], "showFiles");
@@ -265,7 +320,11 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	handleConnectionsStatus(data) {
 		this._call("connection", "setConnectionStatus", data);
-		this._call("title-bar", "setSubject", data[0].name);
+		var name = ""
+		if(data && data[0] && data[0].name) {
+			name = data[0].name;
+		}
+		this._call("title-bar", "setSubject", name);
 		this._call("category-side-bar", "setConnectionStatus", data);
 		this._call(["current-directories", "files-page", "file-listing"], "setConnections", data);
 	}
@@ -359,5 +418,14 @@ module.exports = class ConnectopusController extends EventEmitter {
 			}
 		}
 		return false;
+	}
+	_removeProject(index) {
+		this.projects.splice(index, 1);
+		this.connectionsModel.removeProjectData(index);
+		if(this.currentProject > this.projects.length - 1) {
+			this.setCurrentProject(this.projects.length - 1);
+		}
+		this._call("project-tabs", "setProjects", this.projects);
+		//this._call("current-connections", "", ) TODO: update curent-connections data
 	}
 }

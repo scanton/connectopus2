@@ -5,10 +5,10 @@
 			<div class="loading-animation" v-show="loaderVisible">
 				<connectopus-animation></connectopus-animation>
 			</div>
-			<div class="dialog-frame">
+			<div class="dialog-frame" ref="el">
 				<div class="panel panel-default">
 					<div class="panel-heading">{{dialogDetails.title}}</div>
-					<div class="panel-body">
+					<div class="panel-body" v-on:keydown="handleKeyDown">
 						<div class="dialog-message" v-html="dialogDetails.message"></div>
 						<div class="clear"></div>
 						<div class="buttons pull-right">
@@ -32,31 +32,37 @@
 		data: function() {
 			return {
 				dialogDetails: {},
-				loaderVisible: false
+				loaderVisible: false,
+				speed: "fast"
 			}
 		},
 		methods: {
 			showOverlay: function() {
 				var $modal = $(".modal-overlay");
-				$modal.find(".loading-animation").hide();
-				$modal.find(".dialog-frame").hide();
+				$modal.find(".loading-animation").hide(this.speed);
+				$modal.find(".dialog-frame").hide(this.speed);
 				$modal.fadeIn("fast");
 			},
 			showLoader: function() {
 				var $modal = $(".modal-overlay");
-				$modal.find(".loading-animation").show();
-				$modal.find(".dialog-frame").hide();
-				$modal.fadeIn();
+				$modal.find(".loading-animation").show(this.speed);
+				$modal.find(".dialog-frame").hide(this.speed);
+				$modal.fadeIn(this.speed);
 			},
 			show: function(options) {
 				this.dialogDetails = options;
 				var $modal = $(".modal-overlay");
-				$modal.find(".loading-animation").hide();
-				$modal.find(".dialog-frame").show();
-				$modal.fadeIn();
+				$modal.find(".loading-animation").hide(this.speed);
+				$modal.find(".dialog-frame").show(this.speed);
+				$modal.fadeIn(this.speed);
 			},
 			hide: function() {
 				$(".modal-overlay").fadeOut();
+			},
+			handleKeyDown(e) {
+				if(e.keyCode == 13) {
+					$(this.$refs.el).find(".btn-success").click();
+				}
 			}
 		}
 	});

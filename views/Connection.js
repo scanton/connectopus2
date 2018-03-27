@@ -86,16 +86,20 @@
 				this.selectedConnection = id;
 			},
 			setConnectionStatus: function(data) {
-				this.isPrime = data[0].id == this.id;
-				var l = data.length;
-				while(l--) {
-					if(data[l].id == this.id) {
-						this.liveConnection = data[l];
-						this.connectionStatus = data[l].status;
-						return;
+				if(data && data[0]) {
+					this.isPrime = data[0].id == this.id;
+					var l = data.length;
+					while(l--) {
+						if(data[l].id == this.id) {
+							this.liveConnection = data[l];
+							this.connectionStatus = data[l].status;
+							return;
+						}
 					}
 				}
+				this.isPrime = false;
 				this.liveConnection = {};
+				this.connectionStatus = "";
 			}
 		}
 	});

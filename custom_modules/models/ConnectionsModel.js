@@ -2,10 +2,11 @@ module.exports = class ConnectionsModel extends AbstractModel {
 
 	constructor(fileModel) {
 		super();
-		this._connections = [];
+		this._connections = [[]];
 		this.fileModel = fileModel;
 		this.tunnel = require('tunnel-ssh');
 		this.remote = require('remote-exec');
+		this.currentProject = 0;
 	}
 
 	addConnection(con, callback) {
@@ -13,12 +14,12 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			var conId = con.id;
 			con = this._strip(con);
 			con.status = 'pending';
-			if(this._connections.length == 0) {
+			if(this._connections[this.currentProject].length == 0) {
 				con.isPrime = true;
 			} else {
 				con.isPrime = false;
 			}
-			this._connections.push(con);
+			this._connections[this.currentProject].push(con);
 			this._dispatchUpdate();
 
 			var liveConnection = DataSourceFactory.createConnection(con);
@@ -36,12 +37,47 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			}
 		}
 	}
+	hasConnection(id) {
+		if(this._connections[this.currentProject]) {
+			var l = this._connections[this.currentProject].length;
+			while(l--) {
+				if(this._connections[this.currentProject][l].id == id) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
-	setStatus(id, status) {
-		var l = this._connections.length;
+	removeConnection(id, callback) {
+		var l = this._connections[this.currentProject].length;
 		while(l--) {
-			if(this._connections[l].id == id) {
-				this._connections[l].status = status;
+			if(this._connections[this.currentProject][l].id == id) {
+				this._connections[this.currentProject].splice(l, 1);
+				return 1;
+			}
+		}
+		return 0;
+	}
+	removeProjectData(index) {
+		this._connections.splice(index, 1);
+		if(this.currentProject == index) {
+			this.setCurrentProject(index - 1);
+		}
+		this._dispatchUpdate();
+	}
+	setCurrentProject(index) {
+		if(this._connections[index] == null) {
+			this._connections[index] = [];
+		}
+		this.currentProject = index;
+		this._dispatchUpdate();
+	}
+	setStatus(id, status) {
+		var l = this._connections[this.currentProject].length;
+		while(l--) {
+			if(this._connections[this.currentProject][l].id == id) {
+				this._connections[this.currentProject][l].status = status;
 				this._dispatchUpdate();
 				return true;
 			}
@@ -49,26 +85,6 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		return false;
 	}
 
-	removeConnection(id, callback) {
-		var l = this._connections.length;
-		while(l--) {
-			if(this._connections[l].id == id) {
-				this._connections.splice(l, 1);
-				return 1;
-			}
-		}
-		return 0;
-	}
-
-	hasConnection(id) {
-		var l = this._connections.length;
-		while(l--) {
-			if(this._connections[l].id == id) {
-				return true;
-			}
-		}
-		return false;
-	}
 	_getRemoteDataSource(con, path, callback, errorHandler) {
 
 		/*
@@ -118,6 +134,6 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		}.bind(this));
 	}
 	_dispatchUpdate() {
-		this.dispatchEvent("connections-status", this._strip(this._connections));
+		this.dispatchEvent("connections-status", this._strip(this._connections[this.currentProject]));
 	}
 }
