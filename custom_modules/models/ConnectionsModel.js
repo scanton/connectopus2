@@ -5,7 +5,6 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		this._connections = [[]];
 		this.fileModel = fileModel;
 		this.tunnel = require('tunnel-ssh');
-		this.remote = require('remote-exec');
 		this.currentProject = 0;
 	}
 

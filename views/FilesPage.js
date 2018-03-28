@@ -3,8 +3,12 @@
 	var s = `
 		<div class="files-page container-fluid">
 			<div class="row">
-				<div class="col-xs-12">
-					<file-listing v-for="(conId, index) in connections" v-bind:dataConnectionId="conId" v-bind:files="files" v-bind:dataIndex="index" v-bind:dataConnectionCount="totalConnections"></file-listing>
+				<div class="col-xs-12 file-listings">
+					<table>
+						<tr>
+							<td v-for="(conId, index) in connections"><file-listing v-bind:dataConnectionId="conId" v-bind:files="files" v-bind:dataIndex="index" v-bind:dataConnectionCount="totalConnections"></file-listing></td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>

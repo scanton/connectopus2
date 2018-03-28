@@ -34,3 +34,7 @@
 .connectopus-classic .category-side-bar ul li:hover {
 	color: black;
 }
+.connectopus-classic .project-news a {
+	color: black;
+	font-weight: bold;
+}

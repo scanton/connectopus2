@@ -260,7 +260,8 @@ module.exports = class ConnectopusController extends EventEmitter {
 				{label: "Create Project", class: "btn-success", icon: "", callback: function() {
 					var val = $(".project-name-input").val();
 					if(val) {
-						this.createProject($(".project-name-input").val());
+						this.createProject(val);
+						$(".project-name-input").val("");
 					}
 					this.hideModal();
 				}.bind(this)}
@@ -357,7 +358,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call("modal-overlay", "hide");
 	}
 	handleNewsUpdate(data) {
-		console.log(data);
 		this._call("project-news", "setNewsData", data);
 	}
 	handleSettingsData(data) {

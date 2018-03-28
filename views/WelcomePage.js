@@ -13,14 +13,14 @@
 			<div class="row">
 				<div class="col-xs-12 col-sm-6">
 					<div class="info-panel">
-						<add-new-connection-form></add-new-connection-form>
+						<project-news></project-news>
+						
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					<div class="info-panel">
-						<h2>Project News</h2>
+						<h2>Getting Started</h2>
 						<hr />
-						<project-news></project-news>
 					</div>
 				</div>
 			</div>

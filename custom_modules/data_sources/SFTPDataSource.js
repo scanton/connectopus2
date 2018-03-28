@@ -2,6 +2,8 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 
 	constructor(type, con) {
 		super(type, con);
+		this.fs = require('fs-extra');
+		this.remote = require('remote-exec');
 		let Ssh2SftpClient = require('ssh2-sftp-client');
 		this.sftp = new Ssh2SftpClient();
 	}
@@ -41,18 +43,72 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 					other.unshift(d);
 				}
 			}
-			if(callback) {
-				var resultValue = {
-					con: con, 
-					data: data, 
-					files: utils.sortArrayBy(files, "name"), 
-					directories: utils.sortArrayBy(directories, "name"), 
-					links: utils.sortArrayBy(links, "name"), 
-					other: utils.sortArrayBy(other, "name"),
-					path: path
-				};
-				callback(resultValue);
+			var resultValue = {
+				con: con, 
+				data: data, 
+				files: utils.sortArrayBy(files, "name"), 
+				directories: utils.sortArrayBy(directories, "name"), 
+				links: utils.sortArrayBy(links, "name"), 
+				other: utils.sortArrayBy(other, "name"),
+				path: path
+			};
+
+			// /this.sftp.end();
+			sshData.stdout = this.fs.createWriteStream('./working_files/out.txt');
+			sshData.stderr = this.fs.createWriteStream('./working_files/err.txt');
+			
+			var root = con.root ? con.root : '.';
+			var fullPath = root;
+			if(path) {
+				fullPath = root + '/' + path;
 			}
+
+			var remoteCommand = ""; 
+			var l = files.length;
+			for(var i = 0; i < l; i++) {
+				remoteCommand += "md5sum " + fullPath + "/" + files[i].name + "; "
+			}
+			this.remote(sshData.host, remoteCommand, sshData, function(err) {
+				if(err) {
+					if(errorHandler) {
+						errorHandler(err);
+					} else {
+						controller.handleError(err);
+					}
+				} else {
+					this.fs.readFile('./working_files/out.txt', 'utf8', (err, data) => {
+						if(err) {
+							if(errorHandler) {
+								errorHandler(err);
+							} else {
+								controller.handleError(err);
+							}
+						} else {
+							var a = data.split("\n");
+							var l = a.length;
+							while(l--) {
+								a[l] = a[l].split("  ");
+								if(a[l].length != 2) {
+									a.splice(l, 1);
+								} else {
+									a[l][1] = a[l][1].split(fullPath + '/').join("");
+								}
+							}
+							var l = files.length;
+							while(l--) {
+								var n = files[l].name;
+								var l2 = a.length;
+								while(l2--) {
+									if(a[l2][1] == n) {
+										files[l].md5 = a[l2][0];
+									}
+								}
+							}
+							callback(resultValue);
+						}
+					});
+				}
+			}.bind(this));
 		}).catch((err) => {
 			if(errorHandler) {
 				errorHandler(err);

@@ -192,3 +192,6 @@ body.sunset-sherbert {
 	background: #444;
 	border-color: #222;
 }
+.sunset-sherbert .project-news a {
+	color: white;
+}
