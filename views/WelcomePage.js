@@ -12,10 +12,16 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-6">
-					<h2>Connectopus News</h2>
+					<div class="info-panel">
+						<add-new-connection-form></add-new-connection-form>
+					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6">
-					<h2>Recent Projects</h2>
+					<div class="info-panel">
+						<h2>Project News</h2>
+						<hr />
+						<project-news></project-news>
+					</div>
 				</div>
 			</div>
 		</div>

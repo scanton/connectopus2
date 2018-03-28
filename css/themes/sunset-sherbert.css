@@ -174,19 +174,21 @@ body.sunset-sherbert {
 	color: white;
 	border-radius: 5px;
 }
-.sunset-sherbert ul.project-tabs li.tab {
-	display: inline-block;
-	margin: 0;
-	transform: translateY(2px);
+.sunset-sherbert .project-tabs ul li.tab {
+	
 	border-bottom-width: 0;
 	border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
 	background: #444;
 }
-.sunset-sherbert ul.project-tabs li.tab.selected {
+.sunset-sherbert .project-tabs ul li.tab.selected {
 	color: white;
 	background-color: #666;
 }
-.sunset-sherbert ul.project-tabs li.tab input {
+.sunset-sherbert .project-tabs ul li.tab input {
 	background: #555;
+}
+.sunset-sherbert .welcome-page .info-panel {
+	background: #444;
+	border-color: #222;
 }

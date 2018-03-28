@@ -1,6 +1,6 @@
 module.exports = class ConnectopusController extends EventEmitter {
 
-	constructor(viewController, configModel, settingsModel, connectionsModel, themesModel, fileModel) {
+	constructor(viewController, configModel, settingsModel, connectionsModel, themesModel, fileModel, newsModel) {
 		super();
 		this.connectionsModel = connectionsModel;
 		this.viewController = viewController;
@@ -8,11 +8,13 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.settingsModel = settingsModel;
 		this.themesModel = themesModel;
 		this.fileModel = fileModel;
+		this.newsModel = newsModel;
 		this.currentFilePath = "";
 		this.configModel.subscribe("data", this.handleConfigData.bind(this));
 		this.settingsModel.subscribe("settings", this.handleSettingsData.bind(this));
 		this.connectionsModel.subscribe("connections-status", this.handleConnectionsStatus.bind(this));
 		this.fileModel.subscribe("data-update", this.handleFileModelUpdate.bind(this));
+		this.newsModel.subscribe("data-update", this.handleNewsUpdate.bind(this));
 		this.dragId = null;
 		this.dragFolderName = null;
 		this.isDraggingConnection = false;
@@ -353,6 +355,10 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	handleHideAllLabels() {
 		this._call("modal-overlay", "hide");
+	}
+	handleNewsUpdate(data) {
+		console.log(data);
+		this._call("project-news", "setNewsData", data);
 	}
 	handleSettingsData(data) {
 		this._call("settings-side-bar", "setSettings", data);

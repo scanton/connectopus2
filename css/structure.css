@@ -500,13 +500,22 @@ ul.directories li, ul.tables li {
 .directory .glyphicon-folder-close {
 	margin-right: 6px;
 }
-ul.project-tabs {
+.project-tabs {
+	position: absolute;
+    right: 100px;
+    left: 4px;
+	font-size: 11pt;
+	height: 40px;
+	overflow: scroll;
+}
+.project-tabs ul {
+	white-space: nowrap;
 	list-style: none;
 	padding: 0;
-	font-size: 11pt;
 	margin: 0;
+	transform: translateY(1px);
 }
-ul.project-tabs li.tab {
+.project-tabs ul li.tab {
 	background: #F8F8F8;
 	display: inline-block;
 	margin: 0;
@@ -517,27 +526,34 @@ ul.project-tabs li.tab {
 	cursor: pointer;
 	border: 0;
 }
-ul.project-tabs li.tab.selected {
+.project-tabs ul li.tab.selected {
 	cursor: default;
 }
-ul.project-tabs li.tab.add-tab {
+.project-tabs ul li.tab.add-tab {
 	/*transform: translateX(-5px) translateY(2px) !important;*/
 	
 }
-ul.project-tabs li.tab input {
+.project-tabs ul li.tab input {
 	padding: 0;
 
 }
-ul.project-tabs li.tab.add-tab {
+.project-tabs ul li.tab.add-tab {
 	padding: 2px 10px 0px;
 }
-ul.project-tabs li .glyphicon-remove, ul.project-tabs li .glyphicon-save {
+.project-tabs ul li .glyphicon-remove, .project-tabs ul li .glyphicon-save {
 	visibility: hidden;
 	padding: 2px;
 }
-ul.project-tabs li:hover .glyphicon-remove /*, ul.project-tabs li:hover .glyphicon-save*/ {
+.project-tabs ul li:hover .glyphicon-remove /*, ul.project-tabs li:hover .glyphicon-save*/ {
 	visibility: visible;
 	color: white;
 	cursor: pointer;
 	border-radius: 5px;
+}
+.welcome-page .info-panel {
+	border: 1px solid grey;
+	margin: .5em;
+	border-radius: 5px;
+	padding: 1em;
+	background: #eee;
 }
