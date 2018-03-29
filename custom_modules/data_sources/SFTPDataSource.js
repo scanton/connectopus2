@@ -66,7 +66,7 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 			var remoteCommand = ""; 
 			var l = files.length;
 			for(var i = 0; i < l; i++) {
-				remoteCommand += "md5sum " + fullPath + "/" + files[i].name + "; "
+				remoteCommand += "md5sum '" + fullPath + "/" + files[i].name + "'; "
 			}
 			this.remote(sshData.host, remoteCommand, sshData, function(err) {
 				if(err) {

@@ -29,3 +29,6 @@ body.azure-styles {
 .azure-styles .context-side-bar {
 	background: white;
 }
+.azure-styles .connection-details, .azure-styles .add-connection-page {
+	background: #e7faff;
+}

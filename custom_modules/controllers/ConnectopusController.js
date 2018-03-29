@@ -23,6 +23,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.generalStatus = 'nominal';
 		this.projects = [{name: 'Project 1'}];
 		this.currentProject = 0;
+		this.colorStyle = { saturation: "50%", luminance: "75%" }
 
 		this._call("project-tabs", "setProjects", this.projects);
 		this.themesModel.loadThemes(function(themes) {
@@ -168,6 +169,15 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.configModel.updateConnection(connection.id, o);
 	}
 
+	getColorStyle() {
+		return this.colorStyle;
+	}
+	getConnectionName(id) {
+		return this.connectionsModel.getConnectionName(id);
+	}
+	getPrimeId() {
+		return this.connectionsModel.getPrimeId();
+	}
 	getDirectories(connections, path) {
 		var a = [];
 		var l = connections.length;
@@ -177,12 +187,18 @@ module.exports = class ConnectopusController extends EventEmitter {
 		return utils.sortArrayBy(a, "name");
 	}
 	getFiles(connections, path) {
-		var a = [];
+		var allFiles = [];
+		var o = {};
 		var l = connections.length;
 		while(l--) {
-			this._addFiles(a, path, this.fileModel.getContents(connections[l], path));
+			var a2 = o[connections[l]] = [];
+			var contents = this.fileModel.getContents(connections[l], path);
+			this._addFiles(allFiles, path, contents);
+			this._addFiles(a2, path, contents);
+			utils.sortArrayBy(a2, "name");
 		}
-		return utils.sortArrayBy(a, "name");
+		o.allFiles = utils.sortArrayBy(allFiles, "name", 0);
+		return o;
 	}
 	getSettings() {
 		return this.settingsModel.getSettings();
@@ -202,7 +218,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.currentProject = id;
 		this.connectionsModel.setCurrentProject(id);
 		this._call("project-tabs", "setCurrentProject", id);
-
 		this._call("title-bar", "setTitle", this.projects[id].name);
 	}
 	setDragId(id) {
@@ -406,7 +421,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 				d = data.files[l];
 				if(!this._hasFile(arr, d.name)) {
 					delimiter = path.length ? '/' : '';
-					arr.push({name: d.name, path: path + delimiter + d.name});
+					arr.push({name: d.name, path: path + delimiter + d.name, md5: d.md5});
 				}
 			}
 		}

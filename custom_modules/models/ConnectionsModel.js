@@ -36,6 +36,22 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			}
 		}
 	}
+	getPrimeId() {
+		if(this._connections[this.currentProject]) {
+			return this._connections[this.currentProject][0].id;
+		}
+	}
+	getConnectionName(id) {
+		if(this._connections[this.currentProject]) {
+			var l = this._connections[this.currentProject].length;
+			while(l--) {
+				if(this._connections[this.currentProject][l].id == id) {
+					return this._connections[this.currentProject][l].name;
+				}
+			}
+		}
+		return "";
+	}
 	hasConnection(id) {
 		if(this._connections[this.currentProject]) {
 			var l = this._connections[this.currentProject].length;

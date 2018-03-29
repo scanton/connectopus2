@@ -574,3 +574,34 @@ ul.directories li, ul.tables li {
 .project-news .milestone {
 	cursor: pointer;
 }
+.file-listing .connection-name {
+	text-align: center;
+	font-weight: bold;
+	font-size: 12pt;
+	padding: .25em;
+	border: 1px solid rgba(0, 0, 0, .25);
+}
+.files-page {
+	position: relative;
+}
+.files-page .file-listing {
+	margin-top: 26px;
+}
+.files-page .select-file-checkbox {
+	margin-right: 0.5em;
+}
+.files-page .is-not-in-sync {
+	color: red;
+	font-weight: bold;
+	cursor: pointer;
+}
+.files-page .files-nav-bar {
+	position: absolute;
+	background: #EEE;
+	color: black;
+	left: 0;
+	right: 0;
+	top: 0;
+	height: 26px;
+
+}

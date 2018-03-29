@@ -43,7 +43,8 @@ utils.calculateColors = function(index, connections, maximizeContrast) {
 	} else {
 		color = "black";
 	}
-	return {index: adjustedIndex, connections: connections, angle: angle, color: color};
+	return {index: adjustedIndex, connections: connections, angle: angle, color: "black"};
+	//return {index: adjustedIndex, connections: connections, angle: angle, color: color};
 }
 
 const remote = require('electron').remote;

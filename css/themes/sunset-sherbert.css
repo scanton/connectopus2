@@ -195,3 +195,7 @@ body.sunset-sherbert {
 .sunset-sherbert .project-news a {
 	color: white;
 }
+.sunset-sherbert .files-page .files-nav-bar {
+	background: #333;
+	color: white;
+}
