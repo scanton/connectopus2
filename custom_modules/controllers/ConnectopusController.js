@@ -202,6 +202,8 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.currentProject = id;
 		this.connectionsModel.setCurrentProject(id);
 		this._call("project-tabs", "setCurrentProject", id);
+
+		this._call("title-bar", "setTitle", this.projects[id].name);
 	}
 	setDragId(id) {
 		this.dragId = id;
@@ -231,6 +233,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		if(this.projects[index] && this.projects[index].name) {
 			this.projects[index].name = name;
 			this._call("project-tabs", "setProjects", this.projects);
+			this._call("title-bar", "setTitle", name);
 		}
 	}
 	setStatus(status) {
@@ -322,12 +325,17 @@ module.exports = class ConnectopusController extends EventEmitter {
 		}
 	}
 	handleConnectionsStatus(data) {
-		this._call("connection", "setConnectionStatus", data);
 		var name = ""
 		if(data && data[0] && data[0].name) {
 			name = data[0].name;
 		}
-		this._call("title-bar", "setSubject", name);
+		var target = "";
+		if(data && data.length > 1) {
+			target = data[data.length - 1].name;	
+		}
+		this._call("title-bar", "setSubject", name); 
+		this._call("title-bar", "setTarget", target);
+		this._call("connection", "setConnectionStatus", data);
 		this._call("category-side-bar", "setConnectionStatus", data);
 		this._call(["current-directories", "files-page", "file-listing"], "setConnections", data);
 	}

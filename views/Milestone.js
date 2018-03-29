@@ -7,7 +7,7 @@
 				<span v-bind:style="getBadgeStyle()" class="badge">{{status}}</span> {{title}}<sub>...</sub>
 			</h3>
 			<div class="description" style="display: none;" ref="desc">
-				{{description}}
+				<span v-html="description"></span>
 			</div>
 		</div>
 	`;
@@ -31,7 +31,7 @@
 				} else if(status == "in-progress") {
 					return "glyphicon glyphicon-plus-sign";
 				} else {
-					return "glyphicon glyphicon-question-sign";
+					return "glyphicon glyphicon-remove-sign";
 				}
 			},
 			getIconStyle: function() {
@@ -43,7 +43,7 @@
 				} else if(status == "in-progress") {
 					return "color: #3F3;";
 				} else {
-					return "color: orange;";
+					return "color: red;";
 				}
 			},
 			getBadgeStyle: function() {
@@ -55,7 +55,7 @@
 				} else if(status == "in-progress") {
 					return "background-color: #3F3; color: black";
 				} else {
-					return "background-color: orange;";
+					return "background-color: red;";
 				}
 			},
 			handleToggleDescription: function(e) {

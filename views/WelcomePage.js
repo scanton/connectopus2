@@ -13,14 +13,15 @@
 			<div class="row">
 				<div class="col-xs-12 col-sm-6">
 					<div class="info-panel">
-						<project-news></project-news>
-						
+						<h2>Getting Started</h2>
+						<hr />
+						<h3>Documentation</h3>
+						<p>Documentation will be produced and available at <a target="_blank" href="http://connectopus.org">Connectopus.org</a></p>
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					<div class="info-panel">
-						<h2>Getting Started</h2>
-						<hr />
+						<project-news></project-news>
 					</div>
 				</div>
 			</div>

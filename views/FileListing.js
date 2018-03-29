@@ -26,7 +26,7 @@
 		},
 		methods: {
 			getStyle: function() {
-				return {background: "hsl(" + this.colorData.angle + ", 68%, 40%)", color: this.colorData.color};
+				return {background: "hsl(" + this.colorData.angle + ", 67%, 60%)", color: this.colorData.color};
 			},
 			setMaximizeContrast: function(bool) {
 				this.maximizeContrast = bool;

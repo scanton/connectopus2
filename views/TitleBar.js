@@ -25,7 +25,11 @@
 						<polygon fill="#006400" points="7.9,4.5 7.9,3.4 4.5,3.4 4.5,0 3.4,0 3.4,3.4 0,3.4 0,4.5 3.4,4.5 3.4,7.9 4.5,7.9 4.5,4.5"></polygon>
 					</svg>
 				</div>
-			</div> {{title}} - <span v-show="!isDefaultSubject" class="glyphicon glyphicon-star"></span> {{subject}} <span v-show="!isDefaultSubject" class="glyphicon glyphicon-star"></span>
+			</div> 
+			<span v-show="!subject.length"> Connectopus 2 - </span>
+			<span class="title"> {{title}} </span>
+			<span v-show="subject.length" class="subject"> - {{subject}} </span>
+			<span v-show="target.length" class="target"> => {{target}} </span>
 		</div>
 	`;
 	
@@ -37,16 +41,23 @@
 		template: s,
 		data: function() {
 			return {
-				title: 'Connectopus 2',
-				subject: 'Kenetic Boogaloo',
+				title: 'Project 1',
+				subject: '',
+				target: '',
 				theme: '',
 				status: '',
 				isDefaultSubject: true
 			}
 		},
 		methods: {
+			setTarget: function(target) {
+				this.target = target;
+			},
 			setTheme: function(theme) {
 				this.theme = theme;
+			},
+			setTitle: function(title) {
+				this.title = title;
 			},
 			close: function() {
 				window.close();

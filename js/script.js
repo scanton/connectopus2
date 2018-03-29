@@ -47,7 +47,7 @@ utils.calculateColors = function(index, connections, maximizeContrast) {
 }
 
 const remote = require('electron').remote;
-const {dialog} = require('electron').remote;
+const {dialog, shell} = require('electron').remote;
 
 const EventEmitter = require(__dirname + '/custom_modules/utils/EventEmitter.js');
 const AbstractDataSource = require(__dirname + '/custom_modules/abstracts/AbstractDataSource.js');
@@ -109,9 +109,13 @@ $(window).resize(function() {
 		$tc.attr("style", "height: " + targetHeight + "px");
 		$tc.find(".value-container").css("height", (targetHeight - 33)  + "px");
 	});
-})
+});
 
 $(document).ready(function() {
+	$(document).on("click", "a", function(e) {
+		e.preventDefault();
+		shell.openExternal($(this).attr("href"));
+	});
 	$(window).resize();
 })
 

@@ -21,7 +21,7 @@
 				maximizeContrast: controller.getSettings().maximizeContrast,
 				hue: 0,
 				lumenance: "67%",
-				saturation: "40%"
+				saturation: "60%"
 			}
 		},
 		methods: {
