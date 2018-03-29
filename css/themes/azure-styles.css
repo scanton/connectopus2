@@ -26,3 +26,6 @@ body.azure-styles {
 .azure-styles .connection.is-drag-over, .azure-styles .connection.is-drag-over {
 	border-bottom: 3px solid #0080FF;
 }
+.azure-styles .context-side-bar {
+	background: white;
+}
