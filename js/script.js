@@ -58,6 +58,7 @@ const SettingsModel = require(__dirname + '/custom_modules/models/SettingsModel.
 const ThemesModel = require(__dirname + '/custom_modules/models/ThemesModel.js');
 const FileModel = require(__dirname + '/custom_modules/models/FileModel.js');
 const NewsModel = require(__dirname + '/custom_modules/models/NewsModel.js');
+const PathsModel = require(__dirname + '/custom_modules/models/PathsModel.js');
 
 const JSONDataSource = require(__dirname + '/custom_modules/data_sources/JSONDataSource.js');
 const LocalDirectoryDataSource = require(__dirname + '/custom_modules/data_sources/LocalDirectoryDataSource.js');
@@ -76,6 +77,7 @@ const configModel = new ConfigModel();
 const settingsModel = new SettingsModel();
 const themesModel = new ThemesModel();
 const newsModel = new NewsModel();
+const pathsModel = new PathsModel();
 
 const ViewController = require(__dirname + '/custom_modules/controllers/ViewController.js');
 const viewController = new ViewController();
@@ -85,7 +87,7 @@ const ConnectionsModel = require(__dirname + '/custom_modules/models/Connections
 const connectionsModel = new ConnectionsModel(fileModel);
 
 const ConnectopusController = require(__dirname + '/custom_modules/controllers/ConnectopusController.js');
-const controller = new ConnectopusController(viewController, configModel, settingsModel, connectionsModel, themesModel, fileModel, newsModel);
+const controller = new ConnectopusController(viewController, configModel, settingsModel, connectionsModel, themesModel, fileModel, newsModel, pathsModel);
 
 const stripObservers = function(obj) {
 	return JSON.parse(JSON.stringify(obj, null, 4));

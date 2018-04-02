@@ -20,7 +20,8 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			}
 			this._connections[this.currentProject].push(con);
 			this._dispatchUpdate();
-
+			this.getDirectory(con, con.directory, callback);
+			/*
 			var liveConnection = DataSourceFactory.createConnection(con);
 			if(liveConnection) {
 				liveConnection.getDirectory(con.directory, function(data) {
@@ -33,7 +34,22 @@ module.exports = class ConnectionsModel extends AbstractModel {
 					controller.handleError(err);
 					this.setStatus(con.id, 'error');
 				}.bind(this));
-			}
+			}*/
+		}
+	}
+	getDirectory(con, directory, callback) {
+		var liveConnection = DataSourceFactory.createConnection(con);
+		if(liveConnection) {
+			liveConnection.getDirectory(directory, function(data) {
+				this.setStatus(con.id, 'connected');
+				this.fileModel.setContents(data.con, data.path, data);
+				if(callback) {
+					callback(data);
+				}
+			}.bind(this), function(err) {
+				controller.handleError(err);
+				this.setStatus(con.id, 'error');
+			}.bind(this));
 		}
 	}
 	getPrimeId() {
@@ -51,6 +67,9 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			}
 		}
 		return "";
+	}
+	getConnections() {
+		return this._strip(this._connections[this.currentProject]);
 	}
 	hasConnection(id) {
 		if(this._connections[this.currentProject]) {
@@ -75,12 +94,10 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		return 0;
 	}
 	removeProjectData(index) {
-		this._connections.splice(index, 1);
-		if(this.currentProject == index) {
-			this.setCurrentProject(index - 1);
-		}
+		delete this._connections[index];
 		this._dispatchUpdate();
 	}
+
 	setCurrentProject(index) {
 		if(this._connections[index] == null) {
 			this._connections[index] = [];
@@ -100,55 +117,9 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		return false;
 	}
 
-	_getRemoteDataSource(con, path, callback, errorHandler) {
-
-		/*
-		var sshCon = this.tunnel(sshData, function(err, server) {
-			if(err) {
-				this.setStatus(conId, 'error');
-				controller.handleError(err);
-			} else {
-				this.setStatus(conId, 'connected');
-				console.log(con, server, "check for DB here ----");
-				server.close();
-				this._getRemoteHash(con, "www/index.php", function(data) {
-					console.log(data);
-				});
-			}
-		}.bind(this));
-		*/
-
-	}
-	_getRemoteHash(con, path, callback, errorHandler) {
-		var sshData = {
-			host: con.host,
-			port: con.port,
-			username: con.username,
-			password: con.password,
-			stdout: this.fs.createWriteStream('./working_files/out.txt'),
-			stderr: this.fs.createWriteStream('./working_files/err.txt')
-		}
-		this.remote(sshData.host, "md5sum " + path, sshData, function(err) {
-			if(err) {
-				if(errorHandler) {
-					errorHandler(err);
-				}
-				controller.handleError(err);
-			} else {
-				this.fs.readFile('./working_files/out.txt', 'utf8', (err, data) => {
-					if(err) {
-						if(errorHandler) {
-							errorHandler(err);
-						}
-						controller.handleError(err);
-					} else {
-						callback(data);
-					}
-				});
-			}
-		}.bind(this));
-	}
 	_dispatchUpdate() {
-		this.dispatchEvent("connections-status", this._strip(this._connections[this.currentProject]));
+		if(this._connections[this.currentProject]) {
+			this.dispatchEvent("connections-status", this._strip(this._connections[this.currentProject]));
+		}
 	}
 }

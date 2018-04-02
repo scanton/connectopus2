@@ -400,14 +400,15 @@ input {
 }
 .active-connection .rollover-flag {
 	z-index: 1;
-	color: black;
 	-webkit-transition: all 0.3s ease;
+	color: black;
 	white-space: nowrap;
 	position: absolute;
     display: inline-block;
     left: 25px;
     top: 0;
-    padding: 16px 10px 16px 1.5em;
+    padding: 14px 10px 14px 1.5em;
+    height: 46px;
     font-size: 12pt;
     border-bottom-right-radius: 5px;
     border-top-right-radius: 5px;
@@ -524,7 +525,7 @@ ul.directories li, ul.tables li {
 .project-tabs ul li.tab {
 	background: #F8F8F8;
 	display: inline-block;
-	margin: 0;
+	margin: 0 1px;
 	padding: 0;
 	transform: translateY(2px);
 	border-top-right-radius: 5px;
@@ -537,7 +538,6 @@ ul.directories li, ul.tables li {
 }
 .project-tabs ul li.tab.add-tab {
 	/*transform: translateX(-5px) translateY(2px) !important;*/
-	
 }
 .project-tabs ul li.tab input {
 	padding: 0;
@@ -608,7 +608,8 @@ ul.directories li, ul.tables li {
 	padding: 3px 25px;
 }
 .files-page .files-nav-bar button {
-	padding: 5px 6px;
+	padding: 3px 6px;
+	margin: 2px 2.5px;
 }
 .footer-bar .label {
 	color: #777;

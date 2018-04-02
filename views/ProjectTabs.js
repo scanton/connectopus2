@@ -3,7 +3,7 @@
 	var s = `
 		<div class="project-tabs">
 			<ul>
-				<tab v-for="(project, index) in projects" v-bind:index="index" v-bind:name="project.name" v-bind:isSelected="currentProject == index" v-bind:class="{selected: currentProject == index}" ></tab>
+				<tab v-for="(project, index) in projects" v-bind:index="index" v-bind:name="project.name" v-bind:isSelected="currentProject == project.id" v-bind:class="{selected: currentProject == project.id}" ></tab>
 				<li class="tab add-tab" title="New Project" v-on:click="showAddProject">
 					<span class="glyphicon glyphicon-plus"></span>
 				</li>
@@ -24,6 +24,7 @@
 		},
 		methods: {
 			setProjects(projects) {
+				this.projects = [];
 				this.projects = projects;
 			},
 			setCurrentProject(index) {

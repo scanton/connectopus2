@@ -1,6 +1,6 @@
 module.exports = class ConnectopusController extends EventEmitter {
 
-	constructor(viewController, configModel, settingsModel, connectionsModel, themesModel, fileModel, newsModel) {
+	constructor(viewController, configModel, settingsModel, connectionsModel, themesModel, fileModel, newsModel, pathsModel) {
 		super();
 		this.connectionsModel = connectionsModel;
 		this.viewController = viewController;
@@ -9,7 +9,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.themesModel = themesModel;
 		this.fileModel = fileModel;
 		this.newsModel = newsModel;
+		this.pathsModel = pathsModel;
 		this.currentFilePath = "";
+		this.pathsModel.subscribe("path-change", this.handlePathChange.bind(this));
 		this.configModel.subscribe("data", this.handleConfigData.bind(this));
 		this.settingsModel.subscribe("settings", this.handleSettingsData.bind(this));
 		this.connectionsModel.subscribe("connections-status", this.handleConnectionsStatus.bind(this));
@@ -21,11 +23,8 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.isDraggingFolder = false;
 		this.lastUpdate = null;
 		this.generalStatus = 'nominal';
-		this.projects = [{name: 'Project 1'}];
-		this.currentProject = 0;
 		this.colorStyle = { saturation: "50%", luminance: "75%" }
-
-		this._call("project-tabs", "setProjects", this.projects);
+		this._initializeProjects();
 		this.themesModel.loadThemes(function(themes) {
 			if(themes) {
 				this._call("settings-side-bar", "setThemes", themes);
@@ -101,8 +100,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 		}
 	}
 	createProject(name) {
-		this.projects.push({name: name});
-		this.setCurrentProject(this.projects.length - 1);
+		var projectId = new Date().getTime();
+		this.projects[projectId] = {name: name, id:projectId };
+		this.setCurrentProject(projectId);
 		this._call("project-tabs", "setProjects", this.projects);
 	}
 	deleteConnection(id) {
@@ -217,6 +217,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	setCurrentProject(id) {
 		this.currentProject = id;
 		this.connectionsModel.setCurrentProject(id);
+		this.pathsModel.setCurrentProject(id);
 		this._call("project-tabs", "setCurrentProject", id);
 		this._call("title-bar", "setTitle", this.projects[id].name);
 	}
@@ -234,7 +235,15 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	setFilePath(path) {
 		this.currentFilePath = path;
-		this._call(["current-directories", "files-page"], "setPath", path);
+		this._call(["current-directories", "files-page", "files-nav-bar"], "setPath", path);
+
+		console.log("crawl directories here");
+
+		var liveCons = this.connectionsModel.getConnections();
+		this.connectionsModel.getDirectory(liveCons[0], path, function(data) {
+			console.log(data);
+		});
+		
 	}
 	setLeftFooterLabel(str) {
 		this._call("footer-bar", "setLeftLabel", str);
@@ -386,6 +395,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 	handleNewsUpdate(data) {
 		this._call("project-news", "setNewsData", data);
 	}
+	handlePathChange(data) {
+		console.log(data);
+	}
 	handleSettingsData(data) {
 		this._call("settings-side-bar", "setSettings", data);
 		this._call(["active-connection", "file-listing"], "setMaximizeContrast", data.maximizeContrast);
@@ -451,13 +463,38 @@ module.exports = class ConnectopusController extends EventEmitter {
 		}
 		return false;
 	}
-	_removeProject(index) {
-		this.projects.splice(index, 1);
-		this.connectionsModel.removeProjectData(index);
-		if(this.currentProject > this.projects.length - 1) {
-			this.setCurrentProject(this.projects.length - 1);
-		}
+	_initializeProjects() {
+		var defaultProjectId = new Date().getTime();
+		this.projects = {};
+		this.projects[defaultProjectId] = { name: 'Project 1', id: defaultProjectId };
+		this.setCurrentProject(defaultProjectId);
 		this._call("project-tabs", "setProjects", this.projects);
+	}
+	_removeProject(index) {
+		delete this.projects[index];
+		this.connectionsModel.removeProjectData(index);
+		var leastDiff = Number.POSITIVE_INFINITY;
+		var closestProjectId, delta;
+		for(var i in this.projects) {
+			delta = Math.abs(Number(index) - Number(i));
+			if(delta < leastDiff) {
+				leastDiff = delta;
+				closestProjectId = i;
+			}
+		}
+		if(closestProjectId == undefined) {
+			this._initializeProjects();
+		} else {
+			this.setCurrentProject(closestProjectId);
+			this._call("project-tabs", "setProjects", this.projects);
+		}
 		//this._call("current-connections", "", ) TODO: update curent-connections data
+	}
+	_totalProjects() {
+		var l = 0;
+		for(var i in this.projects) {
+			++l;
+		}
+		return l;
 	}
 }
