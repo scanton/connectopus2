@@ -2,7 +2,12 @@
 	var componentName = 'footer-bar';
 	var s = `
 		<div class="footer-bar side-bar">
-			
+			<div class="label pull-right right-label">
+				{{rightLabel}}
+			</div>
+			<div class="label left-label">
+				{{leftLabel}}
+			</div>
 		</div>
 	`;
 	
@@ -12,8 +17,18 @@
 		},
 		template: s,
 		data: function() {
-			return {}
+			return {
+				leftLabel: '',
+				rightLabel: ''
+			}
 		},
-		methods: {}
+		methods: {
+			setRightLabel: function(label) {
+				this.rightLabel = label;	
+			},
+			setLeftLabel: function(label) {
+				this.leftLabel = label;	
+			}
+		}
 	});
 })();

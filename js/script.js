@@ -117,6 +117,14 @@ $(document).ready(function() {
 		e.preventDefault();
 		shell.openExternal($(this).attr("href"));
 	});
+	$(document).on("mouseenter", "a", function(e) {
+		e.preventDefault();
+		controller.setLeftFooterLabel( ($(this).attr("href")) );
+	});
+	$(document).on("mouseleave", "a", function(e) {
+		e.preventDefault();
+		controller.setLeftFooterLabel("");
+	});
 	$(window).resize();
 })
 

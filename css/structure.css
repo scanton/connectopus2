@@ -358,7 +358,8 @@ input {
 }
 .active-connections .active-connection {
 	position: relative;
-	width: 50px;
+	width: 48px;
+	border: 1px solid rgba(0, 0, 0, .25);
 }
 .active-connections .active-connection .glyphicon {
     z-index: 2;
@@ -368,18 +369,19 @@ input {
 }
 .active-connections .active-connection .glyphicon-triangle-bottom {
 	position: absolute;
-    left: 16px;
-    top: 50px;
+    left: 15px;
+    top: 42px;
     color: #0F0;
     font-size: 14pt;
+    text-shadow: 0 2px rgba(0, 0, 0, .25);
 }
 .active-connections .active-connection.is-prime .glyphicon-triangle-bottom {
-	top: 47px;
+	top: 42px;
 }
 .active-connections .status-icon {
 	width: 25px;
 	height: 25px;
-	margin: 12px;
+	margin: 11px 11px 5px 11px;
 	display: inline-block;
 }
 .status-icon {
@@ -425,7 +427,7 @@ input {
     width: 27px;
     height: 27px;
     padding: 1px 1.5px;
-    margin: 12px;
+    margin: 10px;
     border: 2px solid green;
     color: green;
 }
@@ -584,8 +586,8 @@ ul.directories li, ul.tables li {
 .files-page {
 	position: relative;
 }
-.files-page .file-listing {
-	margin-top: 26px;
+.files-page .file-listing-table {
+	margin-top: 34px;
 }
 .files-page .select-file-checkbox {
 	margin-right: 0.5em;
@@ -602,6 +604,12 @@ ul.directories li, ul.tables li {
 	left: 0;
 	right: 0;
 	top: 0;
-	height: 26px;
-
+	height: 34px;
+	padding: 3px 25px;
+}
+.files-page .files-nav-bar button {
+	padding: 5px 6px;
+}
+.footer-bar .label {
+	color: #777;
 }

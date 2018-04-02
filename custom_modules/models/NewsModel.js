@@ -7,7 +7,8 @@ module.exports = class NewsModel extends AbstractModel {
 		this._request = require('request');
 		this._request(this._feedUri, { json: true }, function(err, res, body) {
 			if(err) {
-				controller.handleError(err);
+				//controller.handleError(err);
+				body = {news: [{title: "Your computer is offline...", body: "Project status and news feed will appear here when you are back online."}]}
 			}
 			this._feed = body;
 			this.dispatchEvent("data-update", this._strip(this._feed));

@@ -236,6 +236,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.currentFilePath = path;
 		this._call(["current-directories", "files-page"], "setPath", path);
 	}
+	setLeftFooterLabel(str) {
+		this._call("footer-bar", "setLeftLabel", str);
+	}
 	setMaxRowsRequested(num) {
 		if(num) {
 			this.settingsModel.setMaxRowsRequested(num);

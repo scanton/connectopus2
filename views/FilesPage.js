@@ -5,7 +5,7 @@
 			<div class="row">
 				<div class="col-xs-12 file-listings">
 					<files-nav-bar></files-nav-bar>
-					<table>
+					<table class="file-listing-table">
 						<tr>
 							<td v-for="(conId, index) in connections">
 								<file-listing v-bind:files="files[conId]" v-bind:primeFiles="getPrimeFiles()" v-bind:allFiles="files.allFiles" v-bind:connectionName="getName(conId)" v-bind:dataConnectionId="conId" v-bind:dataIndex="index" v-bind:dataConnectionCount="totalConnections"></file-listing>
