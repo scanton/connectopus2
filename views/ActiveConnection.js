@@ -18,7 +18,6 @@
 		template: s,
 		data: function() {
 			var c = controller.getColorStyle();
-			console.log
 			return {
 				maximizeContrast: controller.getSettings().maximizeContrast,
 				hue: 0,

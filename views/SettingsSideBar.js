@@ -28,6 +28,11 @@
 						<button v-show="settings.maximizeContrast" class="btn btn-default" v-on:click="handleDeactiveMaxContrast">ON</button>
 						<button v-show="!settings.maximizeContrast" class="btn btn-default" v-on:click="handleActiveMaxContrast">OFF</button>
 					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Hide Files In Sync</span>
+						<button v-show="settings.hideFilesInSync" class="btn btn-default" v-on:click="handleDeactivateHideFilesInSync">ON</button>
+						<button v-show="!settings.hideFilesInSync" class="btn btn-default" v-on:click="handleActivateHideFilesInSync">OFF</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -47,6 +52,14 @@
 			}
 		},
 		methods: {
+			handleActivateHideFilesInSync: function(e) {
+				e.preventDefault();
+				controller.setHideFilesInSync(true);
+			},
+			handleDeactivateHideFilesInSync: function(e) {
+				e.preventDefault();
+				controller.setHideFilesInSync(false);
+			},
 			handleActiveMaxContrast: function(e) {
 				e.preventDefault();
 				controller.setMaximizeContrast(true);

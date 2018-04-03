@@ -26,6 +26,7 @@ module.exports = class ConnectionsModel extends AbstractModel {
 	getDirectory(con, directory, callback) {
 		var liveConnection = DataSourceFactory.createConnection(con);
 		if(liveConnection) {
+			this.setStatus(con.id, 'pending');
 			liveConnection.getDirectory(directory, function(data) {
 				this.setStatus(con.id, 'connected');
 				this.fileModel.setContents(data.con, data.path, data);

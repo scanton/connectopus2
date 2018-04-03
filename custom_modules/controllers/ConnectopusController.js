@@ -243,15 +243,21 @@ module.exports = class ConnectopusController extends EventEmitter {
 				++currentConnection;
 				if(currentConnection < liveCons.length) {
 					this._getFiles(liveCons[currentConnection], path, handler);
+				} else {
+					this._call("modal-overlay", "hide");
 				}
 			}.bind(this);
-			if(!this.fileModel.hasContent(liveCons[0].id) || forceRefresh) {
+			if(!this.fileModel.hasContent(liveCons[0].id, path) || forceRefresh) {
+				this._call("modal-overlay", "showLoader");
 				this._getFiles(liveCons[currentConnection], path, handler);
 			}
 		}
 	}
 	setLeftFooterLabel(str) {
 		this._call("footer-bar", "setLeftLabel", str);
+	}
+	setHideFilesInSync(bool) {
+		this.settingsModel.setHideFilesInSync(bool);
 	}
 	setMaxRowsRequested(num) {
 		if(num) {

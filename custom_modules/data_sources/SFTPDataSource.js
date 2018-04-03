@@ -65,6 +65,7 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 
 			var remoteCommand = ""; 
 			var l = files.length;
+			
 			for(var i = 0; i < l; i++) {
 				remoteCommand += "md5sum '" + fullPath + "/" + files[i].name + "'; "
 			}
@@ -76,37 +77,40 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 						controller.handleError(err);
 					}
 				} else {
-					this.fs.readFile('./working_files/out.txt', 'utf8', (err, data) => {
-						if(err) {
-							if(errorHandler) {
-								errorHandler(err);
-							} else {
-								controller.handleError(err);
-							}
-						} else {
-							var a = data.split("\n");
-							var l = a.length;
-							while(l--) {
-								a[l] = a[l].split("  ");
-								if(a[l].length != 2) {
-									a.splice(l, 1);
+					setTimeout(function() {
+						this.fs.readFile('./working_files/out.txt', 'utf8', (err, data) => {
+							if(err) {
+								if(errorHandler) {
+									errorHandler(err);
 								} else {
-									a[l][1] = a[l][1].split(fullPath + '/').join("");
+									controller.handleError(err);
 								}
-							}
-							var l = files.length;
-							while(l--) {
-								var n = files[l].name;
-								var l2 = a.length;
-								while(l2--) {
-									if(a[l2][1] == n) {
-										files[l].md5 = a[l2][0];
+							} else {
+								var a = data.split("\n");
+								var l = a.length;
+								while(l--) {
+									a[l] = a[l].split("  ");
+									if(a[l].length != 2) {
+										a.splice(l, 1);
+									} else {
+										a[l][1] = a[l][1].split(fullPath + '/').join("");
 									}
 								}
+								var l = files.length;
+								while(l--) {
+									var n = files[l].name;
+									var l2 = a.length;
+									while(l2--) {
+										if(a[l2][1] == n) {
+											files[l].md5 = a[l2][0];
+										}
+									}
+								}
+								callback(resultValue);
 							}
-							callback(resultValue);
-						}
-					});
+						});
+					}.bind(this), 250);
+					
 				}
 			}.bind(this));
 		}).catch((err) => {

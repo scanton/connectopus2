@@ -335,7 +335,7 @@ input {
 	background: #600;
 	border-color: #900;
 }
-.active-connection.is-prime.pending .glyphicon {
+.active-connection.is-prime.pending .glyphicon-star {
 	background: yellow;
 }
 .panel-default {
@@ -613,4 +613,11 @@ ul.directories li, ul.tables li {
 }
 .footer-bar .label {
 	color: #777;
+}
+.path-link button.btn-default {
+	background-color: #EEE;
+}
+.path-link button.btn-default:hover {
+	background-color: #DDD;
+	color: black;
 }

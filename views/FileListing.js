@@ -58,6 +58,7 @@
 						}
 					}
 				}
+				return "";
 			},
 			getStyle: function() {
 				return {background: "hsl(" + this.colorData.angle + ", " + this.colorStyle.saturation + ", " + this.colorStyle.luminance + ")", color: this.colorData.color};
