@@ -233,17 +233,22 @@ module.exports = class ConnectopusController extends EventEmitter {
 			this._call(["connection", "context-side-bar"], "setSelectedConnection", null);
 		}
 	}
-	setFilePath(path) {
+	setFilePath(path, forceRefresh) {
 		this.currentFilePath = path;
 		this._call(["current-directories", "files-page", "files-nav-bar"], "setPath", path);
-
-		console.log("crawl directories here");
-
 		var liveCons = this.connectionsModel.getConnections();
-		this.connectionsModel.getDirectory(liveCons[0], path, function(data) {
-			console.log(data);
-		});
-		
+		var currentConnection = 0;
+		if(liveCons.length) {
+			var handler = function(data) {
+				++currentConnection;
+				if(currentConnection < liveCons.length) {
+					this._getFiles(liveCons[currentConnection], path, handler);
+				}
+			}.bind(this);
+			if(!this.fileModel.hasContent(liveCons[0].id) || forceRefresh) {
+				this._getFiles(liveCons[currentConnection], path, handler);
+			}
+		}
 	}
 	setLeftFooterLabel(str) {
 		this._call("footer-bar", "setLeftLabel", str);
@@ -382,9 +387,24 @@ module.exports = class ConnectopusController extends EventEmitter {
 				}.bind(this)}
 			]
 		});
+		console.error(obj);
 	}
 	handleFileModelUpdate(data) {
 		this._call(["current-directories", "files-page"], "handleFileModelUpdate");
+	}
+	handleMissingDirectory(con, path) {
+		this.viewController.callViewMethod("modal-overlay", "show", {
+			title: 'Directory "' + path + '" does not exist on ' + con.name,
+			message: "Would you like to create the remote directory '" + path + "' on " + con.name + "?", 
+			buttons: [
+				{label: "Cancel", class: "btn-warning", icon: "", callback: function() {
+					this.hideModal();
+				}.bind(this)},
+				{label: "Create Directory", class: "btn-success", icon: "", callback: function() {
+					this.hideModal();
+				}.bind(this)}
+			]
+		});
 	}
 	handleShowAllLabels() {
 		this._call("modal-overlay", "showOverlay");
@@ -444,6 +464,11 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	_call(views, method, params) {
 		return this.viewController.callViewMethod(views, method, params);
+	}
+	_getFiles(con, path, callback) {
+		this.connectionsModel.getDirectory(con, path, function(data) {
+			callback(data);
+		});
 	}
 	_hasDirectory(arr, name) {
 		var l = arr.length;

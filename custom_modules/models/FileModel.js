@@ -21,4 +21,10 @@ module.exports = class FileModel extends AbstractModel {
 	getAllContent() {
 		return this._strip(this._fileContents);
 	}
+	hasContent(id, path) {
+		if(this._fileContents[id] && this._fileContents[id][path]) {
+			return true;
+		}
+		return false;
+	}
 }

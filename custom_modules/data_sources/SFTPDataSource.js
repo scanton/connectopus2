@@ -110,10 +110,14 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 				}
 			}.bind(this));
 		}).catch((err) => {
-			if(errorHandler) {
-				errorHandler(err);
+			if(err.toString() == "Error: No such file") {
+				controller.handleMissingDirectory(this._con, path);
 			} else {
-				controller.handleError(err);
+				if(errorHandler) {
+					errorHandler(err);
+				} else {
+					controller.handleError(err);
+				}
 			}
 		});
 	}

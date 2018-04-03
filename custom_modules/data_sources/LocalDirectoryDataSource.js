@@ -7,6 +7,11 @@ module.exports = class LocalDirectoryDataSource extends AbstractDataSource {
 	}
 
 	getDirectory(path, callback, errorHandler) {
+		if(path) {
+			path = this._con.directory + "/" + path;
+		} else {
+			path = this._con.directory;
+		}
 		this.fs.pathExists(path, function(err, exists) {
 			if(err) {
 				if(errorHandler) {
@@ -42,7 +47,11 @@ module.exports = class LocalDirectoryDataSource extends AbstractDataSource {
 						}
 						if(callback) {
 							var con = this._con;
-							callback({con: con, path: path.split(con.directory).join(""), files: files, directories: directories});
+							var cleanPath = path.split(con.directory).join("");
+							if(cleanPath.charAt(0) == "/") {
+								cleanPath = cleanPath.substr(1);
+							}
+							callback({con: con, path: cleanPath, files: files, directories: directories});
 						}
 					}.bind(this));
 				}

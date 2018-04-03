@@ -20,21 +20,7 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			}
 			this._connections[this.currentProject].push(con);
 			this._dispatchUpdate();
-			this.getDirectory(con, con.directory, callback);
-			/*
-			var liveConnection = DataSourceFactory.createConnection(con);
-			if(liveConnection) {
-				liveConnection.getDirectory(con.directory, function(data) {
-					this.setStatus(con.id, 'connected');
-					this.fileModel.setContents(data.con, data.path, data);
-					if(callback) {
-						callback(data);
-					}
-				}.bind(this), function(err) {
-					controller.handleError(err);
-					this.setStatus(con.id, 'error');
-				}.bind(this));
-			}*/
+			this.getDirectory(con, "", callback);
 		}
 	}
 	getDirectory(con, directory, callback) {

@@ -17,16 +17,15 @@
 						<span class="glyphicon glyphicon-chevron-left"></span>
 					</button>
 					<span class="path-link">
+						<button v-on:click="handleChangePath" v-show="pathData.length > 0" class="btn btn-default path-button" data-path="" >{ root }</button>
 						<span v-show="pathData.length == 0">{ root }</span>
-						<button v-show="pathData.length > 0" class="btn btn-default path-button" data-path="" >{ root }</button>
 						<span v-show="pathData.length" class="delimiter">/</span>
 					</span>
 					<span v-for="(p, index) in pathData" class="path-link">
-						<button v-show="index != pathData.length - 1" class="btn btn-default path-button" v-bind:data-path="p.path" >{{p.name}}</button>
+						<button v-on:click="handleChangePath" v-show="index != pathData.length - 1" class="btn btn-default path-button" v-bind:data-path="p.path" >{{p.name}}</button>
 						<span v-show="index != pathData.length - 1" class="delimiter">/</span>
 						<span v-show="index == pathData.length - 1">{{p.name}}</span>
 					</span>
-					
 					<button class="btn btn-default">
 						<span class="glyphicon glyphicon-chevron-right"></span>
 					</button>
@@ -47,6 +46,12 @@
 			}
 		},
 		methods: {
+			handleChangePath: function(e) {
+				e.preventDefault();
+				var $this = $(e.target);
+				var path = $this.attr("data-path");
+				controller.setFilePath(path);
+			},
 			setPath: function(path) {
 				this.path = path;
 				var a = this.path.split("/");
