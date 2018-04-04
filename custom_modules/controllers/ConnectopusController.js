@@ -72,6 +72,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 		}
 		this.configModel.addConnection(o);
 	}
+	compareFiles(conId, path) {
+		console.log(conId, path);
+	}
 	connectTo(id) {
 		var con = this.configModel.getConnection(id);
 		if(con) {
@@ -407,6 +410,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 					this.hideModal();
 				}.bind(this)},
 				{label: "Create Directory", class: "btn-success", icon: "", callback: function() {
+					this.connectionsModel.createDirectory(con, path, function() {
+						this.setFilePath(path, true);
+					}.bind(this));
 					this.hideModal();
 				}.bind(this)}
 			]
@@ -427,6 +433,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	handleSettingsData(data) {
 		this._call("settings-side-bar", "setSettings", data);
 		this._call(["active-connection", "files-page"], "setMaximizeContrast", data.maximizeContrast);
+		this._call("work-area", "setHideMatchingFiles", data.hideFilesInSync);
 		if(data.theme) {
 			var theme = data.theme.toLowerCase().split(" ").join("-");
 			var $main = $("body");

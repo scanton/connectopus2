@@ -23,6 +23,14 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			this.getDirectory(con, "", callback);
 		}
 	}
+	createDirectory(con, path, callback) {
+		var liveConnection = DataSourceFactory.createConnection(con);
+		if(liveConnection) {
+			liveConnection.createDirectory(path, function() {
+				callback();
+			});
+		}
+	}
 	getDirectory(con, directory, callback) {
 		var liveConnection = DataSourceFactory.createConnection(con);
 		if(liveConnection) {

@@ -22,9 +22,8 @@
 					</button>
 					-->
 					<span class="path-link">
-						<button v-on:click="handleChangePath" v-show="pathData.length > 0" class="btn btn-default path-button" data-path="" >{ root }</button>
-						<span v-show="pathData.length == 0">{ root }</span>
-						<span v-show="pathData.length" class="delimiter">/</span>
+						<button v-on:click="handleChangePath" class="btn btn-default path-button" data-path="" >{ root }</button>
+						<span class="delimiter">/</span>
 					</span>
 					<span v-for="(p, index) in pathData" class="path-link">
 						<button v-on:click="handleChangePath" v-show="index != pathData.length - 1" class="btn btn-default path-button" v-bind:data-path="p.path" >{{p.name}}</button>

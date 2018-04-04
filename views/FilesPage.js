@@ -13,8 +13,8 @@
 							</th>
 						</tr>
 						<tr v-for="file in files.allFiles">
-							<td class="file-compare-listing" v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
-								<file-compare v-bind:index="index" v-bind:totalConnections="totalConnections" v-bind:primeFile="getPrimeFile(file.name)" v-bind:compareFile="getFile(file.name, conId)"></file-compare>
+							<td v-bind:class="{'row-is-in-sync': isRowInSync(file)}" class="file-compare-listing" v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
+								<file-compare v-bind:conId="conId" v-bind:index="index" v-bind:totalConnections="totalConnections" v-bind:primeFile="getPrimeFile(file.name)" v-bind:compareFile="getFile(file.name, conId)"></file-compare>
 							</td>
 						</tr>
 					</table>
@@ -78,6 +78,23 @@
 			},
 			handleFileModelUpdate: function() {
 				this.files = controller.getFiles(this.connections, this.path);
+			},
+			isRowInSync: function(file) {
+				if(this.connections.length > 1) {
+					var compFile;
+					var primeFile = this.getPrimeFile(file.name);
+					var l = this.connections.length;
+					if(primeFile) {
+						while(l--) {
+							compFile = this.getFile(file.name, this.connections[l]);
+							if(compFile.md5 != primeFile.md5) {
+								return false;
+							}
+						}
+						return true;
+					}
+				}
+				return false;
 			},
 			setConnections: function(data) {
 				if(data) {

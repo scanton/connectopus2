@@ -60,6 +60,7 @@ h3 {
 	bottom: 26px;
 	top: 52px;
 	font-size: 14pt;
+	z-index: 2;
 }
 .modal-overlay .dialog-message {
 	margin-bottom: 1em;
@@ -125,7 +126,7 @@ h3 {
 }
 .context-side-bar {
 	-webkit-transition: all 0.3s ease;
-	top: 52px;
+	top: 51px;
 	left: -300px;
 	width: 300px;
 	bottom: 26px;
@@ -583,7 +584,7 @@ ul.directories li, ul.tables li {
 	position: relative;
 }
 .files-page .file-listing-table {
-	margin-top: 34px;
+	margin-top: 32px;
 }
 .files-page .select-file-checkbox {
 	margin-right: 0.5em;
@@ -594,14 +595,19 @@ ul.directories li, ul.tables li {
 	cursor: pointer;
 }
 .files-page .files-nav-bar {
+	z-index: 1;
 	position: fixed;
 	background: #EEE;
 	color: black;
-	left: 0;
+	left: 50px;
 	right: 0;
-	top: 52px;
+	top: 51px;
 	height: 34px;
 	padding: 3px 25px;
+	-webkit-transition: all 0.3s ease;
+}
+.context-is-visible .files-page .files-nav-bar {
+	left: 350px;
 }
 .files-page .files-nav-bar button {
 	padding: 3px 6px;
@@ -616,4 +622,18 @@ ul.directories li, ul.tables li {
 .path-link button.btn-default:hover {
 	background-color: #DDD;
 	color: black;
+}
+.file-listing-table input[type='checkbox'] {
+	font-size: 40pt;
+	margin-right: 5px;
+}
+.file-listing-table .row-is-in-sync input[type='checkbox'] {
+	visibility: hidden;
+}
+.file-listing-table .row-is-in-sync {
+	font-style: italic;
+	opacity: .75;
+}
+.hide-matching-files .file-listing-table .row-is-in-sync {
+	display: none;
 }

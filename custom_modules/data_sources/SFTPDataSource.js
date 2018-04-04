@@ -8,14 +8,36 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 		this.sftp = new Ssh2SftpClient();
 	}
 
+	createDirectory(path, callback, errorHandler) {
+		var con = this._con;
+		var sshData = this._getSshData(con);
+
+		this.sftp.connect(sshData).then(() => {
+			var root = con.root ? con.root : '.';
+			var fullPath = root;
+			if(path) {
+				fullPath = root + '/' + path;
+			}
+			return this.sftp.mkdir(fullPath, 1);
+		}).then((data) => {
+			if(callback) {
+				callback(data);
+			}
+		}).catch((err) => {
+			if(err.toString() == "Error: Unable to create directory '" + path + "'.") {
+				controller.handleMissingDirectory(this._con, path);
+			} else {
+				if(errorHandler) {
+					errorHandler(err);
+				} else {
+					controller.handleError(err);
+				}
+			}
+		});
+	}
 	getDirectory(path, callback, errorHandler) {
 		var con = this._con;
-		var sshData = {
-			host: con.host,
-			port: con.port,
-			username: con.username,
-			password: con.password
-		}
+		var sshData = this._getSshData(con);
 
 		this.sftp.connect(sshData).then(() => {
 			var root = con.root ? con.root : '.';
@@ -69,50 +91,54 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 			for(var i = 0; i < l; i++) {
 				remoteCommand += "md5sum '" + fullPath + "/" + files[i].name + "'; "
 			}
-			this.remote(sshData.host, remoteCommand, sshData, function(err) {
-				if(err) {
-					if(errorHandler) {
-						errorHandler(err);
+			if(remoteCommand == "") {
+				callback(resultValue);
+			} else {
+				this.remote(sshData.host, remoteCommand, sshData, function(err) {
+					if(err) {
+						if(errorHandler) {
+							errorHandler(err);
+						} else {
+							controller.handleError(err);
+						}
 					} else {
-						controller.handleError(err);
-					}
-				} else {
-					setTimeout(function() {
-						this.fs.readFile('./working_files/out.txt', 'utf8', (err, data) => {
-							if(err) {
-								if(errorHandler) {
-									errorHandler(err);
-								} else {
-									controller.handleError(err);
-								}
-							} else {
-								var a = data.split("\n");
-								var l = a.length;
-								while(l--) {
-									a[l] = a[l].split("  ");
-									if(a[l].length != 2) {
-										a.splice(l, 1);
+						setTimeout(function() {
+							this.fs.readFile('./working_files/out.txt', 'utf8', (err, data) => {
+								if(err) {
+									if(errorHandler) {
+										errorHandler(err);
 									} else {
-										a[l][1] = a[l][1].split(fullPath + '/').join("");
+										controller.handleError(err);
 									}
-								}
-								var l = files.length;
-								while(l--) {
-									var n = files[l].name;
-									var l2 = a.length;
-									while(l2--) {
-										if(a[l2][1] == n) {
-											files[l].md5 = a[l2][0];
+								} else {
+									var a = data.split("\n");
+									var l = a.length;
+									while(l--) {
+										a[l] = a[l].split("  ");
+										if(a[l].length != 2) {
+											a.splice(l, 1);
+										} else {
+											a[l][1] = a[l][1].split(fullPath + '/').join("");
 										}
 									}
+									var l = files.length;
+									while(l--) {
+										var n = files[l].name;
+										var l2 = a.length;
+										while(l2--) {
+											if(a[l2][1] == n) {
+												files[l].md5 = a[l2][0];
+											}
+										}
+									}
+									callback(resultValue);
 								}
-								callback(resultValue);
-							}
-						});
-					}.bind(this), 250);
-					
-				}
-			}.bind(this));
+							});
+						}.bind(this), 250);
+						
+					}
+				}.bind(this));
+			}
 		}).catch((err) => {
 			if(err.toString() == "Error: No such file") {
 				controller.handleMissingDirectory(this._con, path);
@@ -124,5 +150,15 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 				}
 			}
 		});
+	}
+
+	_getSshData(con) {
+		var sshData = {
+			host: con.host,
+			port: con.port,
+			username: con.username,
+			password: con.password
+		}
+		return sshData;
 	}
 }
