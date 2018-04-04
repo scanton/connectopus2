@@ -7,8 +7,14 @@
 					<files-nav-bar></files-nav-bar>
 					<table class="file-listing-table">
 						<tr>
-							<td v-for="(conId, index) in connections">
-								<file-listing v-bind:files="files[conId]" v-bind:primeFiles="getPrimeFiles()" v-bind:allFiles="files.allFiles" v-bind:connectionName="getName(conId)" v-bind:dataConnectionId="conId" v-bind:dataIndex="index" v-bind:dataConnectionCount="totalConnections"></file-listing>
+							<th class="connection-name" v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
+								<span class="pull-left" v-if="index == 0"><input type="checkbox" /></span>
+								{{getName(conId)}}
+							</th>
+						</tr>
+						<tr v-for="file in files.allFiles">
+							<td class="file-compare-listing" v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
+								<file-compare v-bind:index="index" v-bind:totalConnections="totalConnections" v-bind:primeFile="getPrimeFile(file.name)" v-bind:compareFile="getFile(file.name, conId)"></file-compare>
 							</td>
 						</tr>
 					</table>
@@ -28,10 +34,36 @@
 				files: [],
 				path: '',
 				totalConnections: 0,
-				primeId: null
+				primeId: null,
+				maximizeContrast: null
 			}
 		},
 		methods: {
+			getFile: function(name, conId) {
+				var fileArray = this.files[conId];
+				if(fileArray) {
+					var l = fileArray.length;
+					while(l--) {
+						if(fileArray[l].name == name) {
+							return fileArray[l];
+						}
+					}
+				}
+				return {};
+			},
+			getName: function(id) {
+				return controller.getConnectionName(id);
+			},
+			getPrimeFile: function(name) {
+				var primes = this.getPrimeFiles();
+				var l = primes.length;
+				while(l--) {
+					if(primes[l].name == name) {
+						return primes[l];
+					}
+				}
+				return {};
+			},
 			getPrimeFiles: function() {
 				var primeId = this.primeId = controller.getPrimeId();
 				if(primeId && this.files[primeId]) {
@@ -39,8 +71,10 @@
 				}
 				return [];
 			},
-			getName: function(id) {
-				return controller.getConnectionName(id);
+			getStyle: function(index, totalConnections, maximizeContrast) {
+				var colorStyle = controller.getColorStyle();
+				var colorData = utils.calculateColors(index, totalConnections, maximizeContrast);
+				return {background: "hsl(" + colorData.angle + ", " + colorStyle.saturation + ", " + colorStyle.luminance + ")", color: colorData.color};
 			},
 			handleFileModelUpdate: function() {
 				this.files = controller.getFiles(this.connections, this.path);
@@ -56,6 +90,9 @@
 					this.totalConnections = a.length;
 					this.handleFileModelUpdate();
 				}
+			},
+			setMaximizeContrast: function(bool) {
+				this.maximizeContrast = bool;
 			},
 			setPath: function(path) {
 				this.path = path;

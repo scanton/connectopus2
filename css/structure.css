@@ -493,11 +493,7 @@ ul.directories li, ul.tables li {
 .files-page.container-fluid {
 	padding: 0;
 }
-.file-listing.container-fluid {
-	padding: 0;
-	float: left;
-}
-.file-listing .file {
+.file-compare-listing {
 	border: 1px solid rgba(0, 0, 0, .25);
 	padding: .25em;
 }
@@ -576,7 +572,7 @@ ul.directories li, ul.tables li {
 .project-news .milestone {
 	cursor: pointer;
 }
-.file-listing .connection-name {
+.files-page .connection-name {
 	text-align: center;
 	font-weight: bold;
 	font-size: 12pt;
@@ -598,12 +594,12 @@ ul.directories li, ul.tables li {
 	cursor: pointer;
 }
 .files-page .files-nav-bar {
-	position: absolute;
+	position: fixed;
 	background: #EEE;
 	color: black;
 	left: 0;
 	right: 0;
-	top: 0;
+	top: 52px;
 	height: 34px;
 	padding: 3px 25px;
 }

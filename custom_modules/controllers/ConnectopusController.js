@@ -426,7 +426,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	handleSettingsData(data) {
 		this._call("settings-side-bar", "setSettings", data);
-		this._call(["active-connection", "file-listing"], "setMaximizeContrast", data.maximizeContrast);
+		this._call(["active-connection", "files-page"], "setMaximizeContrast", data.maximizeContrast);
 		if(data.theme) {
 			var theme = data.theme.toLowerCase().split(" ").join("-");
 			var $main = $("body");
