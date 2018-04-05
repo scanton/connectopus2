@@ -18,6 +18,7 @@
   },
   "homepage": "http://connectopus.org",
   "dependencies": {
+    "diff": "^3.5.0",
     "electron-prebuilt": "^1.4.13",
     "fs-extra": "^5.0.0",
     "md5": "^2.2.1",

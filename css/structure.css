@@ -363,10 +363,10 @@ input {
 	border: 1px solid rgba(0, 0, 0, .25);
 }
 .active-connections .active-connection .glyphicon {
-    z-index: 2;
+    z-index: 5;
 }
 .active-connections .active-connection .glyphicon-star {
-	z-index: 2;
+	z-index: 5;
 }
 .active-connections .active-connection .glyphicon-triangle-bottom {
 	position: absolute;
@@ -400,7 +400,7 @@ input {
 	left: 30px !important;
 }
 .active-connection .rollover-flag {
-	z-index: 1;
+	z-index: 3;
 	-webkit-transition: all 0.3s ease;
 	color: black;
 	white-space: nowrap;
@@ -475,7 +475,7 @@ input {
 	border-radius: 50%;
 }
 .active-connection .status-icon {
-	z-index: 2;
+	z-index: 5;
 }
 .active-connection .status-icon .highlight, .active-connection .glyphicon .highlight {
 	top: 2px;
@@ -594,6 +594,9 @@ ul.directories li, ul.tables li {
 	font-weight: bold;
 	cursor: pointer;
 }
+.files-page .is-not-in-sync:hover {
+	text-decoration: underline;
+}
 .files-page .files-nav-bar {
 	z-index: 1;
 	position: fixed;
@@ -636,4 +639,31 @@ ul.directories li, ul.tables li {
 }
 .hide-matching-files .file-listing-table .row-is-in-sync {
 	display: none;
+}
+.diff-view {
+	position: absolute;
+	left: 1000px;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	overflow: scroll;
+}
+.diff-view .diff-compare {
+	background: white;
+}
+.diff-view th {
+	text-align: center;
+	color: black;
+}
+.diff-view pre {
+	white-space: pre-wrap;
+	background-color: transparent;
+	border-width: 0;
+	padding: 0;
+}
+.diff-view .added {
+	background: #CFC;
+}
+.diff-view .removed {
+	background: #FCC;
 }

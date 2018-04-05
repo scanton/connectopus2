@@ -23,6 +23,29 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			this.getDirectory(con, "", callback);
 		}
 	}
+	compare(conId, path, callback) {
+		var dirName = __dirname.split("/custom_modules/models")[0];
+		var primeSource = "comp-0.txt";
+		var compareSource = "comp-1.txt"
+		var workingPath = dirName + "/working_files/compare/";
+		var con = this.getConnection(conId);
+		if(con) {
+			var liveConnection = DataSourceFactory.createConnection(con);
+			if(liveConnection) {
+				liveConnection.getSourceFile(path, workingPath, compareSource, (data) => {
+					var primeCon = this._connections[this.currentProject][0];
+					if(primeCon) {
+						var primeConnection = DataSourceFactory.createConnection(primeCon);
+						primeConnection.getSourceFile(path, workingPath, primeSource, (primeData) => {
+							callback({conId: conId, path: path, prime: this.fs.readFileSync(primeData, "utf8"), compare: this.fs.readFileSync(data, "utf8")});
+						});
+					} else {
+						controller.handleError("Prime Connection Now Found at connectionsModel");
+					}
+				});
+			}
+		}
+	}
 	createDirectory(con, path, callback) {
 		var liveConnection = DataSourceFactory.createConnection(con);
 		if(liveConnection) {
@@ -51,6 +74,17 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		if(this._connections[this.currentProject]) {
 			return this._connections[this.currentProject][0].id;
 		}
+	}
+	getConnection(id) {
+		if(this._connections[this.currentProject]) {
+			var l = this._connections[this.currentProject].length;
+			while(l--) {
+				if(this._connections[this.currentProject][l].id == id) {
+					return this._strip(this._connections[this.currentProject][l]);
+				}
+			}
+		}
+		return null;
 	}
 	getConnectionName(id) {
 		if(this._connections[this.currentProject]) {

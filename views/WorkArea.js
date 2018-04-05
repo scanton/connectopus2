@@ -6,6 +6,7 @@
 			<context-side-bar></context-side-bar>
 			<settings-side-bar></settings-side-bar>
 			<category-side-bar></category-side-bar>
+			<diff-view></diff-view>
 			<footer-bar></footer-bar>
 			<top-nav></top-nav>
 		</div>

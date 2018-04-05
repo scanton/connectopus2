@@ -130,6 +130,6 @@ $(document).ready(function() {
 	$(window).resize();
 })
 
-var mainView = new Vue({
+const vm = new Vue({
 	el: '#main-app'
 });

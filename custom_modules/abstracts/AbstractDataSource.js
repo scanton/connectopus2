@@ -21,9 +21,21 @@ module.exports = class AbstractDataSource extends EventEmitter {
 		this.dispatchEvent("change", this);
 	}
 	getDirectory(path, callback, errorHandler) {
-		console.log("implement getDirectory in child class", path);
+		console.log("implement getDirectory in child class", this._con.id);
+		if(callback) {
+			callback();
+		}
+	}
+	getSourceFile(path, localPath, saveFileToPath, callback, errorHandler) {
+		console.log("implement getSourceFile in child class", this._con.id);
+		if(callback) {
+			callback(saveFileToPath);
+		}
 	}
 	createDirectory(path, callback, errorHandler) {
-		console.log("implement createDirectory in child class", path);	
+		console.log("implement createDirectory in child class", this._con.id);	
+		if(callback) {
+			callback();
+		}
 	}
 }

@@ -17,6 +17,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.connectionsModel.subscribe("connections-status", this.handleConnectionsStatus.bind(this));
 		this.fileModel.subscribe("data-update", this.handleFileModelUpdate.bind(this));
 		this.newsModel.subscribe("data-update", this.handleNewsUpdate.bind(this));
+		this.diff = require('diff');
 		this.dragId = null;
 		this.dragFolderName = null;
 		this.isDraggingConnection = false;
@@ -73,7 +74,12 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.configModel.addConnection(o);
 	}
 	compareFiles(conId, path) {
-		console.log(conId, path);
+		this._call("modal-overlay", "showLoader");
+		this.connectionsModel.compare(conId, path, (data) => {
+			this._call("modal-overlay", "hide");
+			data.diff = this.diff.diffLines(data.prime, data.compare, {ignoreWhitespace: false, newlineIsToken: true})
+			this._call("diff-view", "show", data);
+		});
 	}
 	connectTo(id) {
 		var con = this.configModel.getConnection(id);
