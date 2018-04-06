@@ -3,8 +3,8 @@
 	var s = `
 		<span v-bind:title="getTitle()" v-bind:class="{'is-not-in-sync': primeFile.md5 != compareFile.md5}" class="file-compare">
 			<span v-if="index == 0"><input type="checkbox" /></span>
-			<span v-show="primeFile.md5 != compareFile.md5" v-on:click="handleClick">{{compareFile.name}}</span>
-			<span v-show="primeFile.md5 == compareFile.md5">{{compareFile.name}}</span>
+			<span class="clickable" v-show="primeFile.md5 && (primeFile.md5 != compareFile.md5)" v-on:click="handleClick">{{compareFile.name}}</span>
+			<span class="non-clickable" v-show="!primeFile.md5 || (primeFile.md5 == compareFile.md5)">{{compareFile.name}}</span>
 		</span>
 	`;
 	

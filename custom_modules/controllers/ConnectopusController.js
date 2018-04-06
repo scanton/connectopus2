@@ -77,7 +77,11 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call("modal-overlay", "showLoader");
 		this.connectionsModel.compare(conId, path, (data) => {
 			this._call("modal-overlay", "hide");
-			data.diff = this.diff.diffLines(data.prime, data.compare, {ignoreWhitespace: false, newlineIsToken: true})
+			data.diff = this.diff.diffLines(data.prime, data.compare, {ignoreWhitespace: false, newlineIsToken: true});
+			data.totalConnections = this.connectionsModel.getConnectionCount();
+			data.compareIndex = this.connectionsModel.getConnectionIndex(conId);
+			data.compareName = this.connectionsModel.getConnectionName(conId);
+			data.primeName = this.connectionsModel.getConnectionName(this.connectionsModel.getPrimeId());
 			this._call("diff-view", "show", data);
 		});
 	}
@@ -438,7 +442,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	handleSettingsData(data) {
 		this._call("settings-side-bar", "setSettings", data);
-		this._call(["active-connection", "files-page"], "setMaximizeContrast", data.maximizeContrast);
+		this._call(["active-connection", "files-page", "diff-view"], "setMaximizeContrast", data.maximizeContrast);
 		this._call("work-area", "setHideMatchingFiles", data.hideFilesInSync);
 		if(data.theme) {
 			var theme = data.theme.toLowerCase().split(" ").join("-");

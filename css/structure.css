@@ -594,8 +594,18 @@ ul.directories li, ul.tables li {
 	font-weight: bold;
 	cursor: pointer;
 }
-.files-page .is-not-in-sync:hover {
-	text-decoration: underline;
+.files-page .is-not-in-sync .non-clickable {
+	color: #bb2e00;
+	text-decoration: none;
+	font-weight: normal;
+}
+.files-page .is-not-in-sync {
+	
+}
+.files-page .is-not-in-sync:hover .non-clickable:hover {
+	color: #bb2e00;
+	text-decoration: none;
+	cursor: default;
 }
 .files-page .files-nav-bar {
 	z-index: 1;
@@ -640,16 +650,27 @@ ul.directories li, ul.tables li {
 .hide-matching-files .file-listing-table .row-is-in-sync {
 	display: none;
 }
+.context-is-visible .diff-view {
+	left: 336px;
+}
 .diff-view {
 	position: absolute;
-	left: 1000px;
+	left: 36px;
 	right: 0;
-	top: 0;
-	bottom: 0;
+	top: 85px;
+	bottom: 26px;
 	overflow: scroll;
 }
 .diff-view .diff-compare {
 	background: white;
+}
+.diff-view h3 {
+	font-weight: 200;
+	font-size: 16pt;
+	background: #DDD;
+	color: #999;
+	margin: 0;
+	padding: .5em;
 }
 .diff-view th {
 	text-align: center;
@@ -659,11 +680,34 @@ ul.directories li, ul.tables li {
 	white-space: pre-wrap;
 	background-color: transparent;
 	border-width: 0;
-	padding: 0;
+	padding: 0 1em;
+	margin: 0;
 }
 .diff-view .added {
-	background: #CFC;
+	background: #CFC !important;
+	opacity: 1 !important;
+}
+.diff-view .added h3 {
+	background: #CFC !important;
+	color: green !important;
+	text-align: center;
+}
+.diff-view .added pre {
+	color: green;
 }
 .diff-view .removed {
-	background: #FCC;
+	background: #FCC !important;
+	opacity: 1 !important;
+}
+.diff-view .removed h3 {
+	background: #FCC !important;
+	color: red !important;
+	text-align: center;
+}
+.diff-view .removed pre {
+	color: red;
+	text-decoration: line-through;
+}
+.diff-view td, .diff-view th {
+	border-left: 1px solid rgba(0, 0, 0, .25);
 }

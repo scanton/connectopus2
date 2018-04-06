@@ -86,6 +86,17 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		}
 		return null;
 	}
+	getConnectionIndex(id) {
+		if(this._connections[this.currentProject]) {
+			var l = this._connections[this.currentProject].length;
+			while(l--) {
+				if(this._connections[this.currentProject][l].id == id) {
+					return l;
+				}
+			}
+		}
+		return -1;
+	}
 	getConnectionName(id) {
 		if(this._connections[this.currentProject]) {
 			var l = this._connections[this.currentProject].length;
@@ -99,6 +110,9 @@ module.exports = class ConnectionsModel extends AbstractModel {
 	}
 	getConnections() {
 		return this._strip(this._connections[this.currentProject]);
+	}
+	getConnectionCount() {
+		return this._connections[this.currentProject].length;
 	}
 	hasConnection(id) {
 		if(this._connections[this.currentProject]) {
