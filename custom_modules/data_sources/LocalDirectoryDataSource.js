@@ -6,6 +6,22 @@ module.exports = class LocalDirectoryDataSource extends AbstractDataSource {
 		this.md5File = require('md5-file');
 	}
 
+	getSourceFile(path, localPath, saveFileToPath, directory, callback, errorHandler) {
+		var delimiter = "";
+		if(directory.substr(directory.length - 1) != '/' && path.charAt(0) != '/') {
+			delimiter = "/";
+		}
+		if(callback) {
+			callback(directory + delimiter + path);
+		}
+	}
+	createDirectory(path, callback, errorHandler) {
+		console.log("implement createDirectory in child class", this._con.id);	
+		if(callback) {
+			//callback();
+		}
+	}
+
 	getDirectory(path, callback, errorHandler) {
 		if(path) {
 			path = this._con.directory + "/" + path;

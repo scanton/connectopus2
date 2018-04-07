@@ -79,7 +79,6 @@
 				this.maximizeContrast = bool;
 			},
 			show: function(data) {
-				console.log(stripObservers(data));
 				this.compareColor = utils.calculateColors(data.compareIndex, data.totalConnections, this.maximizeContrast);
 				this.primeColor = utils.calculateColors(0, data.totalConnections, this.maximizeContrast);
 				this.path = data.path;

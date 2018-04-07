@@ -32,11 +32,11 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		if(con) {
 			var liveConnection = DataSourceFactory.createConnection(con);
 			if(liveConnection) {
-				liveConnection.getSourceFile(path, workingPath, compareSource, (data) => {
+				liveConnection.getSourceFile(path, workingPath, compareSource, con.directory, (data) => {
 					var primeCon = this._connections[this.currentProject][0];
 					if(primeCon) {
 						var primeConnection = DataSourceFactory.createConnection(primeCon);
-						primeConnection.getSourceFile(path, workingPath, primeSource, (primeData) => {
+						primeConnection.getSourceFile(path, workingPath, primeSource, primeCon.directory, (primeData) => {
 							callback({conId: conId, path: path, prime: this.fs.readFileSync(primeData, "utf8"), compare: this.fs.readFileSync(data, "utf8")});
 						});
 					} else {
