@@ -97,7 +97,7 @@ require('./custom_modules/utils/enableContextMenu.js')();
 
 $(window).resize(function() {
 	let wHeight = $(window).height();
-	$(".category-side-bar").each(function() {
+	$(".tool-bar").each(function() {
 		let $sb = $(this);
 		let sHeight = $sb.height();
 		let sPos = $sb.offset();

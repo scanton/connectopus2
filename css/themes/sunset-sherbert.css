@@ -56,14 +56,14 @@ body.sunset-sherbert {
 .sunset-sherbert .context-side-bar {
 	background: #333;
 }
-.sunset-sherbert .category-side-bar ul li:hover {
+.sunset-sherbert .tool-bar ul li:hover {
 	background: #222;
 }
-.sunset-sherbert .category-side-bar ul li.selected {
+.sunset-sherbert .tool-bar ul li.selected {
 	background: #333;
 	color: white;
 }
-.sunset-sherbert .category-side-bar ul li:hover {
+.sunset-sherbert .tool-bar ul li:hover {
 	color: white;
 }
 .sunset-sherbert .glyphicon-folder-close, .sunset-sherbert .glyphicon-folder-open {
@@ -162,7 +162,7 @@ body.sunset-sherbert {
 .sunset-sherbert .foot-toolbar {
 	background: black;
 }
-.sunset-sherbert .category-side-bar ul li:hover {
+.sunset-sherbert .tool-bar ul li:hover {
 	color: white;
 }
 .sunset-sherbert .current-connections .connection:hover {

@@ -1,7 +1,7 @@
 (function() {
-	var componentName = 'category-side-bar';
+	var componentName = 'tool-bar';
 	var s = `
-		<div class="category-side-bar side-bar">
+		<div class="tool-bar side-bar">
 			<ul class="categories">
 				<li class="selected" title="Home" v-on:click="showHome">
 					<span class="glyphicon glyphicon-home"></span>
@@ -18,7 +18,7 @@
 				</li>
 				-->
 			</ul>
-			<div style="text-align: center; cursor: default;" v-on:mouseover="handleShowAllLables" v-on:mouseout="handleHideAllLabels" v-show="activeConnections.length">Active</div>
+			<div style="text-align: center; cursor: default;" v-on:mouseover="handleShowAllLables" v-on:mouseout="handleHideAllLabels" v-show="activeConnections.length">Status</div>
 			<ul class="active-connections" v-bind:class="{ 'mouse-is-over': showAllLabels }">
 				<active-connection v-for="(con, index) in activeConnections" v-bind:con="con" v-bind:index="index" v-bind:connections="activeConnections.length"></active-connection>
 			</ul>

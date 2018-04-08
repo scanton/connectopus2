@@ -134,22 +134,22 @@ h3 {
 .context-is-visible .context-side-bar {
 	left: 50px;
 }
-.category-side-bar {
+.tool-bar {
 	position: relative;
 	-webkit-transition: all 0.3s ease;
 	width: 50px;
 	top: 0;
 	left: 0;
 }
-.category-side-bar ul {
+.tool-bar ul {
 	list-style: none;
 	padding: 0;
 }
-.category-side-bar ul li {
+.tool-bar ul li {
 	font-size: 16pt;
 	padding: 12px;
 }
-.category-side-bar ul.categories li:hover {
+.tool-bar ul.categories li:hover {
 	cursor: pointer;
 }
 .footer-bar {
@@ -161,15 +161,15 @@ h3 {
 	padding: 2px;
 }
 
-#main-app.process-pending .footer-bar, #main-app.process-pending .titlebar, #main-app.process-pending .category-side-bar {
+#main-app.process-pending .footer-bar, #main-app.process-pending .titlebar, #main-app.process-pending .tool-bar {
 	background: orange;
 	color: black;
 }
-#main-app.process-error .footer-bar, #main-app.process-error .titlebar, #main-app.process-error .category-side-bar {
+#main-app.process-error .footer-bar, #main-app.process-error .titlebar, #main-app.process-error .tool-bar {
 	background: red;
 	color: white;
 }
-#main-app.process-complete .footer-bar, #main-app.process-complete .titlebar, #main-app.process-complete .category-side-bar {
+#main-app.process-complete .footer-bar, #main-app.process-complete .titlebar, #main-app.process-complete .tool-bar {
 	background: green;
 	color: white;
 }

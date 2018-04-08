@@ -387,7 +387,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call("title-bar", "setSubject", name); 
 		this._call("title-bar", "setTarget", target);
 		this._call("connection", "setConnectionStatus", data);
-		this._call("category-side-bar", "setConnectionStatus", data);
+		this._call("tool-bar", "setConnectionStatus", data);
 		this._call(["current-directories", "files-page", "file-listing"], "setConnections", data);
 	}
 	handleDragConnectionEnd() {

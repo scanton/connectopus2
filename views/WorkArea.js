@@ -5,7 +5,7 @@
 			<main-view></main-view>
 			<context-side-bar></context-side-bar>
 			<settings-side-bar></settings-side-bar>
-			<category-side-bar></category-side-bar>
+			<tool-bar></tool-bar>
 			<diff-view></diff-view>
 			<footer-bar></footer-bar>
 			<top-nav></top-nav>

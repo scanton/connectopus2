@@ -28,10 +28,10 @@
 .connectopus-classic .foot-toolbar {
     background: #E2E2E2;
 }
-.connectopus-classic .category-side-bar ul li {
+.connectopus-classic .tool-bar ul li {
 	color: #777;
 }
-.connectopus-classic .category-side-bar ul li:hover {
+.connectopus-classic .tool-bar ul li:hover {
 	color: black;
 }
 .connectopus-classic .project-news a {
