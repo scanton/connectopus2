@@ -26,7 +26,7 @@ module.exports = class AbstractDataSource extends EventEmitter {
 			callback();
 		}
 	}
-	getSourceFile(path, localPath, saveFileToPath, callback, errorHandler) {
+	getSourceFile(path, localPath, saveFileToPath, directory, callback, errorHandler) {
 		console.log("implement getSourceFile in child class", this._con.id);
 		if(callback) {
 			callback(saveFileToPath);

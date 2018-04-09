@@ -7,29 +7,38 @@
 					<h3><button v-on:click="hideView" class="btn btn-default">Close</button> {{path}}</h3>
 					<table class="diff-compare">
 						<tr>
+							<th class="line-number" v-bind:style="getStyle(0, primeColor)"></th>
 							<th v-bind:style="getStyle(0, primeColor)"><h2>{{primeName}}<h2></th>
+							<th class="line-number" v-bind:style="getStyle(compareIndex, compareColor)"></th>
 							<th v-bind:style="getStyle(compareIndex, compareColor)"><h2>{{compareName}}<h2></th>
 						</tr>
 						<tr>
+							<td class="added line-number"></td>
 							<td class="added">
 								<h3>{{addCount()}} Additions</h3>
 							</td>
+							<td class="removed line-number"></td>
 							<td class="removed">
 								<h3>{{removeCount()}} Removals</h3>
 							</td>
 						</tr>
-						<tr v-for="item in diffData">
+						<tr v-for="(item, index) in diffData">
+							<td class="line-number prime-file" v-bind:style="getStyle(0, primeColor)" v-bind:class="{'added': item.added, 'removed': item.removed}">
+								<span class="line-counter">{{item.primeLineCount}}</span>
+							</td>
 							<td v-bind:style="getStyle(0, primeColor)" v-bind:class="{'added': item.added, 'removed': item.removed}">
 								<span v-show="!item.removed">
 									<pre>{{item.value}}</pre>
 								</span>
+							</td>
+							<td class="line-number compare-file" v-bind:style="getStyle(compareIndex, compareColor)" v-bind:class="{'added': item.added, 'removed': item.removed}">
+								<span class="line-counter">{{item.compareLineCount}}</span>
 							</td>
 							<td v-bind:style="getStyle(compareIndex, compareColor)" v-bind:class="{'added': item.added, 'removed': item.removed}">
 								<span v-show="!item.added">
 									<pre>{{item.value}}</pre>
 								</span>
 							</td>
-							
 						</tr>
 					</table>
 				</div>
@@ -88,6 +97,32 @@
 				this.compareIndex = data.compareIndex;
 				this.diffData = data.diff;
 				this.isVisible = true;
+				
+				var a = [];
+				var l = data.diff.length;
+				var a2, l2, d;
+				var primeLineCount = 0;
+				var compareLineCount = 0;
+				for(var i = 0; i < l; i++) {
+					d = data.diff[i];
+					if(d) {
+						a2 = d.value.split("\n");
+						var l2 = a2.length;
+						for(var i2 = 0; i2 < l2; i2++) {
+							if(d.removed) {
+								++compareLineCount;
+							} else if(d.added) {
+								++primeLineCount;
+							} else {
+								++primeLineCount;
+								++compareLineCount;
+							}
+							a.push({count: 1, value: a2[i2], added: d.added, removed: d.removed, primeLineCount: primeLineCount, compareLineCount: compareLineCount});
+						}
+					}
+				}
+				this.diffData = a;
+				
 			},
 			removeCount: function() {
 				var count = 0;

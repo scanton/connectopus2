@@ -77,7 +77,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call("modal-overlay", "showLoader");
 		this.connectionsModel.compare(conId, path, (data) => {
 			this._call("modal-overlay", "hide");
-			data.diff = this.diff.diffLines(data.prime, data.compare, {ignoreWhitespace: false, newlineIsToken: true});
+			data.diff = this.diff.diffLines(data.compare, data.prime, {ignoreWhitespace: false, newlineIsToken: true});
 			data.totalConnections = this.connectionsModel.getConnectionCount();
 			data.compareIndex = this.connectionsModel.getConnectionIndex(conId);
 			data.compareName = this.connectionsModel.getConnectionName(conId);

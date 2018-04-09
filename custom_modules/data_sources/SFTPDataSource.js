@@ -151,7 +151,7 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 			}
 		});
 	}
-	getSourceFile(path, localPath, fileName, callback, errorHandler) {
+	getSourceFile(path, localPath, fileName, directory, callback, errorHandler) {
 		var con = this._con;
 		var sshData = this._getSshData(con);
 		this.sftp.connect(sshData).then(() => {

@@ -682,6 +682,14 @@ ul.directories li, ul.tables li {
 	border-width: 0;
 	padding: 0 1em;
 	margin: 0;
+	display: inline;
+}
+.diff-view .line-number {
+	color: #555;
+	opacity: .75;
+}
+.diff-view .line-number.prime-file.removed .line-counter,  .diff-view .line-number.compare-file.added .line-counter {
+	visibility: hidden;
 }
 .diff-view .added {
 	background: #CFC !important;
@@ -710,4 +718,10 @@ ul.directories li, ul.tables li {
 }
 .diff-view td, .diff-view th {
 	border-left: 1px solid rgba(0, 0, 0, .25);
+}
+.diff-compare h2 {
+	font-weight: 400;
+}
+.diff-compare td {
+	padding: 0 .25em;
 }
