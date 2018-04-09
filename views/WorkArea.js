@@ -6,7 +6,7 @@
 			<context-side-bar></context-side-bar>
 			<settings-side-bar></settings-side-bar>
 			<tool-bar></tool-bar>
-			<diff-view></diff-view>
+			<diff-view v-bind:category="category"></diff-view>
 			<footer-bar></footer-bar>
 			<top-nav></top-nav>
 		</div>
@@ -35,6 +35,9 @@
 			}
 		},
 		methods: {
+			setIsContextVisible: function(bool) {
+				this.isContextVisible = bool;
+			},
 			setHideMatchingFiles: function(bool) {
 				this.hideMatchingFiles = bool;
 			},

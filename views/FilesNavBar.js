@@ -4,17 +4,19 @@
 		<div class="files-nav-bar container-fluid">
 			<div class="row">
 				<div class="col-xs-12">
-					<button class="btn btn-danger pull-right" title="Delete Selected Files">
+					<button v-show="deletesAreSelected" class="btn btn-danger pull-right" title="Delete Selected Files">
 						<span class="glyphicon glyphicon-remove"></span>
 					</button>
+					<button v-show="filesAreSelected" class="btn btn-warning pull-right" title="Sync Selected Files">
+						<span class="glyphicon glyphicon-export"></span>
+					</button>
+					<!--
 					<button class="btn btn-default pull-right" title="Crawl Directories">
 						<span class="glyphicon glyphicon-eye-open"></span>
 					</button>
+					-->
 					<button v-on:click="handleRefreshView" class="btn btn-default pull-right" title="Refresh Path">
 						<span class="glyphicon glyphicon-refresh"></span>
-					</button>
-					<button class="btn btn-warning pull-right" title="Sync Selected Files">
-						<span class="glyphicon glyphicon-export"></span>
 					</button>
 					<!--
 					<button class="btn btn-default">
@@ -48,7 +50,9 @@
 		data: function() {
 			return {
 				path: '',
-				pathData: []
+				pathData: [],
+				deletesAreSelected: false,
+				filesAreSelected: false
 			}
 		},
 		methods: {

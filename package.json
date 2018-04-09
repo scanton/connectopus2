@@ -21,6 +21,7 @@
     "diff": "^3.5.0",
     "electron-prebuilt": "^1.4.13",
     "fs-extra": "^5.0.0",
+    "html2canvas": "^1.0.0-alpha.12",
     "md5": "^2.2.1",
     "md5-file": "^3.2.3",
     "remote-exec": "0.0.3",

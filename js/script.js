@@ -50,6 +50,8 @@ utils.calculateColors = function(index, connections, maximizeContrast) {
 const remote = require('electron').remote;
 const {dialog, shell} = require('electron').remote;
 
+const html2canvas = require('html2canvas');
+
 const EventEmitter = require(__dirname + '/custom_modules/utils/EventEmitter.js');
 const AbstractDataSource = require(__dirname + '/custom_modules/abstracts/AbstractDataSource.js');
 const AbstractModel = require(__dirname + '/custom_modules/abstracts/AbstractModel.js');

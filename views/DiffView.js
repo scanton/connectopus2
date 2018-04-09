@@ -1,10 +1,13 @@
 (function() {
 	var componentName = 'diff-view';
 	var s = `
-		<div v-show="isVisible" class="diff-view container-fluid">
+		<div v-show="isVisible && category == 'files'" class="diff-view container-fluid">
 			<div class="row">
-				<div class="col-xs-12">
-					<h3><button v-on:click="hideView" class="btn btn-default">Close</button> {{path}}</h3>
+				<div class="col-xs-12" style="padding-right: 0; padding-left: 14px;">
+					<div class="mini-map">
+						<img src="" />
+					</div>
+					<h3 class="diff-tool-bar"><button v-on:click="hideView" class="btn btn-success pull-right">Close Diff View</button> {{path}}</h3>
 					<table class="diff-compare">
 						<tr>
 							<th class="line-number" v-bind:style="getStyle(0, primeColor)"></th>
@@ -51,6 +54,7 @@
 			viewController.registerView(componentName, this);
 		},
 		template: s,
+		props: ["category"],
 		data: function() {
 			return {
 				diffData: [],
@@ -82,12 +86,14 @@
 			},
 			hideView: function(e) {
 				e.preventDefault();
+				controller.setContextVisible(true);
 				this.isVisible = false;
 			},
 			setMaximizeContrast: function(bool) {
 				this.maximizeContrast = bool;
 			},
 			show: function(data) {
+				$(".diff-view .mini-map img").attr("src", "./images/rendering-notice.png");
 				this.compareColor = utils.calculateColors(data.compareIndex, data.totalConnections, this.maximizeContrast);
 				this.primeColor = utils.calculateColors(0, data.totalConnections, this.maximizeContrast);
 				this.path = data.path;
@@ -95,9 +101,10 @@
 				this.compareName = data.compareName;
 				this.totalConnections = data.totalConnections;
 				this.compareIndex = data.compareIndex;
-				this.diffData = data.diff;
+				//this.diffData = data.diff;
 				this.isVisible = true;
-				
+				controller.setContextVisible(false);
+
 				var a = [];
 				var l = data.diff.length;
 				var a2, l2, d;
@@ -122,7 +129,9 @@
 					}
 				}
 				this.diffData = a;
-				
+				html2canvas($(".diff-compare")[0]).then((canvas) => {
+					$(".diff-view .mini-map img").attr("src", canvas.toDataURL("image/png"));
+				});
 			},
 			removeCount: function() {
 				var count = 0;

@@ -227,6 +227,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.configModel.moveFolderTo(this.dragFolderName, name);
 	}
 
+	setContextVisible(bool) {
+		this._call("work-area", "setIsContextVisible", bool);
+	}
 	setCurrentProject(id) {
 		this.currentProject = id;
 		this.connectionsModel.setCurrentProject(id);

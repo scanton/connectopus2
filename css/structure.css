@@ -655,8 +655,9 @@ ul.directories li, ul.tables li {
 }
 .diff-view {
 	position: absolute;
+	-webkit-transition: all 0.3s ease;
 	left: 36px;
-	right: 0;
+	right: 0px;
 	top: 85px;
 	bottom: 26px;
 	overflow: scroll;
@@ -687,6 +688,7 @@ ul.directories li, ul.tables li {
 .diff-view .line-number {
 	color: #555;
 	opacity: .75;
+	text-align: center;
 }
 .diff-view .line-number.prime-file.removed .line-counter,  .diff-view .line-number.compare-file.added .line-counter {
 	visibility: hidden;
@@ -719,9 +721,31 @@ ul.directories li, ul.tables li {
 .diff-view td, .diff-view th {
 	border-left: 1px solid rgba(0, 0, 0, .25);
 }
+.diff-view .mini-map {
+	position: fixed;
+	right: 0;
+	top: 136px;
+}
+.diff-view .mini-map img {
+	max-width: 100px;
+}
+.diff-compare {
+	margin-top: 50px;
+	margin-right: 100px;
+}
 .diff-compare h2 {
 	font-weight: 400;
 }
 .diff-compare td {
 	padding: 0 .25em;
+}
+.diff-tool-bar {
+	position: fixed;
+	-webkit-transition: all 0.3s ease;
+    left: 50px;
+    right: 0;
+    z-index: 2;
+}
+.context-is-visible .diff-tool-bar {
+	left: 350px;
 }
