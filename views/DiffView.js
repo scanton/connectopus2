@@ -4,10 +4,25 @@
 		<div v-show="isVisible && category == 'files'" class="diff-view container-fluid">
 			<div class="row">
 				<div class="col-xs-12" style="padding-right: 0; padding-left: 14px;">
-					<div class="mini-map">
-						<img src="" />
-					</div>
-					<h3 class="diff-tool-bar"><button v-on:click="hideView" class="btn btn-success pull-right">Close Diff View</button> {{path}}</h3>
+					<table class="mini-map">
+						<tr>
+							<th v-bind:style="getStyle(0, primeColor)"></th>
+							<th v-bind:style="getStyle(compareIndex, compareColor)"></th>
+						</tr>
+						<tr>
+							<td class="added"></td>
+							<td class="removed"></td>
+						</tr>
+						<tr v-for="(item, index) in diffData">
+							<td v-bind:style="getStyle(0, primeColor)" v-bind:class="{'added': item.added, 'removed': item.removed}"></td>
+							<td v-bind:style="getStyle(compareIndex, compareColor)" v-bind:class="{'added': item.added, 'removed': item.removed}"></td>
+						</tr>
+					</table>
+					<h3 class="diff-tool-bar">
+						<button v-on:click="hideView" class="btn btn-success pull-right">Close Diff View</button>
+						<span class="change-count pull-right">{{addCount()}} Additions/{{removeCount()}} Removals</span>
+						{{path}}
+					</h3>
 					<table class="diff-compare">
 						<tr>
 							<th class="line-number" v-bind:style="getStyle(0, primeColor)"></th>
@@ -93,7 +108,6 @@
 				this.maximizeContrast = bool;
 			},
 			show: function(data) {
-				$(".diff-view .mini-map img").attr("src", "./images/rendering-notice.png");
 				this.compareColor = utils.calculateColors(data.compareIndex, data.totalConnections, this.maximizeContrast);
 				this.primeColor = utils.calculateColors(0, data.totalConnections, this.maximizeContrast);
 				this.path = data.path;
@@ -101,10 +115,8 @@
 				this.compareName = data.compareName;
 				this.totalConnections = data.totalConnections;
 				this.compareIndex = data.compareIndex;
-				//this.diffData = data.diff;
 				this.isVisible = true;
 				controller.setContextVisible(false);
-
 				var a = [];
 				var l = data.diff.length;
 				var a2, l2, d;
@@ -129,9 +141,6 @@
 					}
 				}
 				this.diffData = a;
-				html2canvas($(".diff-compare")[0]).then((canvas) => {
-					$(".diff-view .mini-map img").attr("src", canvas.toDataURL("image/png"));
-				});
 			},
 			removeCount: function() {
 				var count = 0;

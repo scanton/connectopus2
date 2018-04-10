@@ -653,12 +653,15 @@ ul.directories li, ul.tables li {
 .context-is-visible .diff-view {
 	left: 336px;
 }
+.settings-is-visible .diff-view {
+	right: 350px;
+}
 .diff-view {
 	position: absolute;
 	-webkit-transition: all 0.3s ease;
 	left: 36px;
 	right: 0px;
-	top: 85px;
+	top: 51px;
 	bottom: 26px;
 	overflow: scroll;
 }
@@ -721,17 +724,32 @@ ul.directories li, ul.tables li {
 .diff-view td, .diff-view th {
 	border-left: 1px solid rgba(0, 0, 0, .25);
 }
+.diff-view table.mini-map {
+	width: 80px;
+}
+.diff-view table.mini-map tr {
+	height: 3px;
+}
 .diff-view .mini-map {
 	position: fixed;
 	right: 0;
-	top: 136px;
+	top: 102px;
+	-webkit-transition: all 0.3s ease;
+}
+.settings-is-visible .diff-view .mini-map {
+	right: 350px;
 }
 .diff-view .mini-map img {
 	max-width: 100px;
 }
+.diff-view .change-count {
+	margin-right: 1em;
+    font-size: 12pt;
+    padding-top: 6px;
+}
 .diff-compare {
 	margin-top: 50px;
-	margin-right: 100px;
+	margin-right: 80px;
 }
 .diff-compare h2 {
 	font-weight: 400;
@@ -748,4 +766,7 @@ ul.directories li, ul.tables li {
 }
 .context-is-visible .diff-tool-bar {
 	left: 350px;
+}
+.settings-is-visible .diff-tool-bar {
+	right: 350px;
 }
