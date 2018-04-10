@@ -443,6 +443,11 @@ module.exports = class ConnectopusController extends EventEmitter {
 	handlePathChange(data) {
 		console.log(data);
 	}
+	handleSelectedFilesChange() {
+		var syncCount = $(".is-sync-action input:checked").length;
+		var deleteCount = $(".is-delete-action input:checked").length;
+		this._call("files-nav-bar", "handleSelectedFilesChange", {syncCount: syncCount, deleteCount: deleteCount});
+	}
 	handleSettingsData(data) {
 		this._call("settings-side-bar", "setSettings", data);
 		this._call(["active-connection", "files-page", "diff-view"], "setMaximizeContrast", data.maximizeContrast);

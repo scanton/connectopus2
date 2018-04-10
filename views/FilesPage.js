@@ -8,7 +8,7 @@
 					<table class="file-listing-table">
 						<tr>
 							<th class="connection-name" v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
-								<span class="pull-left" v-if="index == 0"><input type="checkbox" /></span>
+								<span class="pull-left" v-if="index == 0"><input v-on:click="handleSelectAll" type="checkbox" /></span>
 								{{getName(conId)}}
 							</th>
 						</tr>
@@ -78,6 +78,11 @@
 			},
 			handleFileModelUpdate: function() {
 				this.files = controller.getFiles(this.connections, this.path);
+			},
+			handleSelectAll: function(e) {
+				var isChecked = $(e.target).is(":checked");
+				$(".file-listing-table input").prop("checked", isChecked);
+				controller.handleSelectedFilesChange();
 			},
 			isRowInSync: function(file) {
 				if(this.connections.length > 1) {

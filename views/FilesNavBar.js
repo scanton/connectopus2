@@ -4,10 +4,10 @@
 		<div class="files-nav-bar container-fluid">
 			<div class="row">
 				<div class="col-xs-12">
-					<button v-show="deletesAreSelected" class="btn btn-danger pull-right" title="Delete Selected Files">
-						<span class="glyphicon glyphicon-remove"></span>
+					<button v-on:click="handleRefreshView" class="btn btn-default pull-right" title="Refresh Path">
+						<span class="glyphicon glyphicon-refresh"></span>
 					</button>
-					<button v-show="filesAreSelected" class="btn btn-warning pull-right" title="Sync Selected Files">
+					<button v-on:click="handleSyncFiles" v-show="filesAreSelected" class="btn btn-warning pull-right" title="Sync Selected Files">
 						<span class="glyphicon glyphicon-export"></span>
 					</button>
 					<!--
@@ -15,9 +15,7 @@
 						<span class="glyphicon glyphicon-eye-open"></span>
 					</button>
 					-->
-					<button v-on:click="handleRefreshView" class="btn btn-default pull-right" title="Refresh Path">
-						<span class="glyphicon glyphicon-refresh"></span>
-					</button>
+
 					<!--
 					<button class="btn btn-default">
 						<span class="glyphicon glyphicon-chevron-left"></span>
@@ -51,7 +49,6 @@
 			return {
 				path: '',
 				pathData: [],
-				deletesAreSelected: false,
 				filesAreSelected: false
 			}
 		},
@@ -62,8 +59,15 @@
 				var path = $this.attr("data-path");
 				controller.setFilePath(path);
 			},
+			handleSyncFiles: function(e) {
+				e.preventDefault();
+				console.log("controller.syncFiles(fileList)");
+			},
 			handleRefreshView: function(e) {
 				controller.setFilePath(this.path, true);
+			},
+			handleSelectedFilesChange: function(data) {
+				this.filesAreSelected = data.syncCount + data.deleteCount;
 			},
 			setPath: function(path) {
 				this.path = path;

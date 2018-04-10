@@ -81,14 +81,15 @@
 				var $miniMap = dv.find(".mini-map");
 				var minMapHeight = $miniMap.height();
 				
-				var percentScroll = scrollPosition / maxVerticalScroll;
-				var minMapRange = minMapHeight - visibleHeight + 26;
-				var minMapScroll = minMapVerticalOffset - (percentScroll * minMapRange);
-				$miniMap.attr("style", "top: " + minMapScroll + "px");
-				var handleHeight = ((visibleHeight - minMapVerticalOffset) / maxVerticalScroll) * minMapHeight;
-				var handleTop =  minMapVerticalOffset + (percentScroll * (visibleHeight - $(".diff-tool-bar").height() - handleHeight));
-				handle.attr("style", "height: " + handleHeight + "px; top: " + handleTop + "px");
-		
+
+					var percentScroll = scrollPosition / maxVerticalScroll;
+					var minMapRange = minMapHeight - visibleHeight + 26;
+					var minMapScroll = minMapVerticalOffset - (percentScroll * minMapRange);
+					$miniMap.attr("style", "top: " + minMapScroll + "px");
+					var handleHeight = ((visibleHeight - minMapVerticalOffset) / maxVerticalScroll) * minMapHeight;
+					var handleTop =  minMapVerticalOffset + (percentScroll * (visibleHeight - $(".diff-tool-bar").height() - handleHeight));
+					handle.attr("style", "height: " + handleHeight + "px; top: " + handleTop + "px");
+				
 			});
 		},
 		template: s,
