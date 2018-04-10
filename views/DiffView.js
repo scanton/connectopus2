@@ -3,7 +3,7 @@
 	var s = `
 		<div v-show="isVisible && category == 'files'" class="diff-view container-fluid">
 			<div class="row">
-				<div class="col-xs-12" style="padding-right: 0; padding-left: 14px;">
+				<div class="col-xs-12 main-diff-container" style="padding-right: 0; padding-left: 14px;">
 					<table class="mini-map">
 						<tr>
 							<th v-bind:style="getStyle(0, primeColor)"></th>
@@ -59,6 +59,7 @@
 							</td>
 						</tr>
 					</table>
+					<div class="mini-map-scroll-indicator"></div>
 				</div>
 			</div>
 		</div>
@@ -67,6 +68,28 @@
 	Vue.component(componentName, {
 		created: function() {
 			viewController.registerView(componentName, this);
+		},
+		mounted: function() {
+			var minMapVerticalOffset = 102;
+			var handle = $(".mini-map-scroll-indicator");
+			$(".diff-view").scroll(function(e) {
+				var dv = $(".diff-view");
+				var scrollPosition = dv.scrollTop();
+				var visibleHeight = dv.height() - 20;
+				var totalHeight = dv.find(".main-diff-container").height();
+				var maxVerticalScroll = totalHeight - visibleHeight;
+				var $miniMap = dv.find(".mini-map");
+				var minMapHeight = $miniMap.height();
+				
+				var percentScroll = scrollPosition / maxVerticalScroll;
+				var minMapRange = minMapHeight - visibleHeight + 26;
+				var minMapScroll = minMapVerticalOffset - (percentScroll * minMapRange);
+				$miniMap.attr("style", "top: " + minMapScroll + "px");
+				var handleHeight = ((visibleHeight - minMapVerticalOffset) / maxVerticalScroll) * minMapHeight;
+				var handleTop =  minMapVerticalOffset + (percentScroll * (visibleHeight - $(".diff-tool-bar").height() - handleHeight));
+				handle.attr("style", "height: " + handleHeight + "px; top: " + handleTop + "px");
+		
+			});
 		},
 		template: s,
 		props: ["category"],

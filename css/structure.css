@@ -92,6 +92,10 @@ h3 {
 }
 .titlebar {
 	-webkit-transition: all 0.3s ease;
+	z-index: 10;
+	position: fixed;
+	left: 0;
+	right: 0;
 }
 .titlebar-minimize, .titlebar-fullscreen {
 	
@@ -140,6 +144,7 @@ h3 {
 	width: 50px;
 	top: 0;
 	left: 0;
+	margin-top: 26px;
 }
 .tool-bar ul {
 	list-style: none;
@@ -734,13 +739,22 @@ ul.directories li, ul.tables li {
 	position: fixed;
 	right: 0;
 	top: 102px;
-	-webkit-transition: all 0.3s ease;
+	-webkit-transition: right 0.3s ease;
 }
 .settings-is-visible .diff-view .mini-map {
 	right: 350px;
 }
-.diff-view .mini-map img {
-	max-width: 100px;
+.diff-view .mini-map-scroll-indicator {
+	position: fixed;
+	right: 0;
+	width: 80px;
+	top: 102px;
+	min-height: 100px;
+	background: rgba(0, 0, 0, .25);
+	-webkit-transition: right 0.3s ease;
+}
+.settings-is-visible .diff-view .mini-map-scroll-indicator {
+	right: 350px;
 }
 .diff-view .change-count {
 	margin-right: 1em;
