@@ -39,6 +39,9 @@
 			}
 		},
 		methods: {
+			clearSelections: function() {
+				$(".files-page input:checked").prop("checked", false);
+			},
 			getFile: function(name, conId) {
 				var fileArray = this.files[conId];
 				if(fileArray) {
@@ -81,7 +84,9 @@
 			},
 			handleSelectAll: function(e) {
 				var isChecked = $(e.target).is(":checked");
-				$(".file-listing-table input").prop("checked", isChecked);
+				$(".file-listing-table input").filter(function() {
+					return !($(this).css('visibility') == 'hidden' || $(this).css('display') == 'none');
+				}).prop("checked", isChecked);
 				controller.handleSelectedFilesChange();
 			},
 			isRowInSync: function(file) {

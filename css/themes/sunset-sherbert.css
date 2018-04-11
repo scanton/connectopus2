@@ -211,6 +211,9 @@ body.sunset-sherbert {
 	background-color: #555;
 	color: white;
 }
+.sunset-sherbert .diff-view {
+	background: linear-gradient(to bottom right, #FF7373, #000044);
+}
 .sunset-sherbert .diff-view h3 {
 	background: #444;
 	color: #CCC;

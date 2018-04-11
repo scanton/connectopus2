@@ -1,15 +1,16 @@
 module.exports = class ConnectopusController extends EventEmitter {
 
-	constructor(viewController, configModel, settingsModel, connectionsModel, themesModel, fileModel, newsModel, pathsModel) {
+	constructor(viewController, models) {
 		super();
-		this.connectionsModel = connectionsModel;
 		this.viewController = viewController;
-		this.configModel = configModel;
-		this.settingsModel = settingsModel;
-		this.themesModel = themesModel;
-		this.fileModel = fileModel;
-		this.newsModel = newsModel;
-		this.pathsModel = pathsModel;
+		this.configModel = models.configModel;
+		this.settingsModel = models.settingsModel;
+		this.connectionsModel = models.connectionsModel;
+		this.themesModel = models.themesModel;
+		this.fileModel = models.fileModel;
+		this.newsModel = models.newsModel;
+		this.pathsModel = models.pathsModel;
+		this.projectsModel = models.projectsModel;
 		this.currentFilePath = "";
 		this.pathsModel.subscribe("path-change", this.handlePathChange.bind(this));
 		this.configModel.subscribe("data", this.handleConfigData.bind(this));
@@ -151,6 +152,32 @@ module.exports = class ConnectopusController extends EventEmitter {
 			]
 		});
 	}
+	saveCurrentProject(promptForName) {
+		console.log("saveCurrentProject", promptForName);
+	}
+	syncSelectedFiles() {
+		var updates = [];
+		var deletes = [];
+		var controllerRef = this;
+		$(".files-page .file-compare input:checked").each(function() {
+			var $this = $(this);
+			var $fileCompare = $this.closest(".file-compare");
+			var name = $fileCompare.attr("data-name");
+			if(name) {
+				var path = controllerRef.currentFilePath ? controllerRef.currentFilePath + '/' + name : name;
+				updates.push(path);
+			} else {
+				name = $fileCompare.closest("tr").find(".file-compare.is-not-in-sync").attr("data-name");
+				if(name) {
+					var path = controllerRef.currentFilePath ? controllerRef.currentFilePath + '/' + name : name;
+					deletes.push(path);
+				} else {
+					controllerRef.handleError("cannot locate paths for all selected files");
+				}
+			}
+		});
+		console.log({updates: updates, path: this.currentFilePath, deletes: deletes});
+	}
 	updateConnection(connection) {
 		this.lastUpdate = connection.id;
 		var o ={};
@@ -250,6 +277,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		}
 	}
 	setFilePath(path, forceRefresh) {
+		this._call("files-page", "clearSelections");
 		this.currentFilePath = path;
 		this._call(["current-directories", "files-page", "files-nav-bar"], "setPath", path);
 		var liveCons = this.connectionsModel.getConnections();
@@ -410,6 +438,23 @@ module.exports = class ConnectopusController extends EventEmitter {
 			]
 		});
 		console.error(obj);
+	}
+	handleExternalCall(args) {
+		if(args) {
+			if(args.method == "newProject") {
+				this.showAddProject();
+			} else if(args.method == "closeProject") {
+				this.showDeleteProject(this.currentProject);
+			} else if(args.method == "saveCurrentProject") {
+				console.log("save current project");
+			} else if(args.method == "saveAllProjects") {
+				console.log("save all projects");
+			}  else {
+				console.log(args);
+			}
+		} else {
+			this.handleError("external call to controller with no arguments");
+		}
 	}
 	handleFileModelUpdate(data) {
 		this._call(["current-directories", "files-page"], "handleFileModelUpdate");

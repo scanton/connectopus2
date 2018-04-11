@@ -49,8 +49,7 @@ utils.calculateColors = function(index, connections, maximizeContrast) {
 
 const remote = require('electron').remote;
 const {dialog, shell} = require('electron').remote;
-
-const html2canvas = require('html2canvas');
+const {ipcRenderer} = require('electron');
 
 const EventEmitter = require(__dirname + '/custom_modules/utils/EventEmitter.js');
 const AbstractDataSource = require(__dirname + '/custom_modules/abstracts/AbstractDataSource.js');
@@ -61,6 +60,7 @@ const ThemesModel = require(__dirname + '/custom_modules/models/ThemesModel.js')
 const FileModel = require(__dirname + '/custom_modules/models/FileModel.js');
 const NewsModel = require(__dirname + '/custom_modules/models/NewsModel.js');
 const PathsModel = require(__dirname + '/custom_modules/models/PathsModel.js');
+const ProjectsModel = require(__dirname + '/custom_modules/models/ProjectsModel.js');
 
 const JSONDataSource = require(__dirname + '/custom_modules/data_sources/JSONDataSource.js');
 const LocalDirectoryDataSource = require(__dirname + '/custom_modules/data_sources/LocalDirectoryDataSource.js');
@@ -80,6 +80,7 @@ const settingsModel = new SettingsModel();
 const themesModel = new ThemesModel();
 const newsModel = new NewsModel();
 const pathsModel = new PathsModel();
+const projectsModel = new ProjectsModel();
 
 const ViewController = require(__dirname + '/custom_modules/controllers/ViewController.js');
 const viewController = new ViewController();
@@ -89,7 +90,21 @@ const ConnectionsModel = require(__dirname + '/custom_modules/models/Connections
 const connectionsModel = new ConnectionsModel(fileModel);
 
 const ConnectopusController = require(__dirname + '/custom_modules/controllers/ConnectopusController.js');
-const controller = new ConnectopusController(viewController, configModel, settingsModel, connectionsModel, themesModel, fileModel, newsModel, pathsModel);
+var models = {
+	configModel: configModel, 
+	settingsModel: settingsModel, 
+	connectionsModel: connectionsModel, 
+	themesModel: themesModel, 
+	fileModel: fileModel, 
+	newsModel: newsModel, 
+	pathsModel: pathsModel, 
+	projectsModel: projectsModel
+};
+const controller = new ConnectopusController(viewController, models);
+
+ipcRenderer.on("controller-method", (event, arg) => {
+	controller.handleExternalCall(arg);
+});
 
 const stripObservers = function(obj) {
 	return JSON.parse(JSON.stringify(obj, null, 4));

@@ -61,7 +61,7 @@
 			},
 			handleSyncFiles: function(e) {
 				e.preventDefault();
-				console.log("controller.syncFiles(fileList)");
+				controller.syncSelectedFiles();
 			},
 			handleRefreshView: function(e) {
 				controller.setFilePath(this.path, true);

@@ -3,6 +3,7 @@
 	var s = `
 		<nav class="top-nav navbar">
 			<div class="pull-right system-icons">
+				<!--
 				<span class="refresh-browser-link nav-link" title="Refresh">
 					<a href="#" v-on:click="refresh">
 						<span class="glyphicon glyphicon-refresh"></span>
@@ -13,6 +14,7 @@
 						<span class="glyphicon glyphicon-wrench"></span>
 					</a>
 				</span>
+				-->
 				<span class="toggle-dev-tools-link nav-link" title="Settings">
 					<a href="#" v-on:click="onToggleSettings">
 						<span class="glyphicon glyphicon-option-horizontal"></span>

@@ -670,6 +670,8 @@ ul.directories li, ul.tables li {
 	bottom: 26px;
 	overflow: scroll;
 	background: white;
+	margin-left: 14px;
+    padding-left: 0;
 }
 .diff-view .diff-compare {
 	background: white;
