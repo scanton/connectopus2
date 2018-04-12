@@ -84,7 +84,7 @@ app.on('ready', () => {
 	    label: 'View',
 	    submenu: [
 	      {
-	        label: 'Reload',
+	        label: 'Re-Initialize Connectopus',
 	        accelerator: 'CmdOrCtrl+R',
 	        click (item, focusedWindow) {
 	          if (focusedWindow) focusedWindow.reload()

@@ -631,6 +631,10 @@ ul.directories li, ul.tables li {
 	padding: 3px 6px;
 	margin: 2px 2.5px;
 }
+.files-page .files-nav-bar .col-xs-12 {
+	padding-left: 0;
+	padding-right: 0;
+}
 .footer-bar .label {
 	color: #777;
 }
