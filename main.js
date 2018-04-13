@@ -84,6 +84,14 @@ app.on('ready', () => {
 	    label: 'View',
 	    submenu: [
 	      {
+	        label: 'Settings',
+	        accelerator: process.platform === 'darwin' ? 'Alt+Command+S' : 'Ctrl+Shift+S',
+	        click () {mainWindow.webContents.send("controller-method", {method: 'toggleViewSettings'}) }
+	      },
+	      {
+	        type: 'separator'
+	      },
+	      {
 	        label: 'Re-Initialize Connectopus',
 	        accelerator: 'CmdOrCtrl+R',
 	        click (item, focusedWindow) {

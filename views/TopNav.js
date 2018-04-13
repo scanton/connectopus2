@@ -38,7 +38,7 @@
 		methods: {
 			onToggleSettings: function(e) {
 				e.preventDefault();
-				viewController.callViewMethod("work-area", "toggleSettings");
+				controller.toggleViewSettings();
 			},
 			setProjectName: function(name) {
 				this.projectName = name;

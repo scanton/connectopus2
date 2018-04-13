@@ -627,6 +627,9 @@ ul.directories li, ul.tables li {
 .context-is-visible .files-page .files-nav-bar {
 	left: 350px;
 }
+.settings-is-visible .files-page .files-nav-bar {
+	right: 350px;
+}
 .files-page .files-nav-bar button {
 	padding: 3px 6px;
 	margin: 2px 2.5px;

@@ -113,12 +113,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 			}
 		}
 	}
-	createProject(name) {
-		var projectId = new Date().getTime();
-		this.projects[projectId] = {name: name, id:projectId };
-		this.setCurrentProject(projectId);
-		this._call("project-tabs", "setProjects", this.projects);
-	}
 	deleteConnection(id) {
 		this.viewController.callViewMethod("modal-overlay", "show", {
 			title: 'Confirm Delete Connection',
@@ -151,9 +145,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 				}.bind(this)}
 			]
 		});
-	}
-	saveCurrentProject(promptForName) {
-		console.log("saveCurrentProject", promptForName);
 	}
 	syncSelectedFiles() {
 		var updates = [];
@@ -257,13 +248,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 	setContextVisible(bool) {
 		this._call("work-area", "setIsContextVisible", bool);
 	}
-	setCurrentProject(id) {
-		this.currentProject = id;
-		this.connectionsModel.setCurrentProject(id);
-		this.pathsModel.setCurrentProject(id);
-		this._call("project-tabs", "setCurrentProject", id);
-		this._call("title-bar", "setTitle", this.projects[id].name);
-	}
 	setDragId(id) {
 		this.dragId = id;
 		this.isDraggingConnection = true;
@@ -311,13 +295,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 	setMaximizeContrast(bool) {
 		this.settingsModel.setMaximizeContrast(bool);
 	}
-	setProjectName(index, name) {
-		if(this.projects[index] && this.projects[index].name) {
-			this.projects[index].name = name;
-			this._call("project-tabs", "setProjects", this.projects);
-			this._call("title-bar", "setTitle", name);
-		}
-	}
 	setStatus(status) {
 		this.generalStatus = status;
 		this.dispatchEvent("general-status", status);
@@ -334,28 +311,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 	showAddFolder() {
 		this._call("current-connections", "showAddFolder");
 	}
-	showAddProject() {
-		this.viewController.callViewMethod("modal-overlay", "show", {
-			title: 'Create New Project',
-			message: "Give your new project a name. <input style='width: 100%; margin: .5em 0 0' placeholder='Project Name' class='project-name-input' name='name' />", 
-			buttons: [
-				{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
-					this.hideModal();
-				}.bind(this)},
-				{label: "Create Project", class: "btn-success", icon: "", callback: function() {
-					var val = $(".project-name-input").val();
-					if(val) {
-						this.createProject(val);
-						$(".project-name-input").val("");
-					}
-					this.hideModal();
-				}.bind(this)}
-			]
-		});
-		setTimeout(function() {
-			$(".project-name-input").select();
-		}, 200);
-	}
 	showConnectionDetail(id) {
 		var con = this.configModel.getConnection(id);
 		this._call("connections-page", "setConnectionDetails", con);
@@ -370,21 +325,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 	showDataPage() {
 		this._call(["work-area", "main-view"], "showData");
 		this._call("context-side-bar", "setContext", "data");
-	}
-	showDeleteProject(index) {
-		this.viewController.callViewMethod("modal-overlay", "show", {
-			title: 'Delete Project',
-			message: "Are you sure you want to delete the project, '" + this.projects[index].name + "'", 
-			buttons: [
-				{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
-					this.hideModal();
-				}.bind(this)},
-				{label: "Delete Project", class: "btn-danger", icon: "glyphicon glyphicon-remove", callback: function() {
-					this._removeProject(index);
-					this.hideModal();
-				}.bind(this)}
-			]
-		});
 	}
 	showFilesPage() {
 		this._call(["work-area", "main-view"], "showFiles");
@@ -449,6 +389,8 @@ module.exports = class ConnectopusController extends EventEmitter {
 				console.log("save current project");
 			} else if(args.method == "saveAllProjects") {
 				console.log("save all projects");
+			} else if(args.method == "toggleViewSettings") {
+				this.toggleViewSettings();
 			}  else {
 				console.log(args);
 			}
@@ -509,6 +451,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 			this._call(["title-bar", "work-area"], "setTheme", theme);
 		}
 	}
+	toggleViewSettings() {
+		this._call("work-area", "toggleSettings");
+	}
 
 	_addDirectories(arr, path, data) {
 		if(data && data.directories) {
@@ -563,6 +508,68 @@ module.exports = class ConnectopusController extends EventEmitter {
 			}
 		}
 		return false;
+	}
+
+	
+	createProject(name) {
+		var projectId = new Date().getTime();
+		this.projects[projectId] = {name: name, id:projectId };
+		this.setCurrentProject(projectId);
+		this._call("project-tabs", "setProjects", this.projects);
+	}
+	saveCurrentProject(promptForName) {
+		console.log("saveCurrentProject", promptForName);
+	}
+	setCurrentProject(id) {
+		this.currentProject = id;
+		this.connectionsModel.setCurrentProject(id);
+		this.pathsModel.setCurrentProject(id);
+		this._call("project-tabs", "setCurrentProject", id);
+		this._call("title-bar", "setTitle", this.projects[id].name);
+	}
+	setProjectName(index, name) {
+		if(this.projects[index] && this.projects[index].name) {
+			this.projects[index].name = name;
+			this._call("project-tabs", "setProjects", this.projects);
+			this._call("title-bar", "setTitle", name);
+		}
+	}
+	showAddProject() {
+		this.viewController.callViewMethod("modal-overlay", "show", {
+			title: 'Create New Project',
+			message: "Give your new project a name. <input style='width: 100%; margin: .5em 0 0' placeholder='Project Name' class='project-name-input' name='name' />", 
+			buttons: [
+				{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
+					this.hideModal();
+				}.bind(this)},
+				{label: "Create Project", class: "btn-success", icon: "", callback: function() {
+					var val = $(".project-name-input").val();
+					if(val) {
+						this.createProject(val);
+						$(".project-name-input").val("");
+					}
+					this.hideModal();
+				}.bind(this)}
+			]
+		});
+		setTimeout(function() {
+			$(".project-name-input").select();
+		}, 200);
+	}
+	showDeleteProject(index) {
+		this.viewController.callViewMethod("modal-overlay", "show", {
+			title: 'Delete Project',
+			message: "Are you sure you want to delete the project, '" + this.projects[index].name + "'", 
+			buttons: [
+				{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
+					this.hideModal();
+				}.bind(this)},
+				{label: "Delete Project", class: "btn-danger", icon: "glyphicon glyphicon-remove", callback: function() {
+					this._removeProject(index);
+					this.hideModal();
+				}.bind(this)}
+			]
+		});
 	}
 	_initializeProjects() {
 		var defaultProjectId = new Date().getTime();
