@@ -18,6 +18,8 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.connectionsModel.subscribe("connections-status", this.handleConnectionsStatus.bind(this));
 		this.fileModel.subscribe("data-update", this.handleFileModelUpdate.bind(this));
 		this.newsModel.subscribe("data-update", this.handleNewsUpdate.bind(this));
+		this.projectsModel.subscribe("data-update", this.handleProjectsUpdate.bind(this));
+		this.projectsModel._dispatchUpdate();
 		this.diff = require('diff');
 		this.dragId = null;
 		this.dragFolderName = null;
@@ -26,7 +28,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.lastUpdate = null;
 		this.generalStatus = 'nominal';
 		this.colorStyle = { saturation: "50%", luminance: "75%" }
-		this._initializeProjects();
 		this.themesModel.loadThemes(function(themes) {
 			if(themes) {
 				this._call("settings-side-bar", "setThemes", themes);
@@ -113,6 +114,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 			}
 		}
 	}
+	createProject(name) {
+		this.projectsModel.createProject(name);
+	}
 	deleteConnection(id) {
 		this.viewController.callViewMethod("modal-overlay", "show", {
 			title: 'Confirm Delete Connection',
@@ -146,68 +150,11 @@ module.exports = class ConnectopusController extends EventEmitter {
 			]
 		});
 	}
-	syncSelectedFiles() {
-		var updates = [];
-		var deletes = [];
-		var controllerRef = this;
-		$(".files-page .file-compare input:checked").each(function() {
-			var $this = $(this);
-			var $fileCompare = $this.closest(".file-compare");
-			var name = $fileCompare.attr("data-name");
-			if(name) {
-				var path = controllerRef.currentFilePath ? controllerRef.currentFilePath + '/' + name : name;
-				updates.push(path);
-			} else {
-				name = $fileCompare.closest("tr").find(".file-compare.is-not-in-sync").attr("data-name");
-				if(name) {
-					var path = controllerRef.currentFilePath ? controllerRef.currentFilePath + '/' + name : name;
-					deletes.push(path);
-				} else {
-					controllerRef.handleError("cannot locate paths for all selected files");
-				}
-			}
-		});
-		console.log({updates: updates, path: this.currentFilePath, deletes: deletes});
-	}
-	updateConnection(connection) {
-		this.lastUpdate = connection.id;
-		var o ={};
-		o.id = connection.id;
-		o.name = connection.name;
-		o.connectionType = connection.connectionType;
-		o.uri = connection.uri;
-		o.host = connection['ssh-host'];
-		o.port = connection['ssh-port'];
-		o.root = connection['ssh-root-directory'];
-		o.username = connection['ssh-username'];
-		o.password = connection['ssh-password'];
-		o.directory = connection['directory-path'];
-		o.connections = [{}];
-		if(connection.databaseType != 'select database type') {
-			o.connections = [{
-				"type": connection.databaseType,
-				"database": connection["db-connection-database"],
-				"file": connection["db-connection-file"],
-				"host": connection["db-connection-host"],
-				"name": connection["db-connection-name"],
-				"password": connection["db-connection-password"],
-				"uri": connection["db-connection-uri"],
-				"rest-verb": connection["db-connection-rest-verb"],
-				"rest-args": connection["db-connection-rest-args"],
-				"username": connection["db-connection-username"]
-			}];
-		}
-		this.configModel.updateConnection(connection.id, o);
-	}
-
 	getColorStyle() {
 		return this.colorStyle;
 	}
 	getConnectionName(id) {
 		return this.connectionsModel.getConnectionName(id);
-	}
-	getPrimeId() {
-		return this.connectionsModel.getPrimeId();
 	}
 	getDirectories(connections, path) {
 		var a = [];
@@ -231,114 +178,12 @@ module.exports = class ConnectopusController extends EventEmitter {
 		o.allFiles = utils.sortArrayBy(allFiles, "name", 0);
 		return o;
 	}
+	getPrimeId() {
+		return this.connectionsModel.getPrimeId();
+	}
 	getSettings() {
 		return this.settingsModel.getSettings();
 	}
-
-	moveConnectionTo(toId) {
-		this.configModel.moveTo(this.dragId, toId);
-	}
-	moveConnectionToFolder(name) {
-		this.configModel.moveConnectionToFolder(this.dragId, name);
-	}
-	moveFolderTo(name) {
-		this.configModel.moveFolderTo(this.dragFolderName, name);
-	}
-
-	setContextVisible(bool) {
-		this._call("work-area", "setIsContextVisible", bool);
-	}
-	setDragId(id) {
-		this.dragId = id;
-		this.isDraggingConnection = true;
-	}
-	setDragFolderName(name) {
-		this.dragFolderName = name;
-		this.isDraggingFolder = true;
-		this.viewController.callViewMethod(["folder", "context-side-bar"], "setSelectedFolder", name);
-		if(name != null) {
-			this._call(["connection", "context-side-bar"], "setSelectedConnection", null);
-		}
-	}
-	setFilePath(path, forceRefresh) {
-		this._call("files-page", "clearSelections");
-		this.currentFilePath = path;
-		this._call(["current-directories", "files-page", "files-nav-bar"], "setPath", path);
-		var liveCons = this.connectionsModel.getConnections();
-		var currentConnection = 0;
-		if(liveCons.length) {
-			var handler = function(data) {
-				++currentConnection;
-				if(currentConnection < liveCons.length) {
-					this._getFiles(liveCons[currentConnection], path, handler);
-				} else {
-					this._call("modal-overlay", "hide");
-				}
-			}.bind(this);
-			if(!this.fileModel.hasContent(liveCons[0].id, path) || forceRefresh) {
-				this._call("modal-overlay", "showLoader");
-				this._getFiles(liveCons[currentConnection], path, handler);
-			}
-		}
-	}
-	setLeftFooterLabel(str) {
-		this._call("footer-bar", "setLeftLabel", str);
-	}
-	setHideFilesInSync(bool) {
-		this.settingsModel.setHideFilesInSync(bool);
-	}
-	setMaxRowsRequested(num) {
-		if(num) {
-			this.settingsModel.setMaxRowsRequested(num);
-		}
-	}
-	setMaximizeContrast(bool) {
-		this.settingsModel.setMaximizeContrast(bool);
-	}
-	setStatus(status) {
-		this.generalStatus = status;
-		this.dispatchEvent("general-status", status);
-	}
-	setTheme(name) {
-		if(name) {
-			this.settingsModel.setTheme(name);
-		}
-	}
-
-	showAddConnection() {
-		this._call("connections-page", "showAddConnection");
-	}
-	showAddFolder() {
-		this._call("current-connections", "showAddFolder");
-	}
-	showConnectionDetail(id) {
-		var con = this.configModel.getConnection(id);
-		this._call("connections-page", "setConnectionDetails", con);
-		this._call(["connection", "context-side-bar"], "setSelectedConnection", id);
-		this._call(["folder", "context-side-bar"], "setSelectedFolder", null);
-		this._call("folder", "clearSelected");
-	}
-	showConnectionsPage() {
-		this._call(["work-area", "main-view"], "showConnections");
-		this._call("context-side-bar", "setContext", "connections");
-	}
-	showDataPage() {
-		this._call(["work-area", "main-view"], "showData");
-		this._call("context-side-bar", "setContext", "data");
-	}
-	showFilesPage() {
-		this._call(["work-area", "main-view"], "showFiles");
-		this._call("context-side-bar", "setContext", "files");
-	}
-	showHomePage() {
-		this._call(["work-area", "main-view"], "showHome");
-		this._call("context-side-bar", "setContext", "home");
-	}
-	
-	hideModal() {
-		this._call("modal-overlay", "hide");
-	}
-
 	handleConfigData(data) {
 		this._call("current-connections", "setFolders", data.folders);
 		this._call("current-connections", "setConnections", data.servers);
@@ -401,6 +246,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 	handleFileModelUpdate(data) {
 		this._call(["current-directories", "files-page"], "handleFileModelUpdate");
 	}
+	handleHideAllLabels() {
+		this._call("modal-overlay", "hide");
+	}
 	handleMissingDirectory(con, path) {
 		this.viewController.callViewMethod("modal-overlay", "show", {
 			title: 'Directory "' + path + '" does not exist on ' + con.name,
@@ -418,17 +266,16 @@ module.exports = class ConnectopusController extends EventEmitter {
 			]
 		});
 	}
-	handleShowAllLabels() {
-		this._call("modal-overlay", "showOverlay");
-	}
-	handleHideAllLabels() {
-		this._call("modal-overlay", "hide");
-	}
 	handleNewsUpdate(data) {
 		this._call("project-news", "setNewsData", data);
 	}
 	handlePathChange(data) {
 		console.log(data);
+	}
+	handleProjectsUpdate(data) {
+		this._call("project-tabs", "setProjects", data.projects);
+		this.connectionsModel.setCurrentProject(data.currentProject);
+		this._call("project-tabs", "setCurrentProject", data.currentProject);
 	}
 	handleSelectedFilesChange() {
 		var syncCount = $(".is-sync-action input:checked").length;
@@ -451,8 +298,217 @@ module.exports = class ConnectopusController extends EventEmitter {
 			this._call(["title-bar", "work-area"], "setTheme", theme);
 		}
 	}
+	handleShowAllLabels() {
+		this._call("modal-overlay", "showOverlay");
+	}
+
+	hideModal() {
+		this._call("modal-overlay", "hide");
+	}
+	moveConnectionTo(toId) {
+		this.configModel.moveTo(this.dragId, toId);
+	}
+	moveConnectionToFolder(name) {
+		this.configModel.moveConnectionToFolder(this.dragId, name);
+	}
+	moveFolderTo(name) {
+		this.configModel.moveFolderTo(this.dragFolderName, name);
+	}
+	saveCurrentProject(promptForName) {
+		console.log("saveCurrentProject", promptForName);
+	}
+	setContextVisible(bool) {
+		this._call("work-area", "setIsContextVisible", bool);
+	}
+	setCurrentProject(id) {
+		this.projectsModel.setCurrentProject(id);
+		this.connectionsModel.setCurrentProject(id);
+		this.pathsModel.setCurrentProject(id);
+		this._call("project-tabs", "setCurrentProject", id);
+		this._call("title-bar", "setTitle", this.projectsModel.getProject(id).name);
+	}
+	setDragFolderName(name) {
+		this.dragFolderName = name;
+		this.isDraggingFolder = true;
+		this.viewController.callViewMethod(["folder", "context-side-bar"], "setSelectedFolder", name);
+		if(name != null) {
+			this._call(["connection", "context-side-bar"], "setSelectedConnection", null);
+		}
+	}
+	setDragId(id) {
+		this.dragId = id;
+		this.isDraggingConnection = true;
+	}
+	setFilePath(path, forceRefresh) {
+		this._call("files-page", "clearSelections");
+		this.currentFilePath = path;
+		this._call(["current-directories", "files-page", "files-nav-bar"], "setPath", path);
+		var liveCons = this.connectionsModel.getConnections();
+		var currentConnection = 0;
+		if(liveCons.length) {
+			var handler = function(data) {
+				++currentConnection;
+				if(currentConnection < liveCons.length) {
+					this._getFiles(liveCons[currentConnection], path, handler);
+				} else {
+					this._call("modal-overlay", "hide");
+				}
+			}.bind(this);
+			if(!this.fileModel.hasContent(liveCons[0].id, path) || forceRefresh) {
+				this._call("modal-overlay", "showLoader");
+				this._getFiles(liveCons[currentConnection], path, handler);
+			}
+		}
+	}
+	setLeftFooterLabel(str) {
+		this._call("footer-bar", "setLeftLabel", str);
+	}
+	setHideFilesInSync(bool) {
+		this.settingsModel.setHideFilesInSync(bool);
+	}
+	setMaximizeContrast(bool) {
+		this.settingsModel.setMaximizeContrast(bool);
+	}
+	setMaxRowsRequested(num) {
+		if(num) {
+			this.settingsModel.setMaxRowsRequested(num);
+		}
+	}
+	setProjectName(index, name) {
+		this.projectsModel.setProjectName(index, name);
+		this._call("title-bar", "setTitle", name);
+	}
+	setStatus(status) {
+		this.generalStatus = status;
+		this.dispatchEvent("general-status", status);
+	}
+	setTheme(name) {
+		if(name) {
+			this.settingsModel.setTheme(name);
+		}
+	}
+	showAddConnection() {
+		this._call("connections-page", "showAddConnection");
+	}
+	showAddFolder() {
+		this._call("current-connections", "showAddFolder");
+	}
+	showAddProject() {
+		this.viewController.callViewMethod("modal-overlay", "show", {
+			title: 'Create New Project',
+			message: "Give your new project a name. <input style='width: 100%; margin: .5em 0 0' placeholder='Project Name' class='project-name-input' name='name' />", 
+			buttons: [
+				{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
+					this.hideModal();
+				}.bind(this)},
+				{label: "Create Project", class: "btn-success", icon: "", callback: function() {
+					var val = $(".project-name-input").val();
+					if(val) {
+						this.createProject(val);
+						$(".project-name-input").val("");
+					}
+					this.hideModal();
+				}.bind(this)}
+			]
+		});
+		setTimeout(function() {
+			$(".project-name-input").select();
+		}, 200);
+	}
+	showConnectionDetail(id) {
+		var con = this.configModel.getConnection(id);
+		this._call("connections-page", "setConnectionDetails", con);
+		this._call(["connection", "context-side-bar"], "setSelectedConnection", id);
+		this._call(["folder", "context-side-bar"], "setSelectedFolder", null);
+		this._call("folder", "clearSelected");
+	}
+	showConnectionsPage() {
+		this._call(["work-area", "main-view"], "showConnections");
+		this._call("context-side-bar", "setContext", "connections");
+	}
+	showDataPage() {
+		this._call(["work-area", "main-view"], "showData");
+		this._call("context-side-bar", "setContext", "data");
+	}
+	showDeleteProject(index) {
+		this.viewController.callViewMethod("modal-overlay", "show", {
+			title: 'Delete Project',
+			message: "Are you sure you want to delete the project, '" + this.projectsModel.getProject(index).name + "'", 
+			buttons: [
+				{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
+					this.hideModal();
+				}.bind(this)},
+				{label: "Delete Project", class: "btn-danger", icon: "glyphicon glyphicon-remove", callback: function() {
+					this.projectsModel.removeProject(index);
+					this.connectionsModel.removeProjectData(index);
+					this.hideModal();
+				}.bind(this)}
+			]
+		});
+	}
+	showFilesPage() {
+		this._call(["work-area", "main-view"], "showFiles");
+		this._call("context-side-bar", "setContext", "files");
+	}
+	showHomePage() {
+		this._call(["work-area", "main-view"], "showHome");
+		this._call("context-side-bar", "setContext", "home");
+	}
+	syncSelectedFiles() {
+		var updates = [];
+		var deletes = [];
+		var controllerRef = this;
+		$(".files-page .file-compare input:checked").each(function() {
+			var $this = $(this);
+			var $fileCompare = $this.closest(".file-compare");
+			var name = $fileCompare.attr("data-name");
+			if(name) {
+				var path = controllerRef.currentFilePath ? controllerRef.currentFilePath + '/' + name : name;
+				updates.push(path);
+			} else {
+				name = $fileCompare.closest("tr").find(".file-compare.is-not-in-sync").attr("data-name");
+				if(name) {
+					var path = controllerRef.currentFilePath ? controllerRef.currentFilePath + '/' + name : name;
+					deletes.push(path);
+				} else {
+					controllerRef.handleError("cannot locate paths for all selected files");
+				}
+			}
+		});
+		console.log({updates: updates, path: this.currentFilePath, deletes: deletes});
+	}
 	toggleViewSettings() {
 		this._call("work-area", "toggleSettings");
+	}
+	updateConnection(connection) {
+		this.lastUpdate = connection.id;
+		var o ={};
+		o.id = connection.id;
+		o.name = connection.name;
+		o.connectionType = connection.connectionType;
+		o.uri = connection.uri;
+		o.host = connection['ssh-host'];
+		o.port = connection['ssh-port'];
+		o.root = connection['ssh-root-directory'];
+		o.username = connection['ssh-username'];
+		o.password = connection['ssh-password'];
+		o.directory = connection['directory-path'];
+		o.connections = [{}];
+		if(connection.databaseType != 'select database type') {
+			o.connections = [{
+				"type": connection.databaseType,
+				"database": connection["db-connection-database"],
+				"file": connection["db-connection-file"],
+				"host": connection["db-connection-host"],
+				"name": connection["db-connection-name"],
+				"password": connection["db-connection-password"],
+				"uri": connection["db-connection-uri"],
+				"rest-verb": connection["db-connection-rest-verb"],
+				"rest-args": connection["db-connection-rest-args"],
+				"username": connection["db-connection-username"]
+			}];
+		}
+		this.configModel.updateConnection(connection.id, o);
 	}
 
 	_addDirectories(arr, path, data) {
@@ -508,101 +564,5 @@ module.exports = class ConnectopusController extends EventEmitter {
 			}
 		}
 		return false;
-	}
-
-	
-	createProject(name) {
-		var projectId = new Date().getTime();
-		this.projects[projectId] = {name: name, id:projectId };
-		this.setCurrentProject(projectId);
-		this._call("project-tabs", "setProjects", this.projects);
-	}
-	saveCurrentProject(promptForName) {
-		console.log("saveCurrentProject", promptForName);
-	}
-	setCurrentProject(id) {
-		this.currentProject = id;
-		this.connectionsModel.setCurrentProject(id);
-		this.pathsModel.setCurrentProject(id);
-		this._call("project-tabs", "setCurrentProject", id);
-		this._call("title-bar", "setTitle", this.projects[id].name);
-	}
-	setProjectName(index, name) {
-		if(this.projects[index] && this.projects[index].name) {
-			this.projects[index].name = name;
-			this._call("project-tabs", "setProjects", this.projects);
-			this._call("title-bar", "setTitle", name);
-		}
-	}
-	showAddProject() {
-		this.viewController.callViewMethod("modal-overlay", "show", {
-			title: 'Create New Project',
-			message: "Give your new project a name. <input style='width: 100%; margin: .5em 0 0' placeholder='Project Name' class='project-name-input' name='name' />", 
-			buttons: [
-				{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
-					this.hideModal();
-				}.bind(this)},
-				{label: "Create Project", class: "btn-success", icon: "", callback: function() {
-					var val = $(".project-name-input").val();
-					if(val) {
-						this.createProject(val);
-						$(".project-name-input").val("");
-					}
-					this.hideModal();
-				}.bind(this)}
-			]
-		});
-		setTimeout(function() {
-			$(".project-name-input").select();
-		}, 200);
-	}
-	showDeleteProject(index) {
-		this.viewController.callViewMethod("modal-overlay", "show", {
-			title: 'Delete Project',
-			message: "Are you sure you want to delete the project, '" + this.projects[index].name + "'", 
-			buttons: [
-				{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
-					this.hideModal();
-				}.bind(this)},
-				{label: "Delete Project", class: "btn-danger", icon: "glyphicon glyphicon-remove", callback: function() {
-					this._removeProject(index);
-					this.hideModal();
-				}.bind(this)}
-			]
-		});
-	}
-	_initializeProjects() {
-		var defaultProjectId = new Date().getTime();
-		this.projects = {};
-		this.projects[defaultProjectId] = { name: 'Project 1', id: defaultProjectId };
-		this.setCurrentProject(defaultProjectId);
-		this._call("project-tabs", "setProjects", this.projects);
-	}
-	_removeProject(index) {
-		delete this.projects[index];
-		this.connectionsModel.removeProjectData(index);
-		var leastDiff = Number.POSITIVE_INFINITY;
-		var closestProjectId, delta;
-		for(var i in this.projects) {
-			delta = Math.abs(Number(index) - Number(i));
-			if(delta < leastDiff) {
-				leastDiff = delta;
-				closestProjectId = i;
-			}
-		}
-		if(closestProjectId == undefined) {
-			this._initializeProjects();
-		} else {
-			this.setCurrentProject(closestProjectId);
-			this._call("project-tabs", "setProjects", this.projects);
-		}
-		//this._call("current-connections", "", ) TODO: update curent-connections data
-	}
-	_totalProjects() {
-		var l = 0;
-		for(var i in this.projects) {
-			++l;
-		}
-		return l;
 	}
 }
