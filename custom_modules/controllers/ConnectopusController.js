@@ -231,7 +231,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 			} else if(args.method == "closeProject") {
 				this.showDeleteProject(this.currentProject);
 			} else if(args.method == "saveCurrentProject") {
-				console.log("save current project");
+				this.saveCurrentProject(args);
 			} else if(args.method == "saveAllProjects") {
 				console.log("save all projects");
 			} else if(args.method == "toggleViewSettings") {
@@ -314,8 +314,46 @@ module.exports = class ConnectopusController extends EventEmitter {
 	moveFolderTo(name) {
 		this.configModel.moveFolderTo(this.dragFolderName, name);
 	}
-	saveCurrentProject(promptForName) {
-		console.log("saveCurrentProject", promptForName);
+	saveCurrentProject(args) {
+		var proj = this.projectsModel.getCurrentProject();
+		var cons = this.connectionsModel.getConnections();
+		var successHandler = function(data) {
+			this._call("modal-overlay", "show", {
+				title: "Project Saved",
+				message: "'" + data.project.name + "' successfully saved.",
+				buttons: [
+					{label: "OK", class: "btn-success", callback: function() {
+						this.hideModal()
+					}.bind(this)}
+				]
+			});
+		}.bind(this);
+		if(args.promptForName) {
+			this._call("modal-overlay", "show", {
+				title: "Name your project",
+				message: "What would you like to name this project? <div><input style='width: 100%; margin-top: .25em; display: ineline-block;' class='project-name-input' placeholder='Project Name' /></div>",
+				buttons: [
+					{label: "Cancel", class: "btn-warning", icon: "", callback: function() {
+						this.hideModal();
+					}.bind(this)},
+					{label: "Save Project", class: "btn-success", icon: "", callback: function() {
+						var name = $(".project-name-input").val();
+						if(name) {
+							var o = {project: this._strip(proj), connections: this._strip(cons)};
+							o.project.name = name;
+							this.projectsModel.setProjectName(o.project.id, name);
+							this.projectsModel.saveProject(o, successHandler);
+						}
+						this.hideModal();
+					}.bind(this)}
+				]
+			});
+			setTimeout(function() {
+				$(".project-name-input").select();
+			}, 200);
+		} else {
+			this.projectsModel.saveProject({project: this._strip(proj), connections: this._strip(cons)}, successHandler);
+		}
 	}
 	setContextVisible(bool) {
 		this._call("work-area", "setIsContextVisible", bool);

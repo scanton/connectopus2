@@ -2,10 +2,7 @@ module.exports = class ProjectsModel extends AbstractModel {
 
 	constructor() {
 		super();
-		var defaultProjectId = new Date().getTime();
-		this.projects = {};
-		this.projects[defaultProjectId] = { name: 'Project 1', id: defaultProjectId };
-		this.setCurrentProject(defaultProjectId);
+		this._initializeProjects();
 		this._dispatchUpdate();
 	}
 	createProject(name) {
@@ -13,6 +10,9 @@ module.exports = class ProjectsModel extends AbstractModel {
 		this.projects[projectId] = {name: name, id:projectId };
 		this.setCurrentProject(projectId);
 		this._dispatchUpdate();
+	}
+	getCurrentProject() {
+		return this.projects[this.currentProject];
 	}
 	getProject(id) {
 		return this.projects[id];
@@ -35,6 +35,10 @@ module.exports = class ProjectsModel extends AbstractModel {
 			this._dispatchUpdate();
 		}
 	}
+	saveProject(data, callback, errorHandler) {
+		console.log(data);
+		callback(data);
+	}
 	setCurrentProject(id) {
 		this.currentProject = id;
 	}
@@ -53,5 +57,11 @@ module.exports = class ProjectsModel extends AbstractModel {
 	}
 	_dispatchUpdate() {
 		this.dispatchEvent("data-update", {projects: this.projects, currentProject: this.currentProject});
+	}
+	_initializeProjects() {
+		var defaultProjectId = new Date().getTime();
+		this.projects = {};
+		this.projects[defaultProjectId] = { name: 'New Project', id: defaultProjectId };
+		this.setCurrentProject(defaultProjectId);
 	}
 }
