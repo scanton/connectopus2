@@ -131,6 +131,10 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		while(l--) {
 			if(this._connections[this.currentProject][l].id == id) {
 				this._connections[this.currentProject].splice(l, 1);
+				if(this._connections[this.currentProject][0]) {
+					this._connections[this.currentProject][0].isPrime = true;
+				}
+				this._dispatchUpdate();
 				return 1;
 			}
 		}

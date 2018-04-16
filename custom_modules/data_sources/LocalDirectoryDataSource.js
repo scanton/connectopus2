@@ -16,19 +16,21 @@ module.exports = class LocalDirectoryDataSource extends AbstractDataSource {
 		}
 	}
 	createDirectory(path, callback, errorHandler) {
-		console.log("implement createDirectory in child class", this._con.id);	
-		if(callback) {
-			//callback();
-		}
+		this.fs.ensureDir(this._con.directory + "/" + path).then(() => {
+			callback();
+		}).catch((err) => {
+			controller.handleError(err);
+		});
 	}
 
 	getDirectory(path, callback, errorHandler) {
+		var directoryAndPath;
 		if(path) {
-			path = this._con.directory + "/" + path;
+			directoryAndPath = this._con.directory + "/" + path;
 		} else {
-			path = this._con.directory;
+			directoryAndPath = this._con.directory;
 		}
-		this.fs.pathExists(path, function(err, exists) {
+		this.fs.pathExists(directoryAndPath, function(err, exists) {
 			if(err) {
 				if(errorHandler) {
 					errorHandler(err);
@@ -38,20 +40,20 @@ module.exports = class LocalDirectoryDataSource extends AbstractDataSource {
 			} else {
 				if(!exists) {
 					status = 'error';
-					controller.handleError({ description: "Directory '" + path + "' does not exist", scope: this });
+					controller.handleMissingDirectory(this._con, path);
 				} else {
-					this.fs.readdir(path, function(err, paths) {
+					this.fs.readdir(directoryAndPath, function(err, paths) {
 						var fullPath = '';
 						var files = [];
 						var directories = [];
 						var l = paths.length;
 						while(l--) {
-							fullPath = path + '/' + paths[l];
+							fullPath = directoryAndPath + '/' + paths[l];
 							var stat = this.fs.lstatSync(fullPath);
 							if(stat.isFile()) {
-								files.unshift({path: fullPath, md5: this.md5File.sync(fullPath), name: paths[l], directory: path, size: stat.size});
+								files.unshift({path: fullPath, md5: this.md5File.sync(fullPath), name: paths[l], directory: directoryAndPath, size: stat.size});
 							} else if(stat.isDirectory()) {
-								directories.unshift({path: path, name: paths[l], directory: path});
+								directories.unshift({path: directoryAndPath, name: paths[l], directory: this._con.directory});
 							}
 						}
 						if(err) {
@@ -63,7 +65,7 @@ module.exports = class LocalDirectoryDataSource extends AbstractDataSource {
 						}
 						if(callback) {
 							var con = this._con;
-							var cleanPath = path.split(con.directory).join("");
+							var cleanPath = directoryAndPath.split(con.directory).join("");
 							if(cleanPath.charAt(0) == "/") {
 								cleanPath = cleanPath.substr(1);
 							}

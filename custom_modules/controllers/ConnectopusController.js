@@ -150,6 +150,11 @@ module.exports = class ConnectopusController extends EventEmitter {
 			]
 		});
 	}
+	disconnectFrom(id) {
+		this.connectionsModel.removeConnection(id, function(success) {
+			console.log(success);
+		});
+	}
 	getColorStyle() {
 		return this.colorStyle;
 	}
@@ -276,6 +281,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call("project-tabs", "setProjects", data.projects);
 		this.connectionsModel.setCurrentProject(data.currentProject);
 		this._call("project-tabs", "setCurrentProject", data.currentProject);
+		this._call("title-bar", "setTitle", this.projectsModel.getProject(data.currentProject).name);
 	}
 	handleSelectedFilesChange() {
 		var syncCount = $(".is-sync-action input:checked").length;

@@ -30,6 +30,7 @@ module.exports = class ProjectsModel extends AbstractModel {
 		}
 		if(closestProjectId == undefined) {
 			this._initializeProjects();
+			this._dispatchUpdate();
 		} else {
 			this.setCurrentProject(closestProjectId);
 			this._dispatchUpdate();

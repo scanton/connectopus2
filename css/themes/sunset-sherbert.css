@@ -69,7 +69,7 @@ body.sunset-sherbert {
 .sunset-sherbert .glyphicon-folder-close, .sunset-sherbert .glyphicon-folder-open {
 	color: #FF7373;
 }
-.sunset-sherbert .current-connections .connection .quick-connection-link {
+.sunset-sherbert .current-connections .connection .quick-connection-link, .sunset-sherbert .current-connections .connection .quick-disconnection-link {
 	background: #FF7373;
 	color: white;
 }
@@ -116,17 +116,17 @@ body.sunset-sherbert {
 .sunset-sherbert .connection.is-prime {
 	color: white;
 }
-.sunset-sherbert .connection.is-prime .glyphicon {
+.sunset-sherbert .connection.is-prime .glyphicon-star {
 	background: #666;
 	color: black;
 }
-.sunset-sherbert .connection.is-prime.connected .glyphicon {
+.connection.is-prime.connected .glyphicon-star {
 	background: #0F0;
 }
-.sunset-sherbert .connection.is-prime.pending .glyphicon {
+.connection.is-prime.pending .glyphicon-star {
 	background: yellow;
 }
-.sunset-sherbert .connection.is-prime.error .glyphicon {
+.connection.is-prime.error .glyphicon-star {
 	background: red;
 }
 .sunset-sherbert .connection.selected, .sunset-sherbert .folder.selected {

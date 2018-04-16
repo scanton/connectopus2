@@ -229,17 +229,17 @@ h3 {
 	border-radius: 15px;
 	position: relative;
 }
-.current-connections .connection .quick-connection-link {
+.current-connections .connection .quick-connection-link, .current-connections .connection .quick-disconnection-link {
 	display: none;
 	float: right;
 	border-radius: 15px;
 	padding: 3px 2px 1px 6px;
 }
-.current-connections .connection .quick-connection-link:hover {
+.current-connections .connection .quick-connection-link:hover, .current-connections .connection .quick-disconnection-link:hover {
 	background: green;
 	color: white;
 }
-.current-connections .connection:hover .quick-connection-link {
+.current-connections .connection:hover .quick-connection-link, .current-connections .connection.connected:hover .quick-disconnection-link {
 	position: absolute;
 	display: inline-block;
 	right: 3px;
@@ -263,6 +263,15 @@ h3 {
 	padding: 1em;
 	border-radius: 5px;
 	margin-top: 1em;
+}
+.connection.is-prime.connected .glyphicon-star {
+	background: #0F0;
+}
+.connection.is-prime.pending .glyphicon-star {
+	background: yellow;
+}
+.connection.is-prime.error .glyphicon-star {
+	background: red;
 }
 .current-connections .foot-toolbar {
 	position: absolute;
@@ -793,4 +802,15 @@ ul.directories li, ul.tables li {
 }
 .settings-is-visible .diff-tool-bar {
 	right: 350px;
+}
+.disconnect-icon {
+	padding: 4px;
+	border-radius: 5px;
+	border-width: 1px;
+}
+.disconnect-icon:hover {
+	color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    cursor: pointer;
 }

@@ -19,7 +19,9 @@
 						</tr>
 					</table>
 					<h3 class="diff-tool-bar">
-						<button v-on:click="hideView" class="btn btn-success">Close Diff View</button>
+						<button v-on:click="hideView" class="btn btn-success">
+							<span class="glyphicon glyphicon-remove"></span>
+						</button>
 						<span class="change-count pull-right">{{addCount()}} Additions/{{removeCount()}} Removals</span>
 						{{path}}
 					</h3>

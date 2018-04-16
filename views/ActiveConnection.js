@@ -2,7 +2,10 @@
 	var componentName = 'active-connection';
 	var s = `
 		<div v-bind:style="getStyle()" v-on:mouseover="handleMouseOver" v-on:mouseout="handleMouseOut" v-bind:class="[con.status, {'is-prime': con.isPrime}]" class="active-connection">
-			<div v-bind:style="getFlagStyle()" class="rollover-flag">{{con.name}}</div>
+			<div v-bind:style="getFlagStyle()" class="rollover-flag">
+				{{con.name}}
+				<span v-on:click="handleDisconnect" title="disconnect" class="glyphicon glyphicon-remove disconnect-icon"></span>
+			</div>
 			<div v-show="!con.isPrime" v-bind:class="con.status" class="status-icon">
 				<span class="highlight"></span>
 			</div>
@@ -37,6 +40,9 @@
 			getFlagStyle: function() {
 				var colors = utils.calculateColors(this.index, this.connections, this.maximizeContrast);
 				return "left: -350px; background: hsl(" + colors.angle + ", " + this.saturation + ", " + this.luminance + "); color: " + colors.color + ";";
+			},
+			handleDisconnect: function(e) {
+				controller.disconnectFrom(this.con.id);
 			},
 			handleMouseOut: function(e) {
 				var colors = utils.calculateColors(this.index, this.connections, this.maximizeContrast);

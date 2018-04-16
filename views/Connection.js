@@ -11,6 +11,9 @@
 			<span v-show="this.liveConnection.id == null" class="quick-connection-link" v-on:click="handleConnect">
 				Connect <span class="glyphicon glyphicon-record" title="connect"></span>
 			</span>
+			<span v-show="this.liveConnection.id != null" class="quick-disconnection-link" v-on:click="handleDisconnect">
+				<span class="glyphicon glyphicon-remove" title="disconnect"></span>
+			</span>
 		</li>
 	`;
 	
@@ -76,6 +79,10 @@
 				e.stopPropagation();
 				this.handleViewConnection(e);
 				controller.connectTo($(e.target).closest(".connection").attr("data-id"));
+			},
+			handleDisconnect: function(e) {
+				e.preventDefault();
+				controller.disconnectFrom($(e.target).closest(".connection").attr("data-id"));
 			},
 			handleViewConnection: function(e) {
 				e.preventDefault();
