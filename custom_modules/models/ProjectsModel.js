@@ -2,12 +2,15 @@ module.exports = class ProjectsModel extends AbstractModel {
 
 	constructor() {
 		super();
+		var d = __dirname.split("custom_modules/models")[0];
+		this.projectsDirectory = d + 'working_files/projects/';
 		this._initializeProjects();
-		this._dispatchUpdate();
+		this.savedProjects = [];
+		this.loadProjects();
 	}
 	createProject(name) {
 		var projectId = new Date().getTime();
-		this.projects[projectId] = {name: name, id:projectId };
+		this.projects[projectId] = { name: name, id:projectId };
 		this.setCurrentProject(projectId);
 		this._dispatchUpdate();
 	}
@@ -16,6 +19,44 @@ module.exports = class ProjectsModel extends AbstractModel {
 	}
 	getProject(id) {
 		return this.projects[id];
+	}
+	loadProjects() {
+		this.fs.readdir(this.projectsDirectory, (err, files) => {
+			if(err) {
+				controller.handleError(err);
+			}
+			this.savedProjects = files.sort();
+			this._dispatchUpdate();
+		});
+	}
+	openProject(path) {
+		this.fs.readJson(path, (err, data) => {
+			if(err) {
+				controller.handleError(err);
+			}
+			if(data && data.project && data.project.id) {
+				var id = data.project.id;
+				this.projects[id] = data.project;
+				this.setCurrentProject(id);
+				this._dispatchUpdate();
+				var totalConnections = data.connections.length;
+				if(totalConnections) {
+					var connectionsAdded = 0;
+					var addConnection = function() {
+						if(connectionsAdded < totalConnections) {
+							var id = data.connections[connectionsAdded].id;
+							controller.connectTo(id, addConnection);
+							++connectionsAdded;
+						}
+					}
+					addConnection();
+				}
+			}
+		});
+	}
+	projectExists(name, callback) {
+		var path = this.projectsDirectory + name + '.json';
+		this.fs.pathExists(path, callback);
 	}
 	removeProject(index) {
 		delete this.projects[index];
@@ -36,9 +77,30 @@ module.exports = class ProjectsModel extends AbstractModel {
 			this._dispatchUpdate();
 		}
 	}
+	removeSavedProject(id) {
+		this.fs.readdir(this.projectsDirectory, (err, files) => {
+			var l = files.length;
+			while(l--) {
+				var proj = this.fs.readJsonSync(this.projectsDirectory + '/' + files[l]);
+				if(proj && proj.project && proj.project.id == id) {
+					this.fs.removeSync(this.projectsDirectory + '/' + files[l]);
+				}
+			}
+		});
+	}
 	saveProject(data, callback, errorHandler) {
-		console.log(data);
-		callback(data);
+		if(data && data.project && data.project.name) {
+			this.removeSavedProject(data.project.id);
+			var path = this.projectsDirectory + data.project.name + ".json";
+			this.fs.outputJson(path, data, { spaces: '\t' }, (err) => {
+				if(err && errorHandler) {
+					errorHandler(err);
+				} else {
+					callback(data);
+				}
+				this.loadProjects();
+			});
+		}
 	}
 	setCurrentProject(id) {
 		this.currentProject = id;
@@ -57,7 +119,7 @@ module.exports = class ProjectsModel extends AbstractModel {
 		return l;
 	}
 	_dispatchUpdate() {
-		this.dispatchEvent("data-update", {projects: this.projects, currentProject: this.currentProject});
+		this.dispatchEvent("data-update", {projects: this.projects, currentProject: this.currentProject, savedProjects: this.savedProjects});
 	}
 	_initializeProjects() {
 		var defaultProjectId = new Date().getTime();

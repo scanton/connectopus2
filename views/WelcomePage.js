@@ -12,6 +12,13 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-6">
+					<div v-show="savedProjects.length" class="info-panel">
+						<h2>Saved Projects</h2>
+						<p>Click a project name below to load the project.</p>
+						<div v-on:click="handleLoadProject" v-for="proj in savedProjects" class="saved-project" v-bind:data-file="proj">
+							<span class="glyphicon glyphicon-briefcase"></span> {{dropExtension(proj)}}
+						</div>
+					</div>
 					<div class="info-panel">
 						<h2>Getting Started</h2>
 						<hr />
@@ -42,8 +49,28 @@
 		},
 		template: s,
 		data: function() {
-			return {}
+			return {
+				savedProjects: []
+			}
 		},
-		methods: {}
+		methods: {
+			dropExtension: function(str) {
+				return str.split(".json")[0];
+			},
+			handleLoadProject: function(e) {
+				e.preventDefault();
+				console.log($(e.target).attr("data-file"));
+			},
+			setSavedProjects: function(projects) {
+				this.savedProjects = projects.sort(function(a, b) {
+					if(a < b) {
+						return 1;
+					} else if(b < a) {
+						return -1;
+					}
+					return 0;
+				});
+			}
+		}
 	});
 })();

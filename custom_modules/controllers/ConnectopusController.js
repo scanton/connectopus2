@@ -19,7 +19,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.fileModel.subscribe("data-update", this.handleFileModelUpdate.bind(this));
 		this.newsModel.subscribe("data-update", this.handleNewsUpdate.bind(this));
 		this.projectsModel.subscribe("data-update", this.handleProjectsUpdate.bind(this));
-		this.projectsModel._dispatchUpdate();
 		this.diff = require('diff');
 		this.dragId = null;
 		this.dragFolderName = null;
@@ -87,12 +86,15 @@ module.exports = class ConnectopusController extends EventEmitter {
 			this._call("diff-view", "show", data);
 		});
 	}
-	connectTo(id) {
+	connectTo(id, callback) {
 		var con = this.configModel.getConnection(id);
 		if(con) {
 			this._call("modal-overlay", "showLoader");
-			this.connectionsModel.addConnection(con, function() {
+			this.connectionsModel.addConnection(con, function(data) {
 				this._call("modal-overlay", "hide");
+				if(callback) {
+					callback(data);
+				}
 			}.bind(this));
 		}
 	}
@@ -234,13 +236,27 @@ module.exports = class ConnectopusController extends EventEmitter {
 			if(args.method == "newProject") {
 				this.showAddProject();
 			} else if(args.method == "closeProject") {
-				this.showDeleteProject(this.currentProject);
+				this.showDeleteProject(this.connectionsModel.currentProject);
 			} else if(args.method == "saveCurrentProject") {
 				this.saveCurrentProject(args);
 			} else if(args.method == "saveAllProjects") {
 				console.log("save all projects");
 			} else if(args.method == "toggleViewSettings") {
 				this.toggleViewSettings();
+			} else if(args.method == "openProject") {
+				dialog.showOpenDialog(
+					{
+						title: "Select Project File", 
+						defaultPath: "./working_files/projects",
+						filters: [{name: "Projects", extensions: ["json"]}],
+						properties: ["openFile"]
+					}, 
+					(filePath) => {
+						if(filePath && filePath[0]) {
+							this.projectsModel.openProject(filePath[0]);
+						}
+					}
+				);
 			}  else {
 				console.log(args);
 			}
@@ -277,7 +293,34 @@ module.exports = class ConnectopusController extends EventEmitter {
 	handlePathChange(data) {
 		console.log(data);
 	}
+	handleProjectNameConflict(data) {
+		var name = data.project.name;
+		this._call("modal-overlay", "show", {
+			title: name + " already exists as a project",
+			message: name + " is already used as a project name.  Would you like to overwrite it?",
+			buttons: [
+				{label: "Cancel", class: "btn-warning", icon: "", callback: function() {
+					this.hideModal();
+				}.bind(this)},
+				{label: "Overwrite " + name, class: "btn-danger", icon: "", callback: function() {
+					this.projectsModel.saveProject(data, this.handleProjectSaved.bind(this));
+				}.bind(this)}
+			]
+		});
+	}
+	handleProjectSaved(data) {
+		this._call("modal-overlay", "show", {
+			title: "Project Saved",
+			message: "'" + data.project.name + "' successfully saved.",
+			buttons: [
+				{label: "OK", class: "btn-success", callback: function() {
+					this.hideModal()
+				}.bind(this)}
+			]
+		});
+	}
 	handleProjectsUpdate(data) {
+		this._call("welcome-page", "setSavedProjects", data.savedProjects);
 		this._call("project-tabs", "setProjects", data.projects);
 		this.connectionsModel.setCurrentProject(data.currentProject);
 		this._call("project-tabs", "setCurrentProject", data.currentProject);
@@ -321,19 +364,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.configModel.moveFolderTo(this.dragFolderName, name);
 	}
 	saveCurrentProject(args) {
-		var proj = this.projectsModel.getCurrentProject();
-		var cons = this.connectionsModel.getConnections();
-		var successHandler = function(data) {
-			this._call("modal-overlay", "show", {
-				title: "Project Saved",
-				message: "'" + data.project.name + "' successfully saved.",
-				buttons: [
-					{label: "OK", class: "btn-success", callback: function() {
-						this.hideModal()
-					}.bind(this)}
-				]
-			});
-		}.bind(this);
+		var proj = this._strip(this.projectsModel.getCurrentProject());
+		var cons = this._strip(this.connectionsModel.getConnections());
+		var projectData = {project: proj, connections: cons};
 		if(args.promptForName) {
 			this._call("modal-overlay", "show", {
 				title: "Name your project",
@@ -345,10 +378,15 @@ module.exports = class ConnectopusController extends EventEmitter {
 					{label: "Save Project", class: "btn-success", icon: "", callback: function() {
 						var name = $(".project-name-input").val();
 						if(name) {
-							var o = {project: this._strip(proj), connections: this._strip(cons)};
-							o.project.name = name;
-							this.projectsModel.setProjectName(o.project.id, name);
-							this.projectsModel.saveProject(o, successHandler);
+							projectData.project.name = name;
+							this.projectsModel.setProjectName(projectData.project.id, name);
+							this.projectsModel.projectExists(name, (err, exists) => {
+								if(exists) {
+									this.handleProjectNameConflict(projectData);
+								} else {
+									this.projectsModel.saveProject(projectData, this.handleProjectSaved.bind(this));
+								}
+							});
 						}
 						this.hideModal();
 					}.bind(this)}
@@ -358,7 +396,13 @@ module.exports = class ConnectopusController extends EventEmitter {
 				$(".project-name-input").select();
 			}, 200);
 		} else {
-			this.projectsModel.saveProject({project: this._strip(proj), connections: this._strip(cons)}, successHandler);
+			this.projectsModel.projectExists(proj.name, (err, exists) => {
+				if(exists) {
+					this.handleProjectNameConflict(projectData);
+				} else {
+					this.projectsModel.saveProject(projectData, this.handleProjectSaved.bind(this));
+				}
+			})
 		}
 	}
 	setContextVisible(bool) {
@@ -476,13 +520,13 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	showDeleteProject(index) {
 		this.viewController.callViewMethod("modal-overlay", "show", {
-			title: 'Delete Project',
-			message: "Are you sure you want to delete the project, '" + this.projectsModel.getProject(index).name + "'", 
+			title: 'Close Project',
+			message: "Are you sure you want to close the project, '" + this.projectsModel.getProject(index).name + "'", 
 			buttons: [
 				{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
 					this.hideModal();
 				}.bind(this)},
-				{label: "Delete Project", class: "btn-danger", icon: "glyphicon glyphicon-remove", callback: function() {
+				{label: "Close Project", class: "btn-danger", icon: "glyphicon glyphicon-remove", callback: function() {
 					this.projectsModel.removeProject(index);
 					this.connectionsModel.removeProjectData(index);
 					this.hideModal();

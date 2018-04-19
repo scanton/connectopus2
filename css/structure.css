@@ -814,3 +814,16 @@ ul.directories li, ul.tables li {
     border-color: #d43f3a;
     cursor: pointer;
 }
+.saved-project {
+	font-size: 14pt;
+	font-weight: 200;
+	padding: .5em;
+	margin: .25em 0;
+	border: 1px solid #999;
+	border-radius: 5px;
+}
+.saved-project:hover {
+	cursor: pointer;
+	background: #555;
+	color: white;
+}
