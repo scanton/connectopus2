@@ -2,6 +2,7 @@ module.exports = class ProjectsModel extends AbstractModel {
 
 	constructor() {
 		super();
+		this._defaultProjectId = null;
 		var d = __dirname.split("custom_modules/models")[0];
 		this.projectsDirectory = d + 'working_files/projects/';
 		this._initializeProjects();
@@ -29,27 +30,37 @@ module.exports = class ProjectsModel extends AbstractModel {
 			this._dispatchUpdate();
 		});
 	}
-	openProject(path) {
+	openProject(path, callback) {
 		this.fs.readJson(path, (err, data) => {
 			if(err) {
 				controller.handleError(err);
 			}
 			if(data && data.project && data.project.id) {
 				var id = data.project.id;
-				this.projects[id] = data.project;
-				this.setCurrentProject(id);
-				this._dispatchUpdate();
-				var totalConnections = data.connections.length;
-				if(totalConnections) {
-					var connectionsAdded = 0;
-					var addConnection = function() {
-						if(connectionsAdded < totalConnections) {
-							var id = data.connections[connectionsAdded].id;
-							controller.connectTo(id, addConnection);
-							++connectionsAdded;
+				if(!this.projects[id]) {
+					this.projects[id] = data.project;
+					this.setCurrentProject(id);
+					this._dispatchUpdate();
+					var totalConnections = data.connections.length;
+					if(totalConnections) {
+						var connectionsAdded = 0;
+						var addConnection = function() {
+							if(connectionsAdded < totalConnections) {
+								var id = data.connections[connectionsAdded].id;
+								controller.connectTo(id, addConnection);
+								++connectionsAdded;
+							} else {
+								if(callback) {
+									callback();
+								}
+							}
+						}
+						addConnection();
+					} else {
+						if(callback) {
+							callback();
 						}
 					}
-					addConnection();
 				}
 			}
 		});
@@ -123,6 +134,7 @@ module.exports = class ProjectsModel extends AbstractModel {
 	}
 	_initializeProjects() {
 		var defaultProjectId = new Date().getTime();
+		this._defaultProjectId = defaultProjectId;
 		this.projects = {};
 		this.projects[defaultProjectId] = { name: 'New Project', id: defaultProjectId };
 		this.setCurrentProject(defaultProjectId);

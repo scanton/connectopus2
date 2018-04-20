@@ -15,7 +15,7 @@
 					<div v-show="savedProjects.length" class="info-panel">
 						<h2>Saved Projects</h2>
 						<p>Click a project name below to load the project.</p>
-						<div v-on:click="handleLoadProject" v-for="proj in savedProjects" class="saved-project" v-bind:data-file="proj">
+						<div v-on:click="handleLoadProject" v-for="proj in savedProjects" v-bind:class="{'is-active': isActiveProject(proj)}" class="saved-project" v-bind:data-file="proj">
 							<span class="glyphicon glyphicon-briefcase"></span> {{dropExtension(proj)}}
 						</div>
 					</div>
@@ -50,16 +50,29 @@
 		template: s,
 		data: function() {
 			return {
-				savedProjects: []
+				savedProjects: [],
+				activeProjects: []
 			}
 		},
 		methods: {
 			dropExtension: function(str) {
 				return str.split(".json")[0];
 			},
+			isActiveProject: function(name) {
+				var name = name.split(".json")[0];
+				for(var i in this.activeProjects) {
+					if(this.activeProjects[i].name == name) {
+						return true;
+					}
+				}
+				return false;
+			},
 			handleLoadProject: function(e) {
 				e.preventDefault();
-				console.log($(e.target).attr("data-file"));
+				controller.openProject(controller.projectsDirectory + "/" + $(e.target).attr("data-file"));
+			},
+			setActiveProjects: function(projects) {
+				this.activeProjects = projects;
 			},
 			setSavedProjects: function(projects) {
 				this.savedProjects = projects.sort(function(a, b) {

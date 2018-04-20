@@ -163,6 +163,10 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		}
 		return false;
 	}
+	syncFiles(path, updates, deletes, callback, errorHandler) {
+		console.log(path, updates, deletes);
+		callback(path);
+	}
 
 	_dispatchUpdate() {
 		if(this._connections[this.currentProject]) {

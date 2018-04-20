@@ -218,3 +218,17 @@ body.sunset-sherbert {
 	background: #444;
 	color: #CCC;
 }
+.sunset-sherbert .saved-project {
+	border-color: #333;
+	background-color: #222;
+}
+.sunset-sherbert .saved-project:hover {
+	color: white;
+	background-color: black;
+
+}
+.sunset-sherbert .saved-project.is-active:hover {
+	border-color: #333;
+	background-color: #222;
+	color: #CCC;
+}

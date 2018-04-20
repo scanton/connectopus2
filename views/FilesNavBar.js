@@ -8,7 +8,7 @@
 						<span class="glyphicon glyphicon-refresh"></span>
 					</button>
 					<button v-on:click="handleSyncFiles" v-show="filesAreSelected" class="btn btn-warning" title="Sync Selected Files">
-						<span class="glyphicon glyphicon-export"></span>
+						<span class="glyphicon glyphicon-export"></span> Sync Selected Files
 					</button>
 					<!--
 					<button class="btn btn-default pull-right" title="Crawl Directories">

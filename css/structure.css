@@ -819,11 +819,20 @@ ul.directories li, ul.tables li {
 	font-weight: 200;
 	padding: .5em;
 	margin: .25em 0;
-	border: 1px solid #999;
+	border: 1px solid #888;
 	border-radius: 5px;
 }
 .saved-project:hover {
 	cursor: pointer;
 	background: #555;
 	color: white;
+}
+.saved-project span {
+	margin-right: .25em;
+}
+.saved-project.is-active {
+	opacity: .5;
+}
+.saved-project.is-active:hover {
+	cursor: default;
 }

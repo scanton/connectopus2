@@ -40,6 +40,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 				$("head").append(s);
 			}
 		}.bind(this));
+		this.projectsDirectory = __dirname.split("custom_modules/controllers")[0] + "working_files/projects";
 	}
 
 	addNewConnection(connection) {
@@ -247,13 +248,13 @@ module.exports = class ConnectopusController extends EventEmitter {
 				dialog.showOpenDialog(
 					{
 						title: "Select Project File", 
-						defaultPath: "./working_files/projects",
+						defaultPath: this.projectsDirectory,
 						filters: [{name: "Projects", extensions: ["json"]}],
 						properties: ["openFile"]
 					}, 
 					(filePath) => {
 						if(filePath && filePath[0]) {
-							this.projectsModel.openProject(filePath[0]);
+							this.openProject(filePath[0]);
 						}
 					}
 				);
@@ -321,6 +322,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	handleProjectsUpdate(data) {
 		this._call("welcome-page", "setSavedProjects", data.savedProjects);
+		this._call("welcome-page", "setActiveProjects", data.projects);
 		this._call("project-tabs", "setProjects", data.projects);
 		this.connectionsModel.setCurrentProject(data.currentProject);
 		this._call("project-tabs", "setCurrentProject", data.currentProject);
@@ -362,6 +364,15 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	moveFolderTo(name) {
 		this.configModel.moveFolderTo(this.dragFolderName, name);
+	}
+	openProject(path) {
+		var proj = this.projectsModel.getCurrentProject();
+		var count = this.connectionsModel.getConnectionCount();
+		this.projectsModel.openProject(path, () => {
+			if(count == 0 && proj.id == this.projectsModel._defaultProjectId) {
+				this.projectsModel.removeProject(proj.id);
+			}
+		});
 	}
 	saveCurrentProject(args) {
 		var proj = this._strip(this.projectsModel.getCurrentProject());
@@ -563,7 +574,27 @@ module.exports = class ConnectopusController extends EventEmitter {
 				}
 			}
 		});
-		console.log({updates: updates, path: this.currentFilePath, deletes: deletes});
+		if(deletes.length) {
+			this._call("modal-overlay", "show", {
+				title: "File Delete Warning",
+				message: "During this file sync, you are going to delete the following downline files: " + deletes.toString(),
+				buttons: [
+					{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
+						this.hideModal();
+					}.bind(this)},
+					{label: "Delete Files", class: "btn-danger", icon: "glyphicon glyphicon-remove", callback: function() {
+						this.hideModal();
+						this.connectionsModel.syncFiles(this.currentFilePath, updates, deletes, (result) => {
+							console.log(result);
+						});
+					}.bind(this)}
+				]
+			});
+		} else {
+			this.connectionsModel.syncFiles(this.currentFilePath, updates, deletes, (result) => {
+				console.log(result);
+			});
+		}
 	}
 	toggleViewSettings() {
 		this._call("work-area", "toggleSettings");
