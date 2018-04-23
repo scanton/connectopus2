@@ -3,7 +3,7 @@
 	var s = `
 		<div class="current-directories container-fluid">
 			<div class="row">
-				<div class="col-xs-12">
+				<div class="col-xs-12 bare-container">
 					<h2>Directories</h2>
 					<ul class="directories">
 						<directory v-for="directory in directories" v-bind:directory="directory"></directory>

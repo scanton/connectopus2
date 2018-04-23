@@ -1,10 +1,11 @@
 (function() {
 	var componentName = 'milestone';
 	var s = `
-		<div class="milestone" v-on:click="handleToggleDescription">
+		<div v-bind:class="status" class="milestone" v-on:click="handleToggleDescription">
+			<span class="badge">{{status}}</span>
+			<span v-bind:class="getIcon()"></span>
 			<h3>
-				<span v-bind:class="getIcon()" v-bind:style="getIconStyle()"></span> 
-				<span v-bind:style="getBadgeStyle()" class="badge">{{status}}</span> {{title}}<sub>...</sub>
+				{{title}}<sub>...</sub>
 			</h3>
 			<div class="description" style="display: none;" ref="desc">
 				<span v-html="description"></span>
@@ -32,30 +33,6 @@
 					return "glyphicon glyphicon-plus-sign";
 				} else {
 					return "glyphicon glyphicon-remove-sign";
-				}
-			},
-			getIconStyle: function() {
-				var status = this.status
-				if(this.status == "complete") {
-					return "color: green;";
-				} else if(status == "to-do") {
-					return "color: orange;";
-				} else if(status == "in-progress") {
-					return "color: #3F3;";
-				} else {
-					return "color: red;";
-				}
-			},
-			getBadgeStyle: function() {
-				var status = this.status
-				if(this.status == "complete") {
-					return "background-color: green;";
-				} else if(status == "to-do") {
-					return "background-color: orange;";
-				} else if(status == "in-progress") {
-					return "background-color: #3F3; color: black";
-				} else {
-					return "background-color: red;";
 				}
 			},
 			handleToggleDescription: function(e) {

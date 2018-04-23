@@ -3,7 +3,7 @@
 	var s = `
 		<div class="current-tables container-fluid scroll-overflow">
 			<div class="row">
-				<div class="col-xs-12">
+				<div class="col-xs-12 bare-container">
 					<h2>Tables</h2>
 				</div>
 			</div>

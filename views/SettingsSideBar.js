@@ -3,7 +3,7 @@
 	var s = `
 		<div class="settings-side-bar side-bar container-fluid">
 			<div class="row">
-				<div class="col-xs-12">
+				<div class="col-xs-12 bare-container">
 					<h2>Settings</h2>
 					<!--<button v-on:click="handleThemeToggle" class="btn btn-info">Toggle Azure Style</button>-->
 

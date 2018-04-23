@@ -42,6 +42,13 @@ h3 {
 	letter-spacing: 1pt;
 	margin: 5px 0 18px;
 }
+.col-xs-12, .col-sm-6 {
+	padding: 0;
+}
+.bare-container {
+	padding-left: 15px;
+	padding-right: 15px;
+}
 .btn {
 	padding: 5px 8px;
 	border-radius: .3em;
@@ -568,11 +575,13 @@ ul.directories li, ul.tables li {
 	border-radius: 5px;
 }
 .welcome-page .info-panel {
+	/*
 	border: 1px solid gray;
 	margin: .5em 0;
 	border-radius: 5px;
+	*/
 	padding: 1em;
-	background: #eee;
+	background: #f8f8f8;
 }
 .project-news ul  {
 	list-style: none;
@@ -584,9 +593,81 @@ ul.directories li, ul.tables li {
 .project-news .milestones-list h3 {
 	margin: 5px;
 }
+
 .project-news .milestone {
 	cursor: pointer;
+	position: relative;
+	padding-left: 70px;
+	min-height: 50px;
+	margin: auto;
 }
+.project-news .milestone .badge {
+	display: none;
+	/*
+	position: absolute;
+	transform: rotate(-90deg);
+	transform-origin: right top 0;
+	left: 0;
+	top: 0;
+	height: 100%;
+	border-radius: 0;
+	*/
+}
+.project-news .milestone .glyphicon {
+	position: absolute;
+	text-align: center;
+	vertical-align:middle;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 50px;
+	font-size: 21pt;
+	padding-top: 12px;
+	color: white;
+}
+
+.project-news .milestone.complete {
+	border-right: 10px solid green;
+	border-top: 1px solid green;
+}
+.project-news .milestone.complete .glyphicon {
+	background-color: green;
+}
+.project-news .milestone.complete .badge {
+	background-color: green;
+}
+.project-news .milestone.to-do {
+	border-right: 10px solid orange;
+	border-top: 1px solid orange;
+}
+.project-news .milestone.to-do .glyphicon {
+	background-color: orange;
+}
+.project-news .milestone.to-do .badge {
+	background-color: orange;
+}
+.project-news .milestone.in-progress {
+	border-right: 10px solid #3F3;
+	border-top: 1px solid #3F3;
+}
+.project-news .milestone.in-progress .glyphicon {
+	background-color: #3F3;
+}
+.project-news .milestone.in-progress .badge {
+	background-color: #3F3; color: black;
+}
+.project-news .milestone.proposed {
+	border-right: 10px solid red;
+	border-top: 1px solid red;
+}
+.project-news .milestone.proposed .glyphicon {
+	background-color: red;
+}
+.project-news .milestone.proposed .badge {
+	background-color: red;
+}
+
+
 .files-page .connection-name {
 	text-align: center;
 	font-weight: bold;
@@ -815,12 +896,14 @@ ul.directories li, ul.tables li {
     cursor: pointer;
 }
 .saved-project {
+	position: relative;
 	font-size: 14pt;
 	font-weight: 200;
 	padding: .5em;
 	margin: .25em 0;
-	border: 1px solid #888;
-	border-radius: 5px;
+	border-top: 1px solid #888;
+	border-right: 10px solid #888;
+	border-left: 50px solid #888;
 }
 .saved-project:hover {
 	cursor: pointer;
@@ -835,4 +918,10 @@ ul.directories li, ul.tables li {
 }
 .saved-project.is-active:hover {
 	cursor: default;
+}
+.saved-project .glyphicon {
+	position: absolute;
+	top: 13px;
+	left: -35px;
+	color: white;
 }

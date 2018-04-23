@@ -219,16 +219,25 @@ body.sunset-sherbert {
 	color: #CCC;
 }
 .sunset-sherbert .saved-project {
-	border-color: #333;
-	background-color: #222;
+	border-color: #999;
+	background-color: #3c3c3c;
 }
 .sunset-sherbert .saved-project:hover {
-	color: white;
+	color: #CCC;
 	background-color: black;
-
+	border-color: #222;
+}
+.sunset-sherbert .saved-project:hover .glyphicon {
+	color: #CCC;
 }
 .sunset-sherbert .saved-project.is-active:hover {
 	border-color: #333;
 	background-color: #222;
 	color: #CCC;
+}
+.sunset-sherbert .project-news .milestone .glyphicon, .sunset-sherbert .saved-project .glyphicon {
+	color: #444;
+}
+.sunset-sherbert .welcome-info {
+	background: #444;
 }

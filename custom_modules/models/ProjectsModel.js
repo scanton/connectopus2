@@ -22,12 +22,19 @@ module.exports = class ProjectsModel extends AbstractModel {
 		return this.projects[id];
 	}
 	loadProjects() {
-		this.fs.readdir(this.projectsDirectory, (err, files) => {
-			if(err) {
-				controller.handleError(err);
+		this.fs.pathExists(this.projectsDirectory, (err, exists) => {
+			if(exists) {
+				this.fs.readdir(this.projectsDirectory, (err, files) => {
+					if(err) {
+						controller.handleError(err);
+					}
+					this.savedProjects = files.sort();
+					this._dispatchUpdate();
+				});
+			} else {
+				this.savedProjects = [];
+				this._dispatchUpdate();
 			}
-			this.savedProjects = files.sort();
-			this._dispatchUpdate();
 		});
 	}
 	openProject(path, callback) {

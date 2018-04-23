@@ -3,7 +3,7 @@
 	var s = `
 		<div class="files-page container-fluid">
 			<div class="row">
-				<div class="col-xs-12 file-listings">
+				<div class="col-xs-12 bare-container file-listings">
 					<files-nav-bar></files-nav-bar>
 					<table class="file-listing-table">
 						<tr>
