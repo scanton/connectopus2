@@ -6,34 +6,46 @@ module.exports = class AbstractDataSource extends EventEmitter {
 		this._con = con;
 	}
 
-	getType() {
-		return this._type;
+	copyFilesToLocalDirectory(path, files, localDirectory, callback, errorHandler) {
+		console.log("implement copyFilesToLocalDirectory in child class", this._con.name);
+		if(callback) {
+			callback();
+		}
 	}
-	setType(type) {
-		this._type = type;
-		this.dispatchEvent("change", this);
+	createDirectory(path, callback, errorHandler) {
+		console.log("implement createDirectory in child class", this._con.name);	
+		if(callback) {
+			callback();
+		}
 	}
 	getConnection() {
 		return this._strip(this._con);
 	}
-	setConnection(con) {
-		this._con = con;
-		this.dispatchEvent("change", this);
-	}
 	getDirectory(path, callback, errorHandler) {
-		console.log("implement getDirectory in child class", this._con.id);
+		console.log("implement getDirectory in child class", this._con.name);
 		if(callback) {
 			callback();
 		}
 	}
 	getSourceFile(path, localPath, saveFileToPath, directory, callback, errorHandler) {
-		console.log("implement getSourceFile in child class", this._con.id);
+		console.log("implement getSourceFile in child class", this._con.name);
 		if(callback) {
 			callback(saveFileToPath);
 		}
 	}
-	createDirectory(path, callback, errorHandler) {
-		console.log("implement createDirectory in child class", this._con.id);	
+	getType() {
+		return this._type;
+	}
+	setConnection(con) {
+		this._con = con;
+		this.dispatchEvent("change", this);
+	}
+	setType(type) {
+		this._type = type;
+		this.dispatchEvent("change", this);
+	}
+	sync(path, localDirectory, updates, deletes, callback) {
+		console.log("implement sync in child class", this._con.name);	
 		if(callback) {
 			callback();
 		}

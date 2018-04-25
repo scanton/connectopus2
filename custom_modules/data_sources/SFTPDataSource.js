@@ -168,7 +168,39 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 			})
 		})
 	}
+	sync(path, localDirectory, updates, deletes, callback) {
+		var con = this._con;
+		var sshData = this._getSshData(con);
 
+		this.sftp.connect(sshData).then(() => {
+			var root = con.root ? con.root : '.';
+			var fullPath = root;
+			if(path) {
+				fullPath = root + '/' + path;
+			}
+			var ul = updates.length;
+			var updateFile = () => {
+				ul--;
+				if(ul >= 0) {
+					console.log("copy", fullPath + "/" + updates[ul]);
+					updateFile();
+				} else {
+					callback();
+				}
+			}
+			var dl = deletes.length;
+			var deleteFile = () => {
+				dl--;
+				if(dl >= 0) {
+					console.log("delete", fullPath + '/' + deletes[dl]);
+					deleteFile();
+				} else {
+					updateFile();
+				}
+			}
+			deleteFile();
+		})
+	}
 	_getSshData(con) {
 		var sshData = {
 			host: con.host,

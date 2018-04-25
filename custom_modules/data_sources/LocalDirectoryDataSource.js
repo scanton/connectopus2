@@ -22,7 +22,18 @@ module.exports = class LocalDirectoryDataSource extends AbstractDataSource {
 			controller.handleError(err);
 		});
 	}
-
+	copyFilesToLocalDirectory(path, files, localDirectory, callback, errorHandler) {
+		this.fs.emptyDirSync(localDirectory);
+		var localPaths = [];
+		var l = files.length;
+		var lp;
+		for(var i = 0; i < l; i++) {
+			lp = localDirectory + "/" + files[i];
+			localPaths.push(lp);
+			this.fs.copySync(this._con.directory + "/" + files[i], lp);
+		}
+		callback({ files: files, path: path, localDirectory: localDirectory, localPaths: localPaths });
+	}
 	getDirectory(path, callback, errorHandler) {
 		var directoryAndPath;
 		if(path) {

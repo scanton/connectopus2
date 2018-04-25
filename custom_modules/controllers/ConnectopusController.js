@@ -41,6 +41,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 			}
 		}.bind(this));
 		this.projectsDirectory = __dirname.split("custom_modules/controllers")[0] + "working_files/projects";
+		this.isInProcess = false;
 	}
 
 	addNewConnection(connection) {
@@ -90,9 +91,13 @@ module.exports = class ConnectopusController extends EventEmitter {
 	connectTo(id, callback) {
 		var con = this.configModel.getConnection(id);
 		if(con) {
-			this._call("modal-overlay", "showLoader");
+			if(!this.isInProcess) {
+				this._call("modal-overlay", "showLoader");
+			}
 			this.connectionsModel.addConnection(con, function(data) {
-				this._call("modal-overlay", "hide");
+				if(!this.isInProcess) {
+					this._call("modal-overlay", "hide");
+				}
 				if(callback) {
 					callback(data);
 				}
@@ -366,9 +371,13 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.configModel.moveFolderTo(this.dragFolderName, name);
 	}
 	openProject(path) {
+		this.isInProcess = true;
+		this._call("modal-overlay", "showLoader");
 		var proj = this.projectsModel.getCurrentProject();
 		var count = this.connectionsModel.getConnectionCount();
 		this.projectsModel.openProject(path, () => {
+			this._call("modal-overlay", "hide");
+			this.isInProcess = false;
 			if(count == 0 && proj.id == this.projectsModel._defaultProjectId) {
 				this.projectsModel.removeProject(proj.id);
 			}
@@ -577,7 +586,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		if(deletes.length) {
 			this._call("modal-overlay", "show", {
 				title: "File Delete Warning",
-				message: "During this file sync, you are going to delete the following downline files: " + deletes.toString(),
+				message: "During this file sync, you are going to delete the following downstream files: " + deletes.join(", "),
 				buttons: [
 					{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
 						this.hideModal();

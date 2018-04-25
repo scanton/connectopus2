@@ -164,8 +164,32 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		return false;
 	}
 	syncFiles(path, updates, deletes, callback, errorHandler) {
-		console.log(path, updates, deletes);
-		callback(path);
+		var dirName = __dirname.split("/custom_modules/models")[0];
+		var localDirectory = dirName + '/working_files/transfers';
+		var primeConnection = this.getConnection(this.getPrimeId());
+		var livePrimeConnection = DataSourceFactory.createConnection(primeConnection);
+		livePrimeConnection.copyFilesToLocalDirectory(path, updates, localDirectory, (result) => {
+			var totalConnections = this._connections[this.currentProject].length;
+			var currentConnection = 1;
+			if(totalConnections > 1) {
+				var pushUpdates = () => {
+					var liveCon = DataSourceFactory.createConnection(this._connections[this.currentProject][currentConnection]);
+					liveCon.sync(path, localDirectory, updates, deletes, () => {
+						++currentConnection;
+						if(currentConnection < totalConnections) {
+							pushUpdates();
+						} else {
+							if(callback) {
+								callback(result);
+							}
+						}
+					});
+				}
+				pushUpdates();
+			} else {
+				callback(result);
+			}
+		}, errorHandler);
 	}
 
 	_dispatchUpdate() {
