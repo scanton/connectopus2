@@ -171,6 +171,10 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 	sync(path, localDirectory, updates, deletes, callback) {
 		var con = this._con;
 		var sshData = this._getSshData(con);
+		var splitFile = (str) => {
+			var a = str.split("/");
+			return a.pop();
+		}
 
 		this.sftp.connect(sshData).then(() => {
 			var root = con.root ? con.root : '.';
@@ -182,8 +186,12 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 			var updateFile = () => {
 				ul--;
 				if(ul >= 0) {
-					console.log("copy", fullPath + "/" + updates[ul]);
-					updateFile();
+					this.sftp.put(localDirectory + "/" + updates[ul], fullPath + "/" + splitFile(updates[ul])).then(() => {
+						updateFile();
+					}).catch((err) => {
+						console.log(err);
+						updateFile();
+					});
 				} else {
 					callback();
 				}
@@ -192,8 +200,12 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 			var deleteFile = () => {
 				dl--;
 				if(dl >= 0) {
-					console.log("delete", fullPath + '/' + deletes[dl]);
-					deleteFile();
+					this.sftp.delete(fullPath + '/' + splitFile(deletes[dl])).then(() => {
+						deleteFile();
+					}).catch((err) => {
+						console.log(err);
+						deleteFile();
+					});
 				} else {
 					updateFile();
 				}

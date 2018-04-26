@@ -25,11 +25,13 @@
 						<polygon fill="#006400" points="7.9,4.5 7.9,3.4 4.5,3.4 4.5,0 3.4,0 3.4,3.4 0,3.4 0,4.5 3.4,4.5 3.4,7.9 4.5,7.9 4.5,4.5"></polygon>
 					</svg>
 				</div>
-			</div> 
-			<span v-show="!subject.length"> Connectopus 2 - </span>
-			<span class="title"> {{title}} </span>
-			<span v-show="subject.length" class="subject"> - {{subject}} </span>
-			<span v-show="target.length" class="target"> => {{target}} </span>
+			</div>
+			<span class="title-text">
+				<span v-show="!subject.length"> Connectopus 2 - </span>
+				<span class="title"> {{title}} </span>
+				<span v-show="subject.length" class="subject"> - {{subject}} </span>
+				<span v-show="target.length" class="target"> => {{target}} </span>
+			</span>
 		</div>
 	`;
 	

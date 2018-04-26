@@ -383,6 +383,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 			}
 		});
 	}
+	refreshFileView() {
+		this.setFilePath(this.currentFilePath, true);
+	}
 	saveCurrentProject(args) {
 		var proj = this._strip(this.projectsModel.getCurrentProject());
 		var cons = this._strip(this.connectionsModel.getConnections());
@@ -594,14 +597,16 @@ module.exports = class ConnectopusController extends EventEmitter {
 					{label: "Delete Files", class: "btn-danger", icon: "glyphicon glyphicon-remove", callback: function() {
 						this.hideModal();
 						this.connectionsModel.syncFiles(this.currentFilePath, updates, deletes, (result) => {
-							console.log(result);
+							//console.log(result);
+							this.refreshFileView();
 						});
 					}.bind(this)}
 				]
 			});
 		} else {
 			this.connectionsModel.syncFiles(this.currentFilePath, updates, deletes, (result) => {
-				console.log(result);
+				//console.log(result);
+				this.refreshFileView();
 			});
 		}
 	}
