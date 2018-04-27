@@ -56,7 +56,7 @@
 								<span class="input-group-addon">Password</span>
 								<input type="password" name="ssh-password" />
 							</div>
-								<div class="panel panel-default">
+								<div class="panel panel-default database-inputs">
 									<div class="panel-heading">
 										<h4 class="panel-title">{{databaseType}}</h4>
 									</div>

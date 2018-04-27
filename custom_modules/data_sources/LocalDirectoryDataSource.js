@@ -6,15 +6,6 @@ module.exports = class LocalDirectoryDataSource extends AbstractDataSource {
 		this.md5File = require('md5-file');
 	}
 
-	getSourceFile(path, localPath, saveFileToPath, directory, callback, errorHandler) {
-		var delimiter = "";
-		if(directory.substr(directory.length - 1) != '/' && path.charAt(0) != '/') {
-			delimiter = "/";
-		}
-		if(callback) {
-			callback(directory + delimiter + path);
-		}
-	}
 	createDirectory(path, callback, errorHandler) {
 		this.fs.ensureDir(this._con.directory + "/" + path).then(() => {
 			callback();
@@ -86,5 +77,30 @@ module.exports = class LocalDirectoryDataSource extends AbstractDataSource {
 				}
 			}
 		}.bind(this));
+	}
+	getSourceFile(path, localPath, saveFileToPath, directory, callback, errorHandler) {
+		var delimiter = "";
+		if(directory.substr(directory.length - 1) != '/' && path.charAt(0) != '/') {
+			delimiter = "/";
+		}
+		if(callback) {
+			callback(directory + delimiter + path);
+		}
+	}
+	sync(path, localDirectory, updates, deletes, callback) {
+		var dir = this._con.directory;
+		var ul = updates.length;
+		var dl = deletes.length;
+		for(var j = 0; j < dl; j++) {
+			console.log("delete", dir + '/' + deletes[j]);
+			this.fs.removeSync(dir + '/' + deletes[j]);
+		}
+		for(var i = 0; i < ul; i++) {
+			console.log("move", localDirectory + '/' + updates[i], dir + '/' + updates[i]);
+			this.fs.moveSync(localDirectory + '/' + updates[i], dir + '/' + updates[i], {overwrite: true});
+		}
+		if(callback) {
+			callback();	
+		}
 	}
 }

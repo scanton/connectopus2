@@ -52,7 +52,7 @@
 								<input type="password" v-show="!isEditEnabled" v-bind:value="connectionDetails.password" readonly="readonly" />
 								<input type="password" v-show="isEditEnabled" name="ssh-password" v-on:keyup="handleInputChange" />
 							</div>
-							<div class="panel panel-default" v-show="connectionDetails.connections[0].name != ''">
+							<div class="panel panel-default data-source-panel" v-show="connectionDetails.connections[0].name != ''">
 								<div class="panel-heading">
 									<h3 class="panel-title span-group">
 										<span v-show="!isEditEnabled">{{connectionDetails.connections[0].name}}</span>

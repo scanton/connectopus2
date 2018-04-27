@@ -8,6 +8,52 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 		this.sftp = new Ssh2SftpClient();
 	}
 
+	copyFilesToLocalDirectory(path, files, localDirectory, callback, errorHandler) {
+		this.fs.emptyDirSync(localDirectory);
+		var localPaths = [];
+		var con = this._con;
+		var sshData = this._getSshData(con);
+
+		this.sftp.connect(sshData).then(() => {
+			var root = con.root ? con.root : '.';
+			var fullPath = root;
+			if(path) {
+				fullPath = root + '/' + path;
+			}
+			var currentFile = 0;
+			var totalFiles = files.length;
+			var pullFiles = () => {
+				if(currentFile < totalFiles) {
+					var f = files[currentFile];
+					var a = f.split("/");
+					var fileName = a.pop();
+					var filePath = a.join("/");
+					this.fs.ensureDirSync(localDirectory + '/' + filePath);
+					var writeStream = this.fs.createWriteStream(localDirectory + '/' + f);
+					localPaths.push(localDirectory + '/' + f);
+
+					this.sftp.get(fullPath + '/' + fileName, true, null).then((stream) => {
+						stream.pipe(writeStream).on("close", (err) => {
+							if(err) {
+								if(errorHandler) {
+									errorHandler(err);
+								} else {
+									controller.handleError(err);
+								}
+							}
+							++currentFile;
+							pullFiles();
+						});
+					})
+				} else {
+					if(callback) {
+						callback({ files: files, path: path, localDirectory: localDirectory, localPaths: localPaths });
+					}
+				}
+			}
+			pullFiles();
+		});
+	}
 	createDirectory(path, callback, errorHandler) {
 		var con = this._con;
 		var sshData = this._getSshData(con);
@@ -135,7 +181,6 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 								}
 							});
 						}.bind(this), 250);
-						
 					}
 				}.bind(this));
 			}
@@ -162,7 +207,7 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 			}
 			this.sftp.get(fullPath).then((stream) => {
 				this.fs.ensureDirSync(localPath);
-				stream.pipe(this.fs.createWriteStream(localPath + fileName)).on("finish", () => {
+				stream.pipe(this.fs.createWriteStream(localPath + fileName)).on("close", () => {
 					callback(localPath + fileName);
 				});
 			})

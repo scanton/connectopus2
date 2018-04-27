@@ -936,3 +936,6 @@ ul.directories li, ul.tables li {
 	left: -35px;
 	color: white;
 }
+.add-new-connection-form .database-inputs, .connections-page .data-source-panel {
+	display: none;
+}
