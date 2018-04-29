@@ -1,4 +1,4 @@
-![Connectopus Logo](http://connectopus.org/images/logos/connectopus-logo.svg)
+![Connectopus Logo](http://connectopus.org/images/logos/connectopus-logo-small.gif)
 
 Connectopus 2
 ===========
