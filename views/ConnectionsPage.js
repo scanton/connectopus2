@@ -1,7 +1,7 @@
 (function() {
 	var componentName = 'connections-page';
 	var s = `
-		<div class="connections-page container-fluid">
+		<div class="connections-page container-fluid full-height">
 			<div class="row" v-if="isAddConnectionVisible">
 				<div class="col-xs-12">
 					<div class="add-connection-page">
@@ -9,9 +9,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="row" v-if="connectionDetails">
-				<div class="col-xs-12">
-					<div class="connection-details">
+			<div class="row full-height" v-if="connectionDetails">
+				<div class="col-xs-12 full-height">
+					<div class="connection-details full-height">
 						<form class="edit-connection-details-form">
 							<h3 class="span-group">
 								<span v-show="!isEditEnabled">{{connectionDetails.name}}</span>

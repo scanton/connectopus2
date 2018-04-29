@@ -92,11 +92,9 @@ module.exports = class LocalDirectoryDataSource extends AbstractDataSource {
 		var ul = updates.length;
 		var dl = deletes.length;
 		for(var j = 0; j < dl; j++) {
-			console.log("delete", dir + '/' + deletes[j]);
 			this.fs.removeSync(dir + '/' + deletes[j]);
 		}
 		for(var i = 0; i < ul; i++) {
-			console.log("move", localDirectory + '/' + updates[i], dir + '/' + updates[i]);
 			this.fs.moveSync(localDirectory + '/' + updates[i], dir + '/' + updates[i], {overwrite: true});
 		}
 		if(callback) {
