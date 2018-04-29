@@ -1,3 +1,5 @@
+![Connectopus Logo](https://raw.githubusercontent.com/scanton/connectopus2/master/assets/connectopus-logo.svg)
+
 Connectopus 2
 ===========
 
