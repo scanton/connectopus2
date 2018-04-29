@@ -4,6 +4,7 @@
 		<div v-show="isVisible && category == 'files'" class="diff-view container-fluid">
 			<div class="row">
 				<div class="col-xs-12 main-diff-container" style="padding-right: 0; padding-left: 14px;">
+					<div class="mini-map-rail"></div>
 					<table class="mini-map">
 						<tr>
 							<th v-bind:style="getStyle(0, primeColor)"></th>
@@ -61,6 +62,7 @@
 							</td>
 						</tr>
 					</table>
+
 					<div class="mini-map-scroll-indicator"></div>
 				</div>
 			</div>
