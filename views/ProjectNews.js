@@ -2,6 +2,11 @@
 	var componentName = 'project-news';
 	var s = `
 		<div class="project-news">
+			<span v-show="projectStatus.length">
+				<h2>Project Status</h2>
+				{{projectStatus}}
+			</span>
+			<hr />
 			<h2>Connectopus News</h2>
 			<ul>
 				<li v-for="newsItem in projectNews" class="news-item">
@@ -11,11 +16,6 @@
 					</div>
 				</li>
 			</ul>
-			<span v-show="projectStatus.length">
-				<hr />
-				<h2>Project Status</h2>
-				{{projectStatus}}
-			</span>
 			<span class="milestones-list" v-show="milestones.length">
 				<hr />
 				<h2>Milestones</h2>

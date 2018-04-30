@@ -45,7 +45,7 @@ body.sunset-sherbert {
 	color: white;
 }
 .sunset-sherbert .main-view {
-	background: linear-gradient(to bottom right, #FF7373, #000044);
+	background: #444;
 }
 .sunset-sherbert .side-bar {
 	background: #444;
@@ -197,6 +197,9 @@ body.sunset-sherbert {
 .sunset-sherbert .project-news a {
 	color: white;
 }
+.sunset-sherbert .files-page {
+	background: #444;
+}
 .sunset-sherbert .files-page .files-nav-bar {
 	background: #333;
 	color: white;
@@ -212,7 +215,7 @@ body.sunset-sherbert {
 	color: white;
 }
 .sunset-sherbert .diff-view {
-	background: linear-gradient(to bottom right, #FF7373, #000044);
+	background: #444;
 }
 .sunset-sherbert .diff-view h3 {
 	background: #444;
@@ -243,4 +246,7 @@ body.sunset-sherbert {
 }
 .sunset-sherbert .mini-map-rail {
 	background: #333;
+}
+.sunset-sherbert .main-header {
+	background: linear-gradient(to bottom right, #FF7373, #000044);
 }

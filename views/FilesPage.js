@@ -1,8 +1,8 @@
 (function() {
 	var componentName = 'files-page';
 	var s = `
-		<div class="files-page container-fluid">
-			<div class="row">
+		<div class="files-page container-fluid full-height">
+			<div class="row full-height">
 				<div class="col-xs-12 bare-container file-listings">
 					<files-nav-bar></files-nav-bar>
 					<table class="file-listing-table">

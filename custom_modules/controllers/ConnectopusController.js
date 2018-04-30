@@ -26,7 +26,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.isDraggingFolder = false;
 		this.lastUpdate = null;
 		this.generalStatus = 'nominal';
-		this.colorStyle = { saturation: "50%", luminance: "75%" }
+		this.colorStyle = { saturation: "50%", luminance: "75%" };
 		this.themesModel.loadThemes(function(themes) {
 			if(themes) {
 				this._call("settings-side-bar", "setThemes", themes);
@@ -596,6 +596,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 					}.bind(this)},
 					{label: "Delete Files", class: "btn-danger", icon: "glyphicon glyphicon-remove", callback: function() {
 						this.hideModal();
+						this._call("modal-overlay", "showLoader");
 						this.connectionsModel.syncFiles(this.currentFilePath, updates, deletes, (result) => {
 							//console.log(result);
 							this.refreshFileView();
@@ -604,6 +605,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 				]
 			});
 		} else {
+			this._call("modal-overlay", "showLoader");
 			this.connectionsModel.syncFiles(this.currentFilePath, updates, deletes, (result) => {
 				//console.log(result);
 				this.refreshFileView();

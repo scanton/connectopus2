@@ -74,13 +74,15 @@
 				this.activeProjects = projects;
 			},
 			setSavedProjects: function(projects) {
-				this.savedProjects = projects.sort(function(a, b) {
+				this.savedProjects = projects.sort((a, b) => {
 					if(a < b) {
-						return 1;
-					} else if(b < a) {
 						return -1;
+					} else if(b < a) {
+						return 1;
 					}
 					return 0;
+				}).filter((str) => {
+					return str.indexOf(".json") > -1;
 				});
 			}
 		}
