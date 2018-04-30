@@ -224,14 +224,15 @@ body.sunset-sherbert {
 .sunset-sherbert .saved-project {
 	border-color: #999;
 	background-color: #3c3c3c;
+	-webkit-transition: all 0.3s ease;
 }
 .sunset-sherbert .saved-project:hover {
 	color: #CCC;
 	background-color: black;
-	border-color: #222;
+	border-color: white;
 }
 .sunset-sherbert .saved-project:hover .glyphicon {
-	color: #CCC;
+	color: black;
 }
 .sunset-sherbert .saved-project.is-active:hover {
 	border-color: #333;
@@ -249,4 +250,7 @@ body.sunset-sherbert {
 }
 .sunset-sherbert .main-header {
 	background: linear-gradient(to bottom right, #FF7373, #000044);
+}
+.sunset-sherbert .project-news .milestone:hover {
+	background: black;
 }

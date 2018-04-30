@@ -302,7 +302,7 @@ input {
 	text-align: center;
 }
 .input-group .input-group-addon {
-	min-width: 150px;
+	min-width: 180px;
 }
 .input-group {
 	margin-bottom: .5em;
@@ -616,6 +616,7 @@ ul.directories li, ul.tables li {
 	padding-left: 70px;
 	min-height: 50px;
 	margin: auto;
+	-webkit-transition: all 0.3s ease;
 }
 .project-news .milestone:hover {
 	background: #555;
@@ -959,4 +960,10 @@ ul.directories li, ul.tables li {
 }
 .main-header {
 	background: white;
+}
+.connection-details button {
+	font-size: 14pt;
+}
+.edit-connection-details-form, .edit-connection-details-form .input-group-addon, .edit-connection-details-form h3 {
+	font-size: 16pt;
 }
