@@ -126,14 +126,15 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.projectsModel.createProject(name);
 	}
 	deleteConnection(id) {
+		var con = stripObservers(this.configModel.getConnection(id));
 		this.viewController.callViewMethod("modal-overlay", "show", {
-			title: 'Confirm Delete Connection',
-			message: 'Are you sure you want to delete this connection?', 
+			title: 'Confirm Delete Connection "' + con.name + '"',
+			message: 'Are you sure you want to delete "' + con.name + '"?', 
 			buttons: [
 				{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
 					this.hideModal();
 				}.bind(this)},
-				{label: "Delete", class: "btn-danger", icon:"glyphicon glyphicon-remove", callback: function() {
+				{label: 'Delete "' + con.name + '"', class: "btn-danger", icon:"glyphicon glyphicon-remove", callback: function() {
 					this.configModel.deleteConnection(id);
 					this._call("connections-page", "resetView");
 					this._call("context-side-bar", "resetSelectedConnection");

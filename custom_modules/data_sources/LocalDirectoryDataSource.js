@@ -4,6 +4,13 @@ module.exports = class LocalDirectoryDataSource extends AbstractDataSource {
 		super(type, con);
 		this.fs = require('fs-extra');
 		this.md5File = require('md5-file');
+		this.git = require('simple-git')(con.directory);
+		this.git.checkIsRepo((err, isRepo) => {
+			if(err) {
+				controller.handleError(err);
+			}
+			this.isRepo = isRepo;
+		});
 	}
 
 	createDirectory(path, callback, errorHandler) {
@@ -44,36 +51,49 @@ module.exports = class LocalDirectoryDataSource extends AbstractDataSource {
 					status = 'error';
 					controller.handleMissingDirectory(this._con, path);
 				} else {
-					this.fs.readdir(directoryAndPath, function(err, paths) {
-						var fullPath = '';
-						var files = [];
-						var directories = [];
-						var l = paths.length;
-						while(l--) {
-							fullPath = directoryAndPath + '/' + paths[l];
-							var stat = this.fs.lstatSync(fullPath);
-							if(stat.isFile()) {
-								files.unshift({path: fullPath, md5: this.md5File.sync(fullPath), name: paths[l], directory: directoryAndPath, size: stat.size});
-							} else if(stat.isDirectory()) {
-								directories.unshift({path: directoryAndPath, name: paths[l], directory: this._con.directory});
-							}
-						}
+					this.git.checkIsRepo((err, isRepo) => {
 						if(err) {
-							if(errorHandler) {
-								errorHandler(err);
-							} else {
-								controller.handleError(err);
-							}
+							controller.handleError(err);
 						}
-						if(callback) {
-							var con = this._con;
-							var cleanPath = directoryAndPath.split(con.directory).join("");
-							if(cleanPath.charAt(0) == "/") {
-								cleanPath = cleanPath.substr(1);
-							}
-							callback({con: con, path: cleanPath, files: files, directories: directories});
+						this.isRepo = isRepo;
+						var getLocalDirectory = () => {
+							this.fs.readdir(directoryAndPath, (err, paths) => {
+								var fullPath = '';
+								var files = [];
+								var directories = [];
+								var l = paths.length;
+								while(l--) {
+									fullPath = directoryAndPath + '/' + paths[l];
+									var stat = this.fs.lstatSync(fullPath);
+									if(stat.isFile()) {
+										files.unshift({path: fullPath, md5: this.md5File.sync(fullPath), name: paths[l], directory: directoryAndPath, size: stat.size});
+									} else if(stat.isDirectory()) {
+										directories.unshift({path: directoryAndPath, name: paths[l], directory: this._con.directory});
+									}
+								}
+								if(err) {
+									if(errorHandler) {
+										errorHandler(err);
+									} else {
+										controller.handleError(err);
+									}
+								}
+								if(callback) {
+									var con = this._con;
+									var cleanPath = directoryAndPath.split(con.directory).join("");
+									if(cleanPath.charAt(0) == "/") {
+										cleanPath = cleanPath.substr(1);
+									}
+									callback({con: con, path: cleanPath, files: files, directories: directories});
+								}
+							});
 						}
-					}.bind(this));
+						if(isRepo) {
+							this.git.pull(getLocalDirectory);
+						} else {
+							getLocalDirectory();
+						}
+					});
 				}
 			}
 		}.bind(this));

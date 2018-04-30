@@ -961,9 +961,9 @@ ul.directories li, ul.tables li {
 .main-header {
 	background: white;
 }
-.connection-details button {
+.connection-details button, .add-connection-page button {
 	font-size: 14pt;
 }
-.edit-connection-details-form, .edit-connection-details-form .input-group-addon, .edit-connection-details-form h3 {
+.edit-connection-details-form, .edit-connection-details-form .input-group-addon, .edit-connection-details-form h3, .add-connection-page, .add-connection-page .input-group-addon, .add-connection-page h3 {
 	font-size: 16pt;
 }
