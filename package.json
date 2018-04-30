@@ -24,6 +24,7 @@
     "md5": "^2.2.1",
     "md5-file": "^3.2.3",
     "remote-exec": "0.0.3",
+    "simple-git": "^1.92.0",
     "ssh2-sftp-client": "^2.1.0",
     "tunnel-ssh": "^4.1.4"
   }
