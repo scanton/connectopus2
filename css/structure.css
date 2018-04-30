@@ -795,6 +795,15 @@ ul.directories li, ul.tables li {
 .diff-view .diff-compare {
 	background: white;
 }
+.diff-view .diff-compare .diff-button {
+	display: none;
+}
+.diff-view .diff-compare .added .push-left-to-right-button {
+	display: inline-block;
+}
+.diff-view .diff-compare .removed .push-right-to-left-button {
+	display: inline-block;
+}
 .diff-view h3 {
 	font-weight: 200;
 	font-size: 16pt;
@@ -966,4 +975,7 @@ ul.directories li, ul.tables li {
 }
 .edit-connection-details-form, .edit-connection-details-form .input-group-addon, .edit-connection-details-form h3, .add-connection-page, .add-connection-page .input-group-addon, .add-connection-page h3 {
 	font-size: 16pt;
+}
+.merge-column {
+	background: #EEE;
 }

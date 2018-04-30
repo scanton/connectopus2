@@ -23,6 +23,10 @@
 						<button v-on:click="hideView" class="btn btn-success">
 							<span class="glyphicon glyphicon-remove"></span>
 						</button>
+						<button class="pull-right btn btn-default" v-on:click="toggleMerge">
+							<span v-show="!mergeEnabled">Merge Documents</span>
+							<span v-show="mergeEnabled">Hide Merge</span>
+						</button>
 						<span class="change-count pull-right">{{addCount()}} Additions/{{removeCount()}} Removals</span>
 						{{path}}
 					</h3>
@@ -30,6 +34,9 @@
 						<tr>
 							<th class="line-number" v-bind:style="getStyle(0, primeColor)"></th>
 							<th v-bind:style="getStyle(0, primeColor)"><h2>{{primeName}}<h2></th>
+							<th v-show="mergeEnabled" class="merge-column"></th>
+							<th v-show="mergeEnabled" class="merge-column"><h2>Merged</h2></th>
+							<th v-show="mergeEnabled" class="merge-column"></th>
 							<th class="line-number" v-bind:style="getStyle(compareIndex, compareColor)"></th>
 							<th v-bind:style="getStyle(compareIndex, compareColor)"><h2>{{compareName}}<h2></th>
 						</tr>
@@ -38,6 +45,9 @@
 							<td class="added">
 								<h3>{{addCount()}} Additions</h3>
 							</td>
+							<td v-show="mergeEnabled" class="merge-column"></td>
+							<td v-show="mergeEnabled" class="merge-column"></td>
+							<td v-show="mergeEnabled" class="merge-column"></td>
 							<td class="removed line-number"></td>
 							<td class="removed">
 								<h3>{{removeCount()}} Removals</h3>
@@ -51,6 +61,17 @@
 								<span v-show="!item.removed">
 									<pre>{{item.value}}</pre>
 								</span>
+							</td>
+							<td v-show="mergeEnabled" v-bind:class="{'added': item.added, 'removed': item.removed}" class="merge-column">
+								<button class="push-left-to-right-button diff-button">></button>
+							</td>
+							<td v-show="mergeEnabled" v-bind:class="{'added': item.added, 'removed': item.removed}" class="merge-column">
+								<span v-show="!item.removed && !item.added">
+									<pre>{{item.value}}</pre>
+								</span>
+							</td>
+							<td v-show="mergeEnabled" v-bind:class="{'added': item.added, 'removed': item.removed}" class="merge-column">
+								<button class="push-right-to-left-button diff-button"><</button>
 							</td>
 							<td class="line-number compare-file" v-bind:style="getStyle(compareIndex, compareColor)" v-bind:class="{'added': item.added, 'removed': item.removed}">
 								<span class="line-counter">{{item.compareLineCount}}</span>
@@ -109,7 +130,8 @@
 				isVisible: false,
 				maximizeContrast: false,
 				compareColor: {},
-				primeColor: {}
+				primeColor: {},
+				mergeEnabled: false
 			}
 		},
 		methods: {
@@ -131,6 +153,16 @@
 				e.preventDefault();
 				controller.setContextVisible(true);
 				this.isVisible = false;
+			},
+			removeCount: function() {
+				var count = 0;
+				var l = this.diffData.length;
+				while(l--) {
+					if(this.diffData[l].removed) {
+						++count;
+					}
+				}
+				return count;
 			},
 			setMaximizeContrast: function(bool) {
 				this.maximizeContrast = bool;
@@ -170,15 +202,8 @@
 				}
 				this.diffData = a;
 			},
-			removeCount: function() {
-				var count = 0;
-				var l = this.diffData.length;
-				while(l--) {
-					if(this.diffData[l].removed) {
-						++count;
-					}
-				}
-				return count;
+			toggleMerge: function() {
+				this.mergeEnabled = !this.mergeEnabled;
 			}
 		}
 	});

@@ -166,15 +166,20 @@ module.exports = class ConnectionsModel extends AbstractModel {
 	syncFiles(path, updates, deletes, callback, errorHandler) {
 		var dirName = __dirname.split("/custom_modules/models")[0];
 		var localDirectory = dirName + '/working_files/transfers';
-		var primeConnection = this.getConnection(this.getPrimeId());
+		var primeId = this.getPrimeId();
+		var primeConnection = this.getConnection(primeId);
 		var livePrimeConnection = DataSourceFactory.createConnection(primeConnection);
+		this.setStatus(primeId, 'pending');
 		livePrimeConnection.copyFilesToLocalDirectory(path, updates, localDirectory, (result) => {
+			this.setStatus(primeId, 'connected');
 			var totalConnections = this._connections[this.currentProject].length;
 			var currentConnection = 1;
 			if(totalConnections > 1) {
 				var pushUpdates = () => {
 					var liveCon = DataSourceFactory.createConnection(this._connections[this.currentProject][currentConnection]);
+					this.setStatus(liveCon._con.id, 'pending');
 					liveCon.sync(path, localDirectory, updates, deletes, () => {
+						this.setStatus(liveCon._con.id, 'connected');
 						++currentConnection;
 						if(currentConnection < totalConnections) {
 							pushUpdates();

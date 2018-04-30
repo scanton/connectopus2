@@ -254,3 +254,6 @@ body.sunset-sherbert {
 .sunset-sherbert .project-news .milestone:hover {
 	background: black;
 }
+.sunset-sherbert .merge-column {
+	background: #CCC;
+}
