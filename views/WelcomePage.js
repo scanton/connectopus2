@@ -25,9 +25,9 @@
 						<p>Click the <span class="connections-tab-example"><span class="glyphicon glyphicon-globe"></span> Connections Tab</span> on the tool bar to the left to create and organize your connections.</p>
 						<hr />
 						<h3>Understanding Projects</h3>
-						<p>Projects are a way of organizing your LIVE connections.</p>
+						<p>Projects are a way of organizing your live connections.</p>
 						<p>Connection data (the information about how to connect to a particular data source) is shared between projects.  You only have to create a connection once, and you will be able to use it in any project.</p>
-						<p>You CAN have LIVE connections to the SAME data source in more than one project at the SAME TIME.</p>
+						<p>You can have live connections to the same data source in more than one project at the same time.</p>
 						<hr />
 						<h3>Documentation</h3>
 						<p>Documentation will be produced and available at <a target="_blank" href="http://connectopus.org">Connectopus.org</a></p>
