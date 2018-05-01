@@ -4,7 +4,7 @@
 		<div v-show="isVisible && category == 'files'" class="diff-view container-fluid">
 			<div class="row">
 				<div class="col-xs-12 main-diff-container" style="padding-right: 0; padding-left: 14px;">
-					<div class="mini-map-rail"></div>
+					<!--<div class="mini-map-rail"></div>-->
 					<table class="mini-map">
 						<tr>
 							<th v-bind:style="getStyle(0, primeColor)"></th>
@@ -23,6 +23,9 @@
 						<button v-on:click="hideView" class="btn btn-success">
 							<span class="glyphicon glyphicon-remove"></span>
 						</button>
+						<button v-on:click="saveMerge" v-show="mergeEnabled" class="pull-right btn btn-default save-merge-button left-margin">
+							<span>Save Merge</span>
+						</button>
 						<button class="pull-right btn btn-default" v-on:click="toggleMerge">
 							<span v-show="!mergeEnabled">Merge Documents</span>
 							<span v-show="mergeEnabled">Hide Merge</span>
@@ -31,7 +34,7 @@
 						{{path}}
 					</h3>
 					<table class="diff-compare">
-						<tr>
+						<tr class="table-head">
 							<th class="line-number" v-bind:style="getStyle(0, primeColor)"></th>
 							<th v-bind:style="getStyle(0, primeColor)"><h2>{{primeName}}<h2></th>
 							<th v-show="mergeEnabled" class="merge-column"></th>
@@ -40,7 +43,7 @@
 							<th class="line-number" v-bind:style="getStyle(compareIndex, compareColor)"></th>
 							<th v-bind:style="getStyle(compareIndex, compareColor)"><h2>{{compareName}}<h2></th>
 						</tr>
-						<tr>
+						<tr class="totals">
 							<td class="added line-number"></td>
 							<td class="added">
 								<h3>{{addCount()}} Additions</h3>
@@ -53,7 +56,7 @@
 								<h3>{{removeCount()}} Removals</h3>
 							</td>
 						</tr>
-						<tr v-for="(item, index) in diffData">
+						<tr v-for="(item, index) in diffData" v-bind:class="{'in-sync': !item.added && !item.removed}">
 							<td class="line-number prime-file" v-bind:style="getStyle(0, primeColor)" v-bind:class="{'added': item.added, 'removed': item.removed}">
 								<span class="line-counter">{{item.primeLineCount}}</span>
 							</td>
@@ -62,17 +65,23 @@
 									<pre>{{item.value}}</pre>
 								</span>
 							</td>
+
+
 							<td v-show="mergeEnabled" v-bind:class="{'added': item.added, 'removed': item.removed}" class="merge-column">
-								<button class="push-left-to-right-button diff-button">></button>
+								<button v-on:click="pushLeftToRight" class="btn btn-default push-left-to-right-button diff-button">></button>
+								<button v-on:click="removeLeftMerge" class="btn btn-default undo-left-to-right-button diff-button"><</button>
 							</td>
-							<td v-show="mergeEnabled" v-bind:class="{'added': item.added, 'removed': item.removed}" class="merge-column">
-								<span v-show="!item.removed && !item.added">
+							<td v-show="mergeEnabled" v-bind:data-index="index" v-bind:class="{'added': item.added, 'removed': item.removed}" class="merge-column value-column">
+								<span>
 									<pre>{{item.value}}</pre>
 								</span>
 							</td>
 							<td v-show="mergeEnabled" v-bind:class="{'added': item.added, 'removed': item.removed}" class="merge-column">
-								<button class="push-right-to-left-button diff-button"><</button>
+								<button v-on:click="pushRightToLeft" class="btn btn-default push-right-to-left-button diff-button"><</button>
+								<button v-on:click="removeRightMerge" class="btn btn-default undo-right-to-left-button diff-button">></button>
 							</td>
+
+
 							<td class="line-number compare-file" v-bind:style="getStyle(compareIndex, compareColor)" v-bind:class="{'added': item.added, 'removed': item.removed}">
 								<span class="line-counter">{{item.compareLineCount}}</span>
 							</td>
@@ -105,8 +114,6 @@
 				var maxVerticalScroll = totalHeight - visibleHeight;
 				var $miniMap = dv.find(".mini-map");
 				var minMapHeight = $miniMap.height();
-				
-
 					var percentScroll = scrollPosition / maxVerticalScroll;
 					var minMapRange = minMapHeight - visibleHeight + 26;
 					var minMapScroll = minMapVerticalOffset - (percentScroll * minMapRange);
@@ -154,6 +161,14 @@
 				controller.setContextVisible(true);
 				this.isVisible = false;
 			},
+			pushLeftToRight: function(e) {
+				e.preventDefault();
+				$(e.target).closest("tr").addClass("merge-left");
+			},
+			pushRightToLeft: function(e) {
+				e.preventDefault();
+				$(e.target).closest("tr").addClass("merge-right");
+			},
 			removeCount: function() {
 				var count = 0;
 				var l = this.diffData.length;
@@ -163,6 +178,21 @@
 					}
 				}
 				return count;
+			},
+			removeLeftMerge: function(e) {
+				e.preventDefault();
+				$(e.target).closest("tr").removeClass("merge-left");
+			},
+			removeRightMerge: function(e) {
+				e.preventDefault();
+				$(e.target).closest("tr").removeClass("merge-right");
+			},
+			saveMerge: function(e) {
+				var a = [];
+				$(".main-diff-container .value-column pre").filter(":visible").each(function(index) {
+					a.push($(this).text());
+				});
+				console.log(a.join("\n"));
 			},
 			setMaximizeContrast: function(bool) {
 				this.maximizeContrast = bool;

@@ -62,6 +62,9 @@ h3 {
 .scroll-overflow {
 	overflow: scroll;
 }
+.left-margin {
+	margin-left: .5em;
+}
 .modal-overlay {
 	background: rgba(0, 0, 0, 0.5);
 	position: absolute;
@@ -792,17 +795,69 @@ ul.directories li, ul.tables li {
 	margin-left: 14px;
     padding-left: 0;
 }
+.diff-view td {
+	min-width: 33px;
+}
+.diff-view .merge-column {
+	background: #EEE;
+}
 .diff-view .diff-compare {
 	background: white;
 }
+.diff-view .diff-compare h2 {
+	margin-left: 1em;
+	margin-right: 1em;
+}
 .diff-view .diff-compare .diff-button {
 	display: none;
+	opacity: .5;
 }
 .diff-view .diff-compare .added .push-left-to-right-button {
 	display: inline-block;
 }
+.diff-view .diff-compare .removed .push-left-to-right-button {
+	display: none;
+}
+.diff-view .diff-compare .added .push-right-to-left-button {
+	display: none !important;
+}
+.diff-view .diff-compare .in-sync .push-right-to-left-button, .diff-view .diff-compare .in-sync .push-left-to-right-button {
+	display: none !important;
+} 
 .diff-view .diff-compare .removed .push-right-to-left-button {
 	display: inline-block;
+}
+.diff-view .diff-compare tr .push-left-to-right-button {
+	display: inherit;
+}
+.diff-view .diff-compare tr .undo-left-to-right-button {
+	display: none;
+}
+.diff-view .diff-compare tr .push-right-to-left-button {
+	display: inherit;
+}
+.diff-view .diff-compare tr .undo-right-to-left-button {
+	display: none;
+}
+.diff-view .diff-compare tr.merge-left .push-left-to-right-button {
+	display: none;
+}
+.diff-view .diff-compare tr.merge-left .undo-left-to-right-button {
+	display: inherit;
+}
+.diff-view .diff-compare tr.merge-right .push-right-to-left-button {
+	display: none;
+}
+.diff-view .diff-compare tr.merge-right .undo-right-to-left-button {
+	display: inherit;
+}
+.diff-view .diff-compare tr .value-column pre {
+	display: none;
+}
+.diff-view .diff-compare tr.in-sync .value-column pre, .diff-view .diff-compare tr.merge-left .value-column pre, .diff-view .diff-compare tr.merge-right .value-column pre {
+	display: inherit;
+	text-decoration: none;
+	color: black;
 }
 .diff-view h3 {
 	font-weight: 200;
@@ -856,9 +911,6 @@ ul.directories li, ul.tables li {
 .diff-view .removed pre {
 	color: red;
 	text-decoration: line-through;
-}
-.diff-view td, .diff-view th {
-	border-left: 1px solid rgba(0, 0, 0, .25);
 }
 .diff-view table.mini-map {
 	width: 80px;
@@ -975,7 +1027,4 @@ ul.directories li, ul.tables li {
 }
 .edit-connection-details-form, .edit-connection-details-form .input-group-addon, .edit-connection-details-form h3, .add-connection-page, .add-connection-page .input-group-addon, .add-connection-page h3 {
 	font-size: 16pt;
-}
-.merge-column {
-	background: #EEE;
 }
