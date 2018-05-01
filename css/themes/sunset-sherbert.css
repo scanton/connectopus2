@@ -218,7 +218,7 @@ body.sunset-sherbert {
 	background: #444;
 }
 .sunset-sherbert .diff-view .totals .merge-column {
-	background: #DCDCDC;
+	background: white;
 }
 .sunset-sherbert .diff-view h3 {
 	background: #444;
@@ -258,5 +258,8 @@ body.sunset-sherbert {
 	background: black;
 }
 .sunset-sherbert .merge-column {
-	background: #CCC;
+	background: #EEE;
+}
+.sunset-sherbert .merge-right .merge-column, .sunset-sherbert .merge-left .merge-column {
+	background: #EEE !important;
 }
