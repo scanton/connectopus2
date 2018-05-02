@@ -84,15 +84,15 @@ module.exports = class LocalDirectoryDataSource extends AbstractDataSource {
 									if(cleanPath.charAt(0) == "/") {
 										cleanPath = cleanPath.substr(1);
 									}
-									callback({con: con, path: cleanPath, files: files, directories: directories});
+									callback({con: con, path: cleanPath, files: files, directories: directories, isRepo: isRepo});
 								}
 							});
 						}
-						if(isRepo) {
-							this.git.pull(getLocalDirectory);
-						} else {
+						//if(isRepo) {
+						//	this.git.pull(getLocalDirectory);
+						//} else {
 							getLocalDirectory();
-						}
+						//}
 					});
 				}
 			}
@@ -106,6 +106,18 @@ module.exports = class LocalDirectoryDataSource extends AbstractDataSource {
 		if(callback) {
 			callback(directory + delimiter + path);
 		}
+	}
+	isRepo(callback) {
+		this.git.checkIsRepo((err, isRepo) => {
+			if(err) {
+				controller.handleError(err);
+			}
+			this.isRepo = isRepo;
+			callback(isRepo);
+		});
+	}
+	pull(callback) {
+		this.git.pull(callback);
 	}
 	sync(path, localDirectory, updates, deletes, callback) {
 		var dir = this._con.directory;

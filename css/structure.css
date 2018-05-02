@@ -548,7 +548,7 @@ ul.directories li, ul.tables li {
     left: 4px;
 	font-size: 11pt;
 	height: 40px;
-	overflow: scroll;
+	/*overflow: scroll;*/
 }
 .project-tabs ul {
 	white-space: nowrap;

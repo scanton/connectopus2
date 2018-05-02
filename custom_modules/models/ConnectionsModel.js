@@ -125,7 +125,35 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		}
 		return false;
 	}
-
+	pullGitRepositories(callback) {
+		var hasGitRepos = false;
+		var l = this._connections[this.currentProject].length;
+		var i = 0;
+		var pullRepo = () => {
+			if(i < l) {
+				var con = this._connections[this.currentProject][i];
+				var liveCon = DataSourceFactory.createConnection(con);
+				this.setStatus(con.id, 'pending');
+				liveCon.isRepo((bool) => {
+					this.setStatus(con.id, 'connected');
+					if(bool) {
+						hasGitRepos = true;
+						liveCon.pull(() => {
+							++i;
+							pullRepo();
+						});
+					} else {
+						++i;
+						pullRepo();
+					}
+				});
+			} else {
+				callback(hasGitRepos);
+			}
+			
+		}
+		pullRepo();
+	}
 	removeConnection(id, callback) {
 		var l = this._connections[this.currentProject].length;
 		while(l--) {

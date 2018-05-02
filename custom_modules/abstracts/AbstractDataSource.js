@@ -36,6 +36,10 @@ module.exports = class AbstractDataSource extends EventEmitter {
 	getType() {
 		return this._type;
 	}
+	isRepo(callback) {
+		//console.log("implement isRepo in child class", this._con.name);
+		callback(false);
+	}
 	setConnection(con) {
 		this._con = con;
 		this.dispatchEvent("change", this);

@@ -384,6 +384,16 @@ module.exports = class ConnectopusController extends EventEmitter {
 			}
 		});
 	}
+	pullGitConnections() {
+		this._call("modal-overlay", "showLoader");
+		this.connectionsModel.pullGitRepositories((hasUpdated) => {
+			if(hasUpdated) {
+				controller.setFilePath(this.currentFilePath, true);
+			} else {
+				this._call("modal-overlay", "hide");	
+			}
+		});
+	}
 	refreshFileView() {
 		this.setFilePath(this.currentFilePath, true);
 	}
@@ -588,9 +598,14 @@ module.exports = class ConnectopusController extends EventEmitter {
 			}
 		});
 		if(deletes.length) {
+			if(deletes.length > 10) {
+				var deleteDescription = deletes.length + " files selected"
+			} else {
+				var deleteDescription = deletes.join(", ");
+			}
 			this._call("modal-overlay", "show", {
 				title: "File Delete Warning",
-				message: "During this file sync, you are going to delete the following downstream files: " + deletes.join(", "),
+				message: "During this file sync, you are going to delete the following downstream files: " + deleteDescription,
 				buttons: [
 					{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: function() {
 						this.hideModal();

@@ -7,8 +7,11 @@
 					<button v-on:click="handleSyncFiles" v-show="filesAreSelected" class="btn btn-warning pull-right" title="Sync Selected Files">
 						<span class="glyphicon glyphicon-export"></span> Sync Selected Files
 					</button>
-					<button v-on:click="handleRefreshView" class="btn btn-default pull-right" title="Refresh Path">
+					<button v-on:click="handleRefreshView" class="btn btn-default pull-right" title="Refresh View">
 						<span class="glyphicon glyphicon-refresh"></span>
+					</button>
+					<button v-on:click="handleGitPull" class="btn btn-default pull-right" title="Pull Git Repositories">
+						<span class="glyphicon glyphicon-cloud-download"></span>
 					</button>
 					<!--
 					<button class="btn btn-default pull-right" title="Crawl Directories">
@@ -58,6 +61,10 @@
 				var $this = $(e.target);
 				var path = $this.attr("data-path");
 				controller.setFilePath(path);
+			},
+			handleGitPull: function(e) {
+				e.preventDefault();
+				controller.pullGitConnections();
 			},
 			handleSyncFiles: function(e) {
 				e.preventDefault();
