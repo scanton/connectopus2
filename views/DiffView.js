@@ -128,17 +128,18 @@
 		props: ["category"],
 		data: function() {
 			return {
-				diffData: [],
-				path: "",
-				primeName: "",
-				compareName: "",
-				totalConnections: 0,
+				compareColor: {},
 				compareIndex: -1,
+				compareConId: null,
+				compareName: "",
+				diffData: [],
 				isVisible: false,
 				maximizeContrast: false,
-				compareColor: {},
+				mergeEnabled: false,
+				path: "",
 				primeColor: {},
-				mergeEnabled: false
+				primeName: "",
+				totalConnections: 0
 			}
 		},
 		methods: {
@@ -157,7 +158,9 @@
 				return "background-color: hsl(" + color.angle + ", " + c.saturation + ", " + c.luminance + ");"
 			},
 			hideView: function(e) {
-				e.preventDefault();
+				if(e) {
+					e.preventDefault();
+				}
 				controller.setContextVisible(true);
 				this.isVisible = false;
 			},
@@ -192,7 +195,11 @@
 				$(".main-diff-container .value-column pre").filter(":visible").each(function(index) {
 					a.push($(this).text());
 				});
-				console.log(a.join("\n"));
+				var docText = a.join("\n");
+				while(docText.split("\n\n").length > 1) {
+					docText = docText.split("\n\n").join("\n");
+				}
+				controller.saveMerge(docText, this.path, this.compareConId);
 			},
 			setMaximizeContrast: function(bool) {
 				this.maximizeContrast = bool;
@@ -206,6 +213,7 @@
 				this.totalConnections = data.totalConnections;
 				this.compareIndex = data.compareIndex;
 				this.isVisible = true;
+				this.compareConId = data.conId;
 				controller.setContextVisible(false);
 				var a = [];
 				var l = data.diff.length;
@@ -233,6 +241,10 @@
 				this.diffData = a;
 			},
 			toggleMerge: function() {
+				if(!this.mergeEnabled) {
+					$("tr.merge-left").removeClass("merge-left");
+					$("tr.merge-right").removeClass("merge-right");
+				}
 				this.mergeEnabled = !this.mergeEnabled;
 			}
 		}

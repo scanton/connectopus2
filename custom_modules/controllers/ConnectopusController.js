@@ -160,9 +160,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		});
 	}
 	disconnectFrom(id) {
-		this.connectionsModel.removeConnection(id, function(success) {
-			console.log(success);
-		});
+		this.connectionsModel.removeConnection(id);
 	}
 	getColorStyle() {
 		return this.colorStyle;
@@ -439,6 +437,44 @@ module.exports = class ConnectopusController extends EventEmitter {
 			})
 		}
 	}
+	saveMerge(documentText, path, conId) {
+		var fileName = path.split("/").pop();
+		if(documentText && path && conId) {
+			var mergeConnection = this.connectionsModel.getConnection(conId);
+			var primeConnection = this.connectionsModel.getConnection(this.connectionsModel.getPrimeId());
+			this._call("modal-overlay", "show", {
+				title: "Save merge of '" + fileName + "'",
+				message: "<div>Where would you like to save " + fileName + "? <p><sub>( you can select both )</sub></p>" +
+					"<table class='merge-options-table full-width'><tr class='merge-option'><td style='width: 40px'><input data-id='" + primeConnection.id + "' class='prime-option' type='checkbox' /></td><td>" + primeConnection.name + "</td></tr>" + 
+					"<tr class='merge-option'><td style='width: 40px'><input data-id='" + mergeConnection.id + "' class='merge-option' type='checkbox' /></td><td>" + mergeConnection.name + "</td></tr></table>" + 
+					"</div>",
+				buttons: [
+					{	
+						label: "Cancel", class: "btn-warning", icon: "", 
+						callback: (e) => {
+							e.preventDefault();
+							this.hideModal();
+						}
+					},
+					{
+						label: "Save Merge", class: "btn-danger", icon: "", 
+						callback: (e) => {
+							this._call("modal-overlay", "showLoader");
+							e.preventDefault();
+							var ids = [];
+							$(".merge-options-table .merge-option input:checked").each(function() {
+								ids.push($(this).attr("data-id"));
+							});
+							this.connectionsModel.saveDocument(ids, path, documentText, () => {
+								this._call("diff-view", "hideView");
+								this.setFilePath(this.currentFilePath, true);
+							});
+						}
+					}
+				]
+			});
+		}
+	}
 	setContextVisible(bool) {
 		this._call("work-area", "setIsContextVisible", bool);
 	}
@@ -474,6 +510,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 					this._getFiles(liveCons[currentConnection], path, handler);
 				} else {
 					this._call("modal-overlay", "hide");
+					this.handleSelectedFilesChange();
 				}
 			}.bind(this);
 			if(!this.fileModel.hasContent(liveCons[0].id, path) || forceRefresh) {

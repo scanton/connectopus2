@@ -45,6 +45,9 @@ h3 {
 .full-height {
 	height: 100%;
 }
+.full-width {
+	width: 100%;
+}
 .col-xs-12, .col-sm-6 {
 	padding: 0;
 }
@@ -811,6 +814,7 @@ ul.directories li, ul.tables li {
 .diff-view .diff-compare .diff-button {
 	display: none;
 	opacity: .5;
+	padding: 1px 7px;
 }
 .diff-view .diff-compare .added .push-left-to-right-button {
 	display: inline-block;
@@ -826,6 +830,7 @@ ul.directories li, ul.tables li {
 } 
 .diff-view .diff-compare .removed .push-right-to-left-button {
 	display: inline-block;
+	float: right;
 }
 .diff-view .diff-compare tr .push-left-to-right-button {
 	display: inherit;
@@ -850,6 +855,7 @@ ul.directories li, ul.tables li {
 }
 .diff-view .diff-compare tr.merge-right .undo-right-to-left-button {
 	display: inherit;
+	float: right;
 }
 .diff-view .diff-compare tr .value-column pre {
 	display: none;
@@ -1027,4 +1033,13 @@ ul.directories li, ul.tables li {
 }
 .edit-connection-details-form, .edit-connection-details-form .input-group-addon, .edit-connection-details-form h3, .add-connection-page, .add-connection-page .input-group-addon, .add-connection-page h3 {
 	font-size: 16pt;
+}
+.modal-overlay .merge-option {
+	border: 1px solid #999;
+	width: 100%;
+}
+.modal-overlay .merge-option td {
+	padding: .5em;
+	font-size: 14pt;
+	font-weight: 300;
 }

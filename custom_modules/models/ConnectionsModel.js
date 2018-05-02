@@ -54,27 +54,6 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			});
 		}
 	}
-	getDirectory(con, directory, callback) {
-		var liveConnection = DataSourceFactory.createConnection(con);
-		if(liveConnection) {
-			this.setStatus(con.id, 'pending');
-			liveConnection.getDirectory(directory, function(data) {
-				this.setStatus(con.id, 'connected');
-				this.fileModel.setContents(data.con, data.path, data);
-				if(callback) {
-					callback(data);
-				}
-			}.bind(this), function(err) {
-				controller.handleError(err);
-				this.setStatus(con.id, 'error');
-			}.bind(this));
-		}
-	}
-	getPrimeId() {
-		if(this._connections[this.currentProject]) {
-			return this._connections[this.currentProject][0].id;
-		}
-	}
 	getConnection(id) {
 		if(this._connections[this.currentProject]) {
 			var l = this._connections[this.currentProject].length;
@@ -113,6 +92,27 @@ module.exports = class ConnectionsModel extends AbstractModel {
 	}
 	getConnectionCount() {
 		return this._connections[this.currentProject].length;
+	}
+	getDirectory(con, directory, callback) {
+		var liveConnection = DataSourceFactory.createConnection(con);
+		if(liveConnection) {
+			this.setStatus(con.id, 'pending');
+			liveConnection.getDirectory(directory, function(data) {
+				this.setStatus(con.id, 'connected');
+				this.fileModel.setContents(data.con, data.path, data);
+				if(callback) {
+					callback(data);
+				}
+			}.bind(this), function(err) {
+				controller.handleError(err);
+				this.setStatus(con.id, 'error');
+			}.bind(this));
+		}
+	}
+	getPrimeId() {
+		if(this._connections[this.currentProject]) {
+			return this._connections[this.currentProject][0].id;
+		}
 	}
 	hasConnection(id) {
 		if(this._connections[this.currentProject]) {
@@ -154,7 +154,7 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		}
 		pullRepo();
 	}
-	removeConnection(id, callback) {
+	removeConnection(id) {
 		var l = this._connections[this.currentProject].length;
 		while(l--) {
 			if(this._connections[this.currentProject][l].id == id) {
@@ -172,7 +172,25 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		delete this._connections[index];
 		this._dispatchUpdate();
 	}
-
+	saveDocument(connectionIds, path, documentText, callback, errorHandler) {
+		var l = connectionIds.length;
+		var currentId = 0;
+		var _saveDocs = () => {
+			if(currentId < l) {
+				var con = this.getConnection(connectionIds[currentId]);
+				var liveCon = DataSourceFactory.createConnection(con);
+				liveCon.save(documentText, path, () => {
+					++currentId;
+					_saveDocs();
+				});
+			} else {
+				if(callback) {
+					callback();
+				}
+			}
+		}
+		_saveDocs();
+	}
 	setCurrentProject(index) {
 		if(this._connections[index] == null) {
 			this._connections[index] = [];

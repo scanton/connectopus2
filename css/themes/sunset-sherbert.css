@@ -218,7 +218,7 @@ body.sunset-sherbert {
 	background: #444;
 }
 .sunset-sherbert .diff-view .totals .merge-column {
-	background: white;
+	background: #EEE;
 }
 .sunset-sherbert .diff-view h3 {
 	background: #444;
@@ -259,6 +259,15 @@ body.sunset-sherbert {
 }
 .sunset-sherbert .merge-column {
 	background: #EEE;
+}
+.sunset-sherbert th.merge-column {
+	background: #DDD;
+}
+.sunset-sherbert .merge-column.value-column {
+	background: #F8F8F8;
+}
+.sunset-sherbert .merge-right .merge-column.value-column, .sunset-sherbert .merge-left .merge-column.value-column {
+	background: #F8F8F8 !important;
 }
 .sunset-sherbert .merge-right .merge-column, .sunset-sherbert .merge-left .merge-column {
 	background: #EEE !important;

@@ -119,6 +119,18 @@ module.exports = class LocalDirectoryDataSource extends AbstractDataSource {
 	pull(callback) {
 		this.git.pull(callback);
 	}
+	save(documentText, path, callback, errorHandler) {
+		var directoryAndPath;
+		if(path) {
+			directoryAndPath = this._con.directory + "/" + path;
+		} else {
+			directoryAndPath = this._con.directory;
+		}
+		this.fs.outputFileSync(directoryAndPath, documentText);
+		if(callback) {
+			callback();
+		}
+	}
 	sync(path, localDirectory, updates, deletes, callback) {
 		var dir = this._con.directory;
 		var ul = updates.length;
