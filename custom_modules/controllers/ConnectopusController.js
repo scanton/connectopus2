@@ -608,6 +608,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	showFilesPage() {
 		this._call(["work-area", "main-view"], "showFiles");
 		this._call("context-side-bar", "setContext", "files");
+		this._call("diff-view", "hideView");
 	}
 	showHomePage() {
 		this._call(["work-area", "main-view"], "showHome");

@@ -21,6 +21,9 @@ nav {
 	right: 0;
 	padding: 0 17px;
 }
+.hide-titlebar nav {
+	top: 0;
+}
 nav .system-icons {
 	margin-top: 3px;
 }
@@ -136,6 +139,9 @@ h3 {
 	overflow: scroll;
 	background: #DDD;
 }
+.hide-titlebar .main-view {
+	top: 26px;
+}
 .settings-is-visible .main-view {
 	right: 350px;
 }
@@ -162,6 +168,9 @@ h3 {
 	width: 300px;
 	bottom: 26px;
 }
+.hide-titlebar .context-side-bar {
+	top: 26px;
+}
 .context-is-visible .context-side-bar {
 	left: 50px;
 }
@@ -172,6 +181,9 @@ h3 {
 	top: 0;
 	left: 0;
 	margin-top: 26px;
+}
+.hide-titlebar .tool-bar {
+	margin-top: 0;
 }
 .tool-bar ul {
 	list-style: none;
@@ -742,6 +754,9 @@ ul.directories li, ul.tables li {
 	padding: 3px 25px;
 	-webkit-transition: all 0.3s ease;
 }
+.hide-titlebar .files-page .files-nav-bar {
+	top: 26px;
+}
 .context-is-visible .files-page .files-nav-bar {
 	left: 350px;
 }
@@ -798,6 +813,9 @@ ul.directories li, ul.tables li {
 	background: #DDD;
 	margin-left: 14px;
     padding-left: 0;
+}
+.hide-titlebar .diff-view {
+	top: 26px;
 }
 .diff-view td {
 	min-width: 33px;

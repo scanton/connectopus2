@@ -205,6 +205,7 @@
 				this.maximizeContrast = bool;
 			},
 			show: function(data) {
+				this.mergeEnabled = false;
 				this.compareColor = utils.calculateColors(data.compareIndex, data.totalConnections, this.maximizeContrast);
 				this.primeColor = utils.calculateColors(0, data.totalConnections, this.maximizeContrast);
 				this.path = data.path;
