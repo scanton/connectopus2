@@ -26,6 +26,7 @@
     "remote-exec": "0.0.3",
     "simple-git": "^1.92.0",
     "ssh2-sftp-client": "^2.1.0",
-    "tunnel-ssh": "^4.1.4"
+    "tunnel-ssh": "^4.1.4",
+    "uuid": "^3.2.1"
   }
 }

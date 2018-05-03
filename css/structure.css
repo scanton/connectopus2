@@ -1062,3 +1062,30 @@ ul.directories li, ul.tables li {
 	font-size: 14pt;
 	font-weight: 300;
 }
+.uml-diagram {
+	background: white;
+}
+.uml-diagram h1 {
+	color: black;
+}
+.uuid-generator {
+	background: #444;
+}
+.uml-diagram, .uuid-generator {
+	z-index: 1;
+	-webkit-transition: all 0.3s ease;
+	position: absolute;
+	top: 2500px;
+	left: 50px;
+	right: 0;
+	bottom: 26px;
+	overflow: scroll;
+	padding: 0 20px;
+}
+.uml-diagram.is-visible, .uuid-generator.is-visible {
+	top: 26px;
+}
+.uuid-generator .uuid {
+	font-size: 12pt;
+	padding: .5em;
+}

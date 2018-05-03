@@ -262,7 +262,101 @@ module.exports = class ConnectopusController extends EventEmitter {
 						}
 					}
 				);
-			}  else {
+			} else if(args.method == "openFolderDiff") {
+				var msg = `
+					<p>Select the two folders you would like to compare: </p>
+					<table class="full-width">
+						<tr>
+							<td style="width: 90px; padding: 5px 0;">
+								Folder A:
+							</td>
+							<td style="padding: 5px 0;">
+								<input type='file' webkitdirectory='true' name='path-1' style="width: 100%; padding: 5px 0;" />
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 90px; padding: 5px 0;">
+								Folder B:
+							</td>
+							<td style="padding: 5px 0;">
+								<input type='file' webkitdirectory='true' name='path-2' style="width: 100%;" />
+							</td>
+						</tr>
+					</table>
+				`;
+				this._call("modal-overlay", "show", {
+					title: "Open Folder Diff",
+					message: msg,
+					buttons: [
+						{label: "Cancel", class: "btn-warning", icon: "", callback: () => {
+							this.hideModal();
+						}},
+						{label: "Open Folders", class: "btn-success", icon: "", callback: (e) => {
+							var $inputs = $(e.target).closest(".dialog-frame").find("input");
+							if($inputs[0] && $inputs[0].files && $inputs[0].files[0]) {
+								var pathA = $inputs[0].files[0].path;
+							}
+							if($inputs[1] && $inputs[1].files && $inputs[1].files[0]) {
+								var pathB = $inputs[1].files[0].path;
+							}
+							if(pathA && pathB) {
+								console.log(pathA, pathB);
+							}
+							this.hideModal();
+						}}
+					]
+				});
+			} else if(args.method == "openFileDiff") {
+				var msg = `
+					<p>Select the two files you would like to compare:</p>
+					<table>
+						<tr>
+							<td style="width: 90px; padding: 5px 0;">
+								File A:
+							</td>
+							<td style="padding: 5px 0;">
+								<input type='file' name='path-1' style="width: 100%;" />
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 90px; padding: 5px 0;">
+								File B:
+							</td>
+							<td style="padding: 5px 0;">
+								<input type='file' name='path-2' style="width: 100%;" />
+							</td>
+						</tr>
+					</table>
+				`;
+				this._call("modal-overlay", "show", {
+					title: "Open File Diff",
+					message: msg,
+					buttons: [
+						{label: "Cancel", class: "btn-warning", icon: "", callback: () => {
+							this.hideModal();
+						}},
+						{label: "Open Files", class: "btn-success", icon: "", callback: (e) => {
+							var $inputs = $(e.target).closest(".dialog-frame").find("input");
+							if($inputs[0] && $inputs[0].files && $inputs[0].files[0]) {
+								var pathA = $inputs[0].files[0].path;
+							}
+							if($inputs[1] && $inputs[1].files && $inputs[1].files[0]) {
+								var pathB = $inputs[1].files[0].path;
+							}
+							if(pathA && pathB) {
+								console.log(pathA, pathB);
+							}
+							this.hideModal();
+						}}
+					]
+				});
+			} else if(args.method == "toggleUmlDiagram") {
+				this._call("uml-diagram", "toggleView");
+				this._call("uuid-generator", "hide");
+			} else if(args.method =="toggleUuidGenerator") {
+				this._call("uuid-generator", "toggleView");
+				this._call("uml-diagram", "hide");
+			} else {
 				console.log(args);
 			}
 		} else {
@@ -584,10 +678,12 @@ module.exports = class ConnectopusController extends EventEmitter {
 	showConnectionsPage() {
 		this._call(["work-area", "main-view"], "showConnections");
 		this._call("context-side-bar", "setContext", "connections");
+		this._call(["uml-diagram", "uuid-generator"], "hide");
 	}
 	showDataPage() {
 		this._call(["work-area", "main-view"], "showData");
 		this._call("context-side-bar", "setContext", "data");
+		this._call(["uml-diagram", "uuid-generator"], "hide");
 	}
 	showDeleteProject(index) {
 		this.viewController.callViewMethod("modal-overlay", "show", {
@@ -609,10 +705,12 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call(["work-area", "main-view"], "showFiles");
 		this._call("context-side-bar", "setContext", "files");
 		this._call("diff-view", "hideView");
+		this._call(["uml-diagram", "uuid-generator"], "hide");
 	}
 	showHomePage() {
 		this._call(["work-area", "main-view"], "showHome");
 		this._call("context-side-bar", "setContext", "home");
+		this._call(["uml-diagram", "uuid-generator"], "hide");
 	}
 	syncSelectedFiles() {
 		var updates = [];

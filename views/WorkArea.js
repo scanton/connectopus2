@@ -7,6 +7,8 @@
 			<settings-side-bar></settings-side-bar>
 			<tool-bar></tool-bar>
 			<diff-view v-bind:category="category"></diff-view>
+			<uml-diagram></uml-diagram>
+			<uuid-generator></uuid-generator>
 			<footer-bar></footer-bar>
 			<top-nav></top-nav>
 		</div>

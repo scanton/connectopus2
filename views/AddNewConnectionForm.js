@@ -20,10 +20,6 @@
 								<ul v-on:click="handleConnectionTypeChange" class="dropdown-menu">
 									<li><a href="#">Local Directory</a></li>
 									<li><a href="#">Remote (SFTP)</a></li>
-									<!--
-									<li><a href="#">Git (local)</a></li>
-									<li><a href="#">Git Clone (remote)</a></li>
-									-->
 								</ul>
 							</div>
 						</div>

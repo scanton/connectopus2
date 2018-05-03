@@ -50,6 +50,7 @@ utils.calculateColors = function(index, connections, maximizeContrast) {
 const remote = require('electron').remote;
 const {dialog, shell} = require('electron').remote;
 const {ipcRenderer} = require('electron');
+const getUuid = require('uuid/v4');
 
 const EventEmitter = require(__dirname + '/custom_modules/utils/EventEmitter.js');
 const AbstractDataSource = require(__dirname + '/custom_modules/abstracts/AbstractDataSource.js');

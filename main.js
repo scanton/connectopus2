@@ -17,6 +17,17 @@ app.on('ready', () => {
 	    label: 'File',
 	    submenu: [
 	      {
+	      	label: "Open Folder Diff...",
+	      	click () { mainWindow.webContents.send("controller-method", { method: "openFolderDiff" }) }
+	      },
+	      {
+	      	label: "Open File Diff...",
+	      	click () { mainWindow.webContents.send("controller-method", { method: "openFileDiff" }) }
+	      },
+	      {
+	      	type: 'separator'
+	      },
+	      {
 	      	label: "New Project",
 	      	click () {mainWindow.webContents.send("controller-method", {method: 'newProject'}) }
 	      },
@@ -92,23 +103,6 @@ app.on('ready', () => {
 	        type: 'separator'
 	      },
 	      {
-	        label: 'Re-Initialize Connectopus',
-	        accelerator: 'CmdOrCtrl+R',
-	        click (item, focusedWindow) {
-	          if (focusedWindow) focusedWindow.reload()
-	        }
-	      },
-	      {
-	        label: 'Toggle Developer Tools',
-	        accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
-	        click (item, focusedWindow) {
-	          if (focusedWindow) focusedWindow.webContents.toggleDevTools()
-	        }
-	      },
-	      {
-	        type: 'separator'
-	      },
-	      {
 	        role: 'resetzoom'
 	      },
 	      {
@@ -122,6 +116,43 @@ app.on('ready', () => {
 	      },
 	      {
 	        role: 'togglefullscreen'
+	      }
+	    ]
+	  },
+	  {
+	    label: 'Developer',
+	    submenu: [
+	      {
+	        label: 'Toggle Developer Tools',
+	        accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+	        click (item, focusedWindow) {
+	          if (focusedWindow) focusedWindow.webContents.toggleDevTools()
+	        }
+	      },
+	      {
+	        label: 'UUID Generator',
+	        click () { mainWindow.webContents.send("controller-method", {method: 'toggleUuidGenerator'}) }
+	      },
+	      {
+	      	type: 'separator'
+	      },
+	      {
+	      	label: 'Online Documentation',
+	      	click () { require('electron').shell.openExternal('http://connectopus.org/docs') }
+	      },
+	      {
+	      	label: 'UML Diagram',
+	      	click () { mainWindow.webContents.send("controller-method", {method: 'toggleUmlDiagram'}) }
+	      },
+	      {
+	      	type: 'separator'
+	      },
+	      {
+	        label: 'Re-Initialize Connectopus',
+	        accelerator: 'CmdOrCtrl+R',
+	        click (item, focusedWindow) {
+	          if (focusedWindow) focusedWindow.reload()
+	        }
 	      }
 	    ]
 	  },
@@ -200,7 +231,7 @@ app.on('ready', () => {
 	    }
 	  )
 	  // Window menu.
-	  template[4].submenu = [
+	  template[5].submenu = [
 	    {
 	      label: 'Close',
 	      accelerator: 'CmdOrCtrl+W',
