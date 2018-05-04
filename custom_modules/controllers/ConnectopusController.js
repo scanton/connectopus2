@@ -594,7 +594,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.isDraggingConnection = true;
 	}
 	setFilePath(path, forceRefresh) {
-		console.log(path);
 		this._call("files-page", "clearSelections");
 		this.currentFilePath = path;
 		this._call(["current-directories", "files-page", "files-nav-bar"], "setPath", path);

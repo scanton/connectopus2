@@ -17,11 +17,12 @@
 		},
 		methods: {
 			handleClick: function(e) {
-				var path = $(e.target).attr("data-path");
-				if(!path) {
-					$(e.target).closest("li").attr("data-path");
+				if($(e.target).is("li")) {
+					var $target = $(e.target);
+				} else {
+					var $target = $(e.target).closest("li");
 				}
-				console.log("Path: " + path);
+				var path = $target.attr("data-path");
 				controller.setFilePath(path);
 			}
 		}
