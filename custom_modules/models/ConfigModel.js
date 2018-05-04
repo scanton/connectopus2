@@ -6,6 +6,7 @@ module.exports = class ConfigModel extends AbstractModel {
 	}
 
 	addConnection(connection) {
+		console.log(connection);
 		if(!this._config.servers) {
 			this._config.servers = [];
 		}
@@ -147,6 +148,40 @@ module.exports = class ConfigModel extends AbstractModel {
 					let l2 = this._config.folders[l].servers.length;
 					while(l2--) {
 						if(this._config.folders[l].servers[l2].id == id) {
+							return this._strip(this._config.folders[l].servers[l2]);
+						}
+					}
+				}
+			}
+		}
+	}
+	getConnectionLike(query) {
+		if(this._config && query) {
+			var l = this._config.servers.length;
+			var isMatch;
+			while(l--) {
+				isMatch = true;
+				for(var i in query) {
+					if(this._config.servers[l][i] != query[i]) {
+						isMatch = false;
+					}
+				}
+				if(isMatch) {
+					return this._config.servers[l];
+				}
+			}
+			l = this._config.folders.length;
+			while(l--) {
+				if(this._config.folders[l].servers) {
+					let l2 = this._config.folders[l].servers.length;
+					while(l2--) {
+						isMatch = true;
+						for(var i in query) {
+							if(this._config.folders[l].servers[l2][i] != query[i]) {
+								isMatch = false;
+							}
+						}
+						if(isMatch) {
 							return this._strip(this._config.folders[l].servers[l2]);
 						}
 					}

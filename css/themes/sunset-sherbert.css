@@ -16,8 +16,11 @@ body.sunset-sherbert {
 	border: none;
 	border-radius: 5px;
 }
+.sunset-sherbert .footer-bar.side-bar {
+	background: linear-gradient(to bottom, #DDD 0%, #CCC 50%, #BBB 100%);
+}
 .sunset-sherbert .footer-bar .label {
-	color: #AAA;
+	color: #333;
 }
 .sunset-sherbert .input-group .input-group-addon {
 	border: none;
@@ -203,9 +206,6 @@ body.sunset-sherbert {
 .sunset-sherbert .files-page .files-nav-bar {
 	background: #333;
 	color: white;
-}
-.sunset-sherbert .footer-bar .label {
-	color: #AAA;
 }
 .sunset-sherbert .path-link button.btn-default {
 	background-color: #333;

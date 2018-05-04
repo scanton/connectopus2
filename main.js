@@ -137,10 +137,6 @@ app.on('ready', () => {
 	      	type: 'separator'
 	      },
 	      {
-	      	label: 'Online Documentation',
-	      	click () { require('electron').shell.openExternal('http://connectopus.org/docs') }
-	      },
-	      {
 	      	label: 'UML Diagram',
 	      	click () { mainWindow.webContents.send("controller-method", {method: 'toggleUmlDiagram'}) }
 	      },
@@ -170,9 +166,13 @@ app.on('ready', () => {
 	  {
 	    role: 'help',
 	    submenu: [
-	      {
+	      /*{
 	        label: 'Connectopus.org',
 	        click () { require('electron').shell.openExternal('http://connectopus.org') }
+	      },*/
+	      {
+	      	label: 'Online Documentation',
+	      	click () { require('electron').shell.openExternal('http://connectopus.org/docs') }
 	      }
 	    ]
 	  }

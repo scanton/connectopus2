@@ -104,7 +104,7 @@
 			viewController.registerView(componentName, this);
 		},
 		mounted: function() {
-			var minMapVerticalOffset = 102;
+			var minMapVerticalOffset = 76;
 			var handle = $(".mini-map-scroll-indicator");
 			$(".diff-view").scroll(function(e) {
 				var dv = $(".diff-view");

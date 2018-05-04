@@ -300,6 +300,8 @@ module.exports = class ConnectopusController extends EventEmitter {
 								var pathB = $inputs[1].files[0].path;
 							}
 							if(pathA && pathB) {
+								var aConfig = this.configModel.getConnectionLike({directory: pathA});
+								var bConfig = this.configModel.getConnectionLike({directory: pathB});
 								console.log(pathA, pathB);
 							}
 							this.hideModal();
@@ -311,7 +313,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 					<p>Select the two files you would like to compare:</p>
 					<table>
 						<tr>
-							<td style="width: 90px; padding: 5px 0;">
+							<td style="width: 60px; padding: 5px 0;">
 								File A:
 							</td>
 							<td style="padding: 5px 0;">
@@ -319,7 +321,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 							</td>
 						</tr>
 						<tr>
-							<td style="width: 90px; padding: 5px 0;">
+							<td style="width: 60px; padding: 5px 0;">
 								File B:
 							</td>
 							<td style="padding: 5px 0;">
@@ -592,6 +594,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.isDraggingConnection = true;
 	}
 	setFilePath(path, forceRefresh) {
+		console.log(path);
 		this._call("files-page", "clearSelections");
 		this.currentFilePath = path;
 		this._call(["current-directories", "files-page", "files-nav-bar"], "setPath", path);

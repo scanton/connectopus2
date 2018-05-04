@@ -321,7 +321,7 @@ input {
 	text-align: center;
 }
 .input-group .input-group-addon {
-	min-width: 155px;
+	min-width: 165px;
 }
 .input-group {
 	margin-bottom: .5em;
@@ -772,7 +772,7 @@ ul.directories li, ul.tables li {
 	padding-right: 0;
 }
 .footer-bar .label {
-	color: #777;
+	color: #333;
 }
 .path-link button.btn-default {
 	background-color: #EEE;
@@ -946,7 +946,7 @@ ul.directories li, ul.tables li {
 .diff-view .mini-map {
 	position: fixed;
 	right: 0;
-	top: 102px;
+	top: 76px;
 	-webkit-transition: right 0.3s ease;
 }
 .settings-is-visible .diff-view .mini-map {
@@ -956,7 +956,7 @@ ul.directories li, ul.tables li {
 	position: fixed;
 	right: 0;
 	width: 80px;
-	top: 102px;
+	top: 76px;
 	min-height: 100px;
 	background: rgba(0, 0, 0, .25);
 	-webkit-transition: right 0.3s ease;
