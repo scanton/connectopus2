@@ -91,6 +91,9 @@ const ConnectionsModel = require(__dirname + '/custom_modules/models/Connections
 const connectionsModel = new ConnectionsModel(fileModel);
 
 const ConnectopusController = require(__dirname + '/custom_modules/controllers/ConnectopusController.js');
+var controllers = {
+	viewController: viewController
+}
 var models = {
 	configModel: configModel, 
 	settingsModel: settingsModel, 
@@ -101,7 +104,7 @@ var models = {
 	pathsModel: pathsModel, 
 	projectsModel: projectsModel
 };
-const controller = new ConnectopusController(viewController, models);
+const controller = new ConnectopusController(controllers, models);
 
 ipcRenderer.on("controller-method", (event, arg) => {
 	controller.handleExternalCall(arg);

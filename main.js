@@ -123,13 +123,6 @@ app.on('ready', () => {
 	    label: 'Developer',
 	    submenu: [
 	      {
-	        label: 'Toggle Developer Tools',
-	        accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
-	        click (item, focusedWindow) {
-	          if (focusedWindow) focusedWindow.webContents.toggleDevTools()
-	        }
-	      },
-	      {
 	        label: 'UUID Generator',
 	        click () { mainWindow.webContents.send("controller-method", {method: 'toggleUuidGenerator'}) }
 	      },
@@ -148,6 +141,13 @@ app.on('ready', () => {
 	        accelerator: 'CmdOrCtrl+R',
 	        click (item, focusedWindow) {
 	          if (focusedWindow) focusedWindow.reload()
+	        }
+	      },
+	      {
+	        label: 'Toggle Developer Tools',
+	        accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+	        click (item, focusedWindow) {
+	          if (focusedWindow) focusedWindow.webContents.toggleDevTools()
 	        }
 	      }
 	    ]

@@ -15,6 +15,11 @@ module.exports = class ProjectsModel extends AbstractModel {
 		this.setCurrentProject(projectId);
 		this._dispatchUpdate();
 	}
+	deleteProject(projectFile) {
+		var path = this.projectsDirectory + projectFile;
+		this.fs.removeSync(this.projectsDirectory + projectFile);
+		this.loadProjects();
+	}
 	getCurrentProject() {
 		return this.projects[this.currentProject];
 	}

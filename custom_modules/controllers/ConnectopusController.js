@@ -1,8 +1,8 @@
 module.exports = class ConnectopusController extends EventEmitter {
 
-	constructor(viewController, models) {
+	constructor(controllers, models) {
 		super();
-		this.viewController = viewController;
+		this.viewController = controllers.viewController;
 		this.configModel = models.configModel;
 		this.settingsModel = models.settingsModel;
 		this.connectionsModel = models.connectionsModel;
@@ -159,6 +159,21 @@ module.exports = class ConnectopusController extends EventEmitter {
 			]
 		});
 	}
+	deleteProject(projectFile) {
+		this._call("modal-overlay", "show", {
+			title: "Confirm Delete Project",
+			message: "Are you sure you want to delete the '" + projectFile.split(".")[0] + "' project?",
+			buttons: [
+				{label: "Cancel", class: "btn-warning", icon: "glyphicon glyphicon-ban-circle", callback: () => {
+					this.hideModal();
+				}},
+				{label: "Delete", class: "btn-danger", icon: "glyphicon glyphicon-remove", callback: () => {
+					this.projectsModel.deleteProject(projectFile);
+					this.hideModal();
+				}}
+			]
+		});
+	}
 	disconnectFrom(id) {
 		this.connectionsModel.removeConnection(id);
 	}
@@ -302,7 +317,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 							if(pathA && pathB) {
 								var aConfig = this.configModel.getConnectionLike({directory: pathA});
 								var bConfig = this.configModel.getConnectionLike({directory: pathB});
-								console.log(pathA, pathB);
+								console.log(pathA, aConfig, pathB, bConfig);
 							}
 							this.hideModal();
 						}}

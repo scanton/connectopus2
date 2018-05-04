@@ -272,3 +272,9 @@ body.sunset-sherbert {
 .sunset-sherbert .merge-right .merge-column, .sunset-sherbert .merge-left .merge-column {
 	background: #EEE !important;
 }
+.sunset-sherbert .saved-project:hover .glyphicon-remove {
+	color: white;
+}
+.sunset-sherbert .btn-success:active {
+	background: #ca5e5e;
+}

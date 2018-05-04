@@ -1018,6 +1018,17 @@ ul.directories li, ul.tables li {
 	background: #555;
 	color: white;
 }
+.saved-project:hover button {
+	display: inherit;
+}
+.saved-project button {
+	position: absolute;
+	display: none;
+	left: -40px;
+	top: 8px;
+	z-index: 1;
+	padding: 3px 3px 3px 7px;
+}
 .saved-project span {
 	margin-right: .25em;
 }
@@ -1027,7 +1038,7 @@ ul.directories li, ul.tables li {
 .saved-project.is-active:hover {
 	cursor: default;
 }
-.saved-project .glyphicon {
+.saved-project .glyphicon-briefcase {
 	position: absolute;
 	top: 13px;
 	left: -35px;

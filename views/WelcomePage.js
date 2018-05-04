@@ -15,6 +15,9 @@
 						<h2>Saved Projects</h2>
 						<p>Click a project name below to load the project.</p>
 						<div v-on:click="handleLoadProject" v-for="proj in savedProjects" v-bind:class="{'is-active': isActiveProject(proj)}" class="saved-project" v-bind:data-file="proj">
+							<button v-bind:data-file="proj" v-on:click="handleDeleteProject" class="btn btn-danger" title="Delete Project">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
 							<span class="glyphicon glyphicon-briefcase"></span> {{dropExtension(proj)}}
 						</div>
 					</div>
@@ -30,7 +33,7 @@
 						<p>You can have live connections to the same data source in more than one project at the same time.</p>
 						<hr />
 						<h3>Documentation</h3>
-						<p>Documentation will be produced and available at <a target="_blank" href="http://connectopus.org">Connectopus.org</a></p>
+						<p>Documentation will be produced and available at <a target="_blank" href="http://connectopus.org/docs">Connectopus.org/docs</a></p>
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6">
@@ -68,7 +71,17 @@
 			},
 			handleLoadProject: function(e) {
 				e.preventDefault();
-				controller.openProject(controller.projectsDirectory + "/" + $(e.target).attr("data-file"));
+				var $target = $(e.target);
+				if($target.is("div")) {
+					controller.openProject(controller.projectsDirectory + "/" + $target.attr("data-file"));
+				}
+			},
+			handleDeleteProject: function(e) {
+				var $target = $(e.target);
+				if(!$target.is("button")) {
+					$target = $target.closest("button");
+				}
+				controller.deleteProject($target.attr("data-file"));
 			},
 			setActiveProjects: function(projects) {
 				this.activeProjects = projects;
