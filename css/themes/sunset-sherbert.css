@@ -19,8 +19,9 @@ body.sunset-sherbert {
 .sunset-sherbert .footer-bar.side-bar {
 	background: linear-gradient(to bottom, #DDD 0%, #CCC 50%, #BBB 100%);
 }
-.sunset-sherbert .footer-bar .label {
-	color: #333;
+.sunset-sherbert .footer-bar .footer-label {
+	color: #111;
+	padding: 2px 5px;
 }
 .sunset-sherbert .input-group .input-group-addon {
 	border: none;

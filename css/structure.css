@@ -771,8 +771,10 @@ ul.directories li, ul.tables li {
 	padding-left: 0;
 	padding-right: 0;
 }
-.footer-bar .label {
+.footer-bar .footer-label {
+	font-family: NeoTech;
 	color: #333;
+	font-size: 12pt;
 }
 .path-link button.btn-default {
 	background-color: #EEE;

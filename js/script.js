@@ -140,11 +140,18 @@ $(document).ready(function() {
 		e.preventDefault();
 		shell.openExternal($(this).attr("href"));
 	});
-	$(document).on("mouseenter", "a", function(e) {
+	$(document).on("mouseenter", "a, button, li, span", function(e) {
 		e.preventDefault();
-		controller.setLeftFooterLabel( ($(this).attr("href")) );
+		var label = $(this).attr("href") || $(this).attr("title");
+		var $this = $(e.target);
+		if($this.is("span") && label == "") {
+			label = $this.closest("button").attr("title");
+		}
+		if(label) {
+			controller.setLeftFooterLabel(label);
+		}
 	});
-	$(document).on("mouseleave", "a", function(e) {
+	$(document).on("mouseleave", "a, button, li, span", function(e) {
 		e.preventDefault();
 		controller.setLeftFooterLabel("");
 	});
