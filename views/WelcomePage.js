@@ -11,6 +11,17 @@
 			</div>
 			<div class="row welcome-info">
 				<div class="col-xs-12 col-sm-6">
+					<div class="info-panel">
+						<h2>Quick Compare</h2>
+						<p>Get started right away by quickly comparing local files or folders.</p>
+						<div v-on:click="handleQuickCompareFiles" class="quick-start-option compare-files-option">
+							<span class="glyphicon glyphicon-duplicate"></span> Compare Files
+						</div>
+						<div v-on:click="handleQuickCompareFolders" class="quick-start-option compare-folders-option">
+							<span class="glyphicon glyphicon-folder-open"></span> Compare Folders
+						</div>
+						<hr />
+					</div>
 					<div v-show="savedProjects.length" class="info-panel">
 						<h2>Saved Projects</h2>
 						<p>Click a project name below to load the project.</p>
@@ -24,8 +35,8 @@
 						</span>
 					</div>
 					<div class="info-panel">
-						<h2>Getting Started</h2>
 						<hr />
+						<h2>Getting Started</h2>
 						<h3>Start By Creating a Connection</h3>
 						<p>Click the <span class="connections-tab-example"><span class="glyphicon glyphicon-globe"></span> Connections Tab</span> on the tool bar to the left to create and organize your connections.</p>
 						<hr />
@@ -84,6 +95,12 @@
 					$target = $target.closest("button");
 				}
 				controller.deleteProject($target.attr("data-file"));
+			},
+			handleQuickCompareFiles: function(e) {
+				controller.handleExternalCall({method: "openFileDiff"});
+			},
+			handleQuickCompareFolders: function(e) {
+				controller.handleExternalCall({method: "openFolderDiff"});
 			},
 			setActiveProjects: function(projects) {
 				this.activeProjects = projects;

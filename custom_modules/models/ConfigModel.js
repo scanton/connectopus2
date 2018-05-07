@@ -6,7 +6,6 @@ module.exports = class ConfigModel extends AbstractModel {
 	}
 
 	addConnection(connection) {
-		console.log(connection);
 		if(!this._config.servers) {
 			this._config.servers = [];
 		}

@@ -2,6 +2,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 
 	constructor(controllers, models) {
 		super();
+		this._fs = require('fs-extra');
 		this.viewController = controllers.viewController;
 		this.configModel = models.configModel;
 		this.settingsModel = models.settingsModel;
@@ -27,7 +28,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.lastUpdate = null;
 		this.generalStatus = 'nominal';
 		this.colorStyle = { saturation: "50%", luminance: "75%" };
-		this.themesModel.loadThemes(function(themes) {
+		this.themesModel.loadThemes((themes) => {
 			if(themes) {
 				this._call("settings-side-bar", "setThemes", themes);
 
@@ -39,7 +40,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 				}
 				$("head").append(s);
 			}
-		}.bind(this));
+		});
 		this.projectsDirectory = __dirname.split("custom_modules/controllers")[0] + "working_files/projects";
 		this.isInProcess = false;
 	}
@@ -75,6 +76,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 			console.error("Invalid Connection", connection);
 		}
 		this.configModel.addConnection(o);
+		return o;
 	}
 	compareFiles(conId, path) {
 		this._call("modal-overlay", "showLoader");
@@ -87,6 +89,22 @@ module.exports = class ConnectopusController extends EventEmitter {
 			data.primeName = this.connectionsModel.getConnectionName(this.connectionsModel.getPrimeId());
 			this._call("diff-view", "show", data);
 		});
+	}
+	compareLocalFiles(pathA, pathB) {
+		var data = {};
+		var prime = this._fs.readFileSync(pathA, "utf8");
+		var compare = this._fs.readFileSync(pathB, "utf8");
+		if(prime && compare) {
+			data.diff = this.diff.diffLines(compare, prime, {ignoreWhitespace: false, newlineIsToken: true});
+			data.totalConnections = 2;
+			data.compareIndex = 1;
+			data.compareName = pathB.split("/").pop();
+			data.primeName = pathA.split("/").pop();
+			data.path = data.primeName;
+			data.conId = "Quick Compare";
+			this.showFilesPage();
+			this._call("diff-view", "show", data);
+		}
 	}
 	connectTo(id, callback) {
 		var con = this.configModel.getConnection(id);
@@ -314,10 +332,39 @@ module.exports = class ConnectopusController extends EventEmitter {
 							if($inputs[1] && $inputs[1].files && $inputs[1].files[0]) {
 								var pathB = $inputs[1].files[0].path;
 							}
+							var createConfig = (path) => {
+								if(path && path.length) {
+									var a = path.split("/");
+									var name = a.pop();
+									var o = {};
+									o.connectionType = "Local Directory";
+									o.name = name;
+									o['directory-path'] = path;
+									return o;
+								}
+							}
 							if(pathA && pathB) {
 								var aConfig = this.configModel.getConnectionLike({directory: pathA});
 								var bConfig = this.configModel.getConnectionLike({directory: pathB});
-								console.log(pathA, aConfig, pathB, bConfig);
+								if(!aConfig) {
+									aConfig = createConfig(pathA);
+									aConfig = this.addNewConnection(aConfig);
+								}
+								if(!bConfig) {
+									bConfig = createConfig(pathB);
+									bConfig = this.addNewConnection(bConfig);
+								}
+								var proj = {
+									"project": {
+										"name": "Quick Compare " + aConfig.name + " to " + bConfig.name,
+										"id": new Date().getTime()
+									},
+									"connections": [aConfig, bConfig]
+								}
+								this.projectsModel._loadProject(proj, () => {
+									this.showFilesPage();
+									this._call("tool-bar", "setSelected", ".show-files-link");
+								});
 							}
 							this.hideModal();
 						}}
@@ -361,7 +408,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 								var pathB = $inputs[1].files[0].path;
 							}
 							if(pathA && pathB) {
-								console.log(pathA, pathB);
+								this.compareLocalFiles(pathA, pathB);
 							}
 							this.hideModal();
 						}}
@@ -491,6 +538,8 @@ module.exports = class ConnectopusController extends EventEmitter {
 			if(count == 0 && proj.id == this.projectsModel._defaultProjectId) {
 				this.projectsModel.removeProject(proj.id);
 			}
+			this.showFilesPage();
+			this._call("tool-bar", "setSelected", ".show-files-link");
 		});
 	}
 	pullGitConnections() {
@@ -551,39 +600,60 @@ module.exports = class ConnectopusController extends EventEmitter {
 	saveMerge(documentText, path, conId) {
 		var fileName = path.split("/").pop();
 		if(documentText && path && conId) {
-			var mergeConnection = this.connectionsModel.getConnection(conId);
-			var primeConnection = this.connectionsModel.getConnection(this.connectionsModel.getPrimeId());
-			this._call("modal-overlay", "show", {
-				title: "Save merge of '" + fileName + "'",
-				message: "<div>Where would you like to save " + fileName + "? <p><sub>( you can select both )</sub></p>" +
-					"<table class='merge-options-table full-width'><tr class='merge-option'><td style='width: 40px'><input data-id='" + primeConnection.id + "' class='prime-option' type='checkbox' /></td><td>" + primeConnection.name + "</td></tr>" + 
-					"<tr class='merge-option'><td style='width: 40px'><input data-id='" + mergeConnection.id + "' class='merge-option' type='checkbox' /></td><td>" + mergeConnection.name + "</td></tr></table>" + 
-					"</div>",
-				buttons: [
-					{	
-						label: "Cancel", class: "btn-warning", icon: "", 
-						callback: (e) => {
-							e.preventDefault();
-							this.hideModal();
+			if(conId != "Quick Compare") {
+				var mergeConnection = this.connectionsModel.getConnection(conId);
+				var primeConnection = this.connectionsModel.getConnection(this.connectionsModel.getPrimeId());
+				this._call("modal-overlay", "show", {
+					title: "Save merge of '" + fileName + "'",
+					message: "<div>Where would you like to save " + fileName + "? <p><sub>( you can select both )</sub></p>" +
+						"<table class='merge-options-table full-width'><tr class='merge-option'><td style='width: 40px'><input data-id='" + primeConnection.id + "' class='prime-option' type='checkbox' /></td><td>" + primeConnection.name + "</td></tr>" + 
+						"<tr class='merge-option'><td style='width: 40px'><input data-id='" + mergeConnection.id + "' class='merge-option' type='checkbox' /></td><td>" + mergeConnection.name + "</td></tr></table>" + 
+						"</div>",
+					buttons: [
+						{	
+							label: "Cancel", class: "btn-warning", icon: "", 
+							callback: (e) => {
+								e.preventDefault();
+								this.hideModal();
+							}
+						},
+						{
+							label: "Save Merge", class: "btn-danger", icon: "", 
+							callback: (e) => {
+								this._call("modal-overlay", "showLoader");
+								e.preventDefault();
+								var ids = [];
+								$(".merge-options-table .merge-option input:checked").each(function() {
+									ids.push($(this).attr("data-id"));
+								});
+								this.connectionsModel.saveDocument(ids, path, documentText, () => {
+									this._call("diff-view", "hideView");
+									this.setFilePath(this.currentFilePath, true);
+								});
+							}
 						}
-					},
-					{
-						label: "Save Merge", class: "btn-danger", icon: "", 
-						callback: (e) => {
-							this._call("modal-overlay", "showLoader");
-							e.preventDefault();
-							var ids = [];
-							$(".merge-options-table .merge-option input:checked").each(function() {
-								ids.push($(this).attr("data-id"));
-							});
-							this.connectionsModel.saveDocument(ids, path, documentText, () => {
-								this._call("diff-view", "hideView");
-								this.setFilePath(this.currentFilePath, true);
-							});
-						}
+					]
+				});
+			} else {
+				dialog.showSaveDialog((filename) => {
+					if(filename) {
+						this._fs.writeFileSync(filename, documentText);
+						this._call("modal-overlay", "show", {
+							title: "File saved",
+							message: filename + " saved",
+							buttons: [
+								{
+									label: "Ok", class: "btn-success", icon: "",
+									callback: (e) => {
+										e.preventDefault();
+										this.hideModal();
+									}
+								}
+							]
+						});
 					}
-				]
-			});
+				});
+			}
 		}
 	}
 	setContextVisible(bool) {

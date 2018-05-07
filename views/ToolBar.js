@@ -3,10 +3,10 @@
 	var s = `
 		<div class="tool-bar side-bar">
 			<ul class="categories">
-				<li class="selected" title="Home" v-on:click="showHome">
+				<li class="selected show-home-link" title="Home" v-on:click="showHome">
 					<span class="glyphicon glyphicon-home"></span>
 				</li>
-				<li title="Connections" v-on:click="showConnections">
+				<li class="show-connections-link" title="Connections" v-on:click="showConnections">
 					<!--<span class="glyphicon glyphicon-globe"></span>-->
 					<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 						 viewBox="0 0 612 612" xml:space="preserve">
@@ -77,11 +77,11 @@
 						<path class="sgv-glyphicon" d="M280.5,242.2c0,4.5-3.7,8.2-8.2,8.2s-8.2-3.7-8.2-8.2c0-4.5,3.7-8.2,8.2-8.2S280.5,237.6,280.5,242.2z"/>
 					</svg>
 				</li>
-				<li v-show="activeConnections.length" title="Compare" v-on:click="showFiles">
+				<li class="show-files-link" v-show="activeConnections.length" title="Compare" v-on:click="showFiles">
 					<span class="glyphicon glyphicon-duplicate"></span>
 				</li>
 				<!--
-				<li v-show="activeConnections.length" title="Data" v-on:click="showData">
+				<li class="show-data-link" v-show="activeConnections.length" title="Data" v-on:click="showData">
 					<span class="glyphicon glyphicon-hdd"></span>
 				</li>
 				-->
@@ -144,6 +144,11 @@
 			},
 			setConnectionStatus: function(data) {
 				this.activeConnections = data;
+			},
+			setSelected: function(type) {
+				var $categories = $("ul.categories");
+				$categories.find(".selected").removeClass("selected");
+				$categories.find(type).addClass("selected");
 			}
 		}
 	});

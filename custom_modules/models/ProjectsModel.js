@@ -48,32 +48,7 @@ module.exports = class ProjectsModel extends AbstractModel {
 				controller.handleError(err);
 			}
 			if(data && data.project && data.project.id) {
-				var id = data.project.id;
-				if(!this.projects[id]) {
-					this.projects[id] = data.project;
-					this.setCurrentProject(id);
-					this._dispatchUpdate();
-					var totalConnections = data.connections.length;
-					if(totalConnections) {
-						var connectionsAdded = 0;
-						var addConnection = function() {
-							if(connectionsAdded < totalConnections) {
-								var id = data.connections[connectionsAdded].id;
-								controller.connectTo(id, addConnection);
-								++connectionsAdded;
-							} else {
-								if(callback) {
-									callback();
-								}
-							}
-						}
-						addConnection();
-					} else {
-						if(callback) {
-							callback();
-						}
-					}
-				}
+				this._loadProject(data, callback);
 			}
 		});
 	}
@@ -150,5 +125,33 @@ module.exports = class ProjectsModel extends AbstractModel {
 		this.projects = {};
 		this.projects[defaultProjectId] = { name: 'New Project', id: defaultProjectId };
 		this.setCurrentProject(defaultProjectId);
+	}
+	_loadProject(data, callback) {
+		var id = data.project.id;
+		if(!this.projects[id]) {
+			this.projects[id] = data.project;
+			this.setCurrentProject(id);
+			this._dispatchUpdate();
+			var totalConnections = data.connections.length;
+			if(totalConnections) {
+				var connectionsAdded = 0;
+				var addConnection = function() {
+					if(connectionsAdded < totalConnections) {
+						var id = data.connections[connectionsAdded].id;
+						controller.connectTo(id, addConnection);
+						++connectionsAdded;
+					} else {
+						if(callback) {
+							callback();
+						}
+					}
+				}
+				addConnection();
+			} else {
+				if(callback) {
+					callback();
+				}
+			}
+		}
 	}
 }
