@@ -6,7 +6,7 @@
 				<div class="col-xs-12 bare-container">
 					<h2>Connections</h2>
 					<ul class="folders">
-						<li v-show="isAddFolderVisible">
+						<li v-show="isAddFolderVisible" title="Select Folder">
 							<input v-on:keydown="handleKeyDown" class="add-folder-name-input" type="text" name="folder-name" placeholder="Folder Name" />
 							<button v-on:click="handleCreateFolder" class="btn btn-success">Add Folder</button>
 						</li>

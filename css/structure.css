@@ -152,7 +152,7 @@ h3 {
 	position: absolute;
 }
 .settings-side-bar {
-	top: 52px;
+	top: 26px;
 	right: -350px;
 	width: 350px;
 	bottom: 26px;
@@ -163,7 +163,7 @@ h3 {
 }
 .context-side-bar {
 	-webkit-transition: all 0.3s ease;
-	top: 51px;
+	top: 26px;
 	left: -300px;
 	width: 300px;
 	bottom: 26px;
@@ -321,7 +321,7 @@ input {
 	text-align: center;
 }
 .input-group .input-group-addon {
-	min-width: 165px;
+	min-width: 150px;
 }
 .input-group {
 	margin-bottom: .5em;
@@ -775,6 +775,7 @@ ul.directories li, ul.tables li {
 	font-family: NeoTech;
 	color: #333;
 	font-size: 12pt;
+	padding: 2px 5px;
 }
 .path-link button.btn-default {
 	background-color: #EEE;

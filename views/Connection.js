@@ -1,17 +1,17 @@
 (function() {
 	var componentName = 'connection';
 	var s = `
-		<li v-on:click="handleViewConnection" draggable="true" v-on:drag="drag" v-on:drop="drop" v-on:dragend="dragEnd" v-on:dragover="allowDrop" v-on:dragleave="dragLeave" class="connection" v-bind:class="[connectionStatus, { 'is-prime': isPrime , 'is-drag-over': isDragOver, selected: id == selectedConnection, connected: isConnected, error: isError, pending: isPending}]" v-bind:data-id="id">
+		<li v-on:click="handleViewConnection" draggable="true" v-on:drag="drag" v-on:drop="drop" v-on:dragend="dragEnd" v-on:dragover="allowDrop" v-on:dragleave="dragLeave" class="connection" v-bind:class="[connectionStatus, { 'is-prime': isPrime , 'is-drag-over': isDragOver, selected: id == selectedConnection, connected: isConnected, error: isError, pending: isPending}]" v-bind:data-id="id" title="Select Connection">
 			<span v-show="!isPrime" class="glyphicon glyphicon-globe"></span>
 			<span v-show="isPrime" class="glyphicon glyphicon-star"></span>
 			<span class="connection-name">{{name}}</span>
 			<span v-bind:class="connectionStatus" class="status-icon pull-right">
 				<span v-show="this.connectionStatus != ''" class="highlight"></span>
 			</span>
-			<span v-show="this.liveConnection.id == null" class="quick-connection-link" v-on:click="handleConnect">
-				Connect <span class="glyphicon glyphicon-record" title="connect"></span>
+			<span v-show="this.liveConnection.id == null" class="quick-connection-link" v-on:click="handleConnect" title="Connect">
+				Connect <span class="glyphicon glyphicon-record"></span>
 			</span>
-			<span v-show="this.liveConnection.id != null" class="quick-disconnection-link" v-on:click="handleDisconnect">
+			<span v-show="this.liveConnection.id != null" class="quick-disconnection-link" v-on:click="handleDisconnect" title="Disconnect">
 				<span class="glyphicon glyphicon-remove" title="disconnect"></span>
 			</span>
 		</li>

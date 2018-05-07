@@ -9,13 +9,13 @@
 
 					<div class="input-group">
 						<span class="input-group-addon">Hide Files In Sync</span>
-						<button v-show="settings.hideFilesInSync" class="btn btn-default" v-on:click="handleDeactivateHideFilesInSync">ON</button>
-						<button v-show="!settings.hideFilesInSync" class="btn btn-default" v-on:click="handleActivateHideFilesInSync">OFF</button>
+						<button v-show="settings.hideFilesInSync" class="btn btn-success" v-on:click="handleDeactivateHideFilesInSync">ON</button>
+						<button v-show="!settings.hideFilesInSync" class="btn btn-danger" v-on:click="handleActivateHideFilesInSync">OFF</button>
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">Rainbow Contrast</span>
-						<button v-show="settings.maximizeContrast" class="btn btn-default" v-on:click="handleDeactiveMaxContrast">ON</button>
-						<button v-show="!settings.maximizeContrast" class="btn btn-default" v-on:click="handleActiveMaxContrast">OFF</button>
+						<button v-show="settings.maximizeContrast" class="btn btn-success" v-on:click="handleDeactiveMaxContrast">ON</button>
+						<button v-show="!settings.maximizeContrast" class="btn btn-danger" v-on:click="handleActiveMaxContrast">OFF</button>
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">Theme</span>

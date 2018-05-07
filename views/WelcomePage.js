@@ -14,12 +14,14 @@
 					<div v-show="savedProjects.length" class="info-panel">
 						<h2>Saved Projects</h2>
 						<p>Click a project name below to load the project.</p>
-						<div v-on:click="handleLoadProject" v-for="proj in savedProjects" v-bind:class="{'is-active': isActiveProject(proj)}" class="saved-project" v-bind:data-file="proj">
-							<button v-bind:data-file="proj" v-on:click="handleDeleteProject" class="btn btn-danger" title="Delete Project">
-								<span class="glyphicon glyphicon-remove"></span>
-							</button>
-							<span class="glyphicon glyphicon-briefcase"></span> {{dropExtension(proj)}}
-						</div>
+						<span  v-for="proj in savedProjects" title="Open Project">
+							<div v-on:click="handleLoadProject" v-bind:class="{'is-active': isActiveProject(proj)}" class="saved-project" v-bind:data-file="proj">
+								<button v-bind:data-file="proj" v-on:click="handleDeleteProject" class="btn btn-danger" title="Delete Project">
+									<span class="glyphicon glyphicon-remove"></span>
+								</button>
+								<span class="glyphicon glyphicon-briefcase"></span> {{dropExtension(proj)}}
+							</div>
+						</span>
 					</div>
 					<div class="info-panel">
 						<h2>Getting Started</h2>

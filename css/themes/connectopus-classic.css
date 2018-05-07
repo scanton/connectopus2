@@ -28,11 +28,13 @@
 .connectopus-classic .foot-toolbar {
     background: #E2E2E2;
 }
-.connectopus-classic .tool-bar ul li {
+.connectopus-classic .tool-bar ul li, .connectopus-classic .sgv-glyphicon {
 	color: #777;
+	fill: #777;
 }
-.connectopus-classic .tool-bar ul li:hover {
+.connectopus-classic .tool-bar ul li:hover, .connectopus-classic li:hover .sgv-glyphicon {
 	color: black;
+	fill: black;
 }
 .connectopus-classic .project-news a {
 	color: black;

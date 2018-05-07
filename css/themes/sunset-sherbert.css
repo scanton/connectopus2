@@ -21,7 +21,6 @@ body.sunset-sherbert {
 }
 .sunset-sherbert .footer-bar .footer-label {
 	color: #111;
-	padding: 2px 5px;
 }
 .sunset-sherbert .input-group .input-group-addon {
 	border: none;
@@ -60,14 +59,13 @@ body.sunset-sherbert {
 .sunset-sherbert .context-side-bar {
 	background: #333;
 }
-.sunset-sherbert .tool-bar ul li:hover {
+.sunset-sherbert .tool-bar ul li:hover, .sunset-sherbert li:hover .sgv-glyphicon {
 	background: #222;
+	color: white;
+	fill: white;
 }
 .sunset-sherbert .tool-bar ul li.selected {
 	background: #333;
-	color: white;
-}
-.sunset-sherbert .tool-bar ul li:hover {
 	color: white;
 }
 .sunset-sherbert .glyphicon-folder-close, .sunset-sherbert .glyphicon-folder-open {
@@ -92,11 +90,12 @@ body.sunset-sherbert {
 	color: #ddd;
 	background: #333;
 }
-
+/*
 .sunset-sherbert .input-group .dropdown, .sunset-sherbert .input-group .dropdown button, .sunset-sherbert .input-group button {
 	color: white;
 	background: #777;
 }
+*/
 .sunset-sherbert .input-group.is-not-selected .dropdown, .sunset-sherbert .input-group.is-not-selected .dropdown button {
 	background: #FF7373;
 	color: white;
@@ -278,4 +277,7 @@ body.sunset-sherbert {
 }
 .sunset-sherbert .btn-success:active {
 	background: #ca5e5e;
+}
+.sunset-sherbert .sgv-glyphicon {
+	fill: #CCC;
 }
