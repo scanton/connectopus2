@@ -264,7 +264,7 @@ module.exports = class ConfigModel extends AbstractModel {
 		if(!connection.connectionType) {
 			connection.connectionType = 'Remote (SFTP)';
 		}
-		if(!connection.connections[0].type) {
+		if(connection && connection.connections && connection.connections[0] && !connection.connections[0].type) {
 			connection.connections[0].type = 'MySQL';
 		}
 		return connection;
