@@ -259,13 +259,14 @@ module.exports = class ConfigModel extends AbstractModel {
 		return servers;
 	}
 	_assignConnectionId(connection) {
-		connection.id = '';
-		connection.id = this.md5(JSON.stringify(connection));
-		if(!connection.connectionType) {
-			connection.connectionType = 'Remote (SFTP)';
-		}
-		if(connection && connection.connections && connection.connections[0] && !connection.connections[0].type) {
-			connection.connections[0].type = 'MySQL';
+		if(!connection.id) {
+			connection.id = this.md5(JSON.stringify(connection));
+			if(!connection.connectionType) {
+				connection.connectionType = 'Remote (SFTP)';
+			}
+			if(connection && connection.connections && connection.connections[0] && !connection.connections[0].type) {
+				connection.connections[0].type = 'MySQL';
+			}
 		}
 		return connection;
 	}
