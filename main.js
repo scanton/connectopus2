@@ -17,11 +17,11 @@ app.on('ready', () => {
 	    label: 'File',
 	    submenu: [
 	      {
-	      	label: "Open Folder Diff...",
+	      	label: "New Folder Diff",
 	      	click () { mainWindow.webContents.send("controller-method", { method: "openFolderDiff" }) }
 	      },
 	      {
-	      	label: "Open File Diff...",
+	      	label: "New File Diff",
 	      	click () { mainWindow.webContents.send("controller-method", { method: "openFileDiff" }) }
 	      },
 	      {
