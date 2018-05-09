@@ -6,7 +6,38 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-mac": "electron-packager ./ --version 1.4.13 --platform darwin --out ./dist --icon ./assets/icons/logo.icns --overwrite",
+    "build-all": "electron-packager ./ --version 1.4.13 --platform all --icon ./assets/icons/logo --out ./dist --overwrite"
+  },
+  "build": {
+    "appId": "org.connectopus.connectopus2",
+    "files": [
+      "out"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity"
+    },
+    "nsis": {
+      "createDesktopShortcut": "always"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "category": "Productivity"
+    }
   },
   "repository": {
     "type": "git",
