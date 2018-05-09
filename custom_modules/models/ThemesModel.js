@@ -3,10 +3,11 @@ module.exports = class ThemesModel extends AbstractModel {
 	constructor() {
 		super();
 		this._themes = [];
-		this._themePath = "css/themes"
+		this._themePath = "./css/themes"
 	}
 	loadThemes(callback) {
 		this.fs.pathExists(this._themePath, function(err, exists) {
+			console.log(exists);
 			if(err) {
 				controller.handleError(err);
 			} else {
