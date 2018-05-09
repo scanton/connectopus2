@@ -1,9 +1,5 @@
 console.info = function() {};
 
-window.onbeforeunload = (e) => {
-	app.quit();
-}
-
 const utils = {};
 utils.sortArrayBy = function(arr, key, isDecending) {
 	return arr.sort(function(a, b) {
