@@ -83,12 +83,14 @@ module.exports = class ProjectsModel extends AbstractModel {
 	}
 	removeSavedProject(id) {
 		this.fs.readdir(this.projectsDirectory, (err, files) => {
-			var l = files.length;
-			while(l--) {
-				if(files[l].indexOf(".") != 0) {
-					var proj = this.fs.readJsonSync(this.projectsDirectory + '/' + files[l]);
-					if(proj && proj.project && proj.project.id == id) {
-						this.fs.removeSync(this.projectsDirectory + '/' + files[l]);
+			if(files) {
+				var l = files.length;
+				while(l--) {
+					if(files[l].indexOf(".") != 0) {
+						var proj = this.fs.readJsonSync(this.projectsDirectory + '/' + files[l]);
+						if(proj && proj.project && proj.project.id == id) {
+							this.fs.removeSync(this.projectsDirectory + '/' + files[l]);
+						}
 					}
 				}
 			}
