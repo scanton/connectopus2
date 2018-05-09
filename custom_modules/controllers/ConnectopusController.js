@@ -465,7 +465,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 				{label: "Cancel", class: "btn-warning", icon: "", callback: function() {
 					this.hideModal();
 				}.bind(this)},
-				{label: "Overwrite " + name, class: "btn-danger", icon: "", callback: function() {
+				{label: "Overwrite", class: "btn-danger", icon: "", callback: function() {
 					this.projectsModel.saveProject(data, this.handleProjectSaved.bind(this));
 				}.bind(this)}
 			]

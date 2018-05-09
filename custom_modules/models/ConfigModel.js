@@ -207,11 +207,7 @@ module.exports = class ConfigModel extends AbstractModel {
 		}
 	}
 	saveConfig() {
-		this.fs.outputJson('./working_files/config.json', this._strip(this._config), { spaces: '\t' }, function(err) {
-			if(err) {
-				console.error(err);
-			}
-		});
+		this.fs.outputJsonSync('./working_files/config.json', this._strip(this._config), { spaces: '\t' });
 		this.dispatchEvent("data", this._strip(this._config));
 	}
 	updateConnection(id, connection) {
