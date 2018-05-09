@@ -48,9 +48,15 @@
 							<td class="added">
 								<h3>{{addCount()}} Additions</h3>
 							</td>
+							<td v-show="mergeEnabled" class="merge-column">
+								<button v-on:click="pushAllLeftToRight" class="btn btn-default merge-all-button">All >></button>
+								<button v-on:click="removeAllLeftMerge" class="btn btn-default merge-all-button" style="display: none;"><< All</button>
+							</td>
 							<td v-show="mergeEnabled" class="merge-column"></td>
-							<td v-show="mergeEnabled" class="merge-column"></td>
-							<td v-show="mergeEnabled" class="merge-column"></td>
+							<td v-show="mergeEnabled" class="merge-column">
+								<button v-on:click="pushAllRightToLeft" class="btn btn-default merge-all-button"><< All</button>
+								<button v-on:click="removeAllRightMerge" class="btn btn-default merge-all-button" style="display: none;">All >></button>
+							</td>
 							<td class="removed line-number"></td>
 							<td class="removed">
 								<h3>{{removeCount()}} Removals</h3>
@@ -164,6 +170,18 @@
 				controller.setContextVisible(true);
 				this.isVisible = false;
 			},
+			pushAllLeftToRight: function(e) {
+				e.preventDefault();
+				var $target = $(e.target);
+				$target.closest(".merge-column").find(".merge-all-button").toggle();
+				$(".diff-compare").find(".merge-column.added .push-left-to-right-button:visible").click();
+			},
+			pushAllRightToLeft: function(e) {
+				e.preventDefault();
+				var $target = $(e.target);
+				$target.closest(".merge-column").find(".merge-all-button").toggle();
+				$(".diff-compare").find(".merge-column.removed .push-right-to-left-button:visible").click();
+			},
 			pushLeftToRight: function(e) {
 				e.preventDefault();
 				$(e.target).closest("tr").addClass("merge-left");
@@ -181,6 +199,18 @@
 					}
 				}
 				return count;
+			},
+			removeAllLeftMerge: function(e) {
+				e.preventDefault();
+				var $target = $(e.target);
+				$target.closest(".merge-column").find(".merge-all-button").toggle();
+				$(".diff-compare").find(".merge-column.added .undo-left-to-right-button:visible").click();
+			},
+			removeAllRightMerge: function(e) {
+				e.preventDefault();
+				var $target = $(e.target);
+				$target.closest(".merge-column").find(".merge-all-button").toggle();
+				$(".diff-compare").find(".merge-column.removed .undo-right-to-left-button:visible").click();
 			},
 			removeLeftMerge: function(e) {
 				e.preventDefault();

@@ -20,25 +20,12 @@
 						<div v-on:click="handleQuickCompareFolders" class="quick-start-option compare-folders-option">
 							<span class="glyphicon glyphicon-folder-open"></span> Compare Folders
 						</div>
-						<hr />
-					</div>
-					<div v-show="savedProjects.length" class="info-panel">
-						<h2>Saved Projects</h2>
-						<p>Click a project name below to load the project.</p>
-						<span  v-for="proj in savedProjects" title="Open Project">
-							<div v-on:click="handleLoadProject" v-bind:class="{'is-active': isActiveProject(proj)}" class="saved-project" v-bind:data-file="proj">
-								<button v-bind:data-file="proj" v-on:click="handleDeleteProject" class="btn btn-danger" title="Delete Project">
-									<span class="glyphicon glyphicon-remove"></span>
-								</button>
-								<span class="glyphicon glyphicon-briefcase"></span> {{dropExtension(proj)}}
-							</div>
-						</span>
 					</div>
 					<div class="info-panel">
 						<hr />
 						<h2>Getting Started</h2>
 						<h3>Start By Creating a Connection</h3>
-						<p>Click the <span class="connections-tab-example"><span class="glyphicon glyphicon-globe"></span> Connections Tab</span> on the tool bar to the left to create and organize your connections.</p>
+						<p>Click the <span class="connections-tab-example">Connections Tab</span> on the tool bar to the left to create and organize your connections.</p>
 						<hr />
 						<h3>Understanding Projects</h3>
 						<p>Projects are a way of organizing your live connections.</p>
@@ -50,6 +37,19 @@
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6">
+					<div v-show="savedProjects.length" class="info-panel">
+						<h2>Saved Projects</h2>
+						<p>Click a project name below to load the project.</p>
+						<span  v-for="proj in savedProjects" title="Open Project">
+							<div v-on:click="handleLoadProject" v-bind:class="{'is-active': isActiveProject(proj)}" class="saved-project" v-bind:data-file="proj">
+								<button v-bind:data-file="proj" v-on:click="handleDeleteProject" class="btn btn-danger" title="Delete Project">
+									<span class="glyphicon glyphicon-remove"></span>
+								</button>
+								<span class="glyphicon glyphicon-briefcase"></span> {{dropExtension(proj)}}
+							</div>
+						</span>
+						<hr />
+					</div>
 					<div class="info-panel">
 						<project-news></project-news>
 					</div>

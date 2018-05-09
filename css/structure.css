@@ -321,7 +321,7 @@ input {
 	text-align: center;
 }
 .input-group .input-group-addon {
-	min-width: 150px;
+	min-width: 160px;
 }
 .input-group {
 	margin-bottom: .5em;
@@ -1131,4 +1131,7 @@ ul.directories li, ul.tables li {
 	padding-left: 12px;
 	padding-top: 12px;
 
+}
+.merge-all-button {
+	opacity: .5;
 }
