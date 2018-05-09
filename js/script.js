@@ -1,5 +1,5 @@
 console.info = function() {};
-
+console.log(__dirname);
 const utils = {};
 utils.sortArrayBy = function(arr, key, isDecending) {
 	return arr.sort(function(a, b) {
