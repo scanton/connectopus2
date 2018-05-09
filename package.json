@@ -1,6 +1,7 @@
 {
   "name": "connectopus2",
-  "version": "1.0.0",
+  "productName": "Connectopus 2",
+  "version": "0.1.0",
   "description": "Compare code bases across multiple SFTP and database instances",
   "main": "main.js",
   "scripts": {
