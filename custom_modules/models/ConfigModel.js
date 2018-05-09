@@ -156,18 +156,20 @@ module.exports = class ConfigModel extends AbstractModel {
 		}
 	}
 	getConnectionLike(query) {
-		if(this._config && query) {
-			var l = this._config.servers.length;
-			var isMatch;
-			while(l--) {
-				isMatch = true;
-				for(var i in query) {
-					if(this._config.servers[l][i] != query[i]) {
-						isMatch = false;
+		if(this._config && query &&) {
+			if(this._config.servers) {
+				var l = this._config.servers.length;
+				var isMatch;
+				while(l--) {
+					isMatch = true;
+					for(var i in query) {
+						if(this._config.servers[l][i] != query[i]) {
+							isMatch = false;
+						}
 					}
-				}
-				if(isMatch) {
-					return this._config.servers[l];
+					if(isMatch) {
+						return this._config.servers[l];
+					}
 				}
 			}
 			if(this._config.folders) {
