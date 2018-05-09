@@ -4,7 +4,6 @@ module.exports = class ThemesModel extends AbstractModel {
 		super();
 		this._themes = [];
 		this._themePath = __dirname.split("custom_modules/models")[0] + "css/themes";
-		console.log(this._themePath);
 	}
 	loadThemes(callback) {
 		this.fs.pathExists(this._themePath, function(err, exists) {
