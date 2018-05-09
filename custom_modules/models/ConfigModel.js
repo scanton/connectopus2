@@ -170,19 +170,21 @@ module.exports = class ConfigModel extends AbstractModel {
 					return this._config.servers[l];
 				}
 			}
-			l = this._config.folders.length;
-			while(l--) {
-				if(this._config.folders[l].servers) {
-					let l2 = this._config.folders[l].servers.length;
-					while(l2--) {
-						isMatch = true;
-						for(var i in query) {
-							if(this._config.folders[l].servers[l2][i] != query[i]) {
-								isMatch = false;
+			if(this._config.folders) {
+				l = this._config.folders.length;
+				while(l--) {
+					if(this._config.folders[l].servers) {
+						let l2 = this._config.folders[l].servers.length;
+						while(l2--) {
+							isMatch = true;
+							for(var i in query) {
+								if(this._config.folders[l].servers[l2][i] != query[i]) {
+									isMatch = false;
+								}
 							}
-						}
-						if(isMatch) {
-							return this._strip(this._config.folders[l].servers[l2]);
+							if(isMatch) {
+								return this._strip(this._config.folders[l].servers[l2]);
+							}
 						}
 					}
 				}
