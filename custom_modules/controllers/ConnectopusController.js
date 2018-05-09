@@ -420,6 +420,20 @@ module.exports = class ConnectopusController extends EventEmitter {
 			} else if(args.method =="toggleUuidGenerator") {
 				this._call("uuid-generator", "toggleView");
 				this._call("uml-diagram", "hide");
+			} else if(args.method == "importConfig") {
+				dialog.showOpenDialog({
+						title: "Select config file", 
+						filters: [{
+							name: "Config", 
+							extensions: ["json"]
+						}]
+					}, (result) => {
+					if(result && result[0]) {
+						this._fs.copySync(result[0], __dirname.split("custom_modules/controllers")[0] + "working_files/config.json");
+						this.configModel.loadConfig();
+						this.showConnectionsPage();
+					}
+				});
 			} else {
 				console.log(args);
 			}
