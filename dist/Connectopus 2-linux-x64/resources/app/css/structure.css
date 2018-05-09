@@ -1,0 +1,1137 @@
+@font-face {
+    font-family: NeoTech;
+    src: url("../fonts/NeoTech.otf") format("opentype");
+}
+
+h1.word-connectopus {
+	font-weight: 100;
+}
+h1.word-connectopus strong {
+	font-weight: 500;
+	font-family: NeoTech;
+}
+body {
+	overflow: hidden;
+}
+nav {
+	border-radius: 0 !important;
+	position: absolute !important;
+	top: 26px;
+	left: 50px;
+	right: 0;
+	padding: 0 17px;
+}
+.hide-titlebar nav {
+	top: 0;
+}
+nav .system-icons {
+	margin-top: 3px;
+}
+h1 {
+	color: white;
+	padding: 0;
+	font-weight: normal;
+}
+h2 {
+	padding: 0;
+	font-size: 16pt;
+	font-weight: 300;
+	letter-spacing: 1pt;
+}
+h3 {
+	padding: 0;
+	font-size: 14pt;
+	font-weight: 300;
+	letter-spacing: 1pt;
+	margin: 5px 0 18px;
+}
+.full-height {
+	height: 100%;
+}
+.full-width {
+	width: 100%;
+}
+.col-xs-12, .col-sm-6 {
+	padding: 0;
+}
+.bare-container {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.btn {
+	padding: 5px 8px;
+	border-radius: .3em;
+}
+.clear {
+	clear: both;
+}
+.scroll-overflow {
+	overflow: scroll;
+}
+.left-margin {
+	margin-left: .5em;
+}
+.modal-overlay {
+	background: rgba(0, 0, 0, 0.5);
+	position: absolute;
+	left: 50px;
+	right: 0;
+	bottom: 26px;
+	top: 26px;
+	font-size: 14pt;
+	z-index: 2;
+}
+.modal-overlay .dialog-message {
+	margin-bottom: 1em;
+}
+.modal-overlay .dialog-frame {
+	border-radius: 15px;
+	padding: .5em;
+	position: absolute;
+	top: 20%;
+	left: 25%;
+	right: 25%;
+}
+.modal-overlay button {
+	margin-left: .5em;
+	font-size: 14pt;
+}
+.navbar {
+	min-height: 2px;
+	/*text-align: right;*/
+}
+.navbar a {
+	padding: 2px 3px;
+}
+.navbar-inverse {
+	border: 0;
+}
+.no-pad {
+	padding: 0;
+}
+.titlebar {
+	display: none;
+	-webkit-transition: all 0.3s ease;
+	z-index: 10;
+	position: fixed;
+	left: 0;
+	right: 0;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.titlebar .title-text {
+	overflow: hidden;
+	white-space: nowrap;
+}
+.titlebar .title, .titlebar .subject, .titlebar.target {
+	overflow: hidden;
+}
+.titlebar-minimize, .titlebar-fullscreen {
+	
+}
+.main-view {
+	-webkit-transition: all 0.3s ease;
+	position: absolute;
+	top: 52px;
+	left: 50px;
+	right: 0;
+	bottom: 26px;
+	overflow: scroll;
+	background: #DDD;
+}
+.hide-titlebar .main-view {
+	top: 26px;
+}
+.settings-is-visible .main-view {
+	right: 350px;
+}
+.context-is-visible .main-view {
+	left: 350px;
+}
+.side-bar {
+	position: absolute;
+}
+.settings-side-bar {
+	top: 26px;
+	right: -350px;
+	width: 350px;
+	bottom: 26px;
+	-webkit-transition: all 0.3s ease;
+}
+.settings-is-visible .settings-side-bar {
+	right: 0;
+}
+.context-side-bar {
+	-webkit-transition: all 0.3s ease;
+	top: 26px;
+	left: -300px;
+	width: 300px;
+	bottom: 26px;
+}
+.hide-titlebar .context-side-bar {
+	top: 26px;
+}
+.context-is-visible .context-side-bar {
+	left: 50px;
+}
+.tool-bar {
+	position: relative;
+	-webkit-transition: all 0.3s ease;
+	width: 50px;
+	top: 0;
+	left: 0;
+	margin-top: 26px;
+}
+.hide-titlebar .tool-bar {
+	margin-top: 0;
+}
+.tool-bar ul {
+	list-style: none;
+	padding: 0;
+}
+.tool-bar ul li {
+	font-size: 16pt;
+	padding: 12px;
+}
+.tool-bar ul.categories li:hover {
+	cursor: pointer;
+}
+.footer-bar {
+	-webkit-transition: all 0.3s ease;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 26px;
+	padding: 2px;
+}
+
+#main-app.process-pending .footer-bar, #main-app.process-pending .titlebar, #main-app.process-pending .tool-bar {
+	background: orange;
+	color: black;
+}
+#main-app.process-error .footer-bar, #main-app.process-error .titlebar, #main-app.process-error .tool-bar {
+	background: red;
+	color: white;
+}
+#main-app.process-complete .footer-bar, #main-app.process-complete .titlebar, #main-app.process-complete .tool-bar {
+	background: green;
+	color: white;
+}
+
+.work-area.home .footer-bar {
+	/*background: #000044;*/
+}
+.work-area.connections .footer-bar {
+	/*background: #FF7373;*/
+}
+.work-area.data .footer-bar {
+	/*background: green;*/
+}
+.work-area.files .footer-bar {
+	/*background: orange;*/
+}
+.current-connections {
+	position: absolute;
+	top: 0;
+	bottom: 26px;
+	left: 0;
+	width: 300px;
+	overflow: scroll;
+}
+.current-directories, .current-tables {
+	position: absolute;
+	top: 0;
+	bottom: 0px;
+	left: 0;
+	width: 300px;
+	overflow: scroll;
+}
+.current-directories .directory:hover {
+	background-color: #777;
+	color: white;
+	border-radius: 5px;
+}
+.current-connections ul {
+	list-style: none;
+	padding: 0;
+}
+.current-connections li .glyphicon {
+	margin-right: .25em;
+}
+.current-connections .folder-name {
+	display: inline-block;
+    margin-bottom: .3em;
+}
+.current-connections .connection {
+	cursor: pointer;
+	padding: 5px;
+	border-radius: 15px;
+	position: relative;
+}
+.current-connections .connection .quick-connection-link, .current-connections .connection .quick-disconnection-link {
+	display: none;
+	float: right;
+	border-radius: 15px;
+	padding: 3px 2px 1px 6px;
+}
+.current-connections .connection .quick-connection-link:hover, .current-connections .connection .quick-disconnection-link:hover {
+	background: green;
+	color: white;
+}
+.current-connections .connection:hover .quick-connection-link, .current-connections .connection.connected:hover .quick-disconnection-link {
+	position: absolute;
+	display: inline-block;
+	right: 3px;
+	top: 3px;
+}
+.current-connections .connection.connected .quick-connection-link {
+	display: none;
+}
+.folder {
+	border-radius: 15px;
+	border-top-left-radius: 0;
+}
+.current-connections .folder .connections {
+	padding-left: 1.5em;
+	overflow: hidden;
+}
+.current-connections .folders .label-container {
+	cursor: pointer;
+}
+.connection-details, .add-connection-page{
+	padding: 2em;
+}
+.connection.is-prime.connected .glyphicon-star {
+	background: #0F0;
+}
+.connection.is-prime.pending .glyphicon-star {
+	background: yellow;
+}
+.connection.is-prime.error .glyphicon-star {
+	background: red;
+}
+.current-connections .foot-toolbar {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+input {
+	padding: 3px;
+	text-align: center;
+}
+.input-group .input-group-addon {
+	min-width: 160px;
+}
+.input-group {
+	margin-bottom: .5em;
+}
+.input-group input {
+	width: 100%;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	padding: 3px;
+	text-align: center;
+}
+.input-group .dropdown, .input-group .dropdown button, .input-group button {
+	width: 100%;
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+}
+.input-group .dropdown .dropdown-menu {
+	width: 100%;
+}
+.input-group.is-not-selected .dropdown, .input-group.is-not-selected .dropdown button {
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+.foot-toolbar {
+	position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.foot-toolbar button {
+	border: 0 solid #777;
+	position: relative;
+	padding: 2px 4px;
+	margin: 3px;
+}
+.foot-toolbar button .inverse-small {
+	position: absolute;
+    right: 5px;
+    top: 8px;
+    font-size: 8pt;
+}
+.foot-toolbar button.btn-default:hover, .foot-toolbar button.btn-default:focus {
+	outline: none;
+}
+.foot-toolbar button.btn-danger:hover, .foot-toolbar button.btn-danger:focus {
+	outline: none;
+}
+
+.connection {
+	-webkit-transition: all 0.3s ease;
+}
+.connection.is-prime .glyphicon {
+	border-radius: 50%;
+	padding: 3px;
+	margin-left: -3px;
+}
+
+.active-connection.is-prime.error .glyphicon {
+	color: red !important;
+}
+.active-connection.is-prime.error .glyphicon-star {
+	color: white;
+	background: #600;
+	border-color: #900;
+}
+.active-connection.is-prime.pending .glyphicon-star {
+	background: yellow;
+}
+.panel-default {
+	margin-bottom: 0;
+}
+.panel-button {
+	margin-top: 13px;
+	margin-left: .5em;
+}
+.title-input-field {
+	width: 100%;
+	text-align: left;
+}
+.active-connections {
+	/*
+	position: absolute;
+	bottom: 0;
+	*/
+	margin: 0;
+}
+.active-connections .active-connection {
+	position: relative;
+	width: 48px;
+	border: 1px solid rgba(0, 0, 0, .25);
+}
+.active-connections .active-connection .glyphicon {
+    z-index: 4;
+}
+.active-connections .active-connection .glyphicon-star {
+	z-index: 5;
+}
+.active-connections .active-connection .glyphicon-triangle-bottom {
+	position: absolute;
+    left: 15px;
+    top: 42px;
+    color: #0F0;
+    font-size: 14pt;
+    text-shadow: 0 2px rgba(0, 0, 0, .25);
+}
+.active-connections .active-connection.is-prime .glyphicon-triangle-bottom {
+	top: 42px;
+}
+.active-connections .status-icon {
+	width: 25px;
+	height: 25px;
+	margin: 11px 11px 5px 11px;
+	display: inline-block;
+}
+.status-icon {
+    height: 15px;
+    width: 15px;
+    border: 2px solid #666;
+    border-radius: 50%;
+    margin-top: 3px;
+}
+
+.active-connection {
+	position: relative;
+}
+.active-connections.mouse-is-over .rollover-flag {
+	left: 30px !important;
+}
+.active-connection .rollover-flag {
+	z-index: 3;
+	-webkit-transition: all 0.3s ease;
+	color: black;
+	white-space: nowrap;
+	position: absolute;
+    display: inline-block;
+    left: 25px;
+    top: 0;
+    padding: 14px 10px 14px 1.5em;
+    height: 46px;
+    font-size: 12pt;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.active-connection.error {
+	background: red !important;
+	color: white !important;
+}
+.active-connection.error .rollover-flag {
+	left: 30px !important;
+	background: red !important;
+	color: white !important;
+}
+.active-connection .glyphicon-star {
+    font-size: 16pt;
+    border-radius: 50%;
+    width: 27px;
+    height: 27px;
+    padding: 1px 1.5px;
+    margin: 10px;
+    border: 2px solid green;
+    color: green;
+}
+.active-connection .glyphicon-star.connected {
+	background: #0F0;
+    color: green;
+    border: 2px solid green;
+}
+.active-connection .glyphicon-star.pending {
+	animation: blinker .2s linear infinite;
+	background: yellow;
+	border: 2px solid orange;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+.status-icon {
+	position: relative;
+}
+.status-icon.pending {
+	background: yellow;
+	border-color: orange;
+	animation: blinker .2s linear infinite;	
+}
+.status-icon.error {
+	background: red;
+	border-color: #900;	
+}
+.status-icon.connected {
+	background: #0F0;
+	border-color: green;	
+}
+.status-icon .highlight, .glyphicon .highlight {
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 5px;
+	height: 5px;
+	background: rgba(255, 255, 255, .75);
+	border-radius: 50%;
+}
+
+.active-connection .status-icon {
+	z-index: 5;
+}
+.active-connection .status-icon .highlight, .active-connection .glyphicon .highlight {
+	top: 2px;
+	left: 3px;
+	width: 7px;
+	height: 7px;
+	filter: blur(1.15px);
+}
+ul.directories, ul.tables {
+	list-style: none;
+	padding: 0;
+	font-size: 11pt;
+}
+ul.directories li, ul.tables li {
+	cursor: pointer;
+}
+.files-page.container-fluid {
+	padding: 0;
+	background: #DDD;
+}
+.file-compare-listing {
+	border: 1px solid rgba(0, 0, 0, .25);
+	padding: .25em;
+}
+.current-directories .directory {
+	padding: 2px 2px 2px 10px;
+}
+.directory .glyphicon-folder-close {
+	margin-right: 6px;
+}
+.project-tabs {
+	position: absolute;
+    right: 100px;
+    left: 4px;
+	font-size: 11pt;
+	height: 40px;
+	/*overflow: scroll;*/
+}
+.project-tabs ul {
+	white-space: nowrap;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	transform: translateY(1px);
+}
+.project-tabs ul li.tab {
+	background: #F8F8F8;
+	display: inline-block;
+	padding: 0;
+	transform: translateY(2px);
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	cursor: pointer;
+	border: 0;
+}
+.project-tabs ul li.tab.selected {
+	cursor: default;
+}
+.project-tabs ul li.tab.add-tab {
+	/*transform: translateX(-5px) translateY(2px) !important;*/
+}
+.project-tabs ul li.tab input {
+	padding: 0;
+
+}
+.project-tabs ul li.tab.add-tab {
+	padding: 2px 10px 0px;
+}
+.project-tabs ul li .glyphicon-remove, .project-tabs ul li .glyphicon-save {
+	visibility: hidden;
+	padding: 2px;
+}
+.project-tabs ul li:hover .glyphicon-remove /*, ul.project-tabs li:hover .glyphicon-save*/ {
+	visibility: visible;
+	color: white;
+	cursor: pointer;
+	border-radius: 5px;
+}
+.welcome-page .info-panel {
+	/*
+	border: 1px solid gray;
+	margin: .5em 0;
+	border-radius: 5px;
+	*/
+	padding: 0 1em;
+	background: #f8f8f8;
+}
+.project-news ul  {
+	list-style: none;
+	padding: 0;
+}
+.project-news li {
+	margin-top: 20px;
+}
+.project-news a {
+	color: black;
+}
+.project-news .milestones-list h3 {
+	margin: 5px;
+}
+
+.project-news .milestone {
+	cursor: pointer;
+	position: relative;
+	padding-left: 70px;
+	min-height: 50px;
+	margin: auto;
+	-webkit-transition: all 0.3s ease;
+}
+.project-news .milestone:hover {
+	background: #555;
+	color: white;
+}
+.project-news .milestone .badge {
+	display: none;
+	/*
+	position: absolute;
+	transform: rotate(-90deg);
+	transform-origin: right top 0;
+	left: 0;
+	top: 0;
+	height: 100%;
+	border-radius: 0;
+	*/
+}
+.project-news .milestone .glyphicon {
+	position: absolute;
+	text-align: center;
+	vertical-align:middle;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 50px;
+	font-size: 21pt;
+	padding-top: 12px;
+	color: white;
+}
+
+.project-news .milestone.complete {
+	border-right: 10px solid green;
+	border-top: 1px solid green;
+}
+.project-news .milestone.complete .glyphicon {
+	background-color: green;
+}
+.project-news .milestone.complete .badge {
+	background-color: green;
+}
+.project-news .milestone.to-do {
+	border-right: 10px solid orange;
+	border-top: 1px solid orange;
+}
+.project-news .milestone.to-do .glyphicon {
+	background-color: orange;
+}
+.project-news .milestone.to-do .badge {
+	background-color: orange;
+}
+.project-news .milestone.in-progress {
+	border-right: 10px solid #3F3;
+	border-top: 1px solid #3F3;
+}
+.project-news .milestone.in-progress .glyphicon {
+	background-color: #3F3;
+}
+.project-news .milestone.in-progress .badge {
+	background-color: #3F3; color: black;
+}
+.project-news .milestone.proposed {
+	border-right: 10px solid red;
+	border-top: 1px solid red;
+}
+.project-news .milestone.proposed .glyphicon {
+	background-color: red;
+}
+.project-news .milestone.proposed .badge {
+	background-color: red;
+}
+
+
+.files-page .connection-name {
+	text-align: center;
+	font-weight: bold;
+	font-size: 12pt;
+	padding: .25em;
+	border: 1px solid rgba(0, 0, 0, .25);
+}
+.files-page {
+	position: relative;
+}
+.files-page .file-listing-table {
+	margin-top: 32px;
+}
+.files-page .select-file-checkbox {
+	margin-right: 0.5em;
+}
+.files-page .is-not-in-sync {
+	color: red;
+	font-weight: bold;
+	cursor: pointer;
+}
+.files-page .is-not-in-sync .non-clickable {
+	color: #bb2e00;
+	text-decoration: none;
+	font-weight: normal;
+}
+.files-page .is-not-in-sync {
+	
+}
+.files-page .is-not-in-sync:hover .non-clickable:hover {
+	color: #bb2e00;
+	text-decoration: none;
+	cursor: default;
+}
+.files-page .files-nav-bar {
+	z-index: 1;
+	position: fixed;
+	background: #EEE;
+	color: black;
+	left: 50px;
+	right: 0;
+	top: 51px;
+	height: 34px;
+	padding: 3px 25px;
+	-webkit-transition: all 0.3s ease;
+}
+.hide-titlebar .files-page .files-nav-bar {
+	top: 26px;
+}
+.context-is-visible .files-page .files-nav-bar {
+	left: 350px;
+}
+.settings-is-visible .files-page .files-nav-bar {
+	right: 350px;
+}
+.files-page .files-nav-bar button {
+	padding: 3px 6px;
+	margin: 2px 2.5px;
+}
+.files-page .files-nav-bar .col-xs-12 {
+	padding-left: 0;
+	padding-right: 0;
+}
+.footer-bar .footer-label {
+	font-family: NeoTech;
+	color: #333;
+	font-size: 12pt;
+	padding: 2px 5px;
+}
+.path-link button.btn-default {
+	background-color: #EEE;
+}
+.path-link button.btn-default:hover {
+	background-color: #DDD;
+	color: black;
+}
+.file-listing-table input[type='checkbox'] {
+	font-size: 40pt;
+	margin-right: 5px;
+}
+.file-listing-table .row-is-in-sync input[type='checkbox'] {
+	visibility: hidden;
+}
+.file-listing-table .row-is-in-sync {
+	font-style: italic;
+	opacity: .75;
+}
+.hide-matching-files .file-listing-table .row-is-in-sync {
+	display: none;
+}
+.context-is-visible .diff-view {
+	left: 336px;
+	background: #ddd;
+}
+.settings-is-visible .diff-view {
+	right: 350px;
+}
+.diff-view {
+	position: absolute;
+	-webkit-transition: all 0.3s ease;
+	left: 36px;
+	right: 0px;
+	top: 51px;
+	bottom: 26px;
+	overflow: scroll;
+	background: #DDD;
+	margin-left: 14px;
+    padding-left: 0;
+}
+.hide-titlebar .diff-view {
+	top: 26px;
+}
+.diff-view td {
+	min-width: 33px;
+}
+.diff-view .merge-column {
+	background: #EEE;
+}
+.diff-view .diff-compare {
+	background: white;
+}
+.diff-view .diff-compare h2 {
+	margin-left: 1em;
+	margin-right: 1em;
+}
+.diff-view .diff-compare .diff-button {
+	display: none;
+	opacity: .5;
+	padding: 1px 7px;
+}
+.diff-view .diff-compare .added .push-left-to-right-button {
+	display: inline-block;
+}
+.diff-view .diff-compare .removed .push-left-to-right-button {
+	display: none;
+}
+.diff-view .diff-compare .added .push-right-to-left-button {
+	display: none !important;
+}
+.diff-view .diff-compare .in-sync .push-right-to-left-button, .diff-view .diff-compare .in-sync .push-left-to-right-button {
+	display: none !important;
+} 
+.diff-view .diff-compare .removed .push-right-to-left-button {
+	display: inline-block;
+	float: right;
+}
+.diff-view .diff-compare tr .push-left-to-right-button {
+	display: inherit;
+}
+.diff-view .diff-compare tr .undo-left-to-right-button {
+	display: none;
+}
+.diff-view .diff-compare tr .push-right-to-left-button {
+	display: inherit;
+}
+.diff-view .diff-compare tr .undo-right-to-left-button {
+	display: none;
+}
+.diff-view .diff-compare tr.merge-left .push-left-to-right-button {
+	display: none;
+}
+.diff-view .diff-compare tr.merge-left .undo-left-to-right-button {
+	display: inherit;
+}
+.diff-view .diff-compare tr.merge-right .push-right-to-left-button {
+	display: none;
+}
+.diff-view .diff-compare tr.merge-right .undo-right-to-left-button {
+	display: inherit;
+	float: right;
+}
+.diff-view .diff-compare tr .value-column pre {
+	display: none;
+}
+.diff-view .diff-compare tr.in-sync .value-column pre, .diff-view .diff-compare tr.merge-left .value-column pre, .diff-view .diff-compare tr.merge-right .value-column pre {
+	display: inherit;
+	text-decoration: none;
+	color: black;
+}
+.diff-view h3 {
+	font-weight: 200;
+	font-size: 16pt;
+	background: #DDD;
+	color: #999;
+	margin: 0;
+	padding: .5em;
+}
+.diff-view th {
+	text-align: center;
+	color: black;
+}
+.diff-view pre {
+	white-space: pre-wrap;
+	background-color: transparent;
+	border-width: 0;
+	padding: 0 1em;
+	margin: 0;
+	display: inline;
+}
+.diff-view .line-number {
+	color: #555;
+	opacity: .75;
+	text-align: center;
+}
+.diff-view .line-number.prime-file.removed .line-counter,  .diff-view .line-number.compare-file.added .line-counter {
+	visibility: hidden;
+}
+.diff-view .added {
+	background: #CFC !important;
+	opacity: 1 !important;
+}
+.diff-view .added h3 {
+	background: #CFC !important;
+	color: green !important;
+	text-align: center;
+}
+.diff-view .added pre {
+	color: green;
+}
+.diff-view .removed {
+	background: #FCC !important;
+	opacity: 1 !important;
+}
+.diff-view .removed h3 {
+	background: #FCC !important;
+	color: red !important;
+	text-align: center;
+}
+.diff-view .removed pre {
+	color: red;
+	text-decoration: line-through;
+}
+.diff-view table.mini-map {
+	width: 80px;
+}
+.diff-view table.mini-map tr {
+	height: 3px;
+}
+.diff-view .mini-map {
+	position: fixed;
+	right: 0;
+	top: 76px;
+	-webkit-transition: right 0.3s ease;
+}
+.settings-is-visible .diff-view .mini-map {
+	right: 350px;
+}
+.diff-view .mini-map-scroll-indicator {
+	position: fixed;
+	right: 0;
+	width: 80px;
+	top: 76px;
+	min-height: 100px;
+	background: rgba(0, 0, 0, .25);
+	-webkit-transition: right 0.3s ease;
+}
+.settings-is-visible .diff-view .mini-map-scroll-indicator {
+	right: 350px;
+}
+.diff-view .change-count {
+	margin-right: 1em;
+    font-size: 12pt;
+    padding-top: 6px;
+}
+.diff-compare {
+	margin-top: 50px;
+	margin-right: 80px;
+}
+.diff-compare h2 {
+	font-weight: 400;
+}
+.diff-compare td {
+	padding: 0 .25em;
+}
+.diff-tool-bar {
+	position: fixed;
+	-webkit-transition: all 0.3s ease;
+    left: 50px;
+    right: 0;
+    z-index: 2;
+    top: 25px;
+}
+.context-is-visible .diff-tool-bar {
+	left: 350px;
+}
+.settings-is-visible .diff-tool-bar {
+	right: 350px;
+}
+.disconnect-icon {
+	padding: 4px;
+	border-radius: 5px;
+	border-width: 1px;
+}
+.disconnect-icon:hover {
+	color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    cursor: pointer;
+}
+.saved-project {
+	position: relative;
+	font-size: 14pt;
+	font-weight: 200;
+	padding: .5em;
+	margin: .25em 0;
+	border-top: 1px solid #888;
+	border-right: 10px solid #888;
+	border-left: 50px solid #888;
+}
+.saved-project:hover {
+	cursor: pointer;
+	background: #555;
+	color: white;
+}
+.saved-project:hover button {
+	display: inherit;
+}
+.saved-project button {
+	position: absolute;
+	display: none;
+	left: -40px;
+	top: 8px;
+	z-index: 1;
+	padding: 3px 3px 3px 7px;
+}
+.saved-project span {
+	margin-right: .25em;
+}
+.saved-project.is-active {
+	opacity: .5;
+}
+.saved-project.is-active:hover {
+	cursor: default;
+}
+.saved-project .glyphicon-briefcase {
+	position: absolute;
+	top: 13px;
+	left: -35px;
+	color: white;
+}
+.add-new-connection-form .database-inputs, .connections-page .data-source-panel {
+	display: none;
+}
+.mini-map-rail {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	width: 80px;
+	background: #DDD;
+}
+.main-header {
+	background: white;
+}
+.connection-details button, .add-connection-page button {
+	font-size: 14pt;
+}
+.edit-connection-details-form, .edit-connection-details-form .input-group-addon, .edit-connection-details-form h3, .add-connection-page, .add-connection-page .input-group-addon, .add-connection-page h3 {
+	font-size: 16pt;
+}
+.modal-overlay .merge-option {
+	border: 1px solid #999;
+	width: 100%;
+}
+.modal-overlay .merge-option td {
+	padding: .5em;
+	font-size: 14pt;
+	font-weight: 300;
+}
+.uml-diagram {
+	background: white;
+}
+.uml-diagram h1 {
+	color: black;
+}
+.uuid-generator {
+	background: #444;
+}
+.uml-diagram, .uuid-generator {
+	z-index: 1;
+	-webkit-transition: all 0.3s ease;
+	position: absolute;
+	top: 2500px;
+	left: 50px;
+	right: 0;
+	bottom: 26px;
+	overflow: scroll;
+	padding: 0 20px;
+}
+.uml-diagram.is-visible, .uuid-generator.is-visible {
+	top: 26px;
+}
+.uuid-generator .uuid {
+	font-size: 12pt;
+	padding: .5em;
+}
+.quick-start-option {
+	-webkit-transition: all 0.3s ease;
+	position: relative;
+	font-size: 14pt;
+	font-weight: 300;
+	padding: .5em .5em .5em 3em;
+	border-top: 1px solid #999;
+	border-right: 10px solid #999;
+	margin-bottom: 5px;
+	cursor: pointer;
+}
+.quick-start-option:hover {
+	background: #555;
+	color: white;
+}
+.quick-start-option .glyphicon {
+	-webkit-transition: all 0.3s ease;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 45px;
+	height: 45px;
+	background: #999;
+	color: white;
+	padding-left: 12px;
+	padding-top: 12px;
+
+}
+.merge-all-button {
+	opacity: .5;
+}

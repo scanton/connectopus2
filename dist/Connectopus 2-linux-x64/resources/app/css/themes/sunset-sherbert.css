@@ -1,0 +1,298 @@
+
+body.sunset-sherbert {
+	color: #CCC;
+	background: #333;	
+}
+.sunset-sherbert a {
+	color: #DDD;
+}
+.sunset-sherbert a:hover {
+	color: white;
+}
+.sunset-sherbert a:focus {
+	color: #FF7373;
+}
+.sunset-sherbert input {
+	border: none;
+	border-radius: 5px;
+}
+.sunset-sherbert .footer-bar.side-bar {
+	background: linear-gradient(to bottom, #DDD 0%, #CCC 50%, #BBB 100%);
+}
+.sunset-sherbert .footer-bar .footer-label {
+	color: #111;
+}
+.sunset-sherbert .input-group .input-group-addon {
+	border: none;
+}
+.sunset-sherbert .modal-overlay .dialog-frame {
+	background: #444;
+	color: white;
+}
+.sunset-sherbert .btn-default {
+	outline: none;
+	border: 0 solid #777;
+	background: #666;
+	color: #CCC;
+}
+.sunset-sherbert .btn-success {
+	outline: none;
+	border: 0 solid #777;
+	background: #FF7373;
+	color: white;
+}
+.sunset-sherbert .btn-warning {
+	outline: none;
+	border: 0 solid #777;
+	background: orange;
+	color: white;
+}
+.sunset-sherbert .main-view {
+	background: #444;
+}
+.sunset-sherbert .side-bar {
+	background: #444;
+}
+.sunset-sherbert .settings-side-bar {
+	background: #333;
+}
+.sunset-sherbert .context-side-bar {
+	background: #333;
+}
+.sunset-sherbert .tool-bar ul li:hover, .sunset-sherbert li:hover .sgv-glyphicon {
+	background: #222;
+	color: white;
+	fill: white;
+}
+.sunset-sherbert .tool-bar ul li.selected {
+	background: #333;
+	color: white;
+}
+.sunset-sherbert .glyphicon-folder-close, .sunset-sherbert .glyphicon-folder-open {
+	color: #FF7373;
+}
+.sunset-sherbert .current-connections .connection .quick-connection-link, .sunset-sherbert .current-connections .connection .quick-disconnection-link {
+	background: #FF7373;
+	color: white;
+}
+.sunset-sherbert .connection-details, .sunset-sherbert .add-connection-page {
+	background: #444;
+}
+.sunset-sherbert .input-group .input-group-addon {
+	background: #666;
+	color: #CCC;
+}
+.sunset-sherbert .input-group input {
+	color: white;
+	background: black;
+}
+.sunset-sherbert .input-group input:read-only {
+	color: #ddd;
+	background: #333;
+}
+/*
+.sunset-sherbert .input-group .dropdown, .sunset-sherbert .input-group .dropdown button, .sunset-sherbert .input-group button {
+	color: white;
+	background: #777;
+}
+*/
+.sunset-sherbert .input-group.is-not-selected .dropdown, .sunset-sherbert .input-group.is-not-selected .dropdown button {
+	background: #FF7373;
+	color: white;
+}
+.sunset-sherbert .foot-toolbar button {
+	border: 0 solid #777;
+	color: #BBB;
+	background: black;
+}
+.sunset-sherbert .foot-toolbar button .inverse-small {
+    color: #333;
+}
+.sunset-sherbert .foot-toolbar button.btn-default:hover, .sunset-sherbert .foot-toolbar button.btn-default:focus {
+	background: #AAA !important;
+	color: #333;
+}
+.sunset-sherbert .foot-toolbar button.btn-danger:hover, .sunset-sherbert .foot-toolbar button.btn-danger:focus {
+	background: #F00 !important;
+	color: white;
+}
+.sunset-sherbert .connection.is-prime {
+	color: white;
+}
+.sunset-sherbert .connection.is-prime .glyphicon-star {
+	background: #666;
+	color: black;
+}
+.connection.is-prime.connected .glyphicon-star {
+	background: #0F0;
+}
+.connection.is-prime.pending .glyphicon-star {
+	background: yellow;
+}
+.connection.is-prime.error .glyphicon-star {
+	background: red;
+}
+.sunset-sherbert .connection.selected, .sunset-sherbert .folder.selected {
+	background: black !important;
+}
+.sunset-sherbert .connection.is-drag-over, .sunset-sherbert .folder.is-drag-over {
+	background: #222;
+	border-bottom: 3px solid #FF7373;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.sunset-sherbert .panel-default {
+	background: #444;
+	border-color: #222;
+}
+.sunset-sherbert .panel-default .panel-heading {
+	background: #666;
+	color: #CCC;
+	border-color: #222;
+}
+.sunset-sherbert .title-input-field {
+	width: 100%;
+	border-color: white;
+	background: #545454;
+}
+.sunset-sherbert nav {
+	background: #222;
+}
+.sunset-sherbert input {
+	color: white;
+	background: black;
+}
+.sunset-sherbert .foot-toolbar {
+	background: black;
+}
+.sunset-sherbert .tool-bar ul li:hover {
+	color: white;
+}
+.sunset-sherbert .current-connections .connection:hover {
+	background: black;
+	color: white;
+}
+.sunset-sherbert .input-group input {
+	border: none;
+}
+.sunset-sherbert .current-directories .directory:hover {
+	background-color: black;
+	color: white;
+	border-radius: 5px;
+}
+.sunset-sherbert .project-tabs ul li.tab {
+	border-bottom-width: 0;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	background: #444;
+}
+.sunset-sherbert .project-tabs ul li.tab.selected {
+	color: white;
+	background-color: #666;
+}
+.sunset-sherbert .project-tabs ul li.tab input {
+	background: #555;
+}
+.sunset-sherbert .welcome-page .info-panel {
+	background: #444;
+	border-color: #222;
+}
+.sunset-sherbert .project-news a {
+	color: white;
+}
+.sunset-sherbert .files-page {
+	background: #444;
+}
+.sunset-sherbert .files-page .files-nav-bar {
+	background: #333;
+	color: white;
+}
+.sunset-sherbert .path-link button.btn-default {
+	background-color: #333;
+}
+.sunset-sherbert .path-link button.btn-default:hover {
+	background-color: #555;
+	color: white;
+}
+.sunset-sherbert .diff-view {
+	background: #444;
+}
+.sunset-sherbert .diff-view .totals .merge-column {
+	background: #EEE;
+}
+.sunset-sherbert .diff-view h3 {
+	background: #444;
+	color: #CCC;
+}
+.sunset-sherbert .saved-project {
+	border-color: #999;
+	background-color: #3c3c3c;
+	-webkit-transition: all 0.3s ease;
+}
+.sunset-sherbert .saved-project:hover {
+	color: #CCC;
+	background-color: black;
+	border-color: white;
+}
+.sunset-sherbert .saved-project:hover .glyphicon {
+	color: black;
+}
+.sunset-sherbert .saved-project.is-active:hover {
+	border-color: #333;
+	background-color: #222;
+	color: #CCC;
+}
+.sunset-sherbert .project-news .milestone .glyphicon, .sunset-sherbert .saved-project .glyphicon {
+	color: #444;
+}
+.sunset-sherbert .welcome-info {
+	background: #444;
+}
+.sunset-sherbert .mini-map-rail {
+	background: #333;
+}
+.sunset-sherbert .main-header {
+	background: linear-gradient(to bottom right, #FF7373, #000044);
+}
+.sunset-sherbert .project-news .milestone:hover {
+	background: black;
+}
+.sunset-sherbert .merge-column {
+	background: #EEE;
+}
+.sunset-sherbert th.merge-column {
+	background: #DDD;
+}
+.sunset-sherbert .merge-column.value-column {
+	background: #F8F8F8;
+}
+.sunset-sherbert .merge-right .merge-column.value-column, .sunset-sherbert .merge-left .merge-column.value-column {
+	background: #F8F8F8 !important;
+}
+.sunset-sherbert .merge-right .merge-column, .sunset-sherbert .merge-left .merge-column {
+	background: #EEE !important;
+}
+.sunset-sherbert .saved-project:hover .glyphicon-remove {
+	color: white;
+}
+.sunset-sherbert .btn-success:active {
+	background: #ca5e5e;
+}
+.sunset-sherbert .sgv-glyphicon {
+	fill: #CCC;
+}
+.sunset-sherbert .settings-side-bar .btn-success {
+	background: green;
+}
+.sunset-sherbert .quick-start-option .glyphicon {
+	color: #444;
+}
+.sunset-sherbert .quick-start-option:hover {
+	background: black;
+	color: white;
+	border-color: white;
+}
+.sunset-sherbert .quick-start-option:hover .glyphicon {
+	background: white;
+	color: black;
+}
