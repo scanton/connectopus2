@@ -156,7 +156,7 @@ module.exports = class ConfigModel extends AbstractModel {
 		}
 	}
 	getConnectionLike(query) {
-		if(this._config && query &&) {
+		if(this._config && query) {
 			if(this._config.servers) {
 				var l = this._config.servers.length;
 				var isMatch;
