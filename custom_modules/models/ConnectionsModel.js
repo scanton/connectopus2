@@ -12,7 +12,7 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		if(con && con.id && !this.hasConnection(con.id)) {
 			var conId = con.id;
 			con = this._strip(con);
-			con.status = 'pending';
+			//con.status = 'pending';
 			if(this._connections[this.currentProject].length == 0) {
 				con.isPrime = true;
 			} else {
