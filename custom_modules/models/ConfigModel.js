@@ -82,7 +82,8 @@ module.exports = class ConfigModel extends AbstractModel {
 		this.saveConfig();
 	}
 	loadConfig() {
-		this.fs.readJson('./working_files/config.json', function(err, data) {
+		var path = __dirname.split("custom_modules/models")[0] + "working_files/config.json";
+		this.fs.readJson(path, function(err, data) {
 			if(err) {
 				console.log("config.json file not found");
 				this._config = {};
@@ -207,7 +208,8 @@ module.exports = class ConfigModel extends AbstractModel {
 		}
 	}
 	saveConfig() {
-		this.fs.outputJsonSync('./working_files/config.json', this._strip(this._config), { spaces: '\t' });
+		var path = __dirname.split("custom_modules/models")[0] + "working_files/config.json";
+		this.fs.outputJsonSync(path, this._strip(this._config), { spaces: '\t' });
 		this.dispatchEvent("data", this._strip(this._config));
 	}
 	updateConnection(id, connection) {

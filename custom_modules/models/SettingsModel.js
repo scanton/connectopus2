@@ -5,7 +5,8 @@ module.exports = class SettingsModel extends AbstractModel {
 		this.loadSettings();
 	}
 	loadSettings() {
-		this.fs.readJson('./working_files/settings.json', function(err, data) {
+		var path = __dirname.split("custom_modules/models")[0] + "working_files/settings.json";
+		this.fs.readJson(path, function(err, data) {
 			if(err) {
 				console.log("settings.json file not found");
 				this._settings = { theme: 'Sunset Sherbert', maxRowsRequested: 75000, hideFilesInSync: false, maximizeContrast: false };
@@ -40,7 +41,8 @@ module.exports = class SettingsModel extends AbstractModel {
 	}
 
 	_saveSettings() {
-		this.fs.outputJson('./working_files/settings.json', this._strip(this._settings), { spaces: '\t' }, function(err) {
+		var path = __dirname.split("custom_modules/models")[0] + "working_files/settings.json";
+		this.fs.outputJson(path, this._strip(this._settings), { spaces: '\t' }, function(err) {
 			if(err) {
 				controller.handleError(err);
 			}
