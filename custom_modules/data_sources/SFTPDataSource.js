@@ -123,6 +123,8 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 
 			// /this.sftp.end();
 			var dir = __dirname.split("custom_modules/data_sources")[0]
+			this.fs.ensureFileSync(dir + 'working_files/out.txt');
+			this.fs.ensureFileSync(dir + 'working_files/err.txt');
 			sshData.stdout = this.fs.createWriteStream(dir + 'working_files/out.txt');
 			sshData.stderr = this.fs.createWriteStream(dir + 'working_files/err.txt');
 			
