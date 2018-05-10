@@ -127,9 +127,6 @@ app.on('ready', () => {
 	        click () { mainWindow.webContents.send("controller-method", {method: 'toggleUuidGenerator'}) }
 	      },
 	      {
-	      	type: 'separator'
-	      },
-	      {
 	      	label: 'UML Diagram',
 	      	click () { mainWindow.webContents.send("controller-method", {method: 'toggleUmlDiagram'}) }
 	      },
