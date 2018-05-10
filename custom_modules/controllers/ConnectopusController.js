@@ -446,7 +446,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 								var l1 = conf.folders.length;
 								while(l1--) {
 									folder = conf.folders[l1];
-									if(folder.servers && folders.servers.length) {
+									if(folder.servers && folder.servers.length) {
 										var l2 = folder.servers.length;
 										while(l2--) {
 											server = conf.servers[l];
