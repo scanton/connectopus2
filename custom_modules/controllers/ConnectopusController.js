@@ -429,7 +429,36 @@ module.exports = class ConnectopusController extends EventEmitter {
 						}]
 					}, (result) => {
 					if(result && result[0]) {
-						this._fs.copySync(result[0], __dirname.split("custom_modules/controllers")[0] + "working_files/config.json");
+						var serverCount = 0;
+						var server, folder;
+						var conf = this._fs.readJsonSync(result[0]);
+						if(conf) {
+							if(conf.servers) {
+								var l = conf.servers.length;
+								while(l--) {
+									server = conf.servers[l];
+									if(!server.connectionType) {
+										server.connectionType = "Remote (SFTP)";
+									}
+								}
+							}
+							if(conf.folders) {
+								var l1 = conf.folders.length;
+								while(l1--) {
+									folder = conf.folders[l1];
+									if(folder.servers && folders.servers.length) {
+										var l2 = folder.servers.length;
+										while(l2--) {
+											server = conf.servers[l];
+											if(!server.connectionType) {
+												server.connectionType = "Remote (SFTP)";
+											}
+										}
+									}
+								}
+							}
+						}
+						this.writeJsonSync(__dirname.split("custom_modules/controllers")[0] + "working_files/config.json", conf);
 						this.configModel.loadConfig();
 						this.showConnectionsPage();
 					}
