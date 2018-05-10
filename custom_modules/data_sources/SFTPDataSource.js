@@ -121,10 +121,7 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 				path: path
 			};
 
-			// /this.sftp.end();
-			var dir = __dirname.split("custom_modules/data_sources")[0]
-			this.fs.ensureFileSync(dir + 'working_files/out.txt');
-			this.fs.ensureFileSync(dir + 'working_files/err.txt');
+			var dir = __dirname.split("custom_modules/data_sources")[0];
 			sshData.stdout = this.fs.createWriteStream(dir + 'working_files/out.txt');
 			sshData.stderr = this.fs.createWriteStream(dir + 'working_files/err.txt');
 			
@@ -152,7 +149,7 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 						}
 					} else {
 						setTimeout(function() {
-							this.fs.readFile('./working_files/out.txt', 'utf8', (err, data) => {
+							this.fs.readFile(dir + '/working_files/out.txt', 'utf8', (err, data) => {
 								if(err) {
 									if(errorHandler) {
 										errorHandler(err);
@@ -224,9 +221,10 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 		if(path) {
 			fullPath = root + '/' + path;
 		}
-		this.fs.outputFileSync('./working_files/temp.txt', documentText);
+		var dir = __dirname.split("custom_modules/data_sources")[0];
+		this.fs.outputFileSync(dir + '/working_files/temp.txt', documentText);
 		this.sftp.connect(sshData).then(() => {
-			this.sftp.put('./working_files/temp.txt', fullPath).then(() => {
+			this.sftp.put(dir + '/working_files/temp.txt', fullPath).then(() => {
 				if(callback) {
 					callback();
 				}
