@@ -122,8 +122,9 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 			};
 
 			// /this.sftp.end();
-			sshData.stdout = this.fs.createWriteStream('./working_files/out.txt');
-			sshData.stderr = this.fs.createWriteStream('./working_files/err.txt');
+			var dir = __dirname.split("custom_modules/data_sources")[0]
+			sshData.stdout = this.fs.createWriteStream(dir + 'working_files/out.txt');
+			sshData.stderr = this.fs.createWriteStream(dir + 'working_files/err.txt');
 			
 			var root = con.root ? con.root : '.';
 			var fullPath = root;
