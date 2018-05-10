@@ -161,8 +161,3 @@ $(document).ready(function() {
 const vm = new Vue({
 	el: '#main-app'
 });
-
-$(window).on("unload", (e) => {
-	e.preventDefault();
-	app.quit();
-});
