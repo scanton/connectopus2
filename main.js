@@ -138,6 +138,10 @@ app.on('ready', () => {
 	      	click () {mainWindow.webContents.send("controller-method", {method: 'importConfig'}) }
 	      },
 	      {
+	      	label: "Export Config...",
+	      	click () {mainWindow.webContents.send("controller-method", {method: 'exportConfig'}) }
+	      },
+	      {
 	      	type: 'separator'
 	      },
 	      {

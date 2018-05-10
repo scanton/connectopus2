@@ -417,9 +417,28 @@ module.exports = class ConnectopusController extends EventEmitter {
 			} else if(args.method == "toggleUmlDiagram") {
 				this._call("uml-diagram", "toggleView");
 				this._call("uuid-generator", "hide");
-			} else if(args.method =="toggleUuidGenerator") {
+			} else if(args.method == "toggleUuidGenerator") {
 				this._call("uuid-generator", "toggleView");
 				this._call("uml-diagram", "hide");
+			} else if(args.method == "exportConfig") {
+				dialog.showSaveDialog({
+					title: "Save config file",
+					buttonLabel: "Save Config",
+					defaultPath: "~/config.json"
+				}, (result) => {
+					if(result) {
+						this._fs.copySync(__dirname.split("custom_modules/controllers")[0] + "working_files/config.json", result);
+						this._call("modal-overlay", "show", {
+							title: "Config file saved",
+							message: "Your config file has been saved to " + result,
+							buttons: [
+								{label: "OK", class: "btn-success", icon: "", callback: () => {
+									this.hideModal();
+								}}
+							]
+						});
+					}
+				});
 			} else if(args.method == "importConfig") {
 				dialog.showOpenDialog({
 						title: "Select config file", 
