@@ -459,6 +459,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 											if(!server.root) {
 												server.root = "www";
 											}
+											conf.folders[l1].servers[l2] = server;
 										}
 									}
 								}
