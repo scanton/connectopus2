@@ -458,7 +458,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 								}
 							}
 						}
-						this.writeJsonSync(__dirname.split("custom_modules/controllers")[0] + "working_files/config.json", conf);
+						this._fs.writeJsonSync(__dirname.split("custom_modules/controllers")[0] + "working_files/config.json", conf);
 						this.configModel.loadConfig();
 						this.showConnectionsPage();
 					}
