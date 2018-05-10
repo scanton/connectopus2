@@ -28,13 +28,6 @@ app.on('ready', () => {
 	      	type: 'separator'
 	      },
 	      {
-	      	label: "Import Config...",
-	      	click () {mainWindow.webContents.send("controller-method", {method: 'importConfig'}) }
-	      },
-	      {
-	      	type: 'separator'
-	      },
-	      {
 	      	label: "New Project",
 	      	click () {mainWindow.webContents.send("controller-method", {method: 'newProject'}) }
 	      },
@@ -139,6 +132,13 @@ app.on('ready', () => {
 	      {
 	      	label: 'UML Diagram',
 	      	click () { mainWindow.webContents.send("controller-method", {method: 'toggleUmlDiagram'}) }
+	      },
+	      {
+	      	type: 'separator'
+	      },
+	      {
+	      	label: "Import Config...",
+	      	click () {mainWindow.webContents.send("controller-method", {method: 'importConfig'}) }
 	      },
 	      {
 	      	type: 'separator'

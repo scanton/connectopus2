@@ -156,8 +156,13 @@ $(document).ready(function() {
 		controller.setLeftFooterLabel("");
 	});
 	$(window).resize();
-})
+});
 
 const vm = new Vue({
 	el: '#main-app'
+});
+
+$(window).on("unload", (e) => {
+	e.preventDefault();
+	app.quit();
 });
