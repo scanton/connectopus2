@@ -440,6 +440,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 									if(!server.connectionType) {
 										server.connectionType = "Remote (SFTP)";
 									}
+									if(!server.root) {
+										server.root = "www";
+									}
 								}
 							}
 							if(conf.folders) {
@@ -452,6 +455,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 											server = conf.servers[l2];
 											if(!server.connectionType) {
 												server.connectionType = "Remote (SFTP)";
+											}
+											if(!server.root) {
+												server.root = "www";
 											}
 										}
 									}
