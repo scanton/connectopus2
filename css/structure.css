@@ -938,7 +938,6 @@ ul.directories li, ul.tables li {
 }
 .diff-view .removed pre {
 	color: red;
-	text-decoration: line-through;
 }
 .diff-view table.mini-map {
 	width: 80px;
