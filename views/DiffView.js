@@ -54,8 +54,8 @@
 							</td>
 							<td v-show="mergeEnabled" class="merge-column"></td>
 							<td v-show="mergeEnabled" class="merge-column">
-								<button v-on:click="pushAllRightToLeft" class="btn btn-default merge-all-button"><< All</button>
-								<button v-on:click="removeAllRightMerge" class="btn btn-default merge-all-button" style="display: none;">All >></button>
+								<button v-on:click="pushAllRightToLeft" class="btn btn-default merge-all-button merge-all-right"><< All</button>
+								<button v-on:click="removeAllRightMerge" class="btn btn-default merge-all-button merge-all-right" style="display: none;">All >></button>
 							</td>
 							<td class="removed line-number"></td>
 							<td class="removed">
@@ -66,7 +66,7 @@
 							<td class="line-number prime-file" v-bind:style="getStyle(0, primeColor)" v-bind:class="{'added': item.added, 'removed': item.removed}">
 								<span class="line-counter">{{item.primeLineCount}}</span>
 							</td>
-							<td v-bind:style="getStyle(0, primeColor)" v-bind:class="{'added': item.added, 'removed': item.removed}">
+							<td class="prime-file" v-bind:style="getStyle(0, primeColor)" v-bind:class="{'added': item.added, 'removed': item.removed}">
 								<span v-show="!item.removed">
 									<pre>{{item.value}}</pre>
 								</span>
@@ -91,7 +91,7 @@
 							<td class="line-number compare-file" v-bind:style="getStyle(compareIndex, compareColor)" v-bind:class="{'added': item.added, 'removed': item.removed}">
 								<span class="line-counter">{{item.compareLineCount}}</span>
 							</td>
-							<td v-bind:style="getStyle(compareIndex, compareColor)" v-bind:class="{'added': item.added, 'removed': item.removed}">
+							<td class="compare-file" v-bind:style="getStyle(compareIndex, compareColor)" v-bind:class="{'added': item.added, 'removed': item.removed}">
 								<span v-show="!item.added">
 									<pre>{{item.value}}</pre>
 								</span>
@@ -265,7 +265,10 @@
 								++primeLineCount;
 								++compareLineCount;
 							}
-							a.push({count: 1, value: a2[i2], added: d.added, removed: d.removed, primeLineCount: primeLineCount, compareLineCount: compareLineCount});
+							var val = a2[i2].trim();
+							if(val && val != "") {
+								a.push({count: 1, value: val, added: d.added, removed: d.removed, primeLineCount: primeLineCount, compareLineCount: compareLineCount});
+							}
 						}
 					}
 				}

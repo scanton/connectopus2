@@ -591,7 +591,6 @@ ul.directories li, ul.tables li {
 }
 .project-tabs ul li.tab input {
 	padding: 0;
-
 }
 .project-tabs ul li.tab.add-tab {
 	padding: 2px 10px 0px;
@@ -917,7 +916,7 @@ ul.directories li, ul.tables li {
 }
 .diff-view .added {
 	background: #CFC !important;
-	opacity: 1 !important;
+	opacity: 1;
 }
 .diff-view .added h3 {
 	background: #CFC !important;
@@ -929,7 +928,7 @@ ul.directories li, ul.tables li {
 }
 .diff-view .removed {
 	background: #FCC !important;
-	opacity: 1 !important;
+	opacity: 1;
 }
 .diff-view .removed h3 {
 	background: #FCC !important;
@@ -1132,5 +1131,8 @@ ul.directories li, ul.tables li {
 
 }
 .merge-all-button {
+	opacity: .5;
+}
+.diff-view .prime-file.removed, .diff-view .compare-file.added {
 	opacity: .5;
 }
