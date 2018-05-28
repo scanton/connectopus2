@@ -42,7 +42,7 @@
 							</div>
 							<div class="input-group" v-show="connectionType == 'Remote (SFTP)'">
 								<span class="input-group-addon">Root Directory</span>
-								<input type="text" name="ssh-root-directory" value="" placeholder="www" />
+								<input type="text" name="ssh-root-directory" value="" placeholder="(e.g. www)" />
 							</div>
 							<div class="input-group" v-show="connectionType == 'Git Clone (remote)' || connectionType == 'Remote (SFTP)'">
 								<span class="input-group-addon">Username</span>
