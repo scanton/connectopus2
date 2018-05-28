@@ -698,6 +698,7 @@ ul.directories li, ul.tables li {
 .project-news .milestone.proposed {
 	border-right: 10px solid red;
 	border-top: 1px solid red;
+	display: none;
 }
 .project-news .milestone.proposed .glyphicon {
 	background-color: red;
