@@ -91,6 +91,7 @@ h3 {
 	top: 20%;
 	left: 25%;
 	right: 25%;
+	box-shadow: 4px 4px 4px rgba(0, 0, 0, .5);
 }
 .modal-overlay button {
 	margin-left: .5em;
@@ -324,7 +325,7 @@ input {
 	text-align: center;
 }
 .input-group .input-group-addon {
-	min-width: 160px;
+	min-width: 190px;
 }
 .input-group {
 	margin-bottom: .5em;
@@ -1050,9 +1051,6 @@ ul.directories li, ul.tables li {
 	left: -35px;
 	color: white;
 }
-.add-new-connection-form .database-inputs, .connections-page .data-source-panel {
-	display: none;
-}
 .mini-map-rail {
 	position: absolute;
 	right: 0;
@@ -1193,4 +1191,48 @@ ul.directories li, ul.tables li {
 .on-off-switch .on-off-label {
 	padding-top: 4px;
 	display: inline-block;
+}
+.radio-set .label {
+	color: #999;
+	font-weight: 300;
+	font-size: 16pt;
+}
+ul.radio-options {
+	font-size: 12pt;
+	border: 1px solid #CCC;
+	display: inline-block;
+	list-style: none;
+	padding: .25em;
+	border-radius: 15px;
+	background: linear-gradient(to bottom, rgba(245,245,245,1) 0%, rgba(228,228,228,1) 37%, rgba(221,221,221,1) 100%);
+}
+ul.radio-options li {
+	display: inline-block;
+	padding: .25em 1em;
+	cursor: pointer;
+	border-radius: 12px;
+	border: 1px solid #BBB;
+	margin: 0 .25em;
+	box-shadow: 2px 2px 2px #BBB;
+	-webkit-transition: all 0.3s ease;
+}
+ul.radio-options li:active {
+	box-shadow: inset 1px 1px 1px #999;
+	border: 1px solid #BBB;
+	background: white;
+}
+ul.radio-options li:first-of-type {
+	margin-left: 0;
+	border-top-left-radius: 12px;
+	border-bottom-left-radius: 12px;
+}
+ul.radio-options li:last-of-type {
+	margin-right: 0;
+	border-top-right-radius: 12px;
+	border-bottom-right-radius: 12px;
+}
+ul.radio-options li.selected {
+	box-shadow: inset 1px 1px 1px #999;
+	border: 1px solid #BBB;
+	background: white;
 }

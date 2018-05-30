@@ -6,22 +6,12 @@
 				<div class="col-xs-12">
 					<h3>Add New Connection</h3>
 					<form>
+						<div class="text-center">
+							<radio-set v-on:change-value="handleTypeChange" label="Connection Type" v-bind:selectedOption="connectionType" v-bind:options="['Local Directory', 'Remote (SFTP)']"></radio-set>
+						</div>
 						<div class="input-group">
 							<span class="input-group-addon">Name</span>
 							<input type="text" name="name" />
-						</div>
-						<div class="input-group" v-bind:class="{'is-not-selected': isNotSelected()}">
-							<span class="input-group-addon">Connection Type</span>
-							<div class="dropdown">
-								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-									{{connectionType}}
-									<span class="caret"></span>
-								</button>
-								<ul v-on:click="handleConnectionTypeChange" class="dropdown-menu">
-									<li><a href="#">Local Directory</a></li>
-									<li><a href="#">Remote (SFTP)</a></li>
-								</ul>
-							</div>
 						</div>
 						<div class="input-collection-div" v-show="connectionType != 'select connection type'">
 							<div class="input-group" v-show="connectionType == 'Local Directory' || connectionType == 'Git (local)'">
@@ -52,11 +42,17 @@
 								<span class="input-group-addon">Password</span>
 								<input type="password" name="ssh-password" />
 							</div>
+								<!--
 								<div class="panel panel-default database-inputs">
 									<div class="panel-heading">
 										<h4 class="panel-title">{{databaseType}}</h4>
 									</div>
-									<div class="panel-body">	
+									<div class="panel-body">
+										-->
+										<div class="text-center">
+											<radio-set v-on:change-value="handleDatabaseTypeChange" label="Database Type" v-bind:selectedOption="databaseType" v-bind:options="['None', 'MySQL']"></radio-set>
+										</div>
+										<!--
 										<div class="input-group" v-bind:class="{'is-not-selected': isDatabaseNotSelected()}">
 											<span class="input-group-addon">Data Type</span>
 											<div class="dropdown">
@@ -68,16 +64,15 @@
 													<li><a href="#">MySQL</a></li>
 													<li><a href="#">JSON file</a></li>
 													<li><a href="#">REST Endpoint</a></li>
-													<!--
 													<li><a href="#">PostgreSQL</a></li>
 													<li><a href="#">MongoDB</a></li>
 													<li><a href="#">MS SQL Server</a></li>
 													<li><a href="#">Excel Spreadsheet</a></li>
-													-->
 												</ul>
 											</div>
 										</div>
-										<div class="input-collection-div" v-show="databaseType != 'select database type'">
+										-->
+										<div class="input-collection-div" v-show="databaseType != 'None'">
 											<div class="input-group">
 												<span class="input-group-addon">Name</span>
 												<input name="db-connection-name" />
@@ -126,8 +121,9 @@
 												<input type="file" webkitdirectory name="db-connection-file" />
 											</div>
 										</div>
+									<!--
 									</div>
-								</div>
+								</div>-->
 							<button v-on:click="handleAddNewConnection" class="btn btn-success pull-right panel-button">Add New Connection</button>
 							<div class="clear"></div>
 						</div>
@@ -144,8 +140,8 @@
 		template: s,
 		data: function() {
 			return {
-				connectionType: 'select connection type',
-				databaseType: 'select database type',
+				connectionType: 'Local Directory',
+				databaseType: 'None',
 				verb: 'GET'
 			}
 		},
@@ -154,15 +150,13 @@
 				return this.connectionType == 'select connection type';
 			},
 			isDatabaseNotSelected: function() {
-				return this.databaseType == 'select database type';
+				return this.databaseType == 'None';
 			},
-			handleConnectionTypeChange: function(e) {
-				e.preventDefault();
-				this.connectionType = $(e.target).text();
+			handleTypeChange: function(type) {
+				this.connectionType = type;
 			},
-			handleDatabaseTypeChange: function(e) {
-				e.preventDefault();
-				this.databaseType = $(e.target).text();
+			handleDatabaseTypeChange: function(value) {
+				this.databaseType = value;
 			},
 			handleAddNewConnection: function(e) {
 				e.preventDefault();

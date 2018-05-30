@@ -320,3 +320,24 @@ body.sunset-sherbert {
     box-shadow: 2px 2px 2px rgba(0, 0, 0, .3);
 	background: linear-gradient(to bottom, #AAA 0%, #999 37%, #555 100%);
 }
+
+.sunset-sherbert ul.radio-options {
+	border: 1px solid #888;
+	background: linear-gradient(to bottom, #AAA 0%, #999 37%, #555 100%);
+}
+.sunset-sherbert ul.radio-options li {
+	border: 1px solid #777;
+	box-shadow: 2px 2px 2px rgba(0, 0, 0, .3);
+	color: #EEE;
+}
+.sunset-sherbert ul.radio-options li:active {
+	box-shadow: inset 1px 1px 1px rgba(0, 0, 0, .3);
+	border: 1px solid #777;
+	background: #FF7373;
+}
+.sunset-sherbert ul.radio-options li.selected {
+	box-shadow: inset 1px 1px 1px rgba(0, 0, 0, .3);
+	border: 1px solid #777;
+	background: #FF7373;
+	color: white;
+}

@@ -132,12 +132,12 @@
 			handleShowAllLables: function(e) {
 				e.preventDefault();
 				this.showAllLabels = true;
-				controller.handleShowAllLabels();
+				//controller.handleShowAllLabels();
 			},
 			handleHideAllLabels: function(e) {
 				e.preventDefault();
 				this.showAllLabels = false;
-				controller.handleHideAllLabels();
+				//controller.handleHideAllLabels();
 			},
 			setConnectionStatus: function(data) {
 				this.activeConnections = data;
