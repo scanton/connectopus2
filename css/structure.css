@@ -230,6 +230,9 @@ h3 {
 .work-area.files .footer-bar {
 	/*background: orange;*/
 }
+.work-area.modal-is-visible {
+	filter: blur(2px);
+}
 .current-connections {
 	position: absolute;
 	top: 0;
@@ -1136,4 +1139,58 @@ ul.directories li, ul.tables li {
 }
 .diff-view .prime-file.removed, .diff-view .compare-file.added {
 	opacity: .5;
+}
+.check-box {
+	font-size: 28pt;
+	cursor: pointer;
+	-webkit-transition: all 0.3s ease-out;
+}
+.check-box.is-off {
+	opacity: .5;
+}
+.check-box svg {
+	color: #777;
+}
+.on-off-switch {
+	cursor: pointer;
+	width: 75px;
+	overflow: hidden;
+	border: 1px solid #CCC;
+	box-shadow: inset 2px 2px 2px  rgba(0, 0, 0, .3);
+	border-radius: 20px;
+	padding: .5em;
+	-webkit-transition: all 0.3s ease-out;
+	white-space: nowrap;
+}
+.on-off-switch.is-on {
+	color: #666;
+	background: white;
+}
+.on-off-switch.is-off {
+	color: #666;
+	background: #DDD;
+}
+.on-off-switch .background {
+	-webkit-transition: all 0.3s ease-out;
+}
+.on-off-switch.is-on .background {
+	margin-left: 9px;
+}
+.on-off-switch.is-off .background {
+	margin-left: -28px;
+}
+.on-off-switch .on-off-handle {
+	border: 1px solid #BBB;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .3);
+	background: linear-gradient(to bottom, rgba(245,245,245,1) 0%, rgba(228,228,228,1) 37%, rgba(221,221,221,1) 100%);
+	-webkit-transition: all 0.3s ease;
+	width: 25px;
+	height: 25px;
+	border-radius: 15px;
+	display: inline-block;
+	margin: -10px 2px -5px 2px;
+}
+.on-off-switch .on-off-label {
+	padding-top: 4px;
+	display: inline-block;
 }

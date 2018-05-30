@@ -25,6 +25,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.dragFolderName = null;
 		this.isDraggingConnection = false;
 		this.isDraggingFolder = false;
+		this.isModalVisible = false;
 		this.lastUpdate = null;
 		this.generalStatus = 'nominal';
 		this.colorStyle = { saturation: "50%", luminance: "75%" };
@@ -773,6 +774,10 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	setHideFilesInSync(bool) {
 		this.settingsModel.setHideFilesInSync(bool);
+	}
+	setIsModalVisible(bool) {
+		this.isModalVisible = bool;
+		this._call("work-area", "setIsModalVisible", bool);
 	}
 	setMaximizeContrast(bool) {
 		this.settingsModel.setMaximizeContrast(bool);

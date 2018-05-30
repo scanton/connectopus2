@@ -296,3 +296,27 @@ body.sunset-sherbert {
 	background: white;
 	color: black;
 }
+.sunset-sherbert .check-box svg {
+	color: #CCC;
+	-webkit-transition: all 0.3s ease;
+}
+.sunset-sherbert .check-box.is-on svg {
+	color: #FF7373;
+}
+.sunset-sherbert .on-off-switch {
+	border: 1px solid #666;
+	box-shadow: inset 2px 2px 2px  rgba(0, 0, 0, .3);
+}
+.sunset-sherbert .on-off-switch.is-on {
+	color: white;
+	background: #FF7373;
+}
+.sunset-sherbert .on-off-switch.is-off {
+	color: #CCC;
+	background: #555;
+}
+.sunset-sherbert .on-off-switch .on-off-handle {
+	border: 1px solid #888;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .3);
+	background: linear-gradient(to bottom, #AAA 0%, #999 37%, #555 100%);
+}

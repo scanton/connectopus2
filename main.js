@@ -125,11 +125,11 @@ app.on('ready', () => {
 	      {
 	        label: 'UUID Generator',
 	        click () { mainWindow.webContents.send("controller-method", {method: 'toggleUuidGenerator'}) }
-	      },
+	      }/*,
 	      {
 	      	label: 'UML Diagram',
 	      	click () { mainWindow.webContents.send("controller-method", {method: 'toggleUmlDiagram'}) }
-	      },
+	      }*/,
 	      {
 	      	type: 'separator'
 	      },

@@ -7,7 +7,6 @@
 					<span class="glyphicon glyphicon-home"></span>
 				</li>
 				<li class="show-connections-link" title="Connections" v-on:click="showConnections">
-					<!--<span class="glyphicon glyphicon-globe"></span>-->
 					<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 						 viewBox="0 0 612 612" xml:space="preserve">
 						<ellipse class="sgv-glyphicon" cx="304.9" cy="385" rx="98.9" ry="23.5"/>
@@ -80,11 +79,9 @@
 				<li class="show-files-link" v-show="activeConnections.length" title="Compare" v-on:click="showFiles">
 					<span class="glyphicon glyphicon-duplicate"></span>
 				</li>
-				<!--
 				<li class="show-data-link" v-show="activeConnections.length" title="Data" v-on:click="showData">
-					<span class="glyphicon glyphicon-hdd"></span>
+					<i class="fas fa-database"></i>
 				</li>
-				-->
 			</ul>
 			<div style="text-align: center; cursor: default;" v-on:mouseover="handleShowAllLables" v-on:mouseout="handleHideAllLabels" v-show="activeConnections.length">Status</div>
 			<ul class="active-connections" v-bind:class="{ 'mouse-is-over': showAllLabels }">

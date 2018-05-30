@@ -1,7 +1,7 @@
 (function() {
 	var componentName = 'work-area';
 	var s = `
-		<div v-bind:class="[category, theme, {'hide-matching-files': hideMatchingFiles, 'context-is-visible': isContextVisible, 'settings-is-visible': isSettingsVisible}]" class="work-area">
+		<div v-bind:class="[category, theme, {'modal-is-visible': isModalVisible, 'hide-matching-files': hideMatchingFiles, 'context-is-visible': isContextVisible, 'settings-is-visible': isSettingsVisible}]" class="work-area">
 			<main-view></main-view>
 			<context-side-bar></context-side-bar>
 			<settings-side-bar></settings-side-bar>
@@ -33,12 +33,16 @@
 				isContextVisible: false,
 				isSettingsVisible: false,
 				hideMatchingFiles: false,
+				isModalVisible: false,
 				theme: ''
 			}
 		},
 		methods: {
 			setIsContextVisible: function(bool) {
 				this.isContextVisible = bool;
+			},
+			setIsModalVisible: function(bool) {
+				this.isModalVisible = bool;
 			},
 			setHideMatchingFiles: function(bool) {
 				this.hideMatchingFiles = bool;
