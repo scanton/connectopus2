@@ -4,19 +4,22 @@
 		<div class="add-new-connection-form container-fluid">
 			<div class="row">
 				<div class="col-xs-12">
-					<h3>Add New Connection</h3>
+					<h3>{{name}}</h3>
 					<form>
 						<div class="text-center">
 							<radio-set v-on:change-value="handleTypeChange" label="Connection Type" v-bind:selectedOption="connectionType" v-bind:options="['Local Directory', 'Remote (SFTP)']"></radio-set>
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon">Name</span>
-							<input type="text" name="name" />
+							<input v-on:change="handleNameChange" type="text" name="name" />
 						</div>
 						<div class="input-collection-div" v-show="connectionType != 'select connection type'">
 							<div class="input-group" v-show="connectionType == 'Local Directory' || connectionType == 'Git (local)'">
 								<span class="input-group-addon">Directory Path</span>
+								<directory-selector name="directory-path"></directory-selector>
+								<!--
 								<input type="file" webkitdirectory name="directory-path" />
+								-->
 							</div>
 							<div class="input-group" v-show="connectionType == 'Remote (SFTP)'">
 								<span class="input-group-addon">Host</span>
@@ -142,15 +145,18 @@
 			return {
 				connectionType: 'Local Directory',
 				databaseType: 'None',
-				verb: 'GET'
+				verb: 'GET',
+				name: 'Add New Connection'
 			}
 		},
 		methods: {
-			isNotSelected: function() {
-				return this.connectionType == 'select connection type';
-			},
-			isDatabaseNotSelected: function() {
-				return this.databaseType == 'None';
+			handleNameChange: function(e) {
+				var val = $(e.target).val();
+				if(val && val.length) {
+					this.name = $(e.target).val();
+				} else {
+					this.name = "Add New Connection";
+				}
 			},
 			handleTypeChange: function(type) {
 				this.connectionType = type;
@@ -182,6 +188,12 @@
 			handleRestVerbChange: function(e) {
 				e.preventDefault();
 				this.verb = $(e.target).text();
+			},
+			isNotSelected: function() {
+				return this.connectionType == 'select connection type';
+			},
+			isDatabaseNotSelected: function() {
+				return this.databaseType == 'None';
 			}
 		}
 	});

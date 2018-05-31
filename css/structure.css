@@ -59,8 +59,8 @@ h3 {
 	padding-right: 15px;
 }
 .btn {
-	padding: 5px 8px;
-	border-radius: .3em;
+	padding: 8px 15px;
+	border-radius: 10px;
 }
 .clear {
 	clear: both;
@@ -253,7 +253,7 @@ h3 {
 .current-directories .directory:hover {
 	background-color: #777;
 	color: white;
-	border-radius: 5px;
+	border-radius: 10px;
 }
 .current-connections ul {
 	list-style: none;
@@ -303,7 +303,7 @@ h3 {
 	cursor: pointer;
 }
 .connection-details, .add-connection-page{
-	padding: 2em;
+	padding: 2em 2em 2em .25em;
 }
 .connection.is-prime.connected .glyphicon-star {
 	background: #0F0;
@@ -327,13 +327,16 @@ input {
 .input-group .input-group-addon {
 	min-width: 190px;
 }
+.settings-side-bar .input-group .input-group-addon {
+	min-width: 160px;
+}
 .input-group {
 	margin-bottom: .5em;
 }
 .input-group input {
 	width: 100%;
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
 	padding: 3px;
 	text-align: center;
 }
@@ -346,8 +349,8 @@ input {
 	width: 100%;
 }
 .input-group.is-not-selected .dropdown, .input-group.is-not-selected .dropdown button {
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
 }
 .foot-toolbar {
 	position: absolute;
@@ -466,8 +469,8 @@ input {
     padding: 14px 10px 14px 1.5em;
     height: 46px;
     font-size: 12pt;
-    border-bottom-right-radius: 5px;
-    border-top-right-radius: 5px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
 }
 .active-connection.error {
 	background: red !important;
@@ -582,8 +585,8 @@ ul.directories li, ul.tables li {
 	display: inline-block;
 	padding: 0;
 	transform: translateY(2px);
-	border-top-right-radius: 5px;
-	border-top-left-radius: 5px;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
 	cursor: pointer;
 	border: 0;
 }
@@ -607,7 +610,7 @@ ul.directories li, ul.tables li {
 	visibility: visible;
 	color: white;
 	cursor: pointer;
-	border-radius: 5px;
+	border-radius: 10px;
 }
 .welcome-page .info-panel {
 	/*
@@ -639,6 +642,12 @@ ul.directories li, ul.tables li {
 	min-height: 50px;
 	margin: auto;
 	-webkit-transition: all 0.3s ease;
+}
+.project-news .milestone.complete:first-of-type, .project-news .milestone.in-progress:first-of-type, .project-news .milestone.to-do:first-of-type {
+	border-top-right-radius: 50px;
+}
+.project-news .milestone.complete:last-of-type, .project-news .milestone.in-progress:last-of-type, .project-news .milestone.to-do:last-of-type {
+	border-bottom-right-radius: 50px;
 }
 .project-news .milestone:hover {
 	background: #555;
@@ -710,7 +719,6 @@ ul.directories li, ul.tables li {
 .project-news .milestone.proposed .badge {
 	background-color: red;
 }
-
 
 .files-page .connection-name {
 	text-align: center;
@@ -1001,7 +1009,7 @@ ul.directories li, ul.tables li {
 }
 .disconnect-icon {
 	padding: 4px;
-	border-radius: 5px;
+	border-radius: 10px;
 	border-width: 1px;
 }
 .disconnect-icon:hover {
@@ -1235,4 +1243,41 @@ ul.radio-options li.selected {
 	box-shadow: inset 1px 1px 1px #999;
 	border: 1px solid #BBB;
 	background: white;
+}
+.input-group-addon {
+	border-radius: 10px;	
+}
+
+.info-panel .quick-start-option:first-of-type, .info-panel .saved-project:first-of-type {
+	border-top-right-radius: 50px;
+}
+.info-panel .quick-start-option:last-of-type, .info-panel .saved-project:last-of-type {
+	border-bottom-right-radius: 50px;
+}
+
+.add-new-connection-form h3 {
+	float: left;
+	font-size: 44pt;
+	writing-mode: vertical-lr;
+	padding: .5em;
+	color: #777;
+}
+.directory-selector {
+	cursor: pointer;
+	padding-left: .5em;
+    background: white;
+    box-shadow: inset 2px 2px 2px rgba(0, 0, 0, .5);
+    border: 1px solid #CCC;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 3px;
+}
+.directory-selector .selection-status {
+	padding-left: 8px;
+}
+.directory-selector.has-selected-directory {
+	color: #333;
+}
+.directory-selector.has-selected-directory svg {
+	color: #333;
 }

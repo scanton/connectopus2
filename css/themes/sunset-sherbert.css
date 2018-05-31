@@ -14,7 +14,6 @@ body.sunset-sherbert {
 }
 .sunset-sherbert input {
 	border: none;
-	border-radius: 5px;
 }
 .sunset-sherbert .footer-bar.side-bar {
 	background: linear-gradient(to bottom, #DDD 0%, #CCC 50%, #BBB 100%);
@@ -84,7 +83,9 @@ body.sunset-sherbert {
 }
 .sunset-sherbert .input-group input {
 	color: white;
-	background: black;
+	background: #333;
+	box-shadow: inset 2px 2px 2px  rgba(0, 0, 0, .5);
+	border: 1px solid #222;
 }
 .sunset-sherbert .input-group input:read-only {
 	color: #ddd;
@@ -178,12 +179,9 @@ body.sunset-sherbert {
 .sunset-sherbert .current-directories .directory:hover {
 	background-color: black;
 	color: white;
-	border-radius: 5px;
 }
 .sunset-sherbert .project-tabs ul li.tab {
 	border-bottom-width: 0;
-	border-top-right-radius: 5px;
-	border-top-left-radius: 5px;
 	background: #444;
 }
 .sunset-sherbert .project-tabs ul li.tab.selected {
@@ -304,7 +302,7 @@ body.sunset-sherbert {
 	color: #FF7373;
 }
 .sunset-sherbert .on-off-switch {
-	border: 1px solid #666;
+	border: 1px solid #333;
 	box-shadow: inset 2px 2px 2px  rgba(0, 0, 0, .3);
 }
 .sunset-sherbert .on-off-switch.is-on {
@@ -316,17 +314,17 @@ body.sunset-sherbert {
 	background: #555;
 }
 .sunset-sherbert .on-off-switch .on-off-handle {
-	border: 1px solid #888;
+	border: 1px solid #666;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, .3);
-	background: linear-gradient(to bottom, #AAA 0%, #999 37%, #555 100%);
+	background: linear-gradient(to bottom, #777 0%, #666 37%, #333 100%);
 }
 
 .sunset-sherbert ul.radio-options {
-	border: 1px solid #888;
-	background: linear-gradient(to bottom, #AAA 0%, #999 37%, #555 100%);
+	border: 1px solid #666;
+	background: linear-gradient(to bottom, #777 0%, #666 37%, #333 100%);
 }
 .sunset-sherbert ul.radio-options li {
-	border: 1px solid #777;
+	border: 1px solid #333;
 	box-shadow: 2px 2px 2px rgba(0, 0, 0, .3);
 	color: #EEE;
 }
@@ -339,5 +337,15 @@ body.sunset-sherbert {
 	box-shadow: inset 1px 1px 1px rgba(0, 0, 0, .3);
 	border: 1px solid #777;
 	background: #FF7373;
+	color: white;
+}
+.sunset-sherbert .directory-selector.has-selected-directory svg {
+	color: #FF7373;
+}
+.sunset-sherbert .directory-selector {
+	background: #333;
+	border: 1px solid #222;
+}
+.sunset-sherbert .directory-selector.has-selected-directory {
 	color: white;
 }
