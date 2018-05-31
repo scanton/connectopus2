@@ -3,135 +3,143 @@
 	var s = `
 		<div class="add-new-connection-form container-fluid">
 			<div class="row">
-				<div class="col-xs-12">
-					<h3>{{name}}</h3>
-					<form>
-						<div class="text-center">
-							<radio-set v-on:change-value="handleTypeChange" label="Connection Type" v-bind:selectedOption="connectionType" v-bind:options="['Local Directory', 'Remote (SFTP)']"></radio-set>
-						</div>
-						<div class="input-group">
-							<span class="input-group-addon">Name</span>
-							<input v-on:change="handleNameChange" type="text" name="name" />
-						</div>
-						<div class="input-collection-div" v-show="connectionType != 'select connection type'">
-							<div class="input-group" v-show="connectionType == 'Local Directory' || connectionType == 'Git (local)'">
-								<span class="input-group-addon">Directory Path</span>
-								<directory-selector name="directory-path"></directory-selector>
-								<!--
-								<input type="file" webkitdirectory name="directory-path" />
-								-->
-							</div>
-							<div class="input-group" v-show="connectionType == 'Remote (SFTP)'">
-								<span class="input-group-addon">Host</span>
-								<input type="text" name="ssh-host" />
-							</div>
-							<div class="input-group" v-show="connectionType == 'Git Clone (remote)'">
-								<span class="input-group-addon">URI</span>
-								<input type="text" name="uri" />
-							</div>
-							<div class="input-group" v-show="connectionType == 'Remote (SFTP)'">
-								<span class="input-group-addon">Port</span>
-								<input type="text" name="ssh-port" />
-							</div>
-							<div class="input-group" v-show="connectionType == 'Remote (SFTP)'">
-								<span class="input-group-addon">Root Directory</span>
-								<input type="text" name="ssh-root-directory" value="" placeholder="(e.g. www)" />
-							</div>
-							<div class="input-group" v-show="connectionType == 'Git Clone (remote)' || connectionType == 'Remote (SFTP)'">
-								<span class="input-group-addon">Username</span>
-								<input type="text" name="ssh-username" />
-							</div>
-							<div class="input-group" v-show="connectionType == 'Git Clone (remote)' || connectionType == 'Remote (SFTP)'">
-								<span class="input-group-addon">Password</span>
-								<input type="password" name="ssh-password" />
-							</div>
-								<!--
-								<div class="panel panel-default database-inputs">
-									<div class="panel-heading">
-										<h4 class="panel-title">{{databaseType}}</h4>
+				<table>
+					<tr>
+						<td valign="top" align="center">
+							<h3>{{name}}</h3>
+						</td>
+						<td valign="top">
+							<div class="col-xs-12">
+								<form>
+									<div class="text-center">
+										<radio-set v-on:change-value="handleTypeChange" label="Connection Type" v-bind:selectedOption="connectionType" v-bind:options="['Local Directory', 'Remote (SFTP)']"></radio-set>
 									</div>
-									<div class="panel-body">
-										-->
-										<div class="text-center">
-											<radio-set v-on:change-value="handleDatabaseTypeChange" label="Database Type" v-bind:selectedOption="databaseType" v-bind:options="['None', 'MySQL']"></radio-set>
+									<div class="input-group">
+										<span class="input-group-addon">Name</span>
+										<input v-on:change="handleNameChange" type="text" name="name" />
+									</div>
+									<div class="input-collection-div" v-show="connectionType != 'select connection type'">
+										<div class="input-group" v-show="connectionType == 'Local Directory' || connectionType == 'Git (local)'">
+											<span class="input-group-addon">Directory Path</span>
+											<directory-selector name="directory-path"></directory-selector>
+											<!--
+											<input type="file" webkitdirectory name="directory-path" />
+											-->
 										</div>
-										<!--
-										<div class="input-group" v-bind:class="{'is-not-selected': isDatabaseNotSelected()}">
-											<span class="input-group-addon">Data Type</span>
-											<div class="dropdown">
-												<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-													{{databaseType}}
-													<span class="caret"></span>
-												</button>
-												<ul v-on:click="handleDatabaseTypeChange" class="dropdown-menu">
-													<li><a href="#">MySQL</a></li>
-													<li><a href="#">JSON file</a></li>
-													<li><a href="#">REST Endpoint</a></li>
-													<li><a href="#">PostgreSQL</a></li>
-													<li><a href="#">MongoDB</a></li>
-													<li><a href="#">MS SQL Server</a></li>
-													<li><a href="#">Excel Spreadsheet</a></li>
-												</ul>
-											</div>
+										<div class="input-group" v-show="connectionType == 'Remote (SFTP)'">
+											<span class="input-group-addon">Host</span>
+											<input type="text" name="ssh-host" />
 										</div>
-										-->
-										<div class="input-collection-div" v-show="databaseType != 'None'">
-											<div class="input-group">
-												<span class="input-group-addon">Name</span>
-												<input name="db-connection-name" />
-											</div>
-											<div class="input-group" v-show="databaseType == 'MySQL' || databaseType == 'MS SQL Server' || databaseType == 'PostgreSQL' || databaseType == 'MongoDB'">
-												<span class="input-group-addon">Host</span>
-												<input name="db-connection-host" />
-											</div>
-											<div class="input-group" v-show="databaseType == 'MySQL' || databaseType == 'MS SQL Server' || databaseType == 'PostgreSQL' || databaseType == 'MongoDB'">
-												<span class="input-group-addon">Database Name</span>
-												<input name="db-connection-database" />
-											</div>
-											<div class="input-group" v-show="databaseType == 'MySQL' || databaseType == 'MS SQL Server' || databaseType == 'PostgreSQL' || databaseType == 'MongoDB'">
-												<span class="input-group-addon">Username</span>
-												<input name="db-connection-username" />
-											</div>
-											<div class="input-group" v-show="databaseType == 'MySQL' || databaseType == 'MS SQL Server' || databaseType == 'PostgreSQL' || databaseType == 'MongoDB'">
-												<span class="input-group-addon">Password</span>
-												<input type="password" name="db-connection-password" />
-											</div>
-											<div class="input-group" v-show="databaseType == 'REST Endpoint'">
-												<span class="input-group-addon">URI</span>
-												<input name="db-connection-uri" />
-											</div>
-											<div class="input-group" v-show="databaseType == 'REST Endpoint'">
-												<span class="input-group-addon">Verb</span>
-												<div class="dropdown">
-													<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-														{{verb}}
-														<span class="caret"></span>
-													</button>
-													<ul v-on:click="handleRestVerbChange" class="dropdown-menu">
-														<li><a href="#">GET</a></li>
-														<li><a href="#">PUT</a></li>
-														<li><a href="#">POST</a></li>
-														<li><a href="#">DELETE</a></li>
-													</ul>
+										<div class="input-group" v-show="connectionType == 'Git Clone (remote)'">
+											<span class="input-group-addon">URI</span>
+											<input type="text" name="uri" />
+										</div>
+										<div class="input-group" v-show="connectionType == 'Remote (SFTP)'">
+											<span class="input-group-addon">Port</span>
+											<input type="text" name="ssh-port" />
+										</div>
+										<div class="input-group" v-show="connectionType == 'Remote (SFTP)'">
+											<span class="input-group-addon">Root Directory</span>
+											<input type="text" name="ssh-root-directory" value="" placeholder="(e.g. www)" />
+										</div>
+										<div class="input-group" v-show="connectionType == 'Git Clone (remote)' || connectionType == 'Remote (SFTP)'">
+											<span class="input-group-addon">Username</span>
+											<input type="text" name="ssh-username" />
+										</div>
+										<div class="input-group" v-show="connectionType == 'Git Clone (remote)' || connectionType == 'Remote (SFTP)'">
+											<span class="input-group-addon">Password</span>
+											<input type="password" name="ssh-password" />
+										</div>
+											<!--
+											<div class="panel panel-default database-inputs">
+												<div class="panel-heading">
+													<h4 class="panel-title">{{databaseType}}</h4>
 												</div>
-											</div>
-											<div class="input-group" v-show="databaseType == 'REST Endpoint'">
-												<span class="input-group-addon">Arguments</span>
-												<input name="db-connection-rest-args" />
-											</div>
-											<div class="input-group" v-show="databaseType == 'JSON file' || databaseType == 'Excel Spreadsheet'">
-												<span class="input-group-addon">File</span>
-												<input type="file" webkitdirectory name="db-connection-file" />
-											</div>
-										</div>
-									<!--
+												<div class="panel-body">
+													-->
+													<div class="text-center">
+														<radio-set v-on:change-value="handleDatabaseTypeChange" label="Database Type" v-bind:selectedOption="databaseType" v-bind:options="['None', 'MySQL']"></radio-set>
+													</div>
+													<!--
+													<div class="input-group" v-bind:class="{'is-not-selected': isDatabaseNotSelected()}">
+														<span class="input-group-addon">Data Type</span>
+														<div class="dropdown">
+															<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+																{{databaseType}}
+																<span class="caret"></span>
+															</button>
+															<ul v-on:click="handleDatabaseTypeChange" class="dropdown-menu">
+																<li><a href="#">MySQL</a></li>
+																<li><a href="#">JSON file</a></li>
+																<li><a href="#">REST Endpoint</a></li>
+																<li><a href="#">PostgreSQL</a></li>
+																<li><a href="#">MongoDB</a></li>
+																<li><a href="#">MS SQL Server</a></li>
+																<li><a href="#">Excel Spreadsheet</a></li>
+															</ul>
+														</div>
+													</div>
+													-->
+													<div class="input-collection-div" v-show="databaseType != 'None'">
+														<div class="input-group">
+															<span class="input-group-addon">Name</span>
+															<input name="db-connection-name" />
+														</div>
+														<div class="input-group" v-show="databaseType == 'MySQL' || databaseType == 'MS SQL Server' || databaseType == 'PostgreSQL' || databaseType == 'MongoDB'">
+															<span class="input-group-addon">Host</span>
+															<input name="db-connection-host" />
+														</div>
+														<div class="input-group" v-show="databaseType == 'MySQL' || databaseType == 'MS SQL Server' || databaseType == 'PostgreSQL' || databaseType == 'MongoDB'">
+															<span class="input-group-addon">Database Name</span>
+															<input name="db-connection-database" />
+														</div>
+														<div class="input-group" v-show="databaseType == 'MySQL' || databaseType == 'MS SQL Server' || databaseType == 'PostgreSQL' || databaseType == 'MongoDB'">
+															<span class="input-group-addon">Username</span>
+															<input name="db-connection-username" />
+														</div>
+														<div class="input-group" v-show="databaseType == 'MySQL' || databaseType == 'MS SQL Server' || databaseType == 'PostgreSQL' || databaseType == 'MongoDB'">
+															<span class="input-group-addon">Password</span>
+															<input type="password" name="db-connection-password" />
+														</div>
+														<div class="input-group" v-show="databaseType == 'REST Endpoint'">
+															<span class="input-group-addon">URI</span>
+															<input name="db-connection-uri" />
+														</div>
+														<div class="input-group" v-show="databaseType == 'REST Endpoint'">
+															<span class="input-group-addon">Verb</span>
+															<div class="dropdown">
+																<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+																	{{verb}}
+																	<span class="caret"></span>
+																</button>
+																<ul v-on:click="handleRestVerbChange" class="dropdown-menu">
+																	<li><a href="#">GET</a></li>
+																	<li><a href="#">PUT</a></li>
+																	<li><a href="#">POST</a></li>
+																	<li><a href="#">DELETE</a></li>
+																</ul>
+															</div>
+														</div>
+														<div class="input-group" v-show="databaseType == 'REST Endpoint'">
+															<span class="input-group-addon">Arguments</span>
+															<input name="db-connection-rest-args" />
+														</div>
+														<div class="input-group" v-show="databaseType == 'JSON file' || databaseType == 'Excel Spreadsheet'">
+															<span class="input-group-addon">File</span>
+															<input type="file" webkitdirectory name="db-connection-file" />
+														</div>
+													</div>
+												<!--
+												</div>
+											</div>-->
+										<button v-on:click="handleAddNewConnection" class="btn btn-success pull-right panel-button">Add New Connection</button>
+										<div class="clear"></div>
 									</div>
-								</div>-->
-							<button v-on:click="handleAddNewConnection" class="btn btn-success pull-right panel-button">Add New Connection</button>
-							<div class="clear"></div>
-						</div>
-					</form>
-				</div>
+								</form>
+							</div>
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	`;
