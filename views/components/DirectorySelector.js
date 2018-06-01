@@ -16,7 +16,12 @@
 		created: function() {
 			viewController.registerView(componentName, this);
 		},
-		props: ["name", "placeholder"],
+		mounted: function() {
+			if(this.value) {
+				this.label = this.value;
+			}
+		},
+		props: ["name", "placeholder", "value"],
 		template: s,
 		data: function() {
 			return {
@@ -24,6 +29,12 @@
 			}
 		},
 		methods: {
+			getValue: function() {
+				if(this.label == "select directory") {
+					return "";
+				}
+				return this.label;
+			},
 			handleChange: function(e) {
 				var input = $(e.target);
 				var path = "select directory"

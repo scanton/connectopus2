@@ -411,6 +411,10 @@ input {
 	margin-top: 13px;
 	margin-left: .5em;
 }
+.panel-heading {
+	padding: 0;
+    margin-bottom: .5em;
+}
 .title-input-field {
 	width: 100%;
 	text-align: left;
