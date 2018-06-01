@@ -38,14 +38,12 @@
 		},
 		methods: {
 			showOverlay: function() {
-				controller.setIsModalVisible(true);
 				var $modal = $(".modal-overlay");
 				$modal.find(".loading-animation").hide(this.speed);
 				$modal.find(".dialog-frame").hide(this.speed);
 				$modal.fadeIn("fast");
 			},
 			showLoader: function() {
-				controller.setIsModalVisible(true);
 				var $modal = $(".modal-overlay");
 				$modal.find(".loading-animation").show(this.speed);
 				$modal.find(".dialog-frame").hide(this.speed);

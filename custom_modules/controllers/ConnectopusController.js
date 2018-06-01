@@ -210,6 +210,10 @@ module.exports = class ConnectopusController extends EventEmitter {
 		}
 		return utils.sortArrayBy(a, "name");
 	}
+	getSupportedDatabaseTypes() {
+		var a = ['None', 'MySQL', 'PostgreSQL', 'MongoDB', 'JSON file', 'REST Endpoint', 'MS SQL Server', 'Excel Spreadsheet'];
+		return a.slice(0, 4);
+	}
 	getFiles(connections, path) {
 		var allFiles = [];
 		var o = {};
@@ -599,6 +603,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	openProject(path) {
 		this.isInProcess = true;
 		this._call("modal-overlay", "showLoader");
+		this.showFilesPage();
 		var proj = this.projectsModel.getCurrentProject();
 		var count = this.connectionsModel.getConnectionCount();
 		this.projectsModel.openProject(path, () => {
@@ -607,7 +612,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 			if(count == 0 && proj.id == this.projectsModel._defaultProjectId) {
 				this.projectsModel.removeProject(proj.id);
 			}
-			this.showFilesPage();
 			this._call("tool-bar", "setSelected", ".show-files-link");
 		});
 	}

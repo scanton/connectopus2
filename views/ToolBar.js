@@ -76,7 +76,7 @@
 						<path class="sgv-glyphicon" d="M280.5,242.2c0,4.5-3.7,8.2-8.2,8.2s-8.2-3.7-8.2-8.2c0-4.5,3.7-8.2,8.2-8.2S280.5,237.6,280.5,242.2z"/>
 					</svg>
 				</li>
-				<li class="show-files-link" v-show="activeConnections.length" title="Compare" v-on:click="showFiles">
+				<li class="show-files-link" v-show="activeConnections.length" title="Files" v-on:click="showFiles">
 					<span class="glyphicon glyphicon-duplicate"></span>
 				</li>
 				<li class="show-data-link" v-show="activeConnections.length" title="Data" v-on:click="showData">

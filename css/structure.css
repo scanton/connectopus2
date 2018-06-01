@@ -21,6 +21,10 @@ nav {
 	right: 0;
 	padding: 0 17px;
 }
+::-webkit-input-placeholder {
+	color: #C9C9C9;
+	opacity: 1;
+}
 .hide-titlebar nav {
 	top: 0;
 }
@@ -410,6 +414,8 @@ input {
 .title-input-field {
 	width: 100%;
 	text-align: left;
+	padding: .5em;
+	border-radius: 10px;
 }
 .active-connections {
 	/*
@@ -1198,7 +1204,7 @@ ul.directories li, ul.tables li {
 	display: inline-block;
 }
 .radio-set .label {
-	color: #999;
+	color: #777;
 	font-weight: 300;
 	font-size: 16pt;
 }
@@ -1268,6 +1274,7 @@ ul.radio-options li.selected {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     padding: 3px;
+    color: #C9C9C9;
 }
 .directory-selector .selection-status {
 	padding-left: 8px;

@@ -153,8 +153,10 @@ body.sunset-sherbert {
 }
 .sunset-sherbert .title-input-field {
 	width: 100%;
-	border-color: white;
-	background: #545454;
+	color: white;
+	background: #333;
+	box-shadow: inset 2px 2px 2px  rgba(0, 0, 0, .5);
+	border: 1px solid #222;
 }
 .sunset-sherbert nav {
 	background: #222;
@@ -345,7 +347,15 @@ body.sunset-sherbert {
 .sunset-sherbert .directory-selector {
 	background: #333;
 	border: 1px solid #222;
+	color: #666;
 }
 .sunset-sherbert .directory-selector.has-selected-directory {
 	color: white;
+}
+.sunset-sherbert ::-webkit-input-placeholder {
+	color: #666;
+	opacity: 1;
+}
+.sunset-sherbert .radio-set .label {
+	color: #CCC;
 }

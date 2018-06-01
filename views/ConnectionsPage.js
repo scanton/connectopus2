@@ -21,6 +21,9 @@
 											<span v-show="!isEditEnabled">{{connectionDetails.name}}</span>
 											<input class="title-input-field" v-show="isEditEnabled" type="text" v-show="isEditEnabled" name="name" v-on:keyup="handleInputChange" />
 										</h2>
+										<div v-show="isEditEnabled" class="text-center">
+											<radio-set v-on:change-value="handleTypeChange" label="Connection Type" v-bind:selectedOption="connectionDetails.connectionType" v-bind:options="['Local Directory', 'Remote (SFTP)']"></radio-set>
+										</div>
 										<div class="input-group" v-show="connectionDetails.connectionType == 'Local Directory' || connectionDetails.connectionType == 'Git (local)'">
 											<span class="input-group-addon">Directory Path</span>
 											<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.directory" readonly="readonly" />
@@ -56,12 +59,17 @@
 											<input type="password" v-show="!isEditEnabled" v-bind:value="connectionDetails.password" readonly="readonly" />
 											<input type="password" v-show="isEditEnabled" name="ssh-password" v-on:keyup="handleInputChange" />
 										</div>
+										
 										<div class="panel-heading">
 											<h2 class="panel-title span-group">
 												<span v-show="!isEditEnabled">{{connectionDetails.connections[0].name}}</span>
 												<input class="title-input-field" v-show="isEditEnabled" type="text" v-show="isEditEnabled" name="db-connection-name" v-on:keyup="handleInputChange" />
 											</h2>
 										</div>
+										<div v-show="isEditEnabled" class="text-center">
+											<radio-set v-on:change-value="handleDatabaseTypeChange" label="Database Type" v-bind:selectedOption="connectionDetails.connections[0].type" v-bind:options="['None', 'MySQL']"></radio-set>
+										</div>
+
 										<div class="input-group" v-show="connectionDetails.connections[0].type == 'REST Endpoint' || connectionDetails.connections[0].type == 'Git Clone (remote)'">
 											<span class="input-group-addon">URI</span>
 											<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].uri" readonly="readonly" />
@@ -169,12 +177,18 @@
 			hideAddConnection: function() {
 				this.isAddConnectionVisible = false;
 			},
+			handleDatabaseTypeChange: function(type) {
+				console.log(type);
+			},
 			handleInputChange: function(e) {
 				this.hasUnsavedEdits = true;
 			},
 			handleOnConnect: function(e) {
 				e.preventDefault();
 				controller.connectTo($(".edit-connection-details-form").find("input[name='id']").val());
+			},
+			handleTypeChange: function(type) {
+				console.log(type);
 			},
 			handleUpdateData: function(e) {
 				e.preventDefault();
