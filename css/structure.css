@@ -236,7 +236,7 @@ h3 {
 	/*background: orange;*/
 }
 .work-area.modal-is-visible {
-	filter: blur(2px);
+	filter: blur(1.5px);
 }
 .current-connections {
 	position: absolute;

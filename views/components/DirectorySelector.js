@@ -8,7 +8,8 @@
 			<span class="selector-label">
 				{{label}}
 			</span>
-			<input style="display: none;" v-on:change="handleChange" type="file" webkitdirectory v-bind:name="name" />
+			<input style="display: none;" v-on:change="handleChange" type="file" webkitdirectory />
+			<input style="display: none;" type="text" v-bind:name="name" />
 		</div>
 	`;
 	
@@ -19,6 +20,7 @@
 		mounted: function() {
 			if(this.value) {
 				this.label = this.value;
+				$(this.$el).find("input[type='text']").val(this.value);
 			}
 		},
 		props: ["name", "placeholder", "value"],
@@ -29,12 +31,6 @@
 			}
 		},
 		methods: {
-			getValue: function() {
-				if(this.label == "select directory") {
-					return "";
-				}
-				return this.label;
-			},
 			handleChange: function(e) {
 				var input = $(e.target);
 				var path = "select directory"
@@ -43,9 +39,20 @@
 				}
 				this.label = path;
 				this.$emit('change-value', path);
+				if(path == "select directory") {
+					$(this.$el).find("input[type='text']").val("");
+				} else {
+					$(this.$el).find("input[type='text']").val(path);
+				}
 			},
 			handleClick: function(e) {
-				$(this.$el).find("input").click();
+				$(this.$el).find("input[type='file']").click();
+			}
+		},
+		watch: {
+			value: function(val) {
+				this.label = val;
+				$(this.$el).find("input[type='text']").val(val);
 			}
 		}
 	});

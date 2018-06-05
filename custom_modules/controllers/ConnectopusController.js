@@ -212,7 +212,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	getSupportedDatabaseTypes() {
 		var a = ['None', 'MySQL', 'PostgreSQL', 'MongoDB', 'JSON file', 'REST Endpoint', 'MS SQL Server', 'Excel Spreadsheet'];
-		return a.slice(0, 4);
+		return a.slice(0, 2);
 	}
 	getFiles(connections, path) {
 		var allFiles = [];

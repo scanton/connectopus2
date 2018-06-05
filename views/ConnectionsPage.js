@@ -22,7 +22,7 @@
 										</div>
 										<h2 class="span-group">
 											<span v-show="!isEditEnabled">{{connectionDetails.name}}</span>
-											<input class="title-input-field" v-show="isEditEnabled" type="text" v-show="isEditEnabled" name="name" v-on:keyup="handleInputChange" />
+											<input class="title-input-field" v-bind:value="connectionDetails.name" v-show="isEditEnabled" type="text" name="name" v-on:keyup="handleInputChange" />
 										</h2>
 										<div class="input-group" v-show="connectionDetails.connectionType == 'Local Directory' || connectionDetails.connectionType == 'Git (local)'">
 											<span class="input-group-addon">Directory Path</span>
@@ -64,7 +64,7 @@
 										</div>
 										
 										<div v-show="isEditEnabled" class="text-center">
-											<radio-set v-on:change-value="handleDatabaseTypeChange" label="Database Type" v-bind:selectedOption="connectionDetails.connections[0].type" v-bind:options="['None', 'MySQL']"></radio-set>
+											<radio-set v-on:change-value="handleDatabaseTypeChange" label="Database Type" v-bind:selectedOption="connectionDetails.connections[0].type" v-bind:options="supportedDatabaseTypes"></radio-set>
 										</div>
 										<div v-show="connectionDetails.connections[0].type != 'None'" class="database-details">
 
@@ -95,22 +95,22 @@
 												<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].file" readonly="readonly" />
 												<input type="text" v-show="isEditEnabled" name="db-connection-file" v-on:keyup="handleInputChange" />
 											</div>
-											<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgresSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
+											<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
 												<span class="input-group-addon">Host</span>
 												<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].host" readonly="readonly" />
 												<input type="text" v-show="isEditEnabled" name="db-connection-host" v-on:keyup="handleInputChange" />
 											</div>
-											<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgresSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
+											<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
 												<span class="input-group-addon">Database Name</span>
 												<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].database" readonly="readonly" />
 												<input type="text" v-show="isEditEnabled" name="db-connection-database" v-on:keyup="handleInputChange" />
 											</div>
-											<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgresSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
+											<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
 												<span class="input-group-addon">Userame</span>
 												<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].username" readonly="readonly" />
 												<input type="text" v-show="isEditEnabled" name="db-connection-username" v-on:keyup="handleInputChange" />
 											</div>
-											<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgresSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
+											<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
 												<span class="input-group-addon">Password</span>
 												<input type="password" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].password" readonly="readonly" />
 												<input type="password" v-show="isEditEnabled" name="db-connection-password" v-on:keyup="handleInputChange" />
@@ -144,7 +144,8 @@
 				connectionDetails: null,
 				hasUnsavedEdits: false,
 				isAddConnectionVisible: false,
-				isEditEnabled: false
+				isEditEnabled: false,
+				supportedDatabaseTypes: controller.getSupportedDatabaseTypes()
 			}
 		},
 		methods: {
@@ -184,6 +185,7 @@
 			},
 			handleDatabaseTypeChange: function(type) {
 				this.connectionDetails.connections[0].type = type;
+				this.hasUnsavedEdits = true;
 			},
 			handleInputChange: function(e) {
 				this.hasUnsavedEdits = true;
@@ -194,6 +196,7 @@
 			},
 			handleTypeChange: function(type) {
 				this.connectionDetails.connectionType = type;
+				this.hasUnsavedEdits = true;
 			},
 			handleUpdateData: function(e) {
 				e.preventDefault();
