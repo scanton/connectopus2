@@ -89,17 +89,6 @@
 			</ul>
 		</div>
 	`;
-	var _handle = function(e) {
-		if(e) {
-			e.preventDefault();
-			var $t = $(e.target);
-			$t.closest("ul").find(".selected").removeClass("selected");
-			if($t.hasClass("glyphicon")) {
-				$t = $t.closest("li");
-			}
-			$t.addClass("selected");
-		}
-	}
 
 	Vue.component(componentName, {
 		created: function() {
@@ -114,30 +103,28 @@
 		},
 		methods: {
 			showHome: function(e) {
-				_handle(e);
 				controller.showHomePage();
+				this.setSelected(".show-home-link");
 			},
 			showConnections: function(e) {
-				_handle(e);
 				controller.showConnectionsPage();
+				this.setSelected(".show-connections-link");
 			},
 			showData: function(e) {
-				_handle(e);
 				controller.showDataPage();
+				this.setSelected(".show-data-link");
 			},
 			showFiles: function(e) {
-				_handle(e);
 				controller.showFilesPage();
+				this.setSelected(".show-files-link");
 			},
 			handleShowAllLables: function(e) {
 				e.preventDefault();
 				this.showAllLabels = true;
-				//controller.handleShowAllLabels();
 			},
 			handleHideAllLabels: function(e) {
 				e.preventDefault();
 				this.showAllLabels = false;
-				//controller.handleHideAllLabels();
 			},
 			setConnectionStatus: function(data) {
 				this.activeConnections = data;

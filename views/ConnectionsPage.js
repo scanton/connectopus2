@@ -24,6 +24,10 @@
 											<span v-show="!isEditEnabled">{{connectionDetails.name}}</span>
 											<input class="title-input-field" v-bind:value="connectionDetails.name" v-show="isEditEnabled" type="text" name="name" v-on:keyup="handleInputChange" />
 										</h2>
+
+										<div v-show="!isEditEnabled" class="panel-heading text-center">
+											{{connectionDetails.connectionType}}
+										</div>
 										<div class="input-group" v-show="connectionDetails.connectionType == 'Local Directory' || connectionDetails.connectionType == 'Git (local)'">
 											<span class="input-group-addon">Directory Path</span>
 											<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.directory" readonly="readonly" />
@@ -68,13 +72,15 @@
 										</div>
 										<div v-show="connectionDetails.connections[0].type != 'None'" class="database-details">
 
-											<div class="panel-heading">
+											<div class="panel-heading database-connection-name">
 												<h2 class="panel-title span-group">
 													<span v-show="!isEditEnabled">{{connectionDetails.connections[0].name}}</span>
 													<input class="title-input-field" v-show="isEditEnabled" type="text" v-show="isEditEnabled" name="db-connection-name" v-on:keyup="handleInputChange" placeholder="descriptive database connection name" />
 												</h2>
 											</div>
-
+											<div v-show="!isEditEnabled" class="panel-heading text-center">
+												{{connectionDetails.connections[0].type}}
+											</div>
 											<div class="input-group" v-show="connectionDetails.connections[0].type == 'REST Endpoint' || connectionDetails.connections[0].type == 'Git Clone (remote)'">
 												<span class="input-group-addon">URI</span>
 												<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].uri" readonly="readonly" />

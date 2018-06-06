@@ -11,6 +11,15 @@ class DataSourceFactory {
 		}
 	}
 
+	static createDatabaseConnection(con) {
+		if(con && con.connections && con.connections[0] && DataSourceFactory._connectonTypes[con.connections[0].type]) {
+			var liveConnection = new DataSourceFactory._connectonTypes[con.connections[0].type](con.connections[0].type, con);
+			return liveConnection;
+		} else {
+			controller.handleError("Undefined Database Connection Type ", con);
+		}
+	}
+
 	static addConnectionType(type, classConstructor) {
 		if(!DataSourceFactory._connectonTypes[type]) {
 			DataSourceFactory._connectonTypes[type] = classConstructor;

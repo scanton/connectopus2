@@ -12,7 +12,6 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		if(con && con.id && !this.hasConnection(con.id)) {
 			var conId = con.id;
 			con = this._strip(con);
-			//con.status = 'pending';
 			if(this._connections[this.currentProject].length == 0) {
 				con.isPrime = true;
 			} else {
@@ -20,7 +19,16 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			}
 			this._connections[this.currentProject].push(con);
 			this._dispatchUpdate();
-			this.getDirectory(con, "", callback);
+			//this.getDirectory(con, "", callback);
+			this.getDirectory(con, "", (data) => {
+				if(con.connections.length) {
+					this.getDataTables(con, "", (data2) => {
+						callback(data);
+					});
+				} else {
+					callback(data);
+				}
+			});
 		}
 	}
 	compare(conId, path, callback) {
@@ -92,6 +100,11 @@ module.exports = class ConnectionsModel extends AbstractModel {
 	}
 	getConnectionCount() {
 		return this._connections[this.currentProject].length;
+	}
+	getDataTables(con, path, callback) {
+		var liveConnection = DataSourceFactory.createDatabaseConnection(con);
+		console.log(this._strip(liveConnection));
+		callback();
 	}
 	getDirectory(con, directory, callback) {
 		var liveConnection = DataSourceFactory.createConnection(con);

@@ -52,7 +52,7 @@
 											</div>
 											
 											<div class="input-collection-div" v-show="databaseType != 'None'">
-												<div class="input-group">
+												<div class="input-group database-connection-name">
 													<span class="input-group-addon">Name</span>
 													<input name="db-connection-name" placeholder="(e.g. MySQL on MyWebsite.com)" />
 												</div>

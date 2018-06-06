@@ -649,6 +649,7 @@ ul.directories li, ul.tables li {
 }
 
 .project-news .milestone {
+	border-radius: 30px;
 	cursor: pointer;
 	position: relative;
 	padding-left: 70px;
@@ -662,17 +663,11 @@ ul.directories li, ul.tables li {
 }
 .project-news .milestone .badge {
 	display: none;
-	/*
-	position: absolute;
-	transform: rotate(-90deg);
-	transform-origin: right top 0;
-	left: 0;
-	top: 0;
-	height: 100%;
-	border-radius: 0;
-	*/
 }
 .project-news .milestone .glyphicon {
+	border-radius: 30px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
 	position: absolute;
 	text-align: center;
 	vertical-align:middle;
@@ -1026,6 +1021,7 @@ ul.directories li, ul.tables li {
     cursor: pointer;
 }
 .saved-project {
+	border-radius: 30px;
 	position: relative;
 	font-size: 14pt;
 	font-weight: 200;
@@ -1120,6 +1116,7 @@ ul.directories li, ul.tables li {
 	padding: .5em;
 }
 .quick-start-option {
+	border-radius: 30px;
 	-webkit-transition: all 0.3s ease;
 	position: relative;
 	font-size: 14pt;
@@ -1135,6 +1132,9 @@ ul.directories li, ul.tables li {
 	color: white;
 }
 .quick-start-option .glyphicon {
+	border-radius: 30px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
 	-webkit-transition: all 0.3s ease;
 	position: absolute;
 	top: 0;
@@ -1288,4 +1288,64 @@ ul.radio-options li.selected {
 }
 .directory-selector.has-selected-directory svg {
 	color: #333;
+}
+.database-connection-name {
+	display: none;
+}
+.horizontal-rule {
+	margin: 1em 0 1.5em;
+}
+.horizontal-rule .horizontal-bar {
+	border: 2px solid #999;
+	height: 6px;
+	width: 100%;
+	border-radius: 3px;
+}
+.horizontal-rule .dot {
+	border: 2px solid #999;
+	height: 6px;
+	width: 6px;
+	border-radius: 3px;
+}
+.horizontal-rule .dash-5 {
+	border: 2px solid #999;
+	height: 6px;
+	width: 5%;
+	border-radius: 3px;
+}
+.horizontal-rule .dash-10 {
+	border: 2px solid #999;
+	height: 6px;
+	width: 10%;
+	border-radius: 3px;
+}
+.horizontal-rule .dash-15 {
+	border: 2px solid #999;
+	height: 6px;
+	width: 15%;
+	border-radius: 3px;
+}
+.horizontal-rule .dash-20 {
+	border: 2px solid #999;
+	height: 6px;
+	width: 20%;
+	border-radius: 3px;
+}
+.horizontal-rule .dash-25 {
+	border: 2px solid #999;
+	height: 6px;
+	width: 25%;
+	border-radius: 3px;
+}
+.horizontal-rule .doo-dads div {
+	display: inline-block;
+}
+.horizontal-rule .top-bar {
+	margin-bottom: -3px;
+}
+.horizontal-rule .middle-bar {
+	
+}
+.horizontal-rule .bottom-bar {
+	margin-top: -7px;
 }

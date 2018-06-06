@@ -6,7 +6,7 @@
 				<h2>Project Status</h2>
 				{{projectStatus}}
 			</span>
-			<hr />
+			<horizontal-rule></horizontal-rule>
 			<h2>Connectopus News</h2>
 			<ul>
 				<li v-for="newsItem in projectNews" class="news-item">
@@ -17,7 +17,7 @@
 				</li>
 			</ul>
 			<span class="milestones-list" v-show="milestones.length">
-				<hr />
+				<horizontal-rule></horizontal-rule>
 				<h2>Milestones</h2>
 				<milestone v-for="milestone in milestones" v-bind:title="milestone.title" v-bind:status="milestone.status" v-bind:description="milestone.description"></milestone>
 			</span>
