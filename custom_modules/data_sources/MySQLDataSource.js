@@ -69,7 +69,8 @@ module.exports = class MySQLDataSource extends AbstractDataSource {
 							if(callCount < lineCount) {
 								callQuery();
 							} else {
-								callback(errorArray, resultArray, fieldArray);
+								var result = {errors: errorArray, result: resultArray, fields: fieldArray};
+								callback(result);
 								connection.end();
 								server.close();
 							}
@@ -86,16 +87,26 @@ module.exports = class MySQLDataSource extends AbstractDataSource {
 						} else {
 							dispatch("connection-status", {id: con.id, status: 'active'});
 						}
+						var o = {}
+						var l = results.length;
+						for(var i = 0; i < l; i++) {
+							var r = results[i];
+							if(! o[r['TABLE_NAME']]) {
+								o[r['TABLE_NAME']] = [];
+							}
+							o[r['TABLE_NAME']].push({table: r['TABLE_NAME'], column: r['COLUMN_NAME'], type: r['DATA_TYPE'], columnType: r['COLUMN_TYPE'], max: r['CHARACTER_MAXIMUM_LENGTH'], characterSet: r['CHARACTER_SET_NAME'], collation: r['COLLATION_NAME'], isPrimaryKey: r['COLLUMN_KEY'] == "PRI", octetLength: r['CHARACTER_OCTET_LENGTH']});
+						}
 						results = convertDates(results, fields);
-						callback(error, results, fields);
+
+						callback({errors: error, result: results, fields: fields, tables: o});
+						
 						server.close();
 					});
 					connection.end();
 				}
-
 			});
 		} else {
-
+			console.log("IMPLEMENT MYSQL LOCAL");
 		}
 	}
 

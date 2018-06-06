@@ -107,12 +107,12 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		if(liveConnection) {
 			this.setStatus(con.id, 'pending');
 			var path = "/";
-			liveConnection.getDirectory(path, (errorArray, resultArray, fieldArray) => {
+			liveConnection.getDirectory(path, (data) => {
 				this.setStatus(con.id, 'connected');
 				//this.dataModel.setContents(con, path, data);
-				console.log(errorArray, resultArray, fieldArray);
+				console.log(data);
 				if(callback) {
-					callback({errors: errorArray, result: resultArray, fields: fieldArray});
+					callback(data);
 				}
 			}, (err) => {
 				controller.handleError(err);
