@@ -2,7 +2,7 @@
 	var componentName = 'tool-bar';
 	var s = `
 		<div class="tool-bar side-bar">
-			<ul class="categories">
+			<ul class="categories text-center">
 				<li class="selected show-home-link" title="Home" v-on:click="showHome">
 					<span class="glyphicon glyphicon-home"></span>
 				</li>

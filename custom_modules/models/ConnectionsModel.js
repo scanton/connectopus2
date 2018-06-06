@@ -1,8 +1,9 @@
 module.exports = class ConnectionsModel extends AbstractModel {
 
-	constructor(fileModel) {
+	constructor(fileModel, dataModel) {
 		super();
 		this._connections = [[]];
+		this.dataModel = dataModel;
 		this.fileModel = fileModel;
 		this.tunnel = require('tunnel-ssh');
 		this.currentProject = 0;
@@ -103,29 +104,45 @@ module.exports = class ConnectionsModel extends AbstractModel {
 	}
 	getDataTables(con, path, callback) {
 		var liveConnection = DataSourceFactory.createDatabaseConnection(con);
-		console.log(this._strip(liveConnection));
-		callback();
+		if(liveConnection) {
+			this.setStatus(con.id, 'pending');
+			var path = "/";
+			liveConnection.getDirectory(path, (errorArray, resultArray, fieldArray) => {
+				this.setStatus(con.id, 'connected');
+				//this.dataModel.setContents(con, path, data);
+				console.log(errorArray, resultArray, fieldArray);
+				if(callback) {
+					callback({errors: errorArray, result: resultArray, fields: fieldArray});
+				}
+			}, (err) => {
+				controller.handleError(err);
+				this.setStatus(con.id, 'error');
+			});
+		}
 	}
 	getDirectory(con, directory, callback) {
 		var liveConnection = DataSourceFactory.createConnection(con);
 		if(liveConnection) {
 			this.setStatus(con.id, 'pending');
-			liveConnection.getDirectory(directory, function(data) {
+			liveConnection.getDirectory(directory, (data) => {
 				this.setStatus(con.id, 'connected');
 				this.fileModel.setContents(data.con, data.path, data);
 				if(callback) {
 					callback(data);
 				}
-			}.bind(this), function(err) {
+			}, (err) => {
 				controller.handleError(err);
 				this.setStatus(con.id, 'error');
-			}.bind(this));
+			});
 		}
 	}
 	getPrimeId() {
 		if(this._connections[this.currentProject]) {
 			return this._connections[this.currentProject][0].id;
 		}
+	}
+	handleConnectionStatus(data) {
+		console.log(data);
 	}
 	hasConnection(id) {
 		if(this._connections[this.currentProject]) {

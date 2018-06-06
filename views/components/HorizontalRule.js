@@ -5,17 +5,19 @@
 			<div class="doo-dads text-center top-bar bar">
 				<div class="dot"></div>
 				<div class="dot"></div>
-				<div class="dash-10"></div>
-				<div class="dot"></div>
-				<div class="dash-10"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
 				<div class="dot"></div>
 				<div class="dash-10"></div>
 				<div class="dot"></div>
 				<div class="dash-10"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dash-10"></div>
+				<div class="dot"></div>
+				<div class="dash-10"></div>
+				<div class="dot"></div>
 				<div class="dot"></div>
 				<div class="dot"></div>
 			</div>
@@ -23,17 +25,19 @@
 			<div v-if="isLarge" class="doo-dads text-center bottom-bar bar">
 				<div class="dot"></div>
 				<div class="dot"></div>
-				<div class="dash-10"></div>
-				<div class="dot"></div>
-				<div class="dash-10"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
 				<div class="dot"></div>
 				<div class="dash-10"></div>
 				<div class="dot"></div>
 				<div class="dash-10"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dash-10"></div>
+				<div class="dot"></div>
+				<div class="dash-10"></div>
+				<div class="dot"></div>
 				<div class="dot"></div>
 				<div class="dot"></div>
 			</div>

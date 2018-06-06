@@ -58,6 +58,7 @@ const AbstractModel = require(__dirname + '/custom_modules/abstracts/AbstractMod
 const ConfigModel = require(__dirname + '/custom_modules/models/ConfigModel.js');
 const SettingsModel = require(__dirname + '/custom_modules/models/SettingsModel.js');
 const ThemesModel = require(__dirname + '/custom_modules/models/ThemesModel.js');
+const DataModel = require(__dirname + '/custom_modules/models/DataModel.js');
 const FileModel = require(__dirname + '/custom_modules/models/FileModel.js');
 const NewsModel = require(__dirname + '/custom_modules/models/NewsModel.js');
 const PathsModel = require(__dirname + '/custom_modules/models/PathsModel.js');
@@ -87,8 +88,9 @@ const ViewController = require(__dirname + '/custom_modules/controllers/ViewCont
 const viewController = new ViewController();
 
 const fileModel = new FileModel();
+const dataModel = new DataModel();
 const ConnectionsModel = require(__dirname + '/custom_modules/models/ConnectionsModel.js');
-const connectionsModel = new ConnectionsModel(fileModel);
+const connectionsModel = new ConnectionsModel(fileModel, dataModel);
 
 const ConnectopusController = require(__dirname + '/custom_modules/controllers/ConnectopusController.js');
 var controllers = {
