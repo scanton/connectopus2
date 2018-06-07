@@ -22,91 +22,96 @@ module.exports = class MySQLDataSource extends AbstractDataSource {
 		var con = this._con;
 		var dispatch = this.dispatchEvent.bind(this);
 		var convertDates = this._convertDates.bind(this);
+		var dbConn = this._con.connections[0];
+		var mySqlData = {
+			host: dbConn.host,
+			user: dbConn.username,
+			password: dbConn.password,
+			database: dbConn.database,
+			timezone: 'utc',
+			multipleStatements: true
+		}
+		var sshData = {
+			host: this._con.host,
+			port: this._con.port,
+			username: this._con.username,
+			password: this._con.password,
+			dstHost: 'localhost',
+			dstPort: 3306
+		}
+		var getData = function(server) {
+			var connection = mySqlClient.createConnection(mySqlData);
 
+			var queryArray = query.split(";");
+			var lineCount = queryArray.length;
+			
+			if(lineCount > 1) {
+				var errorArray = [];
+				var resultArray = [];
+				var fieldArray = [];
+				var callCount = 0;
+
+				var callQuery = () => {
+					console.log("call", callCount);
+					let q = queryArray[callCount];
+					connection.query(q, function(error, results, fields) {
+						errorArray.push(error);
+						resultArray.push(results);
+						fieldArray.push(fields);
+						++callCount;
+						if(callCount < lineCount) {
+							callQuery();
+						} else {
+							var result = {errors: errorArray, result: resultArray, fields: fieldArray};
+							callback(result);
+							connection.end();
+							if(server) {
+								server.close();
+							}
+						}
+					});
+				}
+				callQuery();
+			} else {
+				connection.query(query, function(error, results, fields) {
+					if(error) {
+						console.error(error);
+						dispatch("mysql-error", error);
+						dispatch("connection-status", {id: con.id, status: "error"});
+						throw error;
+					} else {
+						dispatch("connection-status", {id: con.id, status: 'active'});
+					}
+					var o = {}
+					var l = results.length;
+					for(var i = 0; i < l; i++) {
+						var r = results[i];
+						if(! o[r['TABLE_NAME']]) {
+							o[r['TABLE_NAME']] = [];
+						}
+						o[r['TABLE_NAME']].push({table: r['TABLE_NAME'], column: r['COLUMN_NAME'], type: r['DATA_TYPE'], columnType: r['COLUMN_TYPE'], max: r['CHARACTER_MAXIMUM_LENGTH'], characterSet: r['CHARACTER_SET_NAME'], collation: r['COLLATION_NAME'], isPrimaryKey: r['COLLUMN_KEY'] == "PRI", octetLength: r['CHARACTER_OCTET_LENGTH']});
+					}
+					results = convertDates(results, fields);
+
+					callback({errors: error, result: results, fields: fields, tables: o});
+					if(server) {
+						server.close();
+					}
+				});
+				connection.end();
+			}
+		}
 		if(this._con.connectionType == "Remote (SFTP)") {
-			let dbConn = this._con.connections[0];
-			let mySqlData = {
-				host: dbConn.host,
-				user: dbConn.username,
-				password: dbConn.password,
-				database: dbConn.database,
-				timezone: 'utc',
-				multipleStatements: true
-			}
-			let sshData = {
-				host: this._con.host,
-				port: this._con.port,
-				username: this._con.username,
-				password: this._con.password,
-				dstHost: 'localhost',
-				dstPort: 3306
-			}
 			let sshCon = this.tunnel(sshData, function(error, server) {
 				setServer(server);
 				if(error) {
 					console.error(error);
 					this.dispatchEvent("ssh-error", error);
 				}
-				var connection = mySqlClient.createConnection(mySqlData);
-
-				var queryArray = query.split(";");
-				var lineCount = queryArray.length;
-				
-				if(lineCount > 1) {
-					var errorArray = [];
-					var resultArray = [];
-					var fieldArray = [];
-					var callCount = 0;
-
-					var callQuery = () => {
-						console.log("call", callCount);
-						let q = queryArray[callCount];
-						connection.query(q, function(error, results, fields) {
-							errorArray.push(error);
-							resultArray.push(results);
-							fieldArray.push(fields);
-							++callCount;
-							if(callCount < lineCount) {
-								callQuery();
-							} else {
-								var result = {errors: errorArray, result: resultArray, fields: fieldArray};
-								callback(result);
-								connection.end();
-								server.close();
-							}
-						});
-					}
-					callQuery();
-				} else {
-					connection.query(query, function(error, results, fields) {
-						if(error) {
-							console.error(error);
-							dispatch("mysql-error", error);
-							dispatch("connection-status", {id: con.id, status: "error"});
-							throw error;
-						} else {
-							dispatch("connection-status", {id: con.id, status: 'active'});
-						}
-						var o = {}
-						var l = results.length;
-						for(var i = 0; i < l; i++) {
-							var r = results[i];
-							if(! o[r['TABLE_NAME']]) {
-								o[r['TABLE_NAME']] = [];
-							}
-							o[r['TABLE_NAME']].push({table: r['TABLE_NAME'], column: r['COLUMN_NAME'], type: r['DATA_TYPE'], columnType: r['COLUMN_TYPE'], max: r['CHARACTER_MAXIMUM_LENGTH'], characterSet: r['CHARACTER_SET_NAME'], collation: r['COLLATION_NAME'], isPrimaryKey: r['COLLUMN_KEY'] == "PRI", octetLength: r['CHARACTER_OCTET_LENGTH']});
-						}
-						results = convertDates(results, fields);
-
-						callback({errors: error, result: results, fields: fields, tables: o});
-						
-						server.close();
-					});
-					connection.end();
-				}
+				getData(server);
 			});
 		} else {
-			console.log("IMPLEMENT MYSQL LOCAL");
+			getData();
 		}
 	}
 

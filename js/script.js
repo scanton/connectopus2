@@ -102,6 +102,7 @@ var models = {
 	connectionsModel: connectionsModel, 
 	themesModel: themesModel, 
 	fileModel: fileModel, 
+	dataModel: dataModel,
 	newsModel: newsModel, 
 	pathsModel: pathsModel, 
 	projectsModel: projectsModel

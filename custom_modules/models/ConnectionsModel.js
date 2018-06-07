@@ -20,9 +20,9 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			}
 			this._connections[this.currentProject].push(con);
 			this._dispatchUpdate();
-			//this.getDirectory(con, "", callback);
+			
 			this.getDirectory(con, "", (data) => {
-				if(con.connections.length) {
+				if(con.connections.length && con.connections[0].type == "MySQL") {
 					this.getDataTables(con, "", (data2) => {
 						callback(data);
 					});
@@ -109,8 +109,7 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			var path = "/";
 			liveConnection.getDirectory(path, (data) => {
 				this.setStatus(con.id, 'connected');
-				//this.dataModel.setContents(con, path, data);
-				console.log(data);
+				this.dataModel.setContents(con, path, data);
 				if(callback) {
 					callback(data);
 				}

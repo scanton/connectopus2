@@ -9,6 +9,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.connectionsModel = models.connectionsModel;
 		this.themesModel = models.themesModel;
 		this.fileModel = models.fileModel;
+		this.dataModel = models.dataModel;
 		this.newsModel = models.newsModel;
 		this.pathsModel = models.pathsModel;
 		this.projectsModel = models.projectsModel;
@@ -18,6 +19,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.settingsModel.subscribe("settings", this.handleSettingsData.bind(this));
 		this.connectionsModel.subscribe("connections-status", this.handleConnectionsStatus.bind(this));
 		this.fileModel.subscribe("data-update", this.handleFileModelUpdate.bind(this));
+		this.dataModel.subscribe("data-update", this.handleDataModelUpdate.bind(this));
 		this.newsModel.subscribe("data-update", this.handleNewsUpdate.bind(this));
 		this.projectsModel.subscribe("data-update", this.handleProjectsUpdate.bind(this));
 		this.diff = require('diff');
@@ -202,18 +204,6 @@ module.exports = class ConnectopusController extends EventEmitter {
 	getConnectionName(id) {
 		return this.connectionsModel.getConnectionName(id);
 	}
-	getDirectories(connections, path) {
-		var a = [];
-		var l = connections.length;
-		while(l--) {
-			this._addDirectories(a, path, this.fileModel.getContents(connections[l], path));
-		}
-		return utils.sortArrayBy(a, "name");
-	}
-	getSupportedDatabaseTypes() {
-		var a = ['None', 'MySQL', 'PostgreSQL', 'MongoDB', 'JSON file', 'REST Endpoint', 'MS SQL Server', 'Excel Spreadsheet'];
-		return a.slice(0, 2);
-	}
 	getFiles(connections, path) {
 		var allFiles = [];
 		var o = {};
@@ -228,11 +218,31 @@ module.exports = class ConnectopusController extends EventEmitter {
 		o.allFiles = utils.sortArrayBy(allFiles, "name", 0);
 		return o;
 	}
+	getDirectories(connections, path) {
+		var a = [];
+		var l = connections.length;
+		while(l--) {
+			this._addDirectories(a, path, this.fileModel.getContents(connections[l], path));
+		}
+		return utils.sortArrayBy(a, "name");
+	}
+	getSupportedDatabaseTypes() {
+		var a = ['None', 'MySQL', 'PostgreSQL', 'MongoDB', 'JSON file', 'REST Endpoint', 'MS SQL Server', 'Excel Spreadsheet'];
+		return a.slice(0, 2);
+	}
 	getPrimeId() {
 		return this.connectionsModel.getPrimeId();
 	}
 	getSettings() {
 		return this.settingsModel.getSettings();
+	}
+	getTables(connections, selectedTable) {
+		var a = [];
+		var l = connections.length;
+		while(l--) {
+			this._addTable(a, selectedTable, this.dataModel.getContents(connections[l], "/"));
+		}
+		return utils.sortArrayBy(a, "name");
 	}
 	handleConfigData(data) {
 		this._call("current-connections", "setFolders", data.folders);
@@ -254,7 +264,10 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call("title-bar", "setTarget", target);
 		this._call("connection", "setConnectionStatus", data);
 		this._call("tool-bar", "setConnectionStatus", data);
-		this._call(["current-directories", "files-page", "file-listing"], "setConnections", data);
+		this._call(["current-directories", "current-tables", "files-page", "file-listing"], "setConnections", data);
+	}
+	handleDataModelUpdate(data) {
+		console.log(data);
 	}
 	handleDragConnectionEnd() {
 		this.isDraggingConnection = false;
@@ -988,6 +1001,11 @@ module.exports = class ConnectopusController extends EventEmitter {
 				}
 			}
 		}
+		return arr;
+	}
+	_addTable(arr, selectedTable, data) {
+		console.log("_addTable");
+		//console.log(selectedTable, data);
 		return arr;
 	}
 	_call(views, method, params) {
