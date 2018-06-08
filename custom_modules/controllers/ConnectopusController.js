@@ -242,7 +242,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		while(l--) {
 			this._addTable(a, selectedTable, this.dataModel.getContents(connections[l], "/"));
 		}
-		return utils.sortArrayBy(a, "name");
+		return utils.sortTableArrayBy(a, "table");
 	}
 	handleConfigData(data) {
 		this._call("current-connections", "setFolders", data.folders);
@@ -264,10 +264,11 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call("title-bar", "setTarget", target);
 		this._call("connection", "setConnectionStatus", data);
 		this._call("tool-bar", "setConnectionStatus", data);
-		this._call(["current-directories", "current-tables", "files-page", "file-listing"], "setConnections", data);
+		this._call(["current-directories", "current-tables", "data-page", "files-page", "file-listing"], "setConnections", data);
 	}
 	handleDataModelUpdate(data) {
 		console.log(data);
+		//this._call(["current-tables", "data-page"], "handleDataModelUpdate");
 	}
 	handleDragConnectionEnd() {
 		this.isDraggingConnection = false;
@@ -1004,8 +1005,18 @@ module.exports = class ConnectopusController extends EventEmitter {
 		return arr;
 	}
 	_addTable(arr, selectedTable, data) {
-		console.log("_addTable");
-		//console.log(selectedTable, data);
+		if(data && data.tables) {
+			var d;
+			for(var i in data.tables) {
+				d = data.tables[i];
+				if(d && d[0]) {
+					var tableName = d[0].table;
+					if(tableName && !this._hasTable(arr, tableName)) {
+						arr.push(d);
+					}
+				}
+			}
+		}
 		return arr;
 	}
 	_call(views, method, params) {
@@ -1029,6 +1040,15 @@ module.exports = class ConnectopusController extends EventEmitter {
 		var l = arr.length;
 		while(l--) {
 			if(arr[l].name == name) {
+				return true;
+			}
+		}
+		return false;
+	}
+	_hasTable(arr, name) {
+		var l = arr.length;
+		while(l--) {
+			if(arr[l] && arr[l][0] && arr[l][0].table == name) {
 				return true;
 			}
 		}

@@ -6,7 +6,7 @@
 				<div class="col-xs-12 bare-container">
 					<h2>Tables</h2>
 					<ul class="tables">
-						<database-table v-for="table in tables" v-bind:table="table"></database-table>
+						<database-table v-for="table in tables" v-on:table-click="handleTableClick" v-bind:table="table"></database-table>
 					</ul>
 				</div>
 			</div>
@@ -29,6 +29,9 @@
 			handleDataModelUpdate: function() {
 				this.tables = controller.getTables(this.connections, this.selectedTable);
 			},
+			handleTableClick: function(tableName) {
+				console.log(tableName);
+			},
 			setConnections: function(data) {
 				var a = [];
 				var l = data.length;
@@ -37,12 +40,10 @@
 				}
 				this.connections = a;
 				this.handleDataModelUpdate();
-				//this.directories = controller.getDirectories(this.connections, this.path);
 			},
 			setSelectedTable: function(selectedTable) {
 				this.selectedTable = selectedTable;
 				this.handleDataModelUpdate();
-				//this.directories = controller.getDirectories(this.connections, this.path);
 			}
 		}
 	});

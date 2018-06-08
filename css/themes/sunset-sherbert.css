@@ -67,7 +67,7 @@ body.sunset-sherbert {
 	background: #333;
 	color: white;
 }
-.sunset-sherbert .glyphicon-folder-close, .sunset-sherbert .glyphicon-folder-open {
+.sunset-sherbert .glyphicon-folder-close, .sunset-sherbert .glyphicon-folder-open, .sunset-sherbert .fa-table {
 	color: #FF7373;
 }
 .sunset-sherbert .current-connections .connection .quick-connection-link, .sunset-sherbert .current-connections .connection .quick-disconnection-link {
@@ -178,7 +178,7 @@ body.sunset-sherbert {
 .sunset-sherbert .input-group input {
 	border: none;
 }
-.sunset-sherbert .current-directories .directory:hover {
+.sunset-sherbert .current-directories .directory:hover, .sunset-sherbert .current-tables .database-table:hover {
 	background-color: black;
 	color: white;
 }

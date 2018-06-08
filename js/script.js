@@ -2,22 +2,25 @@ console.info = function() {};
 
 const utils = {};
 utils.sortArrayBy = function(arr, key, isDecending) {
+	var decendMultiple = isDecending ? 1 : -1;
 	return arr.sort(function(a, b) {
-		if(isDecending) {
-			if(a[key].toLowerCase() > b[key].toLowerCase()) {
-				return -1;
-			} else if(a[key].toLowerCase() < b[key].toLowerCase()) {
-				return 1
-			}
-			return 0;
-		} else {
-			if(a[key].toLowerCase() > b[key].toLowerCase()) {
-				return 1;
-			} else if(a[key].toLowerCase() < b[key].toLowerCase()) {
-				return -1
-			}
-			return 0;
+		if(a[key].toLowerCase() > b[key].toLowerCase()) {
+			return -1 * decendMultiple;
+		} else if(a[key].toLowerCase() < b[key].toLowerCase()) {
+			return 1 * decendMultiple;
 		}
+		return 0;
+	});
+}
+utils.sortTableArrayBy = function(arr, key, isDecending) {
+	var decendMultiple = isDecending ? 1 : -1;
+	return arr.sort(function(a, b) {
+		if(a[0][key].toLowerCase() > b[0][key].toLowerCase()) {
+			return -1 * decendMultiple;
+		} else if(a[0][key].toLowerCase() < b[0][key].toLowerCase()) {
+			return 1 * decendMultiple;
+		}
+		return 0;
 	});
 }
 utils.calculateColors = function(index, connections, maximizeContrast) {

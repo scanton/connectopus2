@@ -37,12 +37,10 @@
 				}
 				this.connections = a;
 				this.handleFileModelUpdate();
-				//this.directories = controller.getDirectories(this.connections, this.path);
 			},
 			setPath: function(path) {
 				this.path = path;
 				this.handleFileModelUpdate();
-				//this.directories = controller.getDirectories(this.connections, this.path);
 			}
 		}
 	});
