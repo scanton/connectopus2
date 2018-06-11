@@ -55,6 +55,9 @@ body.sunset-sherbert {
 .sunset-sherbert .settings-side-bar {
 	background: #333;
 }
+.sunset-sherbert .settings-side-bar .input-group .input-group-addon {
+	background: #555;
+}
 .sunset-sherbert .context-side-bar {
 	background: #333;
 }
@@ -78,7 +81,7 @@ body.sunset-sherbert {
 	background: #444;
 }
 .sunset-sherbert .input-group .input-group-addon {
-	background: #666;
+	background: #333;
 	color: #CCC;
 }
 .sunset-sherbert .input-group input {
@@ -200,10 +203,10 @@ body.sunset-sherbert {
 .sunset-sherbert .project-news a {
 	color: white;
 }
-.sunset-sherbert .files-page {
+.sunset-sherbert .files-page, .sunset-sherbert .data-page {
 	background: #444;
 }
-.sunset-sherbert .files-page .files-nav-bar {
+.sunset-sherbert .files-page .files-nav-bar, .sunset-sherbert .data-page .data-nav-bar {
 	background: #333;
 	color: white;
 }
@@ -358,4 +361,7 @@ body.sunset-sherbert {
 }
 .sunset-sherbert .radio-set .label {
 	color: #CCC;
+}
+.sunset-sherbert .field-list .field-list-frame {
+	background: #333;
 }

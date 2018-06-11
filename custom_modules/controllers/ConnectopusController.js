@@ -267,8 +267,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call(["current-directories", "current-tables", "data-page", "files-page", "file-listing"], "setConnections", data);
 	}
 	handleDataModelUpdate(data) {
-		console.log(data);
-		//this._call(["current-tables", "data-page"], "handleDataModelUpdate");
+		this._call(["current-tables", "data-page"], "handleDataModelUpdate");
 	}
 	handleDragConnectionEnd() {
 		this.isDraggingConnection = false;

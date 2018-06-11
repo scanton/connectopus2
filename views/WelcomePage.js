@@ -11,18 +11,20 @@
 			</div>
 			<div class="row welcome-info">
 				<div class="col-xs-12 col-sm-6">
-					<div class="info-panel">
-						<h2>Quick Compare</h2>
-						<p>Get started right away by quickly comparing local files or folders.</p>
-						<div v-on:click="handleQuickCompareFiles" class="quick-start-option compare-files-option">
-							<span class="glyphicon glyphicon-duplicate"></span> Compare Files
-						</div>
-						<div v-on:click="handleQuickCompareFolders" class="quick-start-option compare-folders-option">
-							<span class="glyphicon glyphicon-folder-open"></span> Compare Folders
-						</div>
+					<div v-show="savedProjects.length" class="info-panel">
+						<h2>Saved Projects</h2>
+						<p>Click a project name below to load the project.</p>
+						<span  v-for="proj in savedProjects" title="Open Project">
+							<div v-on:click="handleLoadProject" v-bind:class="{'is-active': isActiveProject(proj)}" class="saved-project" v-bind:data-file="proj">
+								<button v-bind:data-file="proj" v-on:click="handleDeleteProject" class="btn btn-danger" title="Delete Project">
+									<span class="glyphicon glyphicon-remove"></span>
+								</button>
+								<span class="glyphicon glyphicon-briefcase"></span> {{dropExtension(proj)}}
+							</div>
+						</span>
+						<horizontal-rule></horizontal-rule>
 					</div>
 					<div class="info-panel">
-						<horizontal-rule></horizontal-rule>
 						<h2>Getting Started</h2>
 						<h3>Start By Creating a Connection</h3>
 						<p>Click the <span class="connections-tab-example">Connections Tab</span> on the tool bar to the left to create and organize your connections.</p>
@@ -37,19 +39,17 @@
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6">
-					<div v-show="savedProjects.length" class="info-panel">
-						<h2>Saved Projects</h2>
-						<p>Click a project name below to load the project.</p>
-						<span  v-for="proj in savedProjects" title="Open Project">
-							<div v-on:click="handleLoadProject" v-bind:class="{'is-active': isActiveProject(proj)}" class="saved-project" v-bind:data-file="proj">
-								<button v-bind:data-file="proj" v-on:click="handleDeleteProject" class="btn btn-danger" title="Delete Project">
-									<span class="glyphicon glyphicon-remove"></span>
-								</button>
-								<span class="glyphicon glyphicon-briefcase"></span> {{dropExtension(proj)}}
-							</div>
-						</span>
-						<horizontal-rule></horizontal-rule>
+					<div class="info-panel">
+						<h2>Quick Compare</h2>
+						<p>Get started right away by quickly comparing local files or folders.</p>
+						<div v-on:click="handleQuickCompareFiles" class="quick-start-option compare-files-option">
+							<span class="glyphicon glyphicon-duplicate"></span> Compare Files
+						</div>
+						<div v-on:click="handleQuickCompareFolders" class="quick-start-option compare-folders-option">
+							<span class="glyphicon glyphicon-folder-open"></span> Compare Folders
+						</div>
 					</div>
+					<horizontal-rule></horizontal-rule>
 					<div class="info-panel">
 						<project-news></project-news>
 					</div>

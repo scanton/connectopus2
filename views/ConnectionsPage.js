@@ -149,7 +149,7 @@
 			return {
 				connectionDetails: null,
 				hasUnsavedEdits: false,
-				isAddConnectionVisible: false,
+				isAddConnectionVisible: true,
 				isEditEnabled: false,
 				supportedDatabaseTypes: controller.getSupportedDatabaseTypes()
 			}

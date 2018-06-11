@@ -5,8 +5,6 @@
 			<div class="row">
 				<div class="col-xs-12 bare-container">
 					<h2>Settings</h2>
-					<!--<button v-on:click="handleThemeToggle" class="btn btn-info">Toggle Azure Style</button>-->
-
 					<div class="input-group">
 						<span class="input-group-addon">Hide Files In Sync</span>
 						<button v-show="settings.hideFilesInSync" class="btn btn-success" v-on:click="handleDeactivateHideFilesInSync">ON</button>

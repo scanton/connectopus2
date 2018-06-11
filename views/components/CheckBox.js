@@ -25,6 +25,7 @@
 		methods: {
 			toggleIsOn: function() {
 				this.isOn = !this.isOn;
+				this.$emit('change-value', this.isOn);
 			}
 		}
 	});
