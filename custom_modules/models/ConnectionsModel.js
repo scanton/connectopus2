@@ -136,7 +136,7 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		}
 	}
 	getPrimeId() {
-		if(this._connections[this.currentProject]) {
+		if(this._connections[this.currentProject] && this._connections[this.currentProject][0]) {
 			return this._connections[this.currentProject][0].id;
 		}
 	}

@@ -84,13 +84,13 @@
 							<h3>Display These Fields</h3>
 						</div>
 						<div class="col-xs-12 col-sm-6 field-list">
-							<div class="field-list-frame">
+							<div class="field-list-frame parent-fields">
 								<h4>{{selectedParent}} fields:</h4>
 								<field-selector v-bind:fields="getColumns(selectedParent)"></field-selector>
 							</div>
 						</div>
 						<div class="col-xs-12 col-sm-6 field-list">
-							<div class="field-list-frame">
+							<div class="field-list-frame child-fields">
 								<h4>{{selectedChild}} fields:</h4>
 								<field-selector v-bind:fields="getColumns(selectedChild)"></field-selector>
 							</div>
@@ -145,7 +145,24 @@
 				}
 			},
 			handleCreateTableRelationship: function() {
-				console.log("HIT")
+				var o = {
+					parentTable: this.selectedParent,
+					parentJoinColumn: this.selectedParentColumn,
+					childTable: this.selectedChild,
+					childJoinColumn: this.selectedChildColumn,
+					parentFields: [],
+					childFields: []
+				};
+				var $fieldSelectors = $(".field-selectors");
+				var $parentFields = $fieldSelectors.find(".parent-fields");
+				var $childFields = $fieldSelectors.find(".child-fields");
+				$parentFields.find(".check-box.is-on").each(function() {
+					o.parentFields.push($(this).closest(".field").text().trim());
+				});
+				$childFields.find(".check-box.is-on").each(function() {
+					o.childFields.push($(this).closest(".field").text().trim());
+				});
+				controller.createTableRelationship(o);
 			},
 			handleDataModelUpdate: function() {
 				this.selectedParent = this.selectedChild = "Select Table";

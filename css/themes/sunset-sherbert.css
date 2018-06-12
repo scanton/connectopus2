@@ -70,7 +70,7 @@ body.sunset-sherbert {
 	background: #333;
 	color: white;
 }
-.sunset-sherbert .glyphicon-folder-close, .sunset-sherbert .glyphicon-folder-open, .sunset-sherbert .fa-table {
+.sunset-sherbert .glyphicon-folder-close, .sunset-sherbert .glyphicon-folder-open, .sunset-sherbert .fa-table, .sunset-sherbert .fa-arrow-right {
 	color: #FF7373;
 }
 .sunset-sherbert .current-connections .connection .quick-connection-link, .sunset-sherbert .current-connections .connection .quick-disconnection-link {

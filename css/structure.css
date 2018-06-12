@@ -66,6 +66,9 @@ h3 {
 	padding-left: 10px;
 	padding-right: 10px;
 }
+.context-side-bar .horizontal-rule {
+	margin-bottom: 7px;
+}
 .btn {
 	padding: 8px 15px;
 	border-radius: 10px;
@@ -258,7 +261,7 @@ h3 {
 	width: 300px;
 	overflow: scroll;
 }
-.current-directories, .current-tables .database-table {
+.current-directories, .current-tables .database-table, .current-tables .realted-table {
 	white-space: nowrap;
 }
 .current-directories .directory:hover, .current-tables .database-table:hover {
@@ -1400,4 +1403,20 @@ ul.radio-options li.selected {
 .field-list .field-list-frame {
 	padding: 1em;
 	border-radius: 10pt;
+}
+.related-tables .relation {
+	padding: 2px 2px 5px 10px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.related-tables .relation:hover {
+	background: black;
+	color: white;
+}
+.related-tables .fa-table {
+	margin-right: 5px;
+}
+.related-tables .fa-arrow-right {
+	margin-right: 3px;
+	margin-left: 7px;
 }

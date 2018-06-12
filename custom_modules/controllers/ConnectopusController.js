@@ -143,6 +143,12 @@ module.exports = class ConnectopusController extends EventEmitter {
 			}
 		}
 	}
+	createTableRelationship(data) {
+		var id = this.getPrimeId();
+		if(data && id) {
+			this.configModel.createTableRelationship(id, data);
+		}
+	}
 	createProject(name) {
 		this.projectsModel.createProject(name);
 	}
@@ -225,6 +231,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 			this._addDirectories(a, path, this.fileModel.getContents(connections[l], path));
 		}
 		return utils.sortArrayBy(a, "name");
+	}
+	getRelations() {
+		return this.configModel.getRelations(this.getPrimeId());
 	}
 	getSupportedDatabaseTypes() {
 		var a = ['None', 'MySQL', 'PostgreSQL', 'MongoDB', 'JSON file', 'REST Endpoint', 'MS SQL Server', 'Excel Spreadsheet'];

@@ -3,7 +3,7 @@
 	var s = `
 		<div class="field-selector">
 			<div v-for="field in fields" class="field">
-				<check-box v-on:change-value="handleChangeValue" v-bind:data-field="field.column"></check-box>
+				<check-box v-bind:data-field="field.column"></check-box>
 				{{field.column}}
 			</div>
 		</div>
@@ -19,9 +19,6 @@
 			return {}
 		},
 		methods: {
-			handleChangeValue(isOn) {
-				console.log(isOn);
-			}
 		}
 	});
 })();
