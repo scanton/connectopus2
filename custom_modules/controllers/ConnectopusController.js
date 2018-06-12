@@ -259,6 +259,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		if(this.lastUpdate) {
 			this._call("connections-page", "setConnectionDetails", this.configModel.getConnection(this.lastUpdate));
 		}
+		this._call("current-tables", "handleDataModelUpdate");
 	}
 	handleConnectionsStatus(data) {
 		var name = ""
@@ -650,6 +651,28 @@ module.exports = class ConnectopusController extends EventEmitter {
 	refreshFileView() {
 		this.setFilePath(this.currentFilePath, true);
 	}
+	removeRelation(id) {
+		var primeId = this.getPrimeId();
+		if(primeId && id) {
+			this._call("modal-overlay", "show", {
+				title: "Remove table relation",
+				message: "Are you sure you want to remove this table relation?",
+				buttons: [
+					{
+						label: "Cancel", class: "btn-warning", icon: "", callback: () => {
+							this.hideModal();
+						}
+					},
+					{
+						label: "Remove Relation", class: "btn-danger", icon: "glyphicon glyphicon-remove", callback: () => {
+							this.configModel.removeRelation(primeId,  id);
+							this.hideModal();
+						}
+					}
+				]
+			});
+		}
+	}
 	saveCurrentProject(args) {
 		var proj = this._strip(this.projectsModel.getCurrentProject());
 		var cons = this._strip(this.connectionsModel.getConnections());
@@ -866,6 +889,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call("context-side-bar", "setContext", "connections");
 		this._call(["uml-diagram", "uuid-generator"], "hide");
 	}
+	showCreateTableRelationshipView() {
+		this._call("data-page", "setSelectedTable", "");
+	}
 	showDataPage() {
 		this._call(["work-area", "main-view"], "showData");
 		this._call("context-side-bar", "setContext", "data");
@@ -982,6 +1008,13 @@ module.exports = class ConnectopusController extends EventEmitter {
 			}];
 		}
 		this.configModel.updateConnection(connection.id, o);
+	}
+	viewTable(name) {
+		console.log("view table", name);
+		this._call(["current-tables", "data-page"], "setSelectedTable", name);
+	}
+	viewRelation(id) {
+		console.log("show relation", name);
 	}
 
 	_addDirectories(arr, path, data) {

@@ -20,9 +20,9 @@
 										<div v-show="isEditEnabled" class="text-center">
 											<radio-set v-on:change-value="handleTypeChange" label="Connection Type" v-bind:selectedOption="connectionDetails.connectionType" v-bind:options="['Local Directory', 'Remote (SFTP)']"></radio-set>
 										</div>
-										<h2 class="span-group">
-											<span v-show="!isEditEnabled">{{connectionDetails.name}}</span>
-											<input class="title-input-field" v-bind:value="connectionDetails.name" v-show="isEditEnabled" type="text" name="name" v-on:keyup="handleInputChange" />
+										<h2 v-show="isEditEnabled" class="span-group">
+											<!--<span v-show="!isEditEnabled">{{connectionDetails.name}}</span>-->
+											<input class="title-input-field" v-bind:value="connectionDetails.name" type="text" name="name" v-on:keyup="handleInputChange" />
 										</h2>
 
 										<div v-show="!isEditEnabled" class="panel-heading text-center">
@@ -32,9 +32,6 @@
 											<span class="input-group-addon">Directory Path</span>
 											<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.directory" readonly="readonly" />
 											<directory-selector v-show="isEditEnabled" v-bind:value="connectionDetails.directory" name="directory-path" v-on:change-value="handleInputChange"></directory-selector>
-											<!--
-											<input type="text" v-show="isEditEnabled" name="directory-path" v-on:keyup="handleInputChange" />
-											-->
 										</div>
 										<div class="input-group" v-show="connectionDetails.connectionType == 'Git Clone (remote)'">
 											<span class="input-group-addon">URI</span>

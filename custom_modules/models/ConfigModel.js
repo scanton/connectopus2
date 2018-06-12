@@ -232,6 +232,13 @@ module.exports = class ConfigModel extends AbstractModel {
 			}
 		}
 	}
+	removeRelation(conId,  relationId) {
+		var con = this.getConnection(conId);
+		if(con.tableRelationships && con.tableRelationships[relationId]) {
+			delete con.tableRelationships[relationId];
+			this.updateConnection(conId, con);
+		}
+	}
 	saveConfig() {
 		var path = __dirname.split("custom_modules/models")[0] + "working_files/config.json";
 		this.fs.outputJsonSync(path, this._strip(this._config), { spaces: '\t' });

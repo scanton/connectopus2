@@ -15,6 +15,22 @@ body.sunset-sherbert {
 .sunset-sherbert input {
 	border: none;
 }
+.sunset-sherbert .dropdown-menu {
+	background: #555;
+	border-color: #444;
+	box-shadow: 2px 2px 14px rgba(0, 0, 0, .25);
+	max-height: 400px;
+	overflow: scroll;
+	border-radius: 15px;
+	border-top-left-radius: 0;
+}
+.sunset-sherbert .dropdown-menu a {
+	color: #DFDFDF;
+}
+.sunset-sherbert .dropdown-menu a:hover {
+	color: white;
+	background: black;
+}
 .sunset-sherbert .footer-bar.side-bar {
 	background: linear-gradient(to bottom, #DDD 0%, #CCC 50%, #BBB 100%);
 }
@@ -364,4 +380,11 @@ body.sunset-sherbert {
 }
 .sunset-sherbert .field-list .field-list-frame {
 	background: #333;
+}
+.sunset-sherbert .btn-default:active, .sunset-sherbert .btn-default.active, .sunset-sherbert .open > .dropdown-toggle.btn-default {
+	background: #555;
+	color: #CCC;
+}
+.sunset-sherbert .related-tables .relation:hover .arrow-connector, .sunset-sherbert .related-tables .relation .arrow-connector {
+	border-color: #FF7373;
 }

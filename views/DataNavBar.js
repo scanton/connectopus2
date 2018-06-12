@@ -10,6 +10,9 @@
 					<button v-on:click="handleRefreshView" class="btn btn-default pull-right" title="Refresh View">
 						<span class="glyphicon glyphicon-refresh"></span>
 					</button>
+					<button v-show="showRelationsButton" v-on:click="handleCreateTableRelationship" class="btn btn-default" title="Create Table Relationship">
+						<span class="glyphicon glyphicon-list-alt"></span> Create Table Relationship
+					</button>
 				</div>
 			</div>
 		</div>
@@ -20,18 +23,22 @@
 			viewController.registerView(componentName, this);
 		},
 		template: s,
+		props: ["showRelationsButton"],
 		data: function() {
 			return {
 				rowsAreSelected: false
 			}
 		},
 		methods: {
-			handleSyncData: function(e) {
-				e.preventDefault();
-				controller.syncSelectedFiles();
+			handleCreateTableRelationship: function(e) {
+				controller.showCreateTableRelationshipView();
 			},
 			handleRefreshView: function(e) {
 				console.log("refresh data view");
+			},
+			handleSyncData: function(e) {
+				e.preventDefault();
+				controller.syncSelectedFiles();
 			}
 		}
 	});

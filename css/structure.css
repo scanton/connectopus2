@@ -71,7 +71,7 @@ h3 {
 }
 .btn {
 	padding: 8px 15px;
-	border-radius: 10px;
+	border-radius: 7px;
 }
 .clear {
 	clear: both;
@@ -102,7 +102,7 @@ h3 {
 	top: 20%;
 	left: 25%;
 	right: 25%;
-	box-shadow: 4px 4px 4px rgba(0, 0, 0, .5);
+	box-shadow: 2px 2px 14px rgba(0, 0, 0, .5);
 }
 .modal-overlay button {
 	margin-left: .5em;
@@ -417,6 +417,10 @@ input {
 .panel-default {
 	margin-bottom: 0;
 }
+.panel-default .dialog-message {
+	font-weight: 300;
+	letter-spacing: 1.15px;
+}
 .panel-button {
 	margin-top: 13px;
 	margin-left: .5em;
@@ -424,6 +428,10 @@ input {
 .panel-heading {
 	padding: 0;
     margin-bottom: .5em;
+    padding: 1em;
+    font-size: 22pt;
+    font-weight: 300;
+    letter-spacing: 1.3px;
 }
 .title-input-field {
 	width: 100%;
@@ -608,8 +616,8 @@ ul.directories li, ul.tables li {
 	display: inline-block;
 	padding: 0;
 	transform: translateY(2px);
-	border-top-right-radius: 10px;
-	border-top-left-radius: 10px;
+	border-top-right-radius: 7px;
+	border-top-left-radius: 7px;
 	cursor: pointer;
 	border: 0;
 }
@@ -633,7 +641,7 @@ ul.directories li, ul.tables li {
 	visibility: visible;
 	color: white;
 	cursor: pointer;
-	border-radius: 10px;
+	border-radius: 7px;
 }
 .welcome-page .info-panel {
 	/*
@@ -1408,10 +1416,33 @@ ul.radio-options li.selected {
 	padding: 2px 2px 5px 10px;
 	border-radius: 10px;
 	cursor: pointer;
+	position: relative;
 }
 .related-tables .relation:hover {
 	background: black;
 	color: white;
+}
+.related-tables .relation:hover .arrow-connector {
+	border-color: white;
+}
+.related-tables .relation .arrow-connector {
+	position: absolute;
+	border-left: 2px solid #444;
+	border-bottom: 2px solid #444;
+	height: 12px;
+	width: 4px;
+	top: 22px;
+	left: 15px;
+}
+.related-tables .relation .glyphicon-remove {
+	display: none;
+}
+.related-tables .relation:hover .glyphicon-remove {
+	display: inline-block;
+	margin: 3px;
+}
+.related-tables .relation:hover .glyphicon-remove:hover {
+	color: red;
 }
 .related-tables .fa-table {
 	margin-right: 5px;

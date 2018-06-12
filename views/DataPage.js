@@ -4,10 +4,10 @@
 		<div class="data-page container-fluid">
 			<div class="row">
 				<div class="col-xs-12">
-					<data-nav-bar></data-nav-bar>
+					<data-nav-bar v-bind:showRelationsButton="selectedTable != ''"></data-nav-bar>
 				</div>
 			</div>
-			<div class="row main-data-container">
+			<div v-show="selectedTable == ''" class="row main-data-container">
 				<div class="col-xs-12">
 					<h2>Data Table Relationships</h2>
 					<p>You can create parent/child relationships between tables to manage data sync among inter-related tables.</p>
@@ -98,6 +98,11 @@
 						<button v-on:click="handleCreateTableRelationship" class="btn btn-success pull-right">Create Table Relationship</button>
 						<div class="clear"></div>
 					</div>
+				</div>
+			</div>
+			<div v-show="selectedTable != ''" class="row main-data-container">
+				<div class="col-xs-12">
+					<h2>Data Compare</h2>
 				</div>
 			</div>
 		</div>
