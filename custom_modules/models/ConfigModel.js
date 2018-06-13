@@ -42,6 +42,15 @@ module.exports = class ConfigModel extends AbstractModel {
 			console.error("cannot find connection: ", id);
 		}
 	}
+	createFolder(name) {
+		if(name) {
+			if(!this._config.folders) {
+				this._config.folders = [];
+			}
+			this._config.folders.push({name: name, servers: []});
+			this.saveConfig();
+		}
+	}
 	createTableRelationship(id, data) {
 		if(id && data && data.parentTable && data.childTable) {
 			var relationId = this.md5(data.parentTable + data.childTable);
@@ -53,15 +62,6 @@ module.exports = class ConfigModel extends AbstractModel {
 				con.tableRelationships[relationId] = data;
 				this.updateConnection(id, con);
 			}
-		}
-	}
-	createFolder(name) {
-		if(name) {
-			if(!this._config.folders) {
-				this._config.folders = [];
-			}
-			this._config.folders.push({name: name, servers: []});
-			this.saveConfig();
 		}
 	}
 	deleteConnection(id) {
@@ -101,6 +101,16 @@ module.exports = class ConfigModel extends AbstractModel {
 				return con.tableRelationships;
 			}
 		}
+	}
+	hasTableRelationship(id, data) {
+		if(id && data) {
+			var con = this.getConnection(id);
+			var relationId = this.md5(data.parentTable + data.childTable);
+			if(con && con.tableRelationships && con.tableRelationships[relationId]) {
+				return true;
+			}
+		}
+		return false;
 	}
 	loadConfig() {
 		var path = __dirname.split("custom_modules/models")[0] + "working_files/config.json";

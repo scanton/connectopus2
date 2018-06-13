@@ -4,21 +4,21 @@
 		<div class="horizontal-rule">
 			<div class="doo-dads text-center top-bar bar">
 				<div class="dot"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-				<div class="dash-10"></div>
-				<div class="dot"></div>
-				<div class="dash-10"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
+				<div class="dot medium"></div>
 				<div class="dot"></div>
 				<div class="dash-10"></div>
 				<div class="dot"></div>
 				<div class="dash-10"></div>
 				<div class="dot"></div>
+				<div class="dot medium"></div>
+				<div class="dot large"></div>
+				<div class="dot medium"></div>
 				<div class="dot"></div>
+				<div class="dash-10"></div>
+				<div class="dot"></div>
+				<div class="dash-10"></div>
+				<div class="dot"></div>
+				<div class="dot medium"></div>
 				<div class="dot"></div>
 			</div>
 			<div v-if="isLarge" class="horizontal-bar middle-bar bar"></div>

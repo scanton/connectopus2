@@ -102,6 +102,26 @@ module.exports = class ConnectionsModel extends AbstractModel {
 	getConnectionCount() {
 		return this._connections[this.currentProject].length;
 	}
+	getDatabaseRelation(con, relation, callback) {
+		var liveConnection = DataSourceFactory.createDatabaseConnection(con);
+		if(liveConnection && relation) {
+			var query = "SELECT * FROM " + relation.parentTable + " AS a JOIN " + relation.childTable + " AS b ON a." + relation.parentJoinColumn + " = b." + relation.childJoinColumn + " ORDER BY b." + relation.childJoinColumn + " DESC " ;
+			console.log(query);
+			this.setStatus(con.id, 'pending');
+			liveConnection.getDirectory(query, (data) => {
+				this.setStatus(con.id, 'connected');
+				this.dataModel.setContents(con, relation.id, data);
+				if(callback) {
+					callback(data);
+				}
+			}, (err) => {
+				controller.handleError(err);
+				this.setStatus(con.id, 'error');
+			});
+		} else {
+			controller.handleError("invalid relation at ConnectionsModel.getDatabaseRelation()");
+		}
+	}
 	getDataTables(con, path, callback) {
 		var liveConnection = DataSourceFactory.createDatabaseConnection(con);
 		if(liveConnection) {

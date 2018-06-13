@@ -7,13 +7,13 @@ module.exports = class AbstractDataSource extends EventEmitter {
 	}
 
 	copyFilesToLocalDirectory(path, files, localDirectory, callback, errorHandler) {
-		console.log("implement copyFilesToLocalDirectory in child class", this._con.name);
+		console.log("implement copyFilesToLocalDirectory in child class", this._con.connectionType);
 		if(callback) {
 			callback();
 		}
 	}
 	createDirectory(path, callback, errorHandler) {
-		console.log("implement createDirectory in child class", this._con.name);	
+		console.log("implement createDirectory in child class", this._con.connectionType);	
 		if(callback) {
 			callback();
 		}
@@ -22,13 +22,19 @@ module.exports = class AbstractDataSource extends EventEmitter {
 		return this._strip(this._con);
 	}
 	getDirectory(path, callback, errorHandler) {
-		console.log("implement getDirectory in child class", this._con.name);
+		console.log("implement getDirectory in child class", this._con.connectionType);
+		if(callback) {
+			callback();
+		}
+	}
+	getRelation(relation, callback, errorHandler) {
+		console.log("implement getRelation in child class", this._con.connectionType);
 		if(callback) {
 			callback();
 		}
 	}
 	getSourceFile(path, localPath, saveFileToPath, directory, callback, errorHandler) {
-		console.log("implement getSourceFile in child class", this._con.name);
+		console.log("implement getSourceFile in child class", this._con.connectionType);
 		if(callback) {
 			callback(saveFileToPath);
 		}
@@ -41,7 +47,7 @@ module.exports = class AbstractDataSource extends EventEmitter {
 		callback(false);
 	}
 	save(documentText, path, callback, errorHandler) {
-		console.log("implement save in child class", this._con.name);
+		console.log("implement save in child class", this._con.connectionType);
 		if(callback) {
 			callback();
 		}
@@ -55,7 +61,7 @@ module.exports = class AbstractDataSource extends EventEmitter {
 		this.dispatchEvent("change", this);
 	}
 	sync(path, localDirectory, updates, deletes, callback) {
-		console.log("implement sync in child class", this._con.name);	
+		console.log("implement sync in child class", this._con.connectionType);	
 		if(callback) {
 			callback();
 		}

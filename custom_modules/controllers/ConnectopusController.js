@@ -146,7 +146,13 @@ module.exports = class ConnectopusController extends EventEmitter {
 	createTableRelationship(data) {
 		var id = this.getPrimeId();
 		if(data && id) {
-			this.configModel.createTableRelationship(id, data);
+			if(this.configModel.hasTableRelationship(id, data)) {
+				this._call("modal-overlay", "show", {
+
+				});
+			} else {
+				this.configModel.createTableRelationship(id, data);
+			}
 		}
 	}
 	createProject(name) {
@@ -154,7 +160,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	deleteConnection(id) {
 		var con = stripObservers(this.configModel.getConnection(id));
-		this.viewController.callViewMethod("modal-overlay", "show", {
+		this._call("modal-overlay", "show", {
 			title: 'Confirm Delete Connection "' + con.name + '"',
 			message: 'Are you sure you want to delete "' + con.name + '"?', 
 			buttons: [
@@ -171,7 +177,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		});
 	}
 	deleteFolder(name) {
-		this.viewController.callViewMethod("modal-overlay", "show", {
+		this._call("modal-overlay", "show", {
 			title: 'Confirm Delete Folder',
 			message: 'Are you sure you want to delete this folder <strong>(and all of its contents)</strong>?', 
 			buttons: [
@@ -232,15 +238,26 @@ module.exports = class ConnectopusController extends EventEmitter {
 		}
 		return utils.sortArrayBy(a, "name");
 	}
-	getRelations() {
-		return this.configModel.getRelations(this.getPrimeId());
-	}
 	getSupportedDatabaseTypes() {
 		var a = ['None', 'MySQL', 'PostgreSQL', 'MongoDB', 'JSON file', 'REST Endpoint', 'MS SQL Server', 'Excel Spreadsheet'];
 		return a.slice(0, 2);
 	}
 	getPrimeId() {
 		return this.connectionsModel.getPrimeId();
+	}
+	getPrimeConnection() {
+		return this.connectionsModel.getConnection(this.connectionsModel.getPrimeId());
+	}
+	getRelation(id) {
+		var pId = this.getPrimeId();
+		var con = this.connectionsModel.getConnection(pId);
+		if(con && con.tableRelationships && con.tableRelationships[id]) {
+			return con.tableRelationships[id];
+		}
+		return null;
+	}
+	getRelations() {
+		return this.configModel.getRelations(this.getPrimeId());
 	}
 	getSettings() {
 		return this.settingsModel.getSettings();
@@ -1014,7 +1031,12 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call(["current-tables", "data-page"], "setSelectedTable", name);
 	}
 	viewRelation(id) {
-		console.log("show relation", name);
+		console.log(id);
+		var relation = this.getRelation(id);
+		console.log(stripObservers(relation));
+		this.connectionsModel.getDatabaseRelation(this.getPrimeConnection(), relation, function(data) {
+			console.log(data);
+		});
 	}
 
 	_addDirectories(arr, path, data) {

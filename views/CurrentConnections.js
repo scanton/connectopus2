@@ -12,7 +12,7 @@
 						</li>
 						<folder v-for="folder in folders" v-bind:name="folder.name" v-bind:connections="folder.servers"></folder>
 					</ul>
-					<hr />
+					<horizontal-rule />
 					<ul class="connections">
 						<connection v-for="connection in connections" v-bind:name="connection.name" v-bind:id="connection.id"></connection>
 					</ul>
