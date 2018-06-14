@@ -1,3 +1,6 @@
+.db-options-toggle {
+	display: none;
+}
 @font-face {
     font-family: NeoTech;
     src: url("../fonts/NeoTech.otf") format("opentype");
@@ -169,6 +172,9 @@ h3 {
 	width: 350px;
 	bottom: 26px;
 	-webkit-transition: all 0.3s ease;
+}
+.settings-side-bar .input-group input {
+	padding: .5em;
 }
 .settings-is-visible .settings-side-bar {
 	right: 0;
@@ -1143,6 +1149,7 @@ ul.directories li, ul.tables li {
 	padding: .5em;
 }
 .quick-start-option {
+	position: relative;
 	border-radius: 15px;
 	-webkit-transition: all 0.3s ease;
 	position: relative;
@@ -1153,9 +1160,10 @@ ul.directories li, ul.tables li {
 	border-right: 10px solid #999;
 	margin-bottom: 5px;
 	cursor: pointer;
+	overflow: hidden;
 }
 .quick-start-option:hover {
-	background: #555;
+	background: black;
 	color: white;
 }
 .quick-start-option .glyphicon {

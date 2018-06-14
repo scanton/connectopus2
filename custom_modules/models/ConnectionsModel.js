@@ -22,11 +22,13 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			this._dispatchUpdate();
 			
 			this.getDirectory(con, "", (data) => {
-				if(con.connections.length && con.connections[0].type == "MySQL") {
+				var dbEnabled = controller.isDatabaseOptionsEnabled();
+				if(dbEnabled && con.connections.length && con.connections[0].type == "MySQL") {
 					this.getDataTables(con, "", (data2) => {
 						callback(data);
 					});
 				} else {
+					console.log("db not enabled");
 					callback(data);
 				}
 			});

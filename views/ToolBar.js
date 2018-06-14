@@ -79,7 +79,7 @@
 				<li class="show-files-link" v-show="activeConnections.length" title="Files" v-on:click="showFiles">
 					<span class="glyphicon glyphicon-duplicate"></span>
 				</li>
-				<li class="show-data-link" v-show="activeConnections.length" title="Data" v-on:click="showData">
+				<li class="show-data-link" v-show="enableDatabaseOptions && activeConnections.length" title="Data" v-on:click="showData">
 					<i class="fas fa-database"></i>
 				</li>
 			</ul>
@@ -98,10 +98,14 @@
 		data: function() {
 			return {
 				activeConnections: [],
-				showAllLabels: false
+				showAllLabels: false,
+				enableDatabaseOptions: false
 			}
 		},
 		methods: {
+			setDatabaseOptionsEnabled: function(bool) {
+				this.enableDatabaseOptions = bool;
+			},
 			showHome: function(e) {
 				controller.showHomePage();
 				this.setSelected(".show-home-link");

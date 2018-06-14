@@ -2,7 +2,7 @@
 	var componentName = 'connections-page';
 	var s = `
 		<div class="connections-page container-fluid full-height">
-			<div class="row" v-if="isAddConnectionVisible">
+			<div class="row" v-show="isAddConnectionVisible">
 				<div class="col-xs-12">
 					<div class="add-connection-page">
 						<add-new-connection-form></add-new-connection-form>
@@ -63,60 +63,62 @@
 											<input type="password" v-show="!isEditEnabled" v-bind:value="connectionDetails.password" readonly="readonly" />
 											<input type="password" v-show="isEditEnabled" name="ssh-password" v-on:keyup="handleInputChange" />
 										</div>
-										
-										<div v-show="isEditEnabled" class="text-center">
-											<radio-set v-on:change-value="handleDatabaseTypeChange" label="Database Type" v-bind:selectedOption="connectionDetails.connections[0].type" v-bind:options="supportedDatabaseTypes"></radio-set>
-										</div>
-										<div v-show="connectionDetails.connections[0].type != 'None'" class="database-details">
+											
+										<div v-show="isDatabaseEnabled">
+											<div v-show="isEditEnabled" class="text-center">
+												<radio-set v-on:change-value="handleDatabaseTypeChange" label="Database Type" v-bind:selectedOption="connectionDetails.connections[0].type" v-bind:options="supportedDatabaseTypes"></radio-set>
+											</div>
+											<div v-show="connectionDetails.connections[0].type != 'None'" class="database-details">
 
-											<div class="panel-heading database-connection-name">
-												<h2 class="panel-title span-group">
-													<span v-show="!isEditEnabled">{{connectionDetails.connections[0].name}}</span>
-													<input class="title-input-field" v-show="isEditEnabled" type="text" v-show="isEditEnabled" name="db-connection-name" v-on:keyup="handleInputChange" placeholder="descriptive database connection name" />
-												</h2>
-											</div>
-											<div v-show="!isEditEnabled" class="panel-heading text-center">
-												{{connectionDetails.connections[0].type}}
-											</div>
-											<div class="input-group" v-show="connectionDetails.connections[0].type == 'REST Endpoint' || connectionDetails.connections[0].type == 'Git Clone (remote)'">
-												<span class="input-group-addon">URI</span>
-												<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].uri" readonly="readonly" />
-												<input type="text" v-show="isEditEnabled" name="db-connection-uri" v-on:keyup="handleInputChange" />
-											</div>
-											<div class="input-group" v-show="connectionDetails.connections[0].type == 'REST Endpoint'">
-												<span class="input-group-addon">Verb</span>
-												<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0]['rest-verb']" readonly="readonly" />
-												<input type="text" v-show="isEditEnabled" name="db-connection-rest-verb" v-on:keyup="handleInputChange" />
-											</div>
-											<div class="input-group" v-show="connectionDetails.connections[0].type == 'REST Endpoint'">
-												<span class="input-group-addon">Arguments</span>
-												<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0]['rest-args']" readonly="readonly" />
-												<input type="text" v-show="isEditEnabled" name="db-connection-rest-args" v-on:keyup="handleInputChange" />
-											</div>
-											<div class="input-group" v-show="connectionDetails.connections[0].type == 'JSON file' || connectionDetails.connections[0].type == 'Excel Spreadsheet'">
-												<span class="input-group-addon">File</span>
-												<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].file" readonly="readonly" />
-												<input type="text" v-show="isEditEnabled" name="db-connection-file" v-on:keyup="handleInputChange" />
-											</div>
-											<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
-												<span class="input-group-addon">Host</span>
-												<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].host" readonly="readonly" />
-												<input type="text" v-show="isEditEnabled" name="db-connection-host" v-on:keyup="handleInputChange" />
-											</div>
-											<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
-												<span class="input-group-addon">Database Name</span>
-												<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].database" readonly="readonly" />
-												<input type="text" v-show="isEditEnabled" name="db-connection-database" v-on:keyup="handleInputChange" />
-											</div>
-											<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
-												<span class="input-group-addon">Userame</span>
-												<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].username" readonly="readonly" />
-												<input type="text" v-show="isEditEnabled" name="db-connection-username" v-on:keyup="handleInputChange" />
-											</div>
-											<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
-												<span class="input-group-addon">Password</span>
-												<input type="password" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].password" readonly="readonly" />
-												<input type="password" v-show="isEditEnabled" name="db-connection-password" v-on:keyup="handleInputChange" />
+												<div class="panel-heading database-connection-name">
+													<h2 class="panel-title span-group">
+														<span v-show="!isEditEnabled">{{connectionDetails.connections[0].name}}</span>
+														<input class="title-input-field" v-show="isEditEnabled" type="text" v-show="isEditEnabled" name="db-connection-name" v-on:keyup="handleInputChange" placeholder="descriptive database connection name" />
+													</h2>
+												</div>
+												<div v-show="!isEditEnabled" class="panel-heading text-center">
+													{{connectionDetails.connections[0].type}}
+												</div>
+												<div class="input-group" v-show="connectionDetails.connections[0].type == 'REST Endpoint' || connectionDetails.connections[0].type == 'Git Clone (remote)'">
+													<span class="input-group-addon">URI</span>
+													<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].uri" readonly="readonly" />
+													<input type="text" v-show="isEditEnabled" name="db-connection-uri" v-on:keyup="handleInputChange" />
+												</div>
+												<div class="input-group" v-show="connectionDetails.connections[0].type == 'REST Endpoint'">
+													<span class="input-group-addon">Verb</span>
+													<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0]['rest-verb']" readonly="readonly" />
+													<input type="text" v-show="isEditEnabled" name="db-connection-rest-verb" v-on:keyup="handleInputChange" />
+												</div>
+												<div class="input-group" v-show="connectionDetails.connections[0].type == 'REST Endpoint'">
+													<span class="input-group-addon">Arguments</span>
+													<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0]['rest-args']" readonly="readonly" />
+													<input type="text" v-show="isEditEnabled" name="db-connection-rest-args" v-on:keyup="handleInputChange" />
+												</div>
+												<div class="input-group" v-show="connectionDetails.connections[0].type == 'JSON file' || connectionDetails.connections[0].type == 'Excel Spreadsheet'">
+													<span class="input-group-addon">File</span>
+													<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].file" readonly="readonly" />
+													<input type="text" v-show="isEditEnabled" name="db-connection-file" v-on:keyup="handleInputChange" />
+												</div>
+												<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
+													<span class="input-group-addon">Host</span>
+													<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].host" readonly="readonly" />
+													<input type="text" v-show="isEditEnabled" name="db-connection-host" v-on:keyup="handleInputChange" />
+												</div>
+												<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
+													<span class="input-group-addon">Database Name</span>
+													<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].database" readonly="readonly" />
+													<input type="text" v-show="isEditEnabled" name="db-connection-database" v-on:keyup="handleInputChange" />
+												</div>
+												<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
+													<span class="input-group-addon">Userame</span>
+													<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].username" readonly="readonly" />
+													<input type="text" v-show="isEditEnabled" name="db-connection-username" v-on:keyup="handleInputChange" />
+												</div>
+												<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
+													<span class="input-group-addon">Password</span>
+													<input type="password" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].password" readonly="readonly" />
+													<input type="password" v-show="isEditEnabled" name="db-connection-password" v-on:keyup="handleInputChange" />
+												</div>
 											</div>
 										</div>
 										<input type="hidden" name="id" v-bind:value="connectionDetails.id" />
@@ -148,7 +150,8 @@
 				hasUnsavedEdits: false,
 				isAddConnectionVisible: true,
 				isEditEnabled: false,
-				supportedDatabaseTypes: controller.getSupportedDatabaseTypes()
+				supportedDatabaseTypes: controller.getSupportedDatabaseTypes(),
+				isDatabaseEnabled: false
 			}
 		},
 		methods: {
@@ -216,6 +219,9 @@
 				this.hasUnsavedEdits = false;
 				this.isAddConnectionVisible = false;
 				this.isEditEnabled = false;
+			},
+			setDatabaseOptionsEnabled: function(bool) {
+				this.isDatabaseEnabled = bool;
 			}
 		}
 	});

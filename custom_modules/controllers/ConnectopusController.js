@@ -623,6 +623,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 			$main.attr("data-last-class", theme);
 			this._call(["title-bar", "work-area"], "setTheme", theme);
 		}
+		this._call(["tool-bar", "add-new-connection-form", "connections-page"], "setDatabaseOptionsEnabled", data.enableDatabaseOptions);
 	}
 	handleShowAllLabels() {
 		this._call("modal-overlay", "showOverlay");
@@ -630,6 +631,15 @@ module.exports = class ConnectopusController extends EventEmitter {
 
 	hideModal() {
 		this._call("modal-overlay", "hide");
+	}
+	isDatabaseOptionsEnabled() {
+		if(this.settingsModel) {
+			var _settings = this.settingsModel.getSettings();
+			if(_settings.enableDatabaseOptions) {
+				return true;
+			}
+		}
+		return false;
 	}
 	moveConnectionTo(toId) {
 		this.configModel.moveTo(this.dragId, toId);
@@ -800,6 +810,13 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.pathsModel.setCurrentProject(id);
 		this._call("project-tabs", "setCurrentProject", id);
 		this._call("title-bar", "setTitle", this.projectsModel.getProject(id).name);
+	}
+	setDatabaseOptionsEnabled(bool) {
+		this.settingsModel.setDatabaseOptionsEnabled(bool);
+		var $dataPageSelected = $(".show-data-link.selected");
+		if($dataPageSelected.length) {
+			this._call("tool-bar", "showHome");
+		}
 	}
 	setDragFolderName(name) {
 		this.dragFolderName = name;
@@ -1030,13 +1047,35 @@ module.exports = class ConnectopusController extends EventEmitter {
 		console.log("view table", name);
 		this._call(["current-tables", "data-page"], "setSelectedTable", name);
 	}
-	viewRelation(id) {
+	viewRelation(id, forceRefresh) {
 		console.log(id);
 		var relation = this.getRelation(id);
-		console.log(stripObservers(relation));
-		this.connectionsModel.getDatabaseRelation(this.getPrimeConnection(), relation, function(data) {
-			console.log(data);
-		});
+		if(relation) {
+			var liveCons = this.connectionsModel.getConnections();
+			var currentConnection = 0;
+			if(liveCons.length) {
+				var handler = function(data) {
+					++currentConnection;
+					if(currentConnection < liveCons.length) {
+						this.connectionsModel.getDatabaseRelation(liveCons[currentConnection], relation, handler);
+					} else {
+						this._call("modal-overlay", "hide");
+						console.log("done");
+						this.handleRelationChange();
+					}
+				}.bind(this);
+
+				if(!this.dataModel.hasContent(liveCons[0].id, relation) || forceRefresh) {
+					this._call("modal-overlay", "showLoader");
+					this.connectionsModel.getDatabaseRelation(liveCons[currentConnection], relation, handler);
+				}
+			}
+		} else {
+			this.handleError("Invalid relation id in congroller.viewRelation: " + id);
+		}
+	}
+	handleRelationChange() {
+		console.log("relation change complete");
 	}
 
 	_addDirectories(arr, path, data) {

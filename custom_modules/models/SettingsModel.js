@@ -19,6 +19,10 @@ module.exports = class SettingsModel extends AbstractModel {
 	getSettings() {
 		return this._strip(this._settings);
 	}
+	setDatabaseOptionsEnabled(bool) {
+		this._settings.enableDatabaseOptions = bool;
+		this._saveSettings();
+	}
 	setHideFilesInSync(bool) {
 		this._settings.hideFilesInSync = bool;
 		this._saveSettings();

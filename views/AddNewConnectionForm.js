@@ -47,6 +47,8 @@
 											<span class="input-group-addon">Password</span>
 											<input type="password" name="ssh-password" />
 										</div>
+
+										<div v-show="isDatabaseEnabled">
 											<div class="text-center">
 												<radio-set v-on:change-value="handleDatabaseTypeChange" label="Database Type" v-bind:selectedOption="databaseType" v-bind:options="supportedDatabaseTypes"></radio-set>
 											</div>
@@ -100,6 +102,8 @@
 													<input type="file" webkitdirectory name="db-connection-file" />
 												</div>
 											</div>
+										</div>
+
 										<button v-on:click="handleAddNewConnection" class="btn btn-success pull-right panel-button">Add New Connection</button>
 										<div class="clear"></div>
 									</div>
@@ -123,7 +127,8 @@
 				databaseType: 'None',
 				verb: 'GET',
 				name: 'Add New Connection',
-				supportedDatabaseTypes: controller.getSupportedDatabaseTypes()
+				supportedDatabaseTypes: controller.getSupportedDatabaseTypes(),
+				isDatabaseEnabled: false
 			}
 		},
 		methods: {
@@ -171,6 +176,9 @@
 			},
 			isDatabaseNotSelected: function() {
 				return this.databaseType == 'None';
+			},
+			setDatabaseOptionsEnabled: function(bool) {
+				this.isDatabaseEnabled = bool;
 			}
 		}
 	});
