@@ -17,55 +17,55 @@
 								<td valign="top" align="center"><h3>{{connectionDetails.name}}</h3></td>
 								<td valign="top">
 									<form class="edit-connection-details-form">
-										<div v-show="isEditEnabled" class="text-center">
+										<div v-show="isEditEnabled">
 											<radio-set v-on:change-value="handleTypeChange" label="Connection Type" v-bind:selectedOption="connectionDetails.connectionType" v-bind:options="['Local Directory', 'Remote (SFTP)']"></radio-set>
 										</div>
-										<h2 v-show="isEditEnabled" class="span-group">
-											<!--<span v-show="!isEditEnabled">{{connectionDetails.name}}</span>-->
+										
+										<div v-show="isEditEnabled" class="input-group right-style">
 											<input class="title-input-field" v-bind:value="connectionDetails.name" type="text" name="name" v-on:keyup="handleInputChange" />
-										</h2>
-
-										<div v-show="!isEditEnabled" class="panel-heading text-center">
+											<span class="input-group-addon">Name</span>
+										</div>
+										<div v-show="!isEditEnabled" class="panel-heading">
 											{{connectionDetails.connectionType}}
 										</div>
-										<div class="input-group" v-show="connectionDetails.connectionType == 'Local Directory' || connectionDetails.connectionType == 'Git (local)'">
-											<span class="input-group-addon">Directory Path</span>
+										<div class="input-group right-style" v-show="connectionDetails.connectionType == 'Local Directory' || connectionDetails.connectionType == 'Git (local)'">
 											<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.directory" readonly="readonly" />
 											<directory-selector v-show="isEditEnabled" v-bind:value="connectionDetails.directory" name="directory-path" v-on:change-value="handleInputChange"></directory-selector>
+											<span class="input-group-addon">Directory Path</span>
 										</div>
-										<div class="input-group" v-show="connectionDetails.connectionType == 'Git Clone (remote)'">
-											<span class="input-group-addon">URI</span>
+										<div class="input-group right-style" v-show="connectionDetails.connectionType == 'Git Clone (remote)'">
 											<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.uri" readonly="readonly" />
 											<input type="text" v-show="isEditEnabled" name="uri" v-on:keyup="handleInputChange" />
+											<span class="input-group-addon">URI</span>
 										</div>
-										<div class="input-group" v-show="connectionDetails.connectionType == 'Remote (SFTP)'">
-											<span class="input-group-addon">Host</span>
+										<div class="input-group right-style" v-show="connectionDetails.connectionType == 'Remote (SFTP)'">
 											<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.host" readonly="readonly" />
 											<input type="text" v-show="isEditEnabled" name="ssh-host" v-on:keyup="handleInputChange" />
+											<span class="input-group-addon">Host</span>
 										</div>
-										<div class="input-group" v-show="connectionDetails.connectionType == 'Remote (SFTP)'">
-											<span class="input-group-addon">Root Directory</span>
+										<div class="input-group right-style" v-show="connectionDetails.connectionType == 'Remote (SFTP)'">
 											<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.root" readonly="readonly" />
 											<input type="text" v-show="isEditEnabled" name="ssh-root-directory" v-on:keyup="handleInputChange" />
+											<span class="input-group-addon">Root Directory</span>
 										</div>
-										<div class="input-group" v-show="connectionDetails.connectionType == 'Remote (SFTP)'">
-											<span class="input-group-addon">Port</span>
+										<div class="input-group right-style" v-show="connectionDetails.connectionType == 'Remote (SFTP)'">
 											<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.port" readonly="readonly" />
 											<input type="text" v-show="isEditEnabled" name="ssh-port" v-on:keyup="handleInputChange" />
+											<span class="input-group-addon">Port</span>
 										</div>
-										<div class="input-group" v-show="connectionDetails.connectionType == 'Remote (SFTP)' || connectionDetails.connectionType == 'Git Clone (remote)'">
-											<span class="input-group-addon">Username</span>
+										<div class="input-group right-style" v-show="connectionDetails.connectionType == 'Remote (SFTP)' || connectionDetails.connectionType == 'Git Clone (remote)'">
 											<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.username" readonly="readonly" />
 											<input type="text" v-show="isEditEnabled" name="ssh-username" v-on:keyup="handleInputChange" />
+											<span class="input-group-addon">Username</span>
 										</div>
-										<div class="input-group" v-show="connectionDetails.connectionType == 'Remote (SFTP)' || connectionDetails.connectionType == 'Git Clone (remote)'">
-											<span class="input-group-addon">Password</span>
+										<div class="input-group right-style" v-show="connectionDetails.connectionType == 'Remote (SFTP)' || connectionDetails.connectionType == 'Git Clone (remote)'">
 											<input type="password" v-show="!isEditEnabled" v-bind:value="connectionDetails.password" readonly="readonly" />
 											<input type="password" v-show="isEditEnabled" name="ssh-password" v-on:keyup="handleInputChange" />
+											<span class="input-group-addon">Password</span>
 										</div>
 											
 										<div v-show="isDatabaseEnabled">
-											<div v-show="isEditEnabled" class="text-center">
+											<div v-show="isEditEnabled">
 												<radio-set v-on:change-value="handleDatabaseTypeChange" label="Database Type" v-bind:selectedOption="connectionDetails.connections[0].type" v-bind:options="supportedDatabaseTypes"></radio-set>
 											</div>
 											<div v-show="connectionDetails.connections[0].type != 'None'" class="database-details">
@@ -76,48 +76,48 @@
 														<input class="title-input-field" v-show="isEditEnabled" type="text" v-show="isEditEnabled" name="db-connection-name" v-on:keyup="handleInputChange" placeholder="descriptive database connection name" />
 													</h2>
 												</div>
-												<div v-show="!isEditEnabled" class="panel-heading text-center">
+												<div v-show="!isEditEnabled" class="panel-heading">
 													{{connectionDetails.connections[0].type}}
 												</div>
-												<div class="input-group" v-show="connectionDetails.connections[0].type == 'REST Endpoint' || connectionDetails.connections[0].type == 'Git Clone (remote)'">
-													<span class="input-group-addon">URI</span>
+												<div class="input-group right-style" v-show="connectionDetails.connections[0].type == 'REST Endpoint' || connectionDetails.connections[0].type == 'Git Clone (remote)'">
 													<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].uri" readonly="readonly" />
 													<input type="text" v-show="isEditEnabled" name="db-connection-uri" v-on:keyup="handleInputChange" />
+													<span class="input-group-addon">URI</span>
 												</div>
-												<div class="input-group" v-show="connectionDetails.connections[0].type == 'REST Endpoint'">
-													<span class="input-group-addon">Verb</span>
+												<div class="input-group right-style" v-show="connectionDetails.connections[0].type == 'REST Endpoint'">
 													<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0]['rest-verb']" readonly="readonly" />
 													<input type="text" v-show="isEditEnabled" name="db-connection-rest-verb" v-on:keyup="handleInputChange" />
+													<span class="input-group-addon">Verb</span>
 												</div>
-												<div class="input-group" v-show="connectionDetails.connections[0].type == 'REST Endpoint'">
-													<span class="input-group-addon">Arguments</span>
+												<div class="input-group right-style" v-show="connectionDetails.connections[0].type == 'REST Endpoint'">
 													<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0]['rest-args']" readonly="readonly" />
 													<input type="text" v-show="isEditEnabled" name="db-connection-rest-args" v-on:keyup="handleInputChange" />
+													<span class="input-group-addon">Arguments</span>
 												</div>
-												<div class="input-group" v-show="connectionDetails.connections[0].type == 'JSON file' || connectionDetails.connections[0].type == 'Excel Spreadsheet'">
-													<span class="input-group-addon">File</span>
+												<div class="input-group right-style" v-show="connectionDetails.connections[0].type == 'JSON file' || connectionDetails.connections[0].type == 'Excel Spreadsheet'">
 													<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].file" readonly="readonly" />
 													<input type="text" v-show="isEditEnabled" name="db-connection-file" v-on:keyup="handleInputChange" />
+													<span class="input-group-addon">File</span>
 												</div>
-												<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
-													<span class="input-group-addon">Host</span>
+												<div class="input-group right-style" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
 													<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].host" readonly="readonly" />
 													<input type="text" v-show="isEditEnabled" name="db-connection-host" v-on:keyup="handleInputChange" />
+													<span class="input-group-addon">Host</span>
 												</div>
-												<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
-													<span class="input-group-addon">Database Name</span>
+												<div class="input-group right-style" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
 													<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].database" readonly="readonly" />
 													<input type="text" v-show="isEditEnabled" name="db-connection-database" v-on:keyup="handleInputChange" />
+													<span class="input-group-addon">Database Name</span>
 												</div>
-												<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
-													<span class="input-group-addon">Userame</span>
+												<div class="input-group right-style" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
 													<input type="text" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].username" readonly="readonly" />
 													<input type="text" v-show="isEditEnabled" name="db-connection-username" v-on:keyup="handleInputChange" />
+													<span class="input-group-addon">Userame</span>
 												</div>
-												<div class="input-group" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
-													<span class="input-group-addon">Password</span>
+												<div class="input-group right-style" v-show="connectionDetails.connections[0].type == 'MySQL' || connectionDetails.connections[0].type == 'MS SQL Server' || connectionDetails.connections[0].type == 'PostgreSQL' || connectionDetails.connections[0].type == 'MongoDB' || connectionDetails.connections[0].type == 'MS SQL Server'">
 													<input type="password" v-show="!isEditEnabled" v-bind:value="connectionDetails.connections[0].password" readonly="readonly" />
 													<input type="password" v-show="isEditEnabled" name="db-connection-password" v-on:keyup="handleInputChange" />
+													<span class="input-group-addon">Password</span>
 												</div>
 											</div>
 										</div>

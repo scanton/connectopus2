@@ -28,7 +28,6 @@ module.exports = class ConnectionsModel extends AbstractModel {
 						callback(data);
 					});
 				} else {
-					console.log("db not enabled");
 					callback(data);
 				}
 			});

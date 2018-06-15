@@ -1,5 +1,5 @@
 .db-options-toggle {
-	display: none;
+	/*display: none;*/
 }
 @font-face {
     font-family: NeoTech;
@@ -348,7 +348,8 @@ input {
 	text-align: center;
 }
 .input-group .input-group-addon {
-	min-width: 190px;
+	min-width: 10px;
+	/*min-width: 190px;*/
 }
 .settings-side-bar .input-group .input-group-addon {
 	min-width: 160px;
@@ -374,6 +375,30 @@ input {
 .input-group.is-not-selected .dropdown, .input-group.is-not-selected .dropdown button {
 	border-top-right-radius: 10px;
 	border-bottom-right-radius: 10px;
+}
+.input-group.right-style input, .input-group.right-style .directory-selector {
+	border-radius: 0;
+	box-shadow: none;
+	border-width: 0;
+	border-bottom: 2px solid #999;
+	background: white;
+	font-size: 28pt;
+	font-weight: 200;
+	letter-spacing: 1.3px;
+	white-space: nowrap;
+	padding: .25em 0 .1em .25em;
+	text-align: left;
+}
+.input-group.right-style .input-group-addon {
+	background: white;
+	border-radius: 0;
+	border-width: 0;
+	border-bottom: 2px solid #999;
+	font-size: 11pt;
+	text-align: right;
+	vertical-align: bottom;
+	padding: 0;
+	padding-bottom: 7px;
 }
 .foot-toolbar {
 	position: absolute;
@@ -432,10 +457,7 @@ input {
 	margin-left: .5em;
 }
 .panel-heading {
-	padding: 0;
-    margin-bottom: .5em;
-    padding: 1em;
-    font-size: 22pt;
+    font-size: 32pt;
     font-weight: 300;
     letter-spacing: 1.3px;
 }
@@ -1256,50 +1278,47 @@ ul.directories li, ul.tables li {
 	padding-top: 4px;
 	display: inline-block;
 }
+
+.radio-set {
+	margin-top: 45px;
+}
 .radio-set .label {
 	color: #777;
-	font-weight: 300;
-	font-size: 16pt;
+	font-weight: 200;
+	letter-spacing: 1.3px;
+	font-size: 28pt;
+	padding: 0;
 }
 ul.radio-options {
-	font-size: 12pt;
-	border: 1px solid #CCC;
+	font-size: 18pt;
 	display: inline-block;
 	list-style: none;
-	padding: .25em;
-	border-radius: 15px;
-	background: linear-gradient(to bottom, rgba(245,245,245,1) 0%, rgba(228,228,228,1) 37%, rgba(221,221,221,1) 100%);
+	border-bottom: 3px solid #999;
+	padding: 0;
 }
 ul.radio-options li {
 	display: inline-block;
 	padding: .25em 1em;
 	cursor: pointer;
-	border-radius: 12px;
-	border: 1px solid #BBB;
 	margin: 0 .25em;
-	box-shadow: 2px 2px 2px #BBB;
+	border-bottom: 7px solid transparent;
 	-webkit-transition: all 0.3s ease;
 }
 ul.radio-options li:active {
-	box-shadow: inset 1px 1px 1px #999;
-	border: 1px solid #BBB;
 	background: white;
+	border-bottom: 7px solid #999;
 }
 ul.radio-options li:first-of-type {
 	margin-left: 0;
-	border-top-left-radius: 12px;
-	border-bottom-left-radius: 12px;
 }
 ul.radio-options li:last-of-type {
 	margin-right: 0;
-	border-top-right-radius: 12px;
-	border-bottom-right-radius: 12px;
 }
 ul.radio-options li.selected {
-	box-shadow: inset 1px 1px 1px #999;
-	border: 1px solid #BBB;
 	background: white;
+	border-bottom: 7px solid #999;
 }
+
 .input-group-addon {
 	border-radius: 10px;	
 }
