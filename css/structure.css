@@ -376,13 +376,13 @@ input {
 	border-top-right-radius: 10px;
 	border-bottom-right-radius: 10px;
 }
-.input-group.right-style input, .input-group.right-style .directory-selector {
+.input-group.right-style input, .input-group.right-style .directory-selector, .input-group.right-style ul {
 	border-radius: 0;
 	box-shadow: none;
 	border-width: 0;
 	border-bottom: 2px solid #999;
 	background: white;
-	font-size: 28pt;
+	font-size: 22pt;
 	font-weight: 200;
 	letter-spacing: 1.3px;
 	white-space: nowrap;
@@ -1282,19 +1282,23 @@ ul.directories li, ul.tables li {
 .radio-set {
 	margin-top: 45px;
 }
+.radio-set ul {
+	margin-bottom: 0;
+}
 .radio-set .label {
 	color: #777;
 	font-weight: 200;
 	letter-spacing: 1.3px;
 	font-size: 28pt;
 	padding: 0;
+	text-align: left;
 }
 ul.radio-options {
 	font-size: 18pt;
 	display: inline-block;
 	list-style: none;
-	border-bottom: 3px solid #999;
 	padding: 0;
+	display: table-cell;
 }
 ul.radio-options li {
 	display: inline-block;

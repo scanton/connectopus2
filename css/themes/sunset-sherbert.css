@@ -100,7 +100,7 @@ body.sunset-sherbert {
 	background: #333;
 	color: #CCC;
 }
-.sunset-sherbert .input-group.right-style input, .sunset-sherbert .input-group.right-style .directory-selector {
+.sunset-sherbert .input-group.right-style input, .sunset-sherbert .input-group.right-style .directory-selector, .sunset-sherbert .input-group.right-style ul {
 	color: white;
 	background-color: transparent;
 	border-bottom: 3px solid #666;
@@ -358,11 +358,11 @@ body.sunset-sherbert {
 	color: #EEE;
 }
 .sunset-sherbert ul.radio-options li:active {
-	border-bottom: 5px solid #888;
+	border-bottom: 7px solid #CCC;
 	background: transparent;
 }
 .sunset-sherbert ul.radio-options li.selected {
-	border-bottom: 5px solid #888;
+	border-bottom: 7px solid white;
 	background: transparent;
 	color: white;
 }

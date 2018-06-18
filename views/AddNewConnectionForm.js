@@ -11,9 +11,9 @@
 						<td valign="top">
 							<div class="col-xs-12">
 								<form>
-									<div class="text-center">
-										<radio-set v-on:change-value="handleTypeChange" label="Connection Type" v-bind:selectedOption="connectionType" v-bind:options="['Local Directory', 'Remote (SFTP)']"></radio-set>
-									</div>
+									
+									<radio-set v-on:change-value="handleTypeChange" label="Connection Type" v-bind:selectedOption="connectionType" v-bind:options="['Local Directory', 'Remote (SFTP)']"></radio-set>
+									
 									<div class="input-group">
 										<span class="input-group-addon">Name</span>
 										<input v-on:change="handleNameChange" type="text" name="name" placeholder="(e.g. MyWebsite.com in Production)" />
@@ -49,9 +49,8 @@
 										</div>
 
 										<div v-show="isDatabaseEnabled">
-											<div class="text-center">
-												<radio-set v-on:change-value="handleDatabaseTypeChange" label="Database Type" v-bind:selectedOption="databaseType" v-bind:options="supportedDatabaseTypes"></radio-set>
-											</div>
+											
+											<radio-set v-on:change-value="handleDatabaseTypeChange" label="Database Type" v-bind:selectedOption="databaseType" v-bind:options="supportedDatabaseTypes"></radio-set>
 											
 											<div class="input-collection-div" v-show="databaseType != 'None'">
 												<div class="input-group database-connection-name">
