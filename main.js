@@ -45,11 +45,7 @@ app.on('ready', () => {
 	      {
 	        label: "Save Project As...",
 	        click () { mainWindow.webContents.send("controller-method", {method: 'saveCurrentProject', promptForName: true}) }
-	      }/*,
-	      {
-	      	label: "Save All Projects",
-	        click () { mainWindow.webContents.send("controller-method", {method: 'saveAllProjects'}) }
-	      }*/,
+	      },
 	      {
 	      	type: 'separator'
 	      },

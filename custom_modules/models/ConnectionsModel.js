@@ -24,7 +24,7 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			this.getDirectory(con, "", (data) => {
 				var dbEnabled = controller.isDatabaseOptionsEnabled();
 				if(dbEnabled && con.connections.length && con.connections[0].type == "MySQL") {
-					this.getDataTables(con, "", (data2) => {
+					this.getDataTables(con, "/", "/", (data2) => {
 						callback(data);
 					});
 				} else {
@@ -123,14 +123,13 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			controller.handleError("invalid relation at ConnectionsModel.getDatabaseRelation()");
 		}
 	}
-	getDataTables(con, path, callback) {
+	getDataTables(con, path, name, callback) {
 		var liveConnection = DataSourceFactory.createDatabaseConnection(con);
 		if(liveConnection) {
 			this.setStatus(con.id, 'pending');
-			var path = "/";
 			liveConnection.getDirectory(path, (data) => {
 				this.setStatus(con.id, 'connected');
-				this.dataModel.setContents(con, path, data);
+				this.dataModel.setContents(con, name, data);
 				if(callback) {
 					callback(data);
 				}

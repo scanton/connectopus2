@@ -2,6 +2,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 
 	constructor(controllers, models) {
 		super();
+		this.md5 = require('md5');
 		this._fs = require('fs-extra');
 		this.viewController = controllers.viewController;
 		this.configModel = models.configModel;
@@ -237,6 +238,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 			this._addDirectories(a, path, this.fileModel.getContents(connections[l], path));
 		}
 		return utils.sortArrayBy(a, "name");
+	}
+	getMaxRows() {
+		return this.getSettings().maxRowsRequested || 75000;
 	}
 	getSupportedDatabaseTypes() {
 		var a = ['None', 'MySQL', 'PostgreSQL', 'MongoDB', 'JSON file', 'REST Endpoint', 'MS SQL Server', 'Excel Spreadsheet'];
@@ -607,6 +611,28 @@ module.exports = class ConnectopusController extends EventEmitter {
 		var syncCount = $(".is-sync-action input:checked").length;
 		var deleteCount = $(".is-delete-action input:checked").length;
 		this._call("files-nav-bar", "handleSelectedFilesChange", {syncCount: syncCount, deleteCount: deleteCount});
+	}
+	handleSelectedTableChange(name) {
+		var liveCons = this.connectionsModel.getConnections();
+		var l = liveCons.length;
+		var a = [];
+		var c, m, id, result, row, hash, strippedRow;
+		for(var i = 0; i < l; i++) {
+			id = liveCons[i].id;
+			c = this.dataModel.getContents(id, name);
+			result = []
+			var l2 = c.result.length;
+			for(var i2 = 0; i2 < l2; i2++) {
+				row = c.result[i2];
+				m = this.md5(JSON.stringify(row));
+				strippedRow = stripObservers(row);
+				delete strippedRow[c.fields[0].name];
+				hash = this.md5(strippedRow);
+				result.push({primaryKey: row[c.fields[0].name], rowHash: m, data: row, contentHash: hash})
+			}
+			a.push({conId: id, name: name, content: result, errors: c.errors, fields: c.fields});
+		}
+		this._call("data-page", "showTableData", a);
 	}
 	handleSettingsData(data) {
 		this._call("settings-side-bar", "setSettings", data);
@@ -1043,10 +1069,28 @@ module.exports = class ConnectopusController extends EventEmitter {
 		}
 		this.configModel.updateConnection(connection.id, o);
 	}
-	viewTable(name) {
-		console.log("view table", name);
+	viewTable(name, forceRefresh) {
 		this._call(["current-tables", "data-page"], "setSelectedTable", name);
+		this.selectedTable = name;
+		var liveCons = this.connectionsModel.getConnections();
+		var currentConnection = 0;
+		if(liveCons.length) {
+			var handler = function(data) {
+				++currentConnection;
+				if(currentConnection < liveCons.length) {
+					this._getTableData(liveCons[currentConnection], name, handler);
+				} else {
+					this._call("modal-overlay", "hide");
+					this.handleSelectedTableChange(name);
+				}
+			}.bind(this);
+			if(!this.dataModel.hasContent(liveCons[0].id, name) || forceRefresh) {
+				this._call("modal-overlay", "showLoader");
+				this._getTableData(liveCons[currentConnection], name, handler);
+			}
+		}
 	}
+	/*
 	viewRelation(id, forceRefresh) {
 		console.log(id);
 		var relation = this.getRelation(id);
@@ -1074,6 +1118,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 			this.handleError("Invalid relation id in congroller.viewRelation: " + id);
 		}
 	}
+	*/
 	handleRelationChange() {
 		console.log("relation change complete");
 	}
@@ -1126,6 +1171,13 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	_getFiles(con, path, callback) {
 		this.connectionsModel.getDirectory(con, path, function(data) {
+			callback(data);
+		});
+	}
+	_getTableData(con, name, callback) {
+		var maxRows = this.getMaxRows();
+		var query = "SELECT * FROM " + name + " LIMIT " + maxRows;
+		this.connectionsModel.getDataTables(con, query, name, (data) => {
 			callback(data);
 		});
 	}

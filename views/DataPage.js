@@ -7,6 +7,12 @@
 					<data-nav-bar v-bind:showRelationsButton="selectedTable != ''"></data-nav-bar>
 				</div>
 			</div>
+			<div v-show="selectedTable != ''" class="row main-data-container">
+				<div class="col-xs-12">
+					<h2>{{selectedTable}}</h2>
+				</div>
+			</div>
+			<!--
 			<div v-show="selectedTable == ''" class="row main-data-container">
 				<div class="col-xs-12">
 					<h2>Data Table Relationships</h2>
@@ -100,11 +106,7 @@
 					</div>
 				</div>
 			</div>
-			<div v-show="selectedTable != ''" class="row main-data-container">
-				<div class="col-xs-12">
-					<h2>Data Compare</h2>
-				</div>
-			</div>
+			-->
 		</div>
 	`;
 	
@@ -199,6 +201,13 @@
 			setSelectedTable: function(selectedTable) {
 				this.selectedTable = selectedTable;
 				this.handleDataModelUpdate();
+			},
+			showTableData: function(data) {
+				console.log(data);
+				if(data && data[0] && data[0].name) {
+					this.tableData = data;
+					this.selectedTable = data[0].name;
+				}
 			}
 		}
 	});

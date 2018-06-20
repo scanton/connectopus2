@@ -74,7 +74,7 @@ h3 {
 }
 .btn {
 	padding: 8px 15px;
-	border-radius: 7px;
+	border-radius: 0;
 }
 .clear {
 	clear: both;
@@ -273,7 +273,6 @@ h3 {
 .current-directories .directory:hover, .current-tables .database-table:hover {
 	background-color: #777;
 	color: white;
-	border-radius: 10px;
 }
 .current-connections ul {
 	list-style: none;
@@ -289,13 +288,11 @@ h3 {
 .current-connections .connection {
 	cursor: pointer;
 	padding: 5px;
-	border-radius: 15px;
 	position: relative;
 }
 .current-connections .connection .quick-connection-link, .current-connections .connection .quick-disconnection-link {
 	display: none;
 	float: right;
-	border-radius: 15px;
 	padding: 3px 2px 1px 6px;
 }
 .current-connections .connection .quick-connection-link:hover, .current-connections .connection .quick-disconnection-link:hover {
@@ -312,7 +309,6 @@ h3 {
 	display: none;
 }
 .folder {
-	border-radius: 15px;
 	border-top-left-radius: 0;
 }
 .current-connections .folder .connections {
@@ -340,27 +336,20 @@ h3 {
 	left: 0;
 	right: 0;
 }
-.foot-toolbar button {
-	border-radius: 5px;
-}
 input {
 	padding: 3px;
 	text-align: center;
 }
 .input-group .input-group-addon {
 	min-width: 10px;
+	border-radius: 0;
 	/*min-width: 190px;*/
-}
-.settings-side-bar .input-group .input-group-addon {
-	min-width: 160px;
 }
 .input-group {
 	margin-bottom: .5em;
 }
 .input-group input {
 	width: 100%;
-	border-top-right-radius: 10px;
-	border-bottom-right-radius: 10px;
 	padding: 3px;
 	text-align: center;
 }
@@ -369,6 +358,10 @@ input {
 	border-bottom-left-radius: 0;
 	border-top-left-radius: 0;
 }
+.dropdown-menu > li > a {
+	padding: 3px 5px;
+	font-size: 12pt;
+}
 .input-group .dropdown .dropdown-menu {
 	width: 100%;
 }
@@ -376,21 +369,43 @@ input {
 	border-top-right-radius: 10px;
 	border-bottom-right-radius: 10px;
 }
-.input-group.right-style input, .input-group.right-style .directory-selector, .input-group.right-style ul {
+.input-group.right-style input, .input-group.right-style .directory-selector, .input-group.right-style ul, .input-group.right-style .dropdown, .input-group.right-style .dropdown button, .input-group.right-style button {
 	border-radius: 0;
 	box-shadow: none;
 	border-width: 0;
 	border-bottom: 2px solid #999;
-	background: white;
+	background: #f8f8f8;
 	font-size: 22pt;
 	font-weight: 200;
 	letter-spacing: 1.3px;
 	white-space: nowrap;
-	padding: .25em 0 .1em .25em;
+	padding: .25em 0 0 .25em;
 	text-align: left;
 }
-.input-group.right-style .input-group-addon {
+.input-group.right-style .dropdown button, .input-group.right-style button {
+	font-size: 18pt;
+}
+.input-group.right-style .dropdown button {
+	border: none;
+}
+.input-group.right-style button.btn-success {
+	color: green;
+}
+.input-group.right-style button.btn-danger {
+	color: red;
+}
+.input-group.right-style button.btn-success:active {
+	background: none;
+}
+.input-group.right-style button.btn-danger:active {
+	background: none;
+}
+.input-group.right-style ul.dropdown-menu {
+	font-size: 11pt;
 	background: white;
+}
+.input-group.right-style .input-group-addon {
+	background: #f8f8f8;
 	border-radius: 0;
 	border-width: 0;
 	border-bottom: 2px solid #999;
@@ -695,7 +710,6 @@ ul.directories li, ul.tables li {
 }
 
 .project-news .milestone {
-	border-radius: 15px;
 	cursor: pointer;
 	position: relative;
 	padding-left: 70px;
@@ -711,9 +725,6 @@ ul.directories li, ul.tables li {
 	display: none;
 }
 .project-news .milestone .glyphicon {
-	border-radius: 15px;
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
 	position: absolute;
 	text-align: center;
 	vertical-align:middle;
@@ -1076,7 +1087,6 @@ ul.directories li, ul.tables li {
     cursor: pointer;
 }
 .saved-project {
-	border-radius: 15px;
 	position: relative;
 	font-size: 14pt;
 	font-weight: 200;
@@ -1172,7 +1182,6 @@ ul.directories li, ul.tables li {
 }
 .quick-start-option {
 	position: relative;
-	border-radius: 15px;
 	-webkit-transition: all 0.3s ease;
 	position: relative;
 	font-size: 14pt;
@@ -1189,7 +1198,6 @@ ul.directories li, ul.tables li {
 	color: white;
 }
 .quick-start-option .glyphicon {
-	border-radius: 15px;
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 	-webkit-transition: all 0.3s ease;
@@ -1330,7 +1338,7 @@ ul.radio-options li.selected {
 .add-new-connection-form h3, .connection-details h3 {
 	font-size: 44pt;
 	writing-mode: vertical-lr;
-	padding: .5em .75em .5em .75em;
+	padding: .5em;
 	color: #777;
 	white-space: nowrap;
 }
@@ -1481,4 +1489,11 @@ ul.radio-options li.selected {
 .related-tables .fa-arrow-right {
 	margin-right: 3px;
 	margin-left: 7px;
+}
+.database-table.selected {
+	background: #777;
+	color: white;
+}
+.context-side-bar .horizontal-rule {
+	margin-bottom: 1em;
 }

@@ -101,7 +101,7 @@ body.sunset-sherbert {
 	color: #CCC;
 }
 .sunset-sherbert .input-group.right-style input, .sunset-sherbert .input-group.right-style .directory-selector, .sunset-sherbert .input-group.right-style ul {
-	color: white;
+	color: #f7e5e5;
 	background-color: transparent;
 	border-bottom: 3px solid #666;
 	/*
@@ -355,16 +355,16 @@ body.sunset-sherbert {
 }
 .sunset-sherbert ul.radio-options li {
 	border-bottom: 7px solid transparent;
-	color: #EEE;
+	color: #999;
 }
 .sunset-sherbert ul.radio-options li:active {
 	border-bottom: 7px solid #CCC;
 	background: transparent;
 }
 .sunset-sherbert ul.radio-options li.selected {
-	border-bottom: 7px solid white;
+	border-bottom: 7px solid #ff7373;
 	background: transparent;
-	color: white;
+	color: #f7e5e5;
 }
 .sunset-sherbert .directory-selector.has-selected-directory svg {
 	color: #FF7373;
@@ -393,4 +393,20 @@ body.sunset-sherbert {
 }
 .sunset-sherbert .related-tables .relation:hover .arrow-connector, .sunset-sherbert .related-tables .relation .arrow-connector {
 	border-color: #FF7373;
+}
+.sunset-sherbert .database-table.selected {
+	background: black;
+}
+.sunset-sherbert .add-new-connection-form h3, .sunset-sherbert .connection-details h3 {
+	color: #ff7373;
+}
+.sunset-sherbert .context-side-bar .horizontal-rule .dash-10, .sunset-sherbert .context-side-bar .horizontal-rule .dot {
+	border-color: #ff7373;
+}
+.sunset-sherbert .input-group.right-style ul.dropdown-menu {
+	background: #444;
+}
+.sunset-sherbert .input-group.right-style input, .sunset-sherbert .input-group.right-style .directory-selector, .sunset-sherbert .input-group.right-style ul, .sunset-sherbert .input-group.right-style .dropdown, .sunset-sherbert .input-group.right-style .dropdown button, .sunset-sherbert .input-group.right-style button {
+	background: none;
+	border-color: #666;
 }

@@ -3,6 +3,7 @@
 	var s = `
 		<div class="current-tables container-fluid">
 			<div class="row">
+				<!--
 				<div v-show="this.relations && this.relations.length" class="col-xs-12 bare-container related-tables">
 					<h2>Related Tables</h2>
 					<div v-on:click="handleViewRelation(relation.id)" v-for="relation in relations" class="relation">
@@ -13,10 +14,11 @@
 					</div>
 					<horizontal-rule />
 				</div>
+				-->
 				<div class="col-xs-12 bare-container normal-tables">
 					<h2>All Tables</h2>
 					<ul class="tables">
-						<database-table v-for="table in tables" v-on:table-click="handleTableClick" v-bind:table="table" />
+						<database-table v-for="table in tables" v-on:table-click="handleTableClick" v-bind:table="table" v-bind:selectedTable="selectedTable" />
 					</ul>
 				</div>
 			</div>
