@@ -113,7 +113,7 @@ h3 {
 }
 .navbar {
 	min-height: 2px;
-	/*text-align: right;*/
+	border: none;
 }
 .navbar a {
 	padding: 2px 3px;
@@ -258,6 +258,18 @@ h3 {
 	left: 0;
 	width: 300px;
 	overflow: scroll;
+}
+.current-connections.container-fluid {
+	padding: 0 0 0 5px;
+}
+.current-connections.container-fluid li.connection {
+	padding: 2.5px 15px;
+}
+.current-connections.container-fluid li.folder {
+	padding: 0 0 0 15px;
+}
+.current-connections.container-fluid li.folder ul.connections {
+	padding: 0 0 10px 0;
 }
 .current-directories, .current-tables {
 	position: absolute;
@@ -658,9 +670,6 @@ ul.directories li, ul.tables li {
 	background: #F8F8F8;
 	display: inline-block;
 	padding: 0;
-	transform: translateY(2px);
-	border-top-right-radius: 7px;
-	border-top-left-radius: 7px;
 	cursor: pointer;
 	border: 0;
 }
