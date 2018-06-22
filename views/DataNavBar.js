@@ -15,6 +15,7 @@
 						<span class="glyphicon glyphicon-list-alt"></span> Create Table Relationship
 					</button>
 					-->
+					{{selectedTable}}
 				</div>
 			</div>
 		</div>
@@ -28,7 +29,8 @@
 		props: ["showRelationsButton"],
 		data: function() {
 			return {
-				rowsAreSelected: false
+				rowsAreSelected: false,
+				selectedTable: ''
 			}
 		},
 		methods: {
@@ -41,6 +43,9 @@
 			handleSyncData: function(e) {
 				e.preventDefault();
 				controller.syncSelectedFiles();
+			},
+			setSelectedTable: function(name) {
+				this.selectedTable = name;
 			}
 		}
 	});

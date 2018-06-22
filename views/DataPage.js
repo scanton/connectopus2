@@ -9,7 +9,7 @@
 			</div>
 			<div v-show="selectedTable != ''" class="row main-data-container">
 				<div class="col-xs-12">
-					<h2>{{selectedTable}}</h2>
+					
 				</div>
 			</div>
 			<!--

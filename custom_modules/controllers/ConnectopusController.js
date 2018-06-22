@@ -950,7 +950,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call(["uml-diagram", "uuid-generator"], "hide");
 	}
 	showCreateTableRelationshipView() {
-		this._call("data-page", "setSelectedTable", "");
+		this._call(["data-page", "data-nav-bar", "current-tables"], "setSelectedTable", "");
 	}
 	showDataPage() {
 		this._call(["work-area", "main-view"], "showData");
@@ -1070,7 +1070,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.configModel.updateConnection(connection.id, o);
 	}
 	viewTable(name, forceRefresh) {
-		this._call(["current-tables", "data-page"], "setSelectedTable", name);
+		this._call(["current-tables", "data-page", "data-nav-bar"], "setSelectedTable", name);
 		this.selectedTable = name;
 		var liveCons = this.connectionsModel.getConnections();
 		var currentConnection = 0;
