@@ -295,7 +295,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this._call("title-bar", "setTarget", target);
 		this._call("connection", "setConnectionStatus", data);
 		this._call("tool-bar", "setConnectionStatus", data);
-		this._call(["current-directories", "current-tables", "data-page", "files-page", "file-listing"], "setConnections", data);
+		this._call(["current-directories", "current-tables", "data-page", "files-page", "data-page", "file-listing"], "setConnections", data);
 	}
 	handleDataModelUpdate(data) {
 		this._call(["current-tables", "data-page"], "handleDataModelUpdate");
@@ -636,7 +636,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 	}
 	handleSettingsData(data) {
 		this._call("settings-side-bar", "setSettings", data);
-		this._call(["active-connection", "files-page", "diff-view"], "setMaximizeContrast", data.maximizeContrast);
+		this._call(["active-connection", "files-page", "data-page", "diff-view"], "setMaximizeContrast", data.maximizeContrast);
 		this._call("work-area", "setHideMatchingFiles", data.hideFilesInSync);
 		if(data.theme) {
 			var theme = data.theme.toLowerCase().split(" ").join("-");
@@ -684,11 +684,13 @@ module.exports = class ConnectopusController extends EventEmitter {
 		var count = this.connectionsModel.getConnectionCount();
 		this.projectsModel.openProject(path, () => {
 			this._call("modal-overlay", "hide");
+
 			this.isInProcess = false;
 			if(count == 0 && proj.id == this.projectsModel._defaultProjectId) {
 				this.projectsModel.removeProject(proj.id);
 			}
 			this._call("tool-bar", "setSelected", ".show-files-link");
+			this.showFilesPage();
 		});
 	}
 	pullGitConnections() {

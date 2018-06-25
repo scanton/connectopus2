@@ -22,13 +22,11 @@
 						<button v-show="!settings.hideFilesInSync" class="btn btn-danger" v-on:click="handleActivateHideFilesInSync">OFF</button>
 						<span class="input-group-addon">Hide Files In Sync</span>
 					</div>
-					<!--
 					<div class="input-group right-style">
 						<button v-show="settings.maximizeContrast" class="btn btn-success" v-on:click="handleDeactiveMaxContrast">ON</button>
 						<button v-show="!settings.maximizeContrast" class="btn btn-danger" v-on:click="handleActiveMaxContrast">OFF</button>
 						<span class="input-group-addon">Rainbow Contrast</span>
 					</div>
-					-->
 					<div class="input-group right-style db-options-toggle">
 						<button v-show="settings.enableDatabaseOptions" class="btn btn-success" v-on:click="handleDeactiveDatabaseOptions">ON</button>
 						<button v-show="!settings.enableDatabaseOptions" class="btn btn-danger" v-on:click="handleActiveDatabaseOptions">OFF</button>

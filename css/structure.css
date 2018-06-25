@@ -88,10 +88,13 @@ h3 {
 .modal-overlay {
 	background: rgba(0, 0, 0, 0.5);
 	position: absolute;
-	left: 50px;
 	right: 0;
-	bottom: 26px;
+	left: 50px;
+	top: 0;
+	/*
 	top: 26px;
+	*/
+	bottom: 26px;
 	font-size: 14pt;
 	z-index: 2;
 }
@@ -696,13 +699,11 @@ ul.directories li, ul.tables li {
 	border-radius: 7px;
 }
 .welcome-page .info-panel {
-	/*
-	border: 1px solid gray;
-	margin: .5em 0;
-	border-radius: 5px;
-	*/
 	padding: 0 1em;
 	background: #f8f8f8;
+}
+.welcome-info {
+	background: #F8F8F8;
 }
 .project-news ul  {
 	list-style: none;
@@ -805,6 +806,12 @@ ul.directories li, ul.tables li {
 	margin-top: 32px;
 	margin-left: 15px;
 	margin-right: 15px;
+}
+.data-page .data-fields {
+	margin-top: 33px;
+    margin-left: 15px;
+    padding: 1em 2em;
+    background: #EEE;
 }
 .files-page .select-file-checkbox {
 	margin-right: 0.5em;
@@ -1227,7 +1234,7 @@ ul.directories li, ul.tables li {
 .diff-view .prime-file.removed, .diff-view .compare-file.added {
 	opacity: .5;
 }
-.check-box {
+.check-box, .ascend-decend-selector {
 	position: relative;
 	font-size: 28pt;
 	cursor: pointer;
@@ -1238,18 +1245,18 @@ ul.directories li, ul.tables li {
 	height: 30px;
 	margin-bottom: 7px
 }
-.check-box .background {
+.check-box .background, .ascend-decend-selector .background {
 	position: absolute;
 	top: 0;
 	left: 0;
 }
-.check-box.is-off {
+.check-box.is-off, .ascend-decend-selector.none {
 	opacity: .5;
 }
-.check-box .label {
+.check-box .label, .ascend-decend-selector .label {
 	padding: 0 .33em 0 0;
 }
-.check-box svg {
+.check-box svg, .ascend-decend-selector svg {
 	color: #777;
 }
 .on-off-switch {
@@ -1453,12 +1460,11 @@ ul.radio-options li.selected {
 .field-selector .label {
 	
 }
-.field-list {
+ul.field-list {
 	padding: 1em;
-}
-.field-list .field-list-frame {
-	padding: 1em;
-	border-radius: 10pt;
+	list-style: none;
+	padding: 0;
+	font-size: 14pt;
 }
 .related-tables .relation {
 	padding: 2px 2px 5px 10px;

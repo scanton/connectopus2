@@ -327,11 +327,11 @@ body.sunset-sherbert {
 	background: white;
 	color: black;
 }
-.sunset-sherbert .check-box svg {
+.sunset-sherbert .check-box svg, .sunset-sherbert .ascend-decend-selector svg {
 	color: #CCC;
 	-webkit-transition: all 0.3s ease;
 }
-.sunset-sherbert .check-box.is-on svg {
+.sunset-sherbert .check-box.is-on svg, .sunset-sherbert .ascend-decend-selector.asc svg, .sunset-sherbert .ascend-decend-selector.desc svg {
 	color: #FF7373;
 }
 .sunset-sherbert .on-off-switch {
@@ -384,9 +384,6 @@ body.sunset-sherbert {
 .sunset-sherbert .radio-set .label {
 	color: #CCC;
 }
-.sunset-sherbert .field-list .field-list-frame {
-	background: #333;
-}
 .sunset-sherbert .btn-default:active, .sunset-sherbert .btn-default.active, .sunset-sherbert .open > .dropdown-toggle.btn-default {
 	background: #555;
 	color: #CCC;
@@ -409,4 +406,7 @@ body.sunset-sherbert {
 .sunset-sherbert .input-group.right-style input, .sunset-sherbert .input-group.right-style .directory-selector, .sunset-sherbert .input-group.right-style ul, .sunset-sherbert .input-group.right-style .dropdown, .sunset-sherbert .input-group.right-style .dropdown button, .sunset-sherbert .input-group.right-style button {
 	background: none;
 	border-color: #666;
+}
+.sunset-sherbert .data-page .data-fields {
+	background: #222;
 }
