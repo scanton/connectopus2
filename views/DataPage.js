@@ -7,9 +7,9 @@
 					<data-nav-bar v-bind:showRelationsButton="selectedTable != ''"></data-nav-bar>
 				</div>
 			</div>
-			<div class="row">
+			<div v-show="fields.length" class="row">
 				<div class="col-xs-12">
-					<data-fields v-bind:fields="fields"></data-fields>
+					<data-fields v-on:save-vew-settings="handleSaveViewSettings" v-bind:fields="fields"></data-fields>
 				</div>
 			</div>
 			<div v-show="selectedTable != ''" class="row main-data-container">
@@ -123,6 +123,9 @@
 					this.selectedParentColumn = "Select Column";
 					this.selectedParent = $this.text();
 				}
+			},
+			handleSaveViewSettings: function(data) {
+				console.log(this.selectedTable, data);
 			},
 			handleSelectAll: function(e) {
 				console.log("handle select all");

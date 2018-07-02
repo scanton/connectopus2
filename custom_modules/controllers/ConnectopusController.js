@@ -689,8 +689,8 @@ module.exports = class ConnectopusController extends EventEmitter {
 			if(count == 0 && proj.id == this.projectsModel._defaultProjectId) {
 				this.projectsModel.removeProject(proj.id);
 			}
-			this._call("tool-bar", "setSelected", ".show-files-link");
-			this.showFilesPage();
+			//this._call("tool-bar", "setSelected", ".show-files-link");
+			//this.showFilesPage();
 		});
 	}
 	pullGitConnections() {

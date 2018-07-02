@@ -6,10 +6,10 @@
 				<span v-show="mode == 'none'" class="label none-label">
 					<i class="fas fa-square"></i>
 				</span>
-				<span v-show="mode == 'asc'" class="label asc-label">
+				<span v-show="mode == 'asc'" class="label asc-label" title="Sort Ascending">
 					<i class="fas fa-caret-square-up"></i>
 				</span>
-				<span v-show="mode == 'desc'" class="label desc-label">
+				<span v-show="mode == 'desc'" class="label desc-label" title="Sort Descending">
 					<i class="fas fa-caret-square-down"></i>
 				</span>
 			</div>
@@ -21,10 +21,11 @@
 			viewController.registerView(componentName, this);
 		},
 		template: s,
+		props: ["id"],
 		data: function() {
 			return {
-				mode: "none",
-				modeOptions: ["none", "asc", "desc"],
+				mode: "asc",
+				modeOptions: ["asc", "desc"],
 				modeIndex: 0
 			}
 		},
@@ -32,6 +33,7 @@
 			handleNextMode: function(e) {
 				this.modeIndex = (this.modeIndex + 1) % this.modeOptions.length;
 				this.mode = this.modeOptions[this.modeIndex];
+				this.$emit("change", {id: this.id, mode: this.mode});
 			}
 		}
 	});

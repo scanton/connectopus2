@@ -374,7 +374,7 @@ input {
 	border-top-left-radius: 0;
 }
 .dropdown-menu > li > a {
-	padding: 3px 5px;
+	padding: .25em 1em;
 	font-size: 12pt;
 }
 .input-group .dropdown .dropdown-menu {
@@ -803,15 +803,21 @@ ul.directories li, ul.tables li {
 	margin-top: 32px;
 }
 .data-page .main-data-container {
-	margin-top: 32px;
-	margin-left: 15px;
-	margin-right: 15px;
+	
 }
 .data-page .data-fields {
 	margin-top: 33px;
     margin-left: 15px;
-    padding: 1em 2em;
+    padding: 1em 3em 1em 2em;
     background: #EEE;
+}
+.data-page .data-fields .save-button {
+	margin-top: .75em;
+}
+.data-page .selected-field {
+	border: 1px solid #999;
+	width: 100%;
+	background: white;
 }
 .files-page .select-file-checkbox {
 	margin-right: 0.5em;
@@ -865,7 +871,6 @@ ul.directories li, ul.tables li {
 }
 .data-page .btn-success {
 	font-size: 14pt;
-	margin: 0 1em 3em 0;
 }
 .footer-bar .footer-label {
 	font-family: NeoTech;
@@ -1245,6 +1250,10 @@ ul.directories li, ul.tables li {
 	height: 30px;
 	margin-bottom: 7px
 }
+.ascend-decend-selector {
+	padding: 0;
+	margin: 0;
+}
 .check-box .background, .ascend-decend-selector .background {
 	position: absolute;
 	top: 0;
@@ -1454,17 +1463,49 @@ ul.radio-options li.selected {
 .field-selector {
 	font-size: 14pt;
 }
-.field-selector .field {
-	
-}
-.field-selector .label {
-	
-}
 ul.field-list {
 	padding: 1em;
 	list-style: none;
 	padding: 0;
 	font-size: 14pt;
+}
+.field-list .dropdown button {
+	width: 100%;
+	border: 1px dashed #999;
+	
+}
+.field-list.has-selected-fields .dropdown button {
+	border-bottom: none;
+}
+.field-list .selected-field {
+	position: relative;
+	padding: .25em .5em;
+	font-size: 14pt;
+	-webkit-transition: all 0.3s ease;
+}
+.field-list .selected-field:hover {
+	padding-left: 35px;
+}
+.field-list .selected-field:hover .btn-danger {
+	display: inline-block;
+}
+.field-list .selected-field .btn-danger {
+	padding: 1px 4px;
+	display: none;
+	position: absolute;
+	top: 5px;
+	left: 5px;
+}
+.field-list .selected-field.is-sort-field .btn-danger {
+	margin-right: 28px;
+}
+.field-list .selected-field.is-drag-over {
+	border-bottom-width: 3px;
+}
+.field-list .selected-field .ascend-decend-selector {
+	position: absolute;
+	top: -12.5px;
+	right: 30px;	
 }
 .related-tables .relation {
 	padding: 2px 2px 5px 10px;

@@ -21,8 +21,6 @@ body.sunset-sherbert {
 	box-shadow: 2px 2px 14px rgba(0, 0, 0, .25);
 	max-height: 400px;
 	overflow: scroll;
-	border-radius: 15px;
-	border-top-left-radius: 0;
 }
 .sunset-sherbert .dropdown-menu a {
 	color: #DFDFDF;
@@ -409,4 +407,10 @@ body.sunset-sherbert {
 }
 .sunset-sherbert .data-page .data-fields {
 	background: #222;
+}
+.sunset-sherbert .field-list .dropdown button {
+	background: #222;
+}
+.sunset-sherbert .data-page .selected-field {
+	background: #333;
 }
