@@ -18,7 +18,13 @@
 				<div class="col-xs-12 bare-container normal-tables">
 					<h2>All Tables</h2>
 					<ul class="tables">
-						<database-table v-for="table in tables" v-on:table-click="handleTableClick" v-bind:table="table" v-bind:selectedTable="selectedTable" />
+						<database-table 
+							v-for="table in tables" 
+							v-on:table-click="handleTableClick" 
+							v-bind:table="table" 
+							v-bind:selectedTable="selectedTable" 
+							v-bind:fieldData="getFieldData(table)" 
+						/>
 					</ul>
 				</div>
 			</div>
@@ -35,10 +41,17 @@
 				connections: [],
 				tables: [],
 				selectedTable: '',
-				relations: null
+				relations: null,
+				primeConnection: null
 			}
 		},
 		methods: {
+			getFieldData: function(table) {
+				if(table && table[0] && this.primeConnection && this.primeConnection.tableViews) {
+					return this.primeConnection.tableViews[table[0].table];
+				}
+				return null;
+			},
 			handleDataModelUpdate: function() {
 				this.tables = controller.getTables(this.connections, this.selectedTable);
 				this.relations = this._sortRelations(controller.getRelations());
@@ -63,6 +76,7 @@
 					a.unshift(data[l].id);
 				}
 				this.connections = a;
+				this.primeConnection = controller.getPrimeConnection();
 				this.handleDataModelUpdate();
 			},
 			setSelectedTable: function(selectedTable) {

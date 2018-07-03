@@ -155,6 +155,9 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			});
 		}
 	}
+	getPrimeConnection() {
+		return this.getConnection(this.getPrimeId());
+	}
 	getPrimeId() {
 		if(this._connections[this.currentProject] && this._connections[this.currentProject][0]) {
 			return this._connections[this.currentProject][0].id;
@@ -219,6 +222,14 @@ module.exports = class ConnectionsModel extends AbstractModel {
 	}
 	removeProjectData(index) {
 		delete this._connections[index];
+		this._dispatchUpdate();
+	}
+	removeTableFieldData(tableName) {
+		var primeCon = this._connections[this.currentProject][0];
+		if(!primeCon.tableViews) {
+			primeCon.tableViews = {};
+		}
+		delete primeCon.tableViews[tableName];
 		this._dispatchUpdate();
 	}
 	saveDocument(connectionIds, path, documentText, callback, errorHandler) {
@@ -290,6 +301,14 @@ module.exports = class ConnectionsModel extends AbstractModel {
 				callback(result);
 			}
 		}, errorHandler);
+	}
+	updatePrimeTableView(tableName, viewData) {
+		var primeCon = this._connections[this.currentProject][0];
+		if(!primeCon.tableViews) {
+			primeCon.tableViews = {};
+		}
+		primeCon.tableViews[tableName] = viewData;
+		this._dispatchUpdate();
 	}
 
 	_dispatchUpdate() {

@@ -20,8 +20,19 @@
 		created: function() {
 			viewController.registerView(componentName, this);
 		},
+		mounted: function() {
+			if(this.state) {
+				this.mode = this.state;
+			}
+		},
+		watch: {
+			state: function(val) {
+				console.log(val);
+				this.mode = val;
+			}
+		},
 		template: s,
-		props: ["id"],
+		props: ["id", "state"],
 		data: function() {
 			return {
 				mode: "asc",

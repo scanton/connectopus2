@@ -3,7 +3,14 @@
 	var s = `
 		<div v-bind:class="{'has-selected-fields': selectedFields.length}" class="field-list">
 			<div class="dropdown">
-				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				<button 
+					class="btn btn-default dropdown-toggle" 
+					type="button" 
+					data-toggle="dropdown" 
+					aria-haspopup="true" 
+					aria-expanded="true"
+					title="Click to Select Field"
+				>
 					<span class="glyphicon glyphicon-plus"></span>
 					Add {{type}}
 					<span class="caret"></span>
@@ -12,12 +19,26 @@
 					<li v-on:click="handleAddField(field.name)" v-for="field in filteredFields"><a href="#">{{ field.name }}</a></li>
 				</ul>
 			</div>
-			<div draggable="true" v-on:dragstart="handleDragStart($event, selectedField)" v-on:drop="handleDrop($event, selectedField)" v-on:dragover="allowDrop" v-for="selectedField in selectedFields" v-bind:class="{'is-sort-field': isSortField, 'is-drag-over': isDragOver}" class="selected-field">
+			<div 
+				class="selected-field"
+				v-bind:class="{'is-sort-field': isSortField, 'is-drag-over': isDragOver}" 
+				v-for="selectedField in selectedFields" 
+				v-on:dragstart="handleDragStart($event, selectedField)" 
+				v-on:drop="handleDrop($event, selectedField)" 
+				v-on:dragover="allowDrop" 
+				draggable="true" 
+			>
 				<button v-on:click="handleRemoveField(selectedField)" class="btn btn-danger" title="Delete Field">
 					<span class="glyphicon glyphicon-remove"></span>
 				</button>
 				{{selectedField}}
-				<ascend-decend-selector v-if="isSortField" v-on:change="handleSortTypeChange" v-bind:id="selectedField" class="pull-right"></ascend-decend-selector>
+				<ascend-decend-selector 
+					v-if="isSortField" 
+					v-on:change="handleSortTypeChange" 
+					v-bind:id="selectedField"
+					v-bind:state="getSortState(selectedField)" 
+					class="pull-right"
+				></ascend-decend-selector>
 			</div>
 		</div>
 	`;
@@ -29,9 +50,15 @@
 		watch: {
 			fields: function(val) {
 				this.filteredFields = this._filterFields();
+			},
+			selectedFields: function(val) {
+				this.selectedFields = val;
+			},
+			selectedSortOptions: function(val) {
+				this.sortOptions = val;
 			}
 		},
-		props: ["fields", "isSortField", "selectedFileds", "type"],
+		props: ["fields", "isSortField", "selectedFileds", "type", "selectedFields", "selectedSortOptions"],
 		template: s,
 		data: function() {
 			return {
@@ -56,6 +83,12 @@
 			},
 			allowDrop: function(e) {
 				e.preventDefault();
+			},
+			getSortState: function(selectedField) {
+				if(this.sortOptions) {
+					return this.sortOptions[selectedField];
+				}
+				return "asc";
 			},
 			handleAddField: function(name) {
 				if(!this.hasSelectedField(name)) {

@@ -82,6 +82,11 @@ module.exports = class ConnectopusController extends EventEmitter {
 		this.configModel.addConnection(o);
 		return o;
 	}
+	addTableFieldData(tableName, data) {
+		var conId = this.connectionsModel.getPrimeId();
+		this.connectionsModel.updatePrimeTableView(tableName, data);
+		this.configModel.addTableFieldData(conId, tableName, data);
+	}
 	compareFiles(conId, path) {
 		this._call("modal-overlay", "showLoader");
 		this.connectionsModel.compare(conId, path, (data) => {
@@ -273,6 +278,12 @@ module.exports = class ConnectopusController extends EventEmitter {
 			this._addTable(a, selectedTable, this.dataModel.getContents(connections[l], "/"));
 		}
 		return utils.sortTableArrayBy(a, "table");
+	}
+	getViewParameters(selectedTable) {
+		var configDetail = this.configModel.getConnection(this.connectionsModel.getPrimeId());
+		if(configDetail && configDetail.tableViews) {
+			return configDetail.tableViews[selectedTable];
+		}
 	}
 	handleConfigData(data) {
 		this._call("current-connections", "setFolders", data.folders);
@@ -727,6 +738,11 @@ module.exports = class ConnectopusController extends EventEmitter {
 				]
 			});
 		}
+	}
+	removeTableFieldData(tableName) {
+		var primeId = this.connectionsModel.getPrimeId();
+		this.connectionsModel.removeTableFieldData(tableName);
+		this.configModel.removeTableFieldData(primeId, tableName);
 	}
 	saveCurrentProject(args) {
 		var proj = this._strip(this.projectsModel.getCurrentProject());

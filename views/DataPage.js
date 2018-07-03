@@ -9,9 +9,15 @@
 			</div>
 			<div v-show="fields.length" class="row">
 				<div class="col-xs-12">
-					<data-fields v-on:save-vew-settings="handleSaveViewSettings" v-bind:fields="fields"></data-fields>
+					<data-fields 
+						v-on:save-vew-settings="handleSaveViewSettings"
+						v-on:delete-view-settings="handleDeleteViewSetings"
+						v-bind:fields="fields"
+						v-bind:fieldData="getFieldData(selectedTable)"
+					></data-fields>
 				</div>
 			</div>
+			{{viewParameters}}
 			<div v-show="selectedTable != ''" class="row main-data-container">
 				<div class="col-xs-12 bare-container data-listing">
 					<table class="data-listing-table">
@@ -50,7 +56,9 @@
 				selectedParentColumn: 'Select Column',
 				selectedChildColumn: 'Select Column',
 				maximizeContrast: null,
-				totalConnections: 0
+				totalConnections: 0,
+				primeConnection: null,
+				viewParameters: null
 			}
 		},
 		methods: {
@@ -64,6 +72,12 @@
 					}
 				}
 				return [];
+			},
+			getFieldData: function(selectedTable) {
+				if(selectedTable && this.primeConnection && this.primeConnection.tableViews) {
+					return this.primeConnection.tableViews[selectedTable];
+				}
+				return null;
 			},
 			getName: function(id) {
 				return controller.getConnectionName(id);
@@ -111,6 +125,9 @@
 				this.selectedChildColumn = this.selectedParentColumn = "Select Column";
 				this.tables = controller.getTables(this.connections, this.selectedTable);
 			},
+			handleDeleteViewSetings: function(e) {
+				controller.removeTableFieldData(this.selectedTable);
+			},
 			handleParentColumnChange: function(e) {
 				var $this = $(e.target);
 				if($this.is("a")) {
@@ -125,7 +142,7 @@
 				}
 			},
 			handleSaveViewSettings: function(data) {
-				console.log(this.selectedTable, data);
+				controller.addTableFieldData(this.selectedTable, data);
 			},
 			handleSelectAll: function(e) {
 				console.log("handle select all");
@@ -138,6 +155,7 @@
 				}
 				this.connections = a;
 				this.totalConnections = a.length;
+				this.primeConnection = controller.getPrimeConnection();
 				this.handleDataModelUpdate();
 			},
 			setMaximizeContrast: function(bool) {
@@ -145,6 +163,7 @@
 			},
 			setSelectedTable: function(selectedTable) {
 				this.selectedTable = selectedTable;
+				this.viewParameters = controller.getViewParameters(selectedTable);
 				this.handleDataModelUpdate();
 			},
 			showTableData: function(data) {

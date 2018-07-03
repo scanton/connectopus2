@@ -42,6 +42,25 @@ module.exports = class ConfigModel extends AbstractModel {
 			console.error("cannot find connection: ", id);
 		}
 	}
+	addTableFieldData(conId, tableName, data) {
+		var primeConnection = this.getConnection(conId);
+		if(primeConnection && tableName && data) {
+			if(!primeConnection.tableViews) {
+				primeConnection.tableViews = {};
+			}
+			primeConnection.tableViews[tableName] = data;
+			this.updateConnection(conId, primeConnection);
+		}
+	}
+	removeTableFieldData(conId, tableName) {
+		var primeConnection = this.getConnection(conId);
+		if(primeConnection && tableName) {
+			if(primeConnection.tableViews) {
+				delete primeConnection.tableViews[tableName];
+				this.updateConnection(conId, primeConnection);
+			}
+		}
+	}
 	createFolder(name) {
 		if(name) {
 			if(!this._config.folders) {

@@ -814,6 +814,10 @@ ul.directories li, ul.tables li {
 .data-page .data-fields .save-button {
 	margin-top: .75em;
 }
+.data-page .data-fields .delete-button {
+	margin-top: .75em;
+	margin-right: .75em;
+}
 .data-page .selected-field {
 	border: 1px solid #999;
 	width: 100%;
@@ -869,7 +873,7 @@ ul.directories li, ul.tables li {
 	padding-left: 0;
 	padding-right: 0;
 }
-.data-page .btn-success {
+.data-page .btn-success, .data-page .btn-danger {
 	font-size: 14pt;
 }
 .footer-bar .footer-label {
@@ -1490,6 +1494,7 @@ ul.field-list {
 	display: inline-block;
 }
 .field-list .selected-field .btn-danger {
+	font-size: 11pt;
 	padding: 1px 4px;
 	display: none;
 	position: absolute;
