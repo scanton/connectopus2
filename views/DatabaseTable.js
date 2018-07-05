@@ -4,8 +4,7 @@
 		<li title="Browse Table" v-on:click="handleClick(table[0].table)" v-bind:class="{ selected: selectedTable == table[0].table }" class="database-table container-fluid" v-bind:data-path="table.path">
 			<i class="fas fa-table glyphicon"></i> 
 			{{table[0].table}}
-			<i v-show="hasRelations" class="fas fa-coins glyphicon"></i>
-			<i v-show="fieldData != null" class="fas fa-filter glyphicon"></i>
+			<i v-show="hasFieldData" class="fas fa-filter glyphicon"></i>
 		</li>
 	`;
 	
@@ -13,7 +12,17 @@
 		created: function() {
 			viewController.registerView(componentName, this);
 		},
-		props: ['table', 'selectedTable', 'hasRelations', 'fieldData'],
+		computed: {
+			hasFieldData: function() {
+				var primeCon = controller.getPrimeConnection();
+				if(this.table && primeCon) {
+					var tableName = this.table[0].table;
+					return Boolean(primeCon.tableViews[tableName]);
+				}
+				return false;
+			}
+		},
+		props: ['table', 'selectedTable', 'fieldData'],
 		template: s,
 		data: function() {
 			return {}

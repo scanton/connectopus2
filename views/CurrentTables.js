@@ -3,18 +3,6 @@
 	var s = `
 		<div class="current-tables container-fluid">
 			<div class="row">
-				<!--
-				<div v-show="this.relations && this.relations.length" class="col-xs-12 bare-container related-tables">
-					<h2>Related Tables</h2>
-					<div v-on:click="handleViewRelation(relation.id)" v-for="relation in relations" class="relation">
-						<span v-on:click="handleRemove" v-bind:data-id="relation.id" class="glyphicon glyphicon-remove pull-right" />
-						<div class="related-table"><i class="fas fa-table glyphicon" /> {{relation.parentTable}}</div>
-						<div class="arrow-connector" />
-						<div class="related-table"><i class="fas fa-arrow-right glyphicon" /><i class="fas fa-table glyphicon" /> {{relation.childTable}}</div>
-					</div>
-					<horizontal-rule />
-				</div>
-				-->
 				<div class="col-xs-12 bare-container normal-tables">
 					<h2>All Tables</h2>
 					<ul class="tables">
@@ -23,7 +11,7 @@
 							v-on:table-click="handleTableClick" 
 							v-bind:table="table" 
 							v-bind:selectedTable="selectedTable" 
-							v-bind:fieldData="getFieldData(table)" 
+							v-bind:fieldData="getFieldData(table)"
 						/>
 					</ul>
 				</div>
@@ -48,26 +36,18 @@
 		methods: {
 			getFieldData: function(table) {
 				if(table && table[0] && this.primeConnection && this.primeConnection.tableViews) {
-					return this.primeConnection.tableViews[table[0].table];
+					var tableName = table[0].table;
+					return this.primeConnection.tableViews[tableName];
 				}
 				return null;
 			},
 			handleDataModelUpdate: function() {
 				this.tables = controller.getTables(this.connections, this.selectedTable);
 				this.relations = this._sortRelations(controller.getRelations());
-			},
-			handleRemove: function(e) {
-				e.stopPropagation();
-				var id = $(e.target).attr("data-id");
-				if(id) {
-					controller.removeRelation(id);
-				}
+				this.primeConnection = controller.getPrimeConnection();
 			},
 			handleTableClick: function(tableName) {
 				controller.viewTable(tableName);
-			},
-			handleViewRelation: function(key) {
-				controller.viewRelation(key);
 			},
 			setConnections: function(data) {
 				var a = [];

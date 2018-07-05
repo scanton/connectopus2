@@ -17,7 +17,6 @@
 					></data-fields>
 				</div>
 			</div>
-			{{viewParameters}}
 			<div v-show="selectedTable != ''" class="row main-data-container">
 				<div class="col-xs-12 bare-container data-listing">
 					<table class="data-listing-table">
@@ -26,6 +25,11 @@
 								<span class="pull-left" v-if="index == 0"><input v-on:click="handleSelectAll" type="checkbox" /></span>
 								{{getName(conId)}}
 							</th>
+						</tr>
+						<tr v-for="row in renderRows">
+							<td v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
+								test row
+							</td>
 						</tr>
 						<!--
 						<tr v-for="file in files.allFiles">
@@ -58,7 +62,8 @@
 				maximizeContrast: null,
 				totalConnections: 0,
 				primeConnection: null,
-				viewParameters: null
+				viewParameters: null,
+				renderRows: []
 			}
 		},
 		methods: {
@@ -167,12 +172,31 @@
 				this.handleDataModelUpdate();
 			},
 			showTableData: function(data) {
-				console.log(data);
+				if(this.viewParameters) {
+					console.log(stripObservers(data), stripObservers(this.viewParameters));
+				}
 				if(data && data[0] && data[0].name) {
 					this.fields = data[0].fields;
 					this.tableData = data;
 					this.selectedTable = data[0].name;
+					this.renderRows = this._reduce(data, this.viewParameters);
 				}
+			},
+			_reduce: function(tableData, viewData) {
+				var a = [];
+				if(tableData && viewData) {
+					
+					var tableCount = tableData.length;
+					var primaryKey = tableData[0].fields[0].name;
+					//display fields
+
+					//sort
+
+					//exclude
+
+					//md5
+				}
+				return a;
 			}
 		}
 	});
