@@ -27,17 +27,12 @@
 							</th>
 						</tr>
 						<tr v-for="row in renderRows">
-							<td v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
-								test row
+							<td class="data-compare-listing" v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
+								<span v-if="row[index]">
+									{{row[index].displayData}}
+								</span>
 							</td>
 						</tr>
-						<!--
-						<tr v-for="file in files.allFiles">
-							<td v-bind:class="{'row-is-in-sync': isRowInSync(file)}" class="file-compare-listing" v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
-								<file-compare v-bind:conId="conId" v-bind:index="index" v-bind:totalConnections="totalConnections" v-bind:primeFile="getPrimeFile(file.name)" v-bind:compareFile="getFile(file.name, conId)"></file-compare>
-							</td>
-						</tr>
-						-->
 					</table>
 				</div>
 			</div>
@@ -183,9 +178,9 @@
 				}
 			},
 			_reduce: function(tableData, viewData) {
-				var a = [];
+				const a = [];
 				if(tableData && viewData) {
-					var o = {};
+					const o = {};
 					var tableCount = tableData.length;
 					//normalize object data (put rows together)
 					for(var i = 0; i < tableCount; i++) {
@@ -204,26 +199,33 @@
 						var row = o[i];
 						var l = row.length;
 						while(l--) {
-							var data = stripObservers(row[l].data);
-							var l2 = viewData.selectedExclusionFields.length
-							while(l2--) {
-								delete data[viewData.selectedExclusionFields[l2]];
+							if(row[l]) {
+								var data = stripObservers(row[l].data);
+								var l2 = viewData.selectedExclusionFields.length
+								while(l2--) {
+									delete data[viewData.selectedExclusionFields[l2]];
+								}
+								row[l].contentHash = md5(JSON.stringify(data));
 							}
-							row[l].contentHash = md5(JSON.stringify(data));
 						}
 					}
 					//destructure back into an array
-					for(var i in o) {
-						var rowArray = o[i];
-						var l = rowArray.length;
-						if(l > 1) {
-							var contentHash = rowArray[0].contentHash;
-							var rowHash = rowArray[0].rowHash;
-							for(var i2 = 1; i2 < l; i2++) {
-								
+					var _isRowMatch = function(arr) {
+						if(arr.length > 1) {
+							var primeHash = arr[0] ? arr[0].rowHash : null;
+							var l = arr.length;
+							for(var i = 1; i < l; i++) {
+								if(!arr[i] || arr[i].rowHash != primeHash) {
+									return false;
+								}
 							}
 						}
-						a.push(row);
+						return true;
+					}
+					for(var i in o) {
+						if(!_isRowMatch(o[i])) {
+							a.push(o[i]);
+						}
 					}
 					//sort
 					var l = viewData.selectedSortFields.length;
@@ -233,12 +235,16 @@
 							var isDesc = viewData.sortOptions[column] == "desc";
 							var returnValue = isDesc ? -1 : 1;
 							a.sort(function(a, b) {
-								if(a[0].data[column] > b[0].data[column]) {
-									return returnValue;
-								} else if(a[0].data[column] < b[0].data[column]) {
-									return returnValue * -1;
+								if(a[0] && a[0].data && b[0] && b[0].data) {
+									if(a[0].data[column] > b[0].data[column]) {
+										return returnValue;
+									} else if(a[0].data[column] < b[0].data[column]) {
+										return returnValue * -1;
+									}
+									return 0;
+								} else {
+									return 1;
 								}
-								return 0;
 							});
 						}
 					}
@@ -258,11 +264,11 @@
 						var row = a[l];
 						var l2 = row.length;
 						while(l2--) {
-							row[l2].displayData = _filter(row[l2].data, viewData.selectedDisplayFields);
-
+							if(row[l2] && row[l2].data) {
+								row[l2].displayData = _filter(row[l2].data, viewData.selectedDisplayFields);
+							}
 						}
 					}
-					console.log(stripObservers(a))
 				}
 				return a;
 			}

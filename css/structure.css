@@ -644,7 +644,7 @@ ul.directories li, ul.tables li {
 	padding: 0;
 	background: #DDD;
 }
-.file-compare-listing {
+.file-compare-listing, .data-compare-listing {
 	border: 1px solid rgba(0, 0, 0, .25);
 	padding: .25em;
 }
@@ -789,7 +789,7 @@ ul.directories li, ul.tables li {
 	background-color: red;
 }
 
-.files-page .connection-name {
+.files-page .connection-name, .data-page .connection-name {
 	text-align: center;
 	font-weight: bold;
 	font-size: 12pt;
