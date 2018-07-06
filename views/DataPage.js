@@ -185,16 +185,84 @@
 			_reduce: function(tableData, viewData) {
 				var a = [];
 				if(tableData && viewData) {
-					
+					var o = {};
 					var tableCount = tableData.length;
-					var primaryKey = tableData[0].fields[0].name;
-					//display fields
-
+					//normalize object data (put rows together)
+					for(var i = 0; i < tableCount; i++) {
+						var content = tableData[i].content;
+						var l2 = content.length;
+						for(var i2 = 0; i2 < l2; i2++) {
+							var row = content[i2];
+							if(!o[row.primaryKey]) {
+								o[row.primaryKey] = [];
+							}
+							o[row.primaryKey][i] = row;
+						}
+					}
+					//mark matching rows (exclusions)
+					for(var i in o) {
+						var row = o[i];
+						var l = row.length;
+						while(l--) {
+							var data = stripObservers(row[l].data);
+							var l2 = viewData.selectedExclusionFields.length
+							while(l2--) {
+								delete data[viewData.selectedExclusionFields[l2]];
+							}
+							row[l].contentHash = md5(JSON.stringify(data));
+						}
+					}
+					//destructure back into an array
+					for(var i in o) {
+						var rowArray = o[i];
+						var l = rowArray.length;
+						if(l > 1) {
+							var contentHash = rowArray[0].contentHash;
+							var rowHash = rowArray[0].rowHash;
+							for(var i2 = 1; i2 < l; i2++) {
+								
+							}
+						}
+						a.push(row);
+					}
 					//sort
+					var l = viewData.selectedSortFields.length;
+					if(l) {
+						for(var i = 0; i < l; i++) {
+							var column = viewData.selectedSortFields[i];
+							var isDesc = viewData.sortOptions[column] == "desc";
+							var returnValue = isDesc ? -1 : 1;
+							a.sort(function(a, b) {
+								if(a[0].data[column] > b[0].data[column]) {
+									return returnValue;
+								} else if(a[0].data[column] < b[0].data[column]) {
+									return returnValue * -1;
+								}
+								return 0;
+							});
+						}
+					}
+					//display fields (reduce)
+					var _filter = function(data, filterFields) {
+						var o = {};
+						var l = filterFields.length;
+						while(l--) {
+							var column = filterFields[l];
+							o[column] = data[column];
+						}
+						return o;
+					}
+					
+					var l = a.length;
+					while(l--) {
+						var row = a[l];
+						var l2 = row.length;
+						while(l2--) {
+							row[l2].displayData = _filter(row[l2].data, viewData.selectedDisplayFields);
 
-					//exclude
-
-					//md5
+						}
+					}
+					console.log(stripObservers(a))
 				}
 				return a;
 			}

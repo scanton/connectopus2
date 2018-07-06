@@ -638,8 +638,7 @@ module.exports = class ConnectopusController extends EventEmitter {
 				m = this.md5(JSON.stringify(row));
 				strippedRow = stripObservers(row);
 				delete strippedRow[c.fields[0].name];
-				hash = this.md5(strippedRow);
-				result.push({primaryKey: row[c.fields[0].name], rowHash: m, data: row, contentHash: hash})
+				result.push({primaryKey: row[c.fields[0].name], rowHash: m, data: row})
 			}
 			a.push({conId: id, name: name, content: result, errors: c.errors, fields: c.fields});
 		}

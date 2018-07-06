@@ -1,5 +1,7 @@
 console.info = function() {};
 
+const md5 = require('md5');
+
 const utils = {};
 utils.sortArrayBy = function(arr, key, isDecending) {
 	var decendMultiple = isDecending ? 1 : -1;
