@@ -4,14 +4,15 @@
 		<div class="data-page container-fluid">
 			<div class="row">
 				<div class="col-xs-12">
-					<data-nav-bar v-bind:showRelationsButton="selectedTable != ''"></data-nav-bar>
+					<data-nav-bar v-bind:showRelationsButton="selectedTable != '' && !isViewSettingsVisible" v-on:toggle-view-settings="handleToggleViewSettings"></data-nav-bar>
 				</div>
 			</div>
-			<div v-show="fields.length" class="row">
+			<div v-show="fields.length && isViewSettingsVisible" class="row">
 				<div class="col-xs-12">
 					<data-fields 
 						v-on:save-vew-settings="handleSaveViewSettings"
 						v-on:delete-view-settings="handleDeleteViewSetings"
+						v-on:toggle-view-settings="handleToggleViewSettings"
 						v-bind:fields="fields"
 						v-bind:fieldData="getFieldData(selectedTable)"
 					></data-fields>
@@ -21,11 +22,21 @@
 				<div class="col-xs-12 bare-container data-listing">
 					<table class="data-listing-table">
 						<tr>
-							<th class="connection-name" v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
+							<th v-bind:colspan="columnLength" class="connection-name" v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
 								<span class="pull-left" v-if="index == 0"><input v-on:click="handleSelectAll" type="checkbox" /></span>
 								{{getName(conId)}}
 							</th>
 						</tr>
+						<tr v-if="viewParameters && viewParameters.selectedDisplayFields" v-html="_renderColumnHeadings(viewParameters.selectedDisplayFields, connections, totalConnections, maximizeContrast)">
+							<!--
+							<th class="column-names" v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
+								<span v-for="field in viewParameters.selectedDisplayFields">
+									{{field}}
+								</span>
+							</th>
+							-->
+						</tr>
+						<!--
 						<tr v-for="row in renderRows">
 							<td class="data-compare-listing" v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
 								<span v-if="row[index]">
@@ -33,6 +44,7 @@
 								</span>
 							</td>
 						</tr>
+						-->
 					</table>
 				</div>
 			</div>
@@ -58,7 +70,9 @@
 				totalConnections: 0,
 				primeConnection: null,
 				viewParameters: null,
-				renderRows: []
+				renderRows: [],
+				isViewSettingsVisible: true,
+				columnLength: 1
 			}
 		},
 		methods: {
@@ -147,6 +161,9 @@
 			handleSelectAll: function(e) {
 				console.log("handle select all");
 			},
+			handleToggleViewSettings: function(e) {
+				this.isViewSettingsVisible = !this.isViewSettingsVisible;
+			},
 			setConnections: function(data) {
 				var a = [];
 				var l = data.length;
@@ -164,6 +181,7 @@
 			setSelectedTable: function(selectedTable) {
 				this.selectedTable = selectedTable;
 				this.viewParameters = controller.getViewParameters(selectedTable);
+				this.columnLength = this.viewParameters.selectedDisplayFields.length;
 				this.handleDataModelUpdate();
 			},
 			showTableData: function(data) {
@@ -271,6 +289,22 @@
 					}
 				}
 				return a;
+			},
+			_renderColumnHeadings: function(selectedDisplayFields, connections, totalConnections, maximizeContrast) {
+				var s = '';
+				var l1 = connections.length;
+				for(var i1 = 0; i1 < l1; i1++) {
+					var styleObject = this.getStyle(i1, totalConnections, maximizeContrast);
+					var style = '';
+					for(var index in styleObject) {
+						style += index + ": " + styleObject[index] + "; ";
+					}
+					var l2 = selectedDisplayFields.length;
+					for(var i2 = 0; i2 < l2; i2++) {
+						s += '<th class="column-names" style="' + style + '">' + selectedDisplayFields[i2] + '</th>';
+					}
+				}
+				return s;
 			}
 		}
 	});

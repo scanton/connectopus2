@@ -10,12 +10,12 @@
 					<button v-on:click="handleRefreshView" class="btn btn-default pull-right" title="Refresh View">
 						<span class="glyphicon glyphicon-refresh"></span>
 					</button>
-					<!--
-					<button v-show="showRelationsButton" v-on:click="handleCreateTableRelationship" class="btn btn-default" title="Create Table Relationship">
-						<span class="glyphicon glyphicon-list-alt"></span> Create Table Relationship
-					</button>
-					-->
+					
 					{{selectedTable}}
+					
+					<button v-show="showRelationsButton" v-on:click="handleToggleViewSettings" class="btn btn-default" title="Toggle Table View Settings">
+						<span class="glyphicon glyphicon-list-alt"></span> Table View Settings
+					</button>
 				</div>
 			</div>
 		</div>
@@ -34,8 +34,13 @@
 			}
 		},
 		methods: {
+			/*
 			handleCreateTableRelationship: function(e) {
 				controller.showCreateTableRelationshipView();
+			},
+			*/
+			handleToggleViewSettings: function(e) {
+				this.$emit("toggle-view-settings");
 			},
 			handleRefreshView: function(e) {
 				console.log("refresh data view");

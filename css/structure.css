@@ -811,7 +811,7 @@ ul.directories li, ul.tables li {
     padding: 1em 3em 1em 2em;
     background: #EEE;
 }
-.data-page .data-fields .save-button {
+.data-page .data-fields .save-button, .data-page .data-fields .btn-default {
 	margin-top: .75em;
 }
 .data-page .data-fields .delete-button {
@@ -873,7 +873,7 @@ ul.directories li, ul.tables li {
 	padding-left: 0;
 	padding-right: 0;
 }
-.data-page .btn-success, .data-page .btn-danger {
+.data-page .btn-success, .data-page .btn-danger, .data-page .data-fields .btn-default {
 	font-size: 14pt;
 }
 .footer-bar .footer-label {

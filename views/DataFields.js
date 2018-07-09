@@ -34,6 +34,9 @@
 				</div>
 			</div>
 			<div class="row">
+				<button v-on:click="handleToggleViewSettings" class="btn btn-default">
+					Hide View Settings
+				</button>
 				<button 
 					class="btn btn-success pull-right save-button"
 					v-on:click="handleSaveViewSettings" 
@@ -97,6 +100,9 @@
 			handleSortByChange: function(data) {
 				this.selectedSortFields = data.selectedFields;
 				this.sortOptions = data.sortOptions;
+			},
+			handleToggleViewSettings: function(e) {
+				this.$emit("toggle-view-settings");
 			}
 		}
 	});
