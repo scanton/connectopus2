@@ -27,15 +27,8 @@
 								{{getName(conId)}}
 							</th>
 						</tr>
-						<tr v-if="viewParameters && viewParameters.selectedDisplayFields" v-html="_renderColumnHeadings(viewParameters.selectedDisplayFields, connections, totalConnections, maximizeContrast)">
-							<!--
-							<th class="column-names" v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
-								<span v-for="field in viewParameters.selectedDisplayFields">
-									{{field}}
-								</span>
-							</th>
-							-->
-						</tr>
+						<tr v-if="viewParameters && viewParameters.selectedDisplayFields" v-html="_renderColumnHeadings(viewParameters.selectedDisplayFields, connections, totalConnections, maximizeContrast)"></tr>
+						<tr v-for="row in renderRows" v-html="_renderColumns(row, viewParameters.selectedDisplayFields, connections, totalConnections, maximizeContrast)"></tr>
 						<!--
 						<tr v-for="row in renderRows">
 							<td class="data-compare-listing" v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
@@ -301,7 +294,28 @@
 					}
 					var l2 = selectedDisplayFields.length;
 					for(var i2 = 0; i2 < l2; i2++) {
-						s += '<th class="column-names" style="' + style + '">' + selectedDisplayFields[i2] + '</th>';
+						s += '<th class="column-names data-compare-listing" style="' + style + '">' + selectedDisplayFields[i2] + '</th>';
+					}
+				}
+				return s;
+			},
+			_renderColumns: function(row, selectedDisplayFields, connections, totalConnections, maximizeContrast) {
+				var s = '';
+				var l1 = connections.length;
+				for(var i1 = 0; i1 < l1; i1++) {
+					var styleObject = this.getStyle(i1, totalConnections, maximizeContrast);
+					var style = '';
+					for(var index in styleObject) {
+						style += index + ": " + styleObject[index] + "; ";
+					}
+					var l2 = selectedDisplayFields.length;
+					for(var i2 = 0; i2 < l2; i2++) {
+						if(row[i1] && row[i1].data) {
+							var checkbox = i1 == 0 && i2 == 0 ? '<input type="checkbox" />&nbsp;' : '';
+							s += '<td class="column-value data-compare-listing" style="' + style + '">' + checkbox + row[i1].data[selectedDisplayFields[i2]] + '</td>';
+						} else {
+							s += '<td class="column-value data-compare-listing" style="' + style + '"></td>';
+						}
 					}
 				}
 				return s;
