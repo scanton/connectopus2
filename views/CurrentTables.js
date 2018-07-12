@@ -29,7 +29,7 @@
 				connections: [],
 				tables: [],
 				selectedTable: '',
-				relations: null,
+				//relations: null,
 				primeConnection: null
 			}
 		},
@@ -43,7 +43,7 @@
 			},
 			handleDataModelUpdate: function() {
 				this.tables = controller.getTables(this.connections, this.selectedTable);
-				this.relations = this._sortRelations(controller.getRelations());
+				//this.relations = this._sortRelations(controller.getRelations());
 				this.primeConnection = controller.getPrimeConnection();
 			},
 			handleTableClick: function(tableName) {
@@ -62,7 +62,7 @@
 			setSelectedTable: function(selectedTable) {
 				this.selectedTable = selectedTable;
 				this.handleDataModelUpdate();
-			},
+			}/*,
 			_sortRelations: function(rel) {
 				var r;
 				var a = [];
@@ -85,7 +85,7 @@
 					return 0;
 				});
 				return a;
-			}
+			}*/
 		}
 	});
 })();

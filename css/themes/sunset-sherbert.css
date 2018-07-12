@@ -406,11 +406,17 @@ body.sunset-sherbert {
 	border-color: #666;
 }
 .sunset-sherbert .data-page .data-fields {
-	background: #222;
+	background: #444;
 }
 .sunset-sherbert .field-list .dropdown button {
-	background: #222;
+	background: #444;
 }
 .sunset-sherbert .data-page .selected-field {
-	background: #333;
+	background: #555;
+}
+.sunset-sherbert .input-group.right-style button.btn-danger {
+	color: #FF7373;
+}
+.sunset-sherbert .input-group.right-style button.btn-success {
+	color: #a695f7;
 }

@@ -26,10 +26,9 @@
 			viewController.registerView(componentName, this);
 		},
 		template: s,
-		props: ["showRelationsButton"],
+		props: ["showRelationsButton", "rowsAreSelected"],
 		data: function() {
 			return {
-				rowsAreSelected: false,
 				selectedTable: ''
 			}
 		},
@@ -47,7 +46,7 @@
 			},
 			handleSyncData: function(e) {
 				e.preventDefault();
-				controller.syncSelectedFiles();
+				this.$emit("sync-selected-rows");
 			},
 			setSelectedTable: function(name) {
 				this.selectedTable = name;

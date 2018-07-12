@@ -811,6 +811,9 @@ ul.directories li, ul.tables li {
     padding: 1em 3em 1em 2em;
     background: #EEE;
 }
+.data-page .data-fields h3 {
+	margin-bottom: 0;
+}
 .data-page .data-fields .save-button, .data-page .data-fields .btn-default {
 	margin-top: .75em;
 }
@@ -1000,7 +1003,7 @@ ul.directories li, ul.tables li {
 	margin: 0;
 	padding: .5em;
 }
-.diff-view th {
+.diff-view th, .data-page th {
 	text-align: center;
 	color: black;
 }

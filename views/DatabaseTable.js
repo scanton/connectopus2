@@ -15,7 +15,7 @@
 		computed: {
 			hasFieldData: function() {
 				var primeCon = controller.getPrimeConnection();
-				if(this.table && primeCon) {
+				if(this.table && primeCon && primeCon.tableViews) {
 					var tableName = this.table[0].table;
 					return Boolean(primeCon.tableViews[tableName]);
 				}

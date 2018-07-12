@@ -4,7 +4,12 @@
 		<div class="data-page container-fluid">
 			<div class="row">
 				<div class="col-xs-12">
-					<data-nav-bar v-bind:showRelationsButton="selectedTable != '' && !isViewSettingsVisible" v-on:toggle-view-settings="handleToggleViewSettings"></data-nav-bar>
+					<data-nav-bar 
+						v-bind:rowsAreSelected="selectedRows.length" 
+						v-bind:showRelationsButton="selectedTable != '' && !isViewSettingsVisible" 
+						v-on:toggle-view-settings="handleToggleViewSettings"
+						v-on:sync-selected-rows="handleSyncSelectedRows"
+					></data-nav-bar>
 				</div>
 			</div>
 			<div v-show="fields.length && isViewSettingsVisible" class="row">
@@ -20,24 +25,15 @@
 			</div>
 			<div v-show="selectedTable != ''" class="row main-data-container">
 				<div class="col-xs-12 bare-container data-listing">
-					<table class="data-listing-table">
+					<table v-on:click="handleClick" class="data-listing-table">
 						<tr>
 							<th v-bind:colspan="columnLength" class="connection-name" v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
-								<span class="pull-left" v-if="index == 0"><input v-on:click="handleSelectAll" type="checkbox" /></span>
+								<span class="pull-left" v-if="index == 0"><input class="select-all-checkbox" v-on:click="handleSelectAll" type="checkbox" /></span>
 								{{getName(conId)}}
 							</th>
 						</tr>
 						<tr v-if="viewParameters && viewParameters.selectedDisplayFields" v-html="_renderColumnHeadings(viewParameters.selectedDisplayFields, connections, totalConnections, maximizeContrast)"></tr>
 						<tr v-for="row in renderRows" v-html="_renderColumns(row, viewParameters.selectedDisplayFields, connections, totalConnections, maximizeContrast)"></tr>
-						<!--
-						<tr v-for="row in renderRows">
-							<td class="data-compare-listing" v-for="(conId, index) in connections" v-bind:style="getStyle(index, totalConnections, maximizeContrast)">
-								<span v-if="row[index]">
-									{{row[index].displayData}}
-								</span>
-							</td>
-						</tr>
-						-->
 					</table>
 				</div>
 			</div>
@@ -65,7 +61,8 @@
 				viewParameters: null,
 				renderRows: [],
 				isViewSettingsVisible: true,
-				columnLength: 1
+				columnLength: 1,
+				selectedRows: []
 			}
 		},
 		methods: {
@@ -105,6 +102,16 @@
 				if($this.is("a")) {
 					this.selectedChildColumn = "Select Column";
 					this.selectedChild = $this.text();
+				}
+			},
+			handleClick: function(e) {
+				var $this = $(e.target);
+				if(!$this.hasClass("select-all-checkbox")) {
+					var a = [];
+					$(".primary-key-checkbox:checked").each(function() {
+						a.push($(this).attr("data-key"));
+					});
+					this.selectedRows = a;
 				}
 			},
 			handleCreateTableRelationship: function() {
@@ -152,7 +159,17 @@
 				controller.addTableFieldData(this.selectedTable, data);
 			},
 			handleSelectAll: function(e) {
-				console.log("handle select all");
+				var isChecked = $(e.target).is(":checked");
+				$(".primary-key-checkbox").prop("checked", isChecked);
+				var a = [];
+				$(".primary-key-checkbox:checked").each(function() {
+					a.push($(this).attr("data-key"));
+				});
+				this.selectedRows = a;
+			},
+			handleSyncSelectedRows: function() {
+				console.log("sync", stripObservers(this.selectedRows));
+				//controller.syncSelectedFiles();
 			},
 			handleToggleViewSettings: function(e) {
 				this.isViewSettingsVisible = !this.isViewSettingsVisible;
@@ -174,7 +191,11 @@
 			setSelectedTable: function(selectedTable) {
 				this.selectedTable = selectedTable;
 				this.viewParameters = controller.getViewParameters(selectedTable);
-				this.columnLength = this.viewParameters.selectedDisplayFields.length;
+				if(this.viewParameters && this.viewParameters.selectedDisplayFields) {
+					this.columnLength = this.viewParameters.selectedDisplayFields.length;
+				} else {
+					this.columnLength = 1;
+				}
 				this.handleDataModelUpdate();
 			},
 			showTableData: function(data) {
@@ -311,7 +332,7 @@
 					var l2 = selectedDisplayFields.length;
 					for(var i2 = 0; i2 < l2; i2++) {
 						if(row[i1] && row[i1].data) {
-							var checkbox = i1 == 0 && i2 == 0 ? '<input type="checkbox" />&nbsp;' : '';
+							var checkbox = i1 == 0 && i2 == 0 ? '<input class="primary-key-checkbox" data-key="' + row[i1].primaryKey + '" type="checkbox" />&nbsp;' : '';
 							s += '<td class="column-value data-compare-listing" style="' + style + '">' + checkbox + row[i1].data[selectedDisplayFields[i2]] + '</td>';
 						} else {
 							s += '<td class="column-value data-compare-listing" style="' + style + '"></td>';
