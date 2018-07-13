@@ -1053,6 +1053,9 @@ module.exports = class ConnectopusController extends EventEmitter {
 			});
 		}
 	}
+	syncSelectedRows(rows, table, primaryKey) {
+		console.log(stripObservers({rows: rows, table: table, primaryKey: primaryKey}));
+	}
 	toggleViewSettings() {
 		this._call("work-area", "toggleSettings");
 	}

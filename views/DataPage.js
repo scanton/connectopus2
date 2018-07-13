@@ -106,12 +106,22 @@
 			},
 			handleClick: function(e) {
 				var $this = $(e.target);
-				if(!$this.hasClass("select-all-checkbox")) {
+				if($this.hasClass("primary-key-checkbox")) {
 					var a = [];
 					$(".primary-key-checkbox:checked").each(function() {
 						a.push($(this).attr("data-key"));
 					});
 					this.selectedRows = a;
+				} else if($this.hasClass("select-all-of-type")) {
+					var isChecked = $this.is(":checked");
+					var text = $this.closest("td").text();
+					$(".primary-key-checkbox").each(function() {
+						var $t = $(this);
+						var val = $t.closest("td").text();
+						if(val == text) {
+							$t.closest("td").find("input[type='checkbox']").prop("checked", isChecked);
+						}
+					});
 				}
 			},
 			handleCreateTableRelationship: function() {
@@ -168,8 +178,7 @@
 				this.selectedRows = a;
 			},
 			handleSyncSelectedRows: function() {
-				console.log("sync", stripObservers(this.selectedRows));
-				//controller.syncSelectedFiles();
+				controller.syncSelectedRows(this.selectedRows, this.selectedTable, this.primaryKeyName);
 			},
 			handleToggleViewSettings: function(e) {
 				this.isViewSettingsVisible = !this.isViewSettingsVisible;
@@ -203,6 +212,7 @@
 					console.log(stripObservers(data), stripObservers(this.viewParameters));
 				}
 				if(data && data[0] && data[0].name) {
+					this.primaryKeyName = data[0].fields[0].name;
 					this.fields = data[0].fields;
 					this.tableData = data;
 					this.selectedTable = data[0].name;
@@ -332,8 +342,15 @@
 					var l2 = selectedDisplayFields.length;
 					for(var i2 = 0; i2 < l2; i2++) {
 						if(row[i1] && row[i1].data) {
-							var checkbox = i1 == 0 && i2 == 0 ? '<input class="primary-key-checkbox" data-key="' + row[i1].primaryKey + '" type="checkbox" />&nbsp;' : '';
-							s += '<td class="column-value data-compare-listing" style="' + style + '">' + checkbox + row[i1].data[selectedDisplayFields[i2]] + '</td>';
+							var checkbox, selectAllOfTypeBox;
+							if(i1 == 0 && i2 == 0) {
+								checkbox = '<input class="primary-key-checkbox" data-key="' + row[i1].primaryKey + '" type="checkbox" />&nbsp;';
+								selectAllOfTypeBox = '<input type="checkbox" class="select-all-of-type pull-right" />';	
+							} else {
+								checkbox = '';
+								selectAllOfTypeBox = '';	
+							}
+							s += '<td class="column-value data-compare-listing" style="' + style + '"> ' + selectAllOfTypeBox + checkbox + row[i1].data[selectedDisplayFields[i2]] + '</td>';
 						} else {
 							s += '<td class="column-value data-compare-listing" style="' + style + '"></td>';
 						}
