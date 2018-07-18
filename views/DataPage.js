@@ -107,11 +107,7 @@
 			handleClick: function(e) {
 				var $this = $(e.target);
 				if($this.hasClass("primary-key-checkbox")) {
-					var a = [];
-					$(".primary-key-checkbox:checked").each(function() {
-						a.push($(this).attr("data-key"));
-					});
-					this.selectedRows = a;
+					this._countSelectedRows();
 				} else if($this.hasClass("select-all-of-type")) {
 					var isChecked = $this.is(":checked");
 					var text = $this.closest("td").text();
@@ -122,6 +118,7 @@
 							$t.closest("td").find("input[type='checkbox']").prop("checked", isChecked);
 						}
 					});
+					this._countSelectedRows();
 				}
 			},
 			handleCreateTableRelationship: function() {
@@ -218,6 +215,13 @@
 					this.selectedTable = data[0].name;
 					this.renderRows = this._reduce(data, this.viewParameters);
 				}
+			},
+			_countSelectedRows: function() {
+				var a = [];
+				$(".primary-key-checkbox:checked").each(function() {
+					a.push($(this).attr("data-key"));
+				});
+				this.selectedRows = a;
 			},
 			_reduce: function(tableData, viewData) {
 				const a = [];

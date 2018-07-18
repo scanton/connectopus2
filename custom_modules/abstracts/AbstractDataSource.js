@@ -12,6 +12,12 @@ module.exports = class AbstractDataSource extends EventEmitter {
 			callback();
 		}
 	}
+	copyRowsToLocalDirectory(rows, table, key, localDirectory, callback) {
+		console.log("implement copyRowsToLocalDirectory in child class", this._con.connectionType);
+		if(callback) {
+			callback();
+		}
+	}
 	createDirectory(path, callback, errorHandler) {
 		console.log("implement createDirectory in child class", this._con.connectionType);	
 		if(callback) {

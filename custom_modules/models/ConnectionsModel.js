@@ -302,6 +302,20 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			}
 		}, errorHandler);
 	}
+	syncRows(rows, table, key, callback, errorHandler) {
+		var dirName = __dirname.split("/custom_modules/models")[0];
+		var localDirectory = dirName + '/working_files/sql';
+		var primeId = this.getPrimeId();
+		var primeConnection = this.getConnection(primeId);
+		var livePrimeConnection = DataSourceFactory.createDatabaseConnection(primeConnection);
+		this.setStatus(primeId, 'pending');
+		livePrimeConnection.copyRowsToLocalDirectory(rows, table, key, localDirectory, (result) => {
+
+			if(callback) {
+				callback(result);
+			}
+		}, errorHandler);
+	}
 	updatePrimeTableView(tableName, viewData) {
 		var primeCon = this._connections[this.currentProject][0];
 		if(!primeCon.tableViews) {

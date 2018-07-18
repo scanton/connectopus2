@@ -6,6 +6,17 @@ module.exports = class MySQLDataSource extends AbstractDataSource {
 		this.mysql = require('mysql');
 	}
 
+	copyRowsToLocalDirectory(rows, table, key, localDirectory, callback) {
+		console.log(stripObservers({rows: rows, table: table, key: key, con: this._con}));
+		if(this._con && this._con.connections) {
+			var c = this._con.connections[0];
+			var command = "mysqldump -user " + c.username + " -password " + c.password + " --databases " + c.database + " --tables " + table + " --where=\"" + key + " in ('" + rows.join("', '") + "')\" > " + localDirectory + "filtered_dump.sql";
+			console.log(command);
+			if(callback) {
+				callback(localDirectory);
+			}
+		}
+	}
 	getDirectory(directory, callback) {
 		var query;
 		if(directory == "/") {

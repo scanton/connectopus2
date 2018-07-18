@@ -1053,8 +1053,12 @@ module.exports = class ConnectopusController extends EventEmitter {
 			});
 		}
 	}
-	syncSelectedRows(rows, table, primaryKey) {
-		console.log(stripObservers({rows: rows, table: table, primaryKey: primaryKey}));
+	syncSelectedRows(rows, table, key) {
+		this._call("modal-overlay", "showLoader");
+		this.connectionsModel.syncRows(rows, table, key, (result) => {
+			console.log(result);
+			this.hideModal();
+		});
 	}
 	toggleViewSettings() {
 		this._call("work-area", "toggleSettings");
