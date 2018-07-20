@@ -10,7 +10,7 @@ module.exports = class MySQLDataSource extends AbstractDataSource {
 		console.log(stripObservers({rows: rows, table: table, key: key, con: this._con}));
 		if(this._con && this._con.connections) {
 			var c = this._con.connections[0];
-			var command = "mysqldump -user " + c.username + " -password " + c.password + " --databases " + c.database + " --tables " + table + " --where=\"" + key + " in ('" + rows.join("', '") + "')\" > " + localDirectory + "filtered_dump.sql";
+			var command = "mysqldump --no-create-info " + c.database + " --add-drop-table=false --user=" + c.username + " --password=" + c.password + " --host=localhost --tables " + table + " --where=\"" + key + " in ('" + rows.join("', '") + "')\" > connectopus_mysql_dump.sql"
 			console.log(command);
 			if(callback) {
 				callback(localDirectory);
