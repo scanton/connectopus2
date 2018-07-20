@@ -1095,7 +1095,7 @@ ul.directories li, ul.tables li {
     left: 50px;
     right: 0;
     z-index: 2;
-    top: 25px;
+    top: 23px;
 }
 .context-is-visible .diff-tool-bar {
 	left: 350px;
