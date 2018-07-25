@@ -2,10 +2,6 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 
 	constructor(type, con) {
 		super(type, con);
-		this.fs = require('fs-extra');
-		this.remote = require('remote-exec');
-		let Ssh2SftpClient = require('ssh2-sftp-client');
-		this.sftp = new Ssh2SftpClient();
 	}
 
 	copyFilesToLocalDirectory(path, files, localDirectory, callback, errorHandler) {
@@ -282,14 +278,5 @@ module.exports = class SFTPDataSource extends AbstractDataSource {
 			}
 			deleteFile();
 		})
-	}
-	_getSshData(con) {
-		var sshData = {
-			host: con.host,
-			port: con.port,
-			username: con.username,
-			password: con.password
-		}
-		return sshData;
 	}
 }

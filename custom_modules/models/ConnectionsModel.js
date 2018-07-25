@@ -309,10 +309,31 @@ module.exports = class ConnectionsModel extends AbstractModel {
 		var primeConnection = this.getConnection(primeId);
 		var livePrimeConnection = DataSourceFactory.createDatabaseConnection(primeConnection);
 		this.setStatus(primeId, 'pending');
-		livePrimeConnection.copyRowsToLocalDirectory(rows, table, key, localDirectory, (result) => {
-
-			if(callback) {
-				callback(result);
+		livePrimeConnection.copyRowsToLocalDirectory(rows, table, key, localDirectory, (localFilePath) => {
+			var connections = this._connections[this.currentProject];
+			this.setStatus(primeId, 'connected');
+			if(connections.length > 1) {
+				var currentConnection = 1;
+				var updateConnections = () => {
+					var liveCon = DataSourceFactory.createDatabaseConnection(connections[currentConnection]);
+					this.setStatus(liveCon.id, "pending");
+					liveCon.updateSql(localFilePath, (result) => {
+						this.setStatus(liveCon.id, "connected");
+						++currentConnection;
+						if(currentConnection < connections.length) {
+							updateConnections();
+						} else {
+							if(callback) {
+								callback(localFilePath);
+							}
+						}
+					});
+				}
+				updateConnections();
+			} else {
+				if(callback) {
+					callback(localFilePath);
+				}
 			}
 		}, errorHandler);
 	}

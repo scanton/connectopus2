@@ -4,6 +4,11 @@ module.exports = class AbstractDataSource extends EventEmitter {
 		super();
 		this._type = type;
 		this._con = con;
+		this.fs = require('fs-extra');
+		let Ssh2SftpClient = require('ssh2-sftp-client');
+		this.sftp = new Ssh2SftpClient();
+		this.remote = require('remote-exec');
+		this.tunnel = require('tunnel-ssh');
 	}
 
 	copyFilesToLocalDirectory(path, files, localDirectory, callback, errorHandler) {
@@ -71,5 +76,20 @@ module.exports = class AbstractDataSource extends EventEmitter {
 		if(callback) {
 			callback();
 		}
+	}
+	updateSql(localFilePath, callback) {
+		console.log("updateSQL from " + localFilePath);
+		if(callback) {
+			callback(1);
+		}
+	}
+	_getSshData(con) {
+		var sshData = {
+			host: con.host,
+			port: con.port,
+			username: con.username,
+			password: con.password
+		}
+		return sshData;
 	}
 }

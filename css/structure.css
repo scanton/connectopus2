@@ -487,7 +487,7 @@ input {
 	margin-left: .5em;
 }
 .panel-heading {
-    font-size: 32pt;
+    font-size: 26pt;
     font-weight: 300;
     letter-spacing: 1.3px;
 }
@@ -817,9 +817,11 @@ ul.directories li, ul.tables li {
 .data-page .data-fields .save-button, .data-page .data-fields .btn-default {
 	margin-top: .75em;
 }
+.data-page .data-fields .save-button {
+	margin-left: .75em;
+}
 .data-page .data-fields .delete-button {
 	margin-top: .75em;
-	margin-right: .75em;
 }
 .data-page .selected-field {
 	border: 1px solid #999;

@@ -2,21 +2,67 @@ module.exports = class MySQLDataSource extends AbstractDataSource {
 
 	constructor(type, con) {
 		super(type, con);
-		this.tunnel = require('tunnel-ssh');
 		this.mysql = require('mysql');
 	}
 
 	copyRowsToLocalDirectory(rows, table, key, localDirectory, callback) {
-		console.log(stripObservers({rows: rows, table: table, key: key, con: this._con}));
-		if(this._con && this._con.connections) {
-			var c = this._con.connections[0];
-			var command = "mysqldump --no-create-info " + c.database + " --add-drop-table=false --user=" + c.username + " --password=" + c.password + " --host=localhost --tables " + table + " --where=\"" + key + " in ('" + rows.join("', '") + "')\" > connectopus_mysql_dump.sql"
-			console.log(command);
-			if(callback) {
-				callback(localDirectory);
+		var con = this._con;
+		var sshData = this._getSshData(con);
+		if(con && con.connections) {
+			var c = con.connections[0];
+			var fileName = "connectopus_mysql_dump.sql";
+			var command = "mysqldump --no-create-info " + c.database + " --add-drop-table=false --user=" + c.username + " --password=" + c.password + " --host=localhost --tables " + table + " --where=\"" + key + " in ('" + rows.join("', '") + "')\" > " + fileName;
+			var deleteCommand = "-- output by Connectopus 2 on " + new Date().toString() + " \n\nDELETE FROM `" + table + "` WHERE " + key + " IN ('" + rows.join("', '") + "'); \n\n";
+			if(con.connectionType == "Remote (SFTP)") {
+				this.remote(sshData.host, command, sshData, function(err) {
+					if(err) {
+						controller.handleError(err);
+					} 
+					//Use SFTP to get the sql dump file from the remote server
+					this.fs.emptyDirSync(localDirectory);
+					this.sftp.connect(sshData).then(() => {
+						this.fs.ensureDirSync(localDirectory + '/');
+						var writeStream = this.fs.createWriteStream(localDirectory + '/' + fileName);
+						this.sftp.get(fileName, true, null).then((stream) => {
+							stream.pipe(writeStream).on("close", (err) => {
+								if(err) {
+									if(errorHandler) {
+										errorHandler(err);
+									} else {
+										controller.handleError(err);
+									}
+								}
+								var sqlDump = this.fs.readFileSync(localDirectory + '/' + fileName);
+								var fd = this.fs.openSync(localDirectory + '/' + fileName, 'w+');
+								var buffer = new Buffer(deleteCommand);
+								this.fs.writeSync(fd, buffer, 0, buffer.length, 0);
+								this.fs.writeSync(fd, sqlDump, 0, sqlDump.length, buffer.length);
+								this.fs.close(fd);
+
+								this.remote(sshData.host, 'rm ' + fileName, sshData, function(err) {});
+
+								if(callback) {
+									callback(localDirectory + '/' + fileName);
+								}
+							});
+						})
+					});
+				}.bind(this));
+			} else {
+				const { exec } = require('child_process');
+				command = "mysqldump --no-create-info " + c.database + " --add-drop-table=false --user=" + c.username + " --password=" + c.password + " --host=localhost --tables " + table + " --where=\"" + key + " in ('" + rows.join("', '") + "')\" > " + localDirectory + '/' + fileName;
+				exec(command, (err, stdout, stderr) => {
+					if (err) {
+						console.log(err);
+					}
+					if(callback) {
+						callback(localDirectory + '/' + fileName);
+					}
+				});
 			}
 		}
 	}
+
 	getDirectory(directory, callback) {
 		var query;
 		if(directory == "/") {
@@ -123,6 +169,43 @@ module.exports = class MySQLDataSource extends AbstractDataSource {
 			});
 		} else {
 			getData();
+		}
+	}
+	updateSql(localFilePath, callback) {
+		var con = this._con;
+		var sshData = this._getSshData(con);
+		if(con && con.connections) {
+			var c = con.connections[0];
+			var fileName = "connectopus_mysql_dump.sql";
+			var command = "mysql " + c.database + " --user=" + c.username + " --password=" + c.password + " --host=localhost < " + fileName;
+			
+			if(con.connectionType == "Remote (SFTP)") {
+				this.sftp.connect(sshData).then(() => {
+					this.sftp.put(localFilePath, fileName, 1).then(() => {
+						this.remote(sshData.host, command, sshData, (err) => {
+							if(err) {
+								controller.handleError(err);
+							}
+							this.remote(sshData.host, 'rm ' + fileName, sshData, (err) => {
+								if(callback) {
+									callback(1);
+								}
+							});
+						});
+					});
+				});
+			} else {
+				const { exec } = require('child_process');
+				command = "mysql " + c.database + " --user=" + c.username + " --password=" + c.password + " --host=localhost < " + localFilePath;
+				exec(command, (err, stdout, stderr) => {
+					if (err) {
+						controller.handleError(err);
+					}
+					if(callback) {
+						callback(1);
+					}
+				});
+			}
 		}
 	}
 

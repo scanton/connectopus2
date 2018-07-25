@@ -205,9 +205,6 @@
 				this.handleDataModelUpdate();
 			},
 			showTableData: function(data) {
-				if(this.viewParameters) {
-					console.log(stripObservers(data), stripObservers(this.viewParameters));
-				}
 				if(data && data[0] && data[0].name) {
 					this.primaryKeyName = data[0].fields[0].name;
 					this.fields = data[0].fields;
