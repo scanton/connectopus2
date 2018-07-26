@@ -16,7 +16,8 @@ module.exports = class MySQLDataSource extends AbstractDataSource {
 			if(con.connectionType == "Remote (SFTP)") {
 				this.remote(sshData.host, command, sshData, function(err) {
 					if(err) {
-						controller.handleError(err);
+						//controller.handleError(err);
+						console.log(err);
 					} 
 					//Use SFTP to get the sql dump file from the remote server
 					this.fs.emptyDirSync(localDirectory);

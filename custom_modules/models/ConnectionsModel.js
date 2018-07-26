@@ -315,10 +315,11 @@ module.exports = class ConnectionsModel extends AbstractModel {
 			if(connections.length > 1) {
 				var currentConnection = 1;
 				var updateConnections = () => {
-					var liveCon = DataSourceFactory.createDatabaseConnection(connections[currentConnection]);
-					this.setStatus(liveCon.id, "pending");
+					var con = connections[currentConnection];
+					var liveCon = DataSourceFactory.createDatabaseConnection(con);
+					this.setStatus(con.id, "pending");
 					liveCon.updateSql(localFilePath, (result) => {
-						this.setStatus(liveCon.id, "connected");
+						this.setStatus(con.id, "connected");
 						++currentConnection;
 						if(currentConnection < connections.length) {
 							updateConnections();

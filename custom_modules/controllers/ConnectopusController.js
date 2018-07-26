@@ -1056,8 +1056,8 @@ module.exports = class ConnectopusController extends EventEmitter {
 	syncSelectedRows(rows, table, key) {
 		this._call("modal-overlay", "showLoader");
 		this.connectionsModel.syncRows(rows, table, key, (result) => {
-			console.log(result);
-			this.hideModal();
+			this.viewTable(table, 1);
+			//this.hideModal();
 		});
 	}
 	toggleViewSettings() {
